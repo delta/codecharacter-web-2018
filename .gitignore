@@ -49,3 +49,8 @@ lib
 
 # Editor
 .idea
+
+api/config/config.js
+api/config/serverConfig.js
+
+*.env
