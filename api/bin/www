@@ -1,10 +1,4 @@
 #!/usr/bin/nodejs
-<<<<<<< HEAD
-var debug = require('debug')('my-application');
-var app = require('../app');
-
-app.set('port', process.env.PORT || 3000);
-=======
 "use strict";
 let debug = require("debug")("my-application");
 let app = require("../app");
@@ -12,7 +6,6 @@ if(!process.env.STAGE){
 	process.env.STAGE = "development";
 }
 app.set("port", process.env.PORT || 3000);
->>>>>>> 3231a2b... - Get environment STAGE from process.env instead of a hard-coded value
 
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
