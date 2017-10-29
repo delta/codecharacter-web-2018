@@ -1,7 +1,11 @@
 const Sequelize = require('sequelize');
 let sequelize = null;
+const dbCredentials = require('../configs/dbconfig.js');
+const dbUsername = dbCredentials.username;
+const dbPassword = dbCredentials.password;
+console.log(dbUsername, dbPassword);
 module.exports.dbInit = ()=>{
-	sequelize = new Sequelize('mysql://root:root@localhost/sample');
+	sequelize = new Sequelize('mysql://'+dbUsername+':'+dbPassword+'@localhost/codecharacter');
 sequelize
   .authenticate()
   .then(() => {
