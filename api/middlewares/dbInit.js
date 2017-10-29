@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 let sequelize = null;
-const dbCredentials = require('../configs/dbconfig.js');
-const dbUsername = dbCredentials.username;
-const dbPassword = dbCredentials.password;
+const dbCredentials = require('../config/config.json');
+const dbUsername = dbCredentials['development']['username'];
+const dbPassword = dbCredentials['development']['password'];
 console.log(dbUsername, dbPassword);
 module.exports.dbInit = ()=>{
 	sequelize = new Sequelize('mysql://'+dbUsername+':'+dbPassword+'@localhost/codecharacter');

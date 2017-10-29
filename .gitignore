@@ -50,4 +50,4 @@ lib
 # Editor
 .idea
 
-api/configs/*
+api/config/*
