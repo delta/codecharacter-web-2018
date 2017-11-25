@@ -77,10 +77,13 @@ router.post('/login', (req, res) => {
             if(bcrypt.compareSync(password, user.dataValues.password)){
                 console.log(1);
                 req.session.isLoggedIn = true;
+                console.log(req.session);
+                req.session.userId = user.id;
+                console.log(req.session);
                 return res.json({success:true, message:"Logged in!"});
             }else{
                 console.log(2);
-                return res.json({success:false, message:"Invalid params!"});
+                return res.json({success:false, message:"Wrong Password!"});
             }
         })
 })
