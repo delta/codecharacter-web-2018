@@ -1,9 +1,9 @@
-"use strict";
-const express = require("express");
+"use strict"
+const express = require('express');
 const router = express.Router();
-const models = require("../models");
+const models = require('../models');
 /* GET home page. */
-router.post("/", function(req, res) {
+router.post('/', function(req, res) {
 	const source = req.body.source;
 	if(!source){
 		return res.json({success:false, message:"Pass proper params!"});
