@@ -1,15 +1,15 @@
-"use strict";
-const express = require("express");
+"use strict"
+const express = require('express');
 const router = express.Router();
-const models = require("../models");
+const models = require('../models');
 /* GET home page. */
-router.get("/", function(req, res) {
-	res.json({ title: "hey" });
+router.get('/', function(req, res) {
+	res.json({ title: 'hey' });
 });
-router.get("/profile/:id", (req, res)=>{
+router.get('/profile/:id', (req, res)=>{
 	models.User.findOne({
 		where:{id:req.params.id},
-		attributes:["id", "name", "email"]
+		attributes:['id', 'name', 'email']
 	})
 		.then((user)=>{
 			if(!user){
@@ -17,6 +17,6 @@ router.get("/profile/:id", (req, res)=>{
 			}else{
 				res.json({success:true, user:user.dataValues});
 			}
-		});
-});
+		})
+})
 module.exports = router;
