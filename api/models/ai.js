@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var ai = sequelize.define('ai', {
+  let ai = sequelize.define('ai', {
     dll1: DataTypes.STRING,
     dll2: DataTypes.STRING
   }, {

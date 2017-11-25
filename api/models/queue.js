@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Queue = sequelize.define('Queue', {
+  let Queue = sequelize.define('Queue', {
     match_id: DataTypes.INTEGER,
     timestamp: DataTypes.DATE,
     priority: DataTypes.INTEGER

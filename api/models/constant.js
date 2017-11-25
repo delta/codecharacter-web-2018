@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Constant = sequelize.define('Constant', {
+  let Constant = sequelize.define('Constant', {
     key: DataTypes.STRING
   }, {
     classMethods: {
