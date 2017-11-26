@@ -4,9 +4,10 @@ let sequelize = null;
 const dbCredentials = require('../config/config.json');
 const dbUsername = dbCredentials['development']['username'];
 const dbPassword = dbCredentials['development']['password'];
+const dbConfig = require('../config/dbConfig');
 console.log(dbUsername, dbPassword);
 (()=>{
-	sequelize = new Sequelize('mysql://'+dbUsername+':'+dbPassword+'@localhost/codecharacter');
+	sequelize = new Sequelize('mysql://'+dbUsername+':'+dbPassword+'@'+dbConfig.host+'/'+dbConfig.name+');
 sequelize
   .authenticate()
   .then(() => {

@@ -10,8 +10,7 @@ let routes = require("./routes/index");
 const session = require("express-session");
 
 let app = express();
-//import from somewhere else
-let secretString = "I_am_awesome";
+let secretString = require("./config/serverConfig").cookieKey;
 //session setup
 app.use(session({
 	"secret": secretString,
@@ -20,10 +19,6 @@ app.use(session({
 	},
 	"path": "/",
 }));
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-
 app.use(favicon());
 app.use(logger("dev"));
 app.use(bodyParser.json());
