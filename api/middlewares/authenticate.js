@@ -5,4 +5,5 @@ module.exports.authenticate = (req, res, next) => {
 		res.json({ "status": 200, "success": false, "redirect": "/login", });
 	}
 };
-  
+
+ 
