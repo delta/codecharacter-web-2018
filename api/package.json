@@ -20,5 +20,8 @@
     "sequelize": "^4.19.0",
     "sequelize-cli": "^3.0.0",
     "static-favicon": "~1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.12.0"
   }
 }

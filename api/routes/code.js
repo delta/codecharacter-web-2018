@@ -1,9 +1,9 @@
-"use strict"
-const express = require('express');
+"use strict";
+const express = require("express");
 const router = express.Router();
-const models = require('../models');
+const models = require("../models");
 /* GET home page. */
-router.post('/', function(req, res) {
+router.post("/", function(req, res) {
 	const source = req.body.source;
 	if(!source){
 		return res.json({success:false, message:"Pass proper params!"});
@@ -17,9 +17,9 @@ router.post('/', function(req, res) {
 				return res.json({success:"false", message:"Internal server error!"});
 			}
 			return res.json({success:true, message:"Code saved!"});
-		})
+		});
 });
-router.get('/', (req, res)=>{
+router.get("/", (req, res)=>{
 	models.Code.findOne({
 		where: {user_id: req.session.userId}
 	})
@@ -28,9 +28,9 @@ router.get('/', (req, res)=>{
 				return res.json({success:false, message:"Oops, this user has no code saved!"});
 			}
 			return res.json({success:true, source:code.dataValues.source});
-		})
-})
-router.post('/save', (req, res)=>{
+		});
+});
+router.post("/save", (req, res)=>{
 	const source = req.body.source;
 	if(!source){
 		return res.json({success:false, message:"Pass proper params!"});
@@ -45,6 +45,6 @@ router.post('/save', (req, res)=>{
 			}
 			//compile the code here and save the dll
 			return res.json({success:true, message:"Code saved!"});
-		})
-})
+		});
+});
 module.exports = router;
