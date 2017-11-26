@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
 	let Ai = sequelize.define("Ai", {
 		id: {
