@@ -18,9 +18,14 @@ module.exports = (sequelize, DataTypes) => {
 			type:DataTypes.STRING
 		},
 		rating:{
+<<<<<<< HEAD
       allowNull: false,
       type: Sequelize.INTEGER
     }
+=======
+			type:DataTypes.INTEGER
+		}
+>>>>>>> 1317c7b... Add route /api/leaderboard [GET]
     
 	}, {
 		classMethods: {
