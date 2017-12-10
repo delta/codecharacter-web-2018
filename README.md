@@ -47,3 +47,148 @@
 | **GET** | `/api/match/all`    | Get a list of matches a user has played and their results    |
 | **GET** | `/api/match`        | Get a specific match that the user has played (get log file) |
 | **GET** | `/api/match/status` | Get the last active match status                             |
+
+# Interface Design
+
+We will require the following pages -
+
+## Game Screen
+
+```
++---------------------------------------------------------------+
+|                               Nav                             |
++----------------------------------+----------------------------+
+| +------------------------------+ | +------------------------+ |
+| |                              | | |                        | |
+| |                              | | |                        | |
+| |                              | | |                        | |
+| |                              | | |                        | |
+| |                              | | |       Renderer         | |
+| |                              | | |                        | |
+| |                              | | |                        | |
+| |         Code Editor          | | |                        | |
+| |                              | | |                        | |
+| |                              | | +------------------------+ |
+| |                              | | +------------------------+ |
+| |                              | | |                        | |
+| |        +--------++---------+ | | |   Errors/Render Info   | |
+| |        |Run Code||Lock Code| | | |                        | |
+| |        +--------++---------+ | | |                        | |
+| +------------------------------+ | +------------------------+ |
++----------------------------------+----------------------------+
+```
+
+* The code editor can be taken from existing libraries, like Monaco,
+  CodeMirror, or ACE.
+
+* The Run Code button compiles the code and executes it on the Renderer screen.
+
+* The renderer itself will be an independent JS file that'll take file that the
+  backend returns after successful compilation as input. 
+
+* The Lock Code also compiles, but doesn't run. It instead enables the
+  leaderboard features and lets the user challenge others and be challenged by
+  others.
+
+## Leaderboard
+
+```
++---------------------------------------------------------------+
+|                               Nav                             |
++---------------------------------------------------------------+
+|                                                               |
+|                                                               |
+|                           Leaderboard                         |
+|                                                               |
+|                   +-----------------+------+                  |
+|                   |     Username    | Rank |                  |
+|Click to Challenge +------------------------+                  |
+|          +        |                 |      |                  |
+|          |        |                 |      |                  |
+|          |        |                 |      |                  |
+|          |        |                 |      |                  |
+|          +------> |                 |      |                  |
+|                   |                 |      |                  |
+|                   |                 |      |                  |
+|                   |                 |      |                  |
+|                   |                 |      |                  |
+|                   +------------------------+                  |
++---------------------------------------------------------------+
+```
+
+* This page is public, and is available before login as well. After login, and
+  if the user has locked their code, they can initiate challenges from this
+  page.
+
+## Matches
+
+```
++---------------------------------------------------------------+
+|                               Nav                             |
++-------------------------------------+-------------------------+
+|                                     | +---------------------+ |
+|             Past Games              | |                     | |
+|                                     | |                     | |
+| +----------+-------------+--------+ | |                     | |
+| | Opponent | Game Status | Result | | |      Renderer       | |
+| |          |             |        | | |                     | |
+| |          |             |        | | |                     | |
+| |          |             |        | | |                     | |
+| |          |             |        | | |                     | |
+| |          |             |        | | +---------------------+ |
+| |          |             |        | |                         |
+| |          |             |        | |                         |
+| |          |             |        | |                         |
+| |          |             |        | |                         |
+| |          |             |        | |                         |
+| |          |             |        | |                         |
+| +---------------------------------+ |                         |
++-------------------------------------+-------------------------+
+```
+
+* Displays a list of past matches that the player has played, along with any
+  currently in execution
+
+* The completed ones will have the result along with the game score, with the
+  status Completed
+
+* The one in execution will have a status like In Progress
+
+* Clicking on a match fetches that match log file and renders it
+
+## Offline Simulation
+
+```
++---------------------------------------------------------------+
+|                               Nav                             |
++-------------------------------------+-------------------------+
+|                                     | +---------------------+ |
+|                                     | |                     | |
+|                                     | |                     | |
+|     +------------------------+      | |                     | |
+|     |      Upload File       |      | |      Renderer       | |
+|     +------------------------+      | |                     | |
+|                                     | |                     | |
+|                                     | |                     | |
+|                                     | |                     | |
+|                                     | +---------------------+ |
+|                                     |                         |
+|                                     |                         |
+|                                     |                         |
+|                                     |                         |
+|                                     |                         |
+|                                     |                         |
+|                                     |                         |
++-------------------------------------+-------------------------+
+```
+
+* User uploads a log file, call the renderer with it.
+
+# Registration, Login, and Profile
+
+* Pages for Registration for the event and Login. Registration should have a
+  captcha and email verification.
+
+# Game Rules and Tutorials
+
+* Static content
