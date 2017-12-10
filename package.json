@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "babel-runtime": "6.x",
+    "bcrypt-nodejs": "0.0.3",
+    "create-react-app": "^1.4.3",
     "react": "15.x",
     "react-dom": "15.x",
     "react-router-dom": "^4.2.2"
