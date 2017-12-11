@@ -1,7 +1,13 @@
+"use strict";
 const Sequelize = require('sequelize');
 let sequelize = null;
-module.exports.dbInit = ()=>{
-	sequelize = new Sequelize('mysql://root:root@localhost/sample');
+const dbCredentials = require('../config/config.json');
+const dbUsername = dbCredentials['development']['username'];
+const dbPassword = dbCredentials['development']['password'];
+const dbConfig = require('../config/dbConfig');
+console.log(dbUsername, dbPassword);
+(()=>{
+	sequelize = new Sequelize('mysql://'+dbUsername+':'+dbPassword+'@'+dbConfig.host+'/'+dbConfig.name+');
 sequelize
   .authenticate()
   .then(() => {
@@ -10,5 +16,7 @@ sequelize
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
-}
+})();
+
+
 module.exports.sequelize = sequelize ;
