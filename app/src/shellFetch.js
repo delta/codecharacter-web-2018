@@ -38,6 +38,7 @@ export const userLogin = ({req , query}) => {
  * @returns {}
  */
 export const userSignup = ({req, query}) => {
+  console.log(query);
   return fetch(API_BASE_URL + '/user/signup',{
     method: "POST",
     headers: {
@@ -46,12 +47,15 @@ export const userSignup = ({req, query}) => {
     },
     body: JSON.stringify({
       emailId: query.emailId,
-      name: query.name,
+      name: query.username,
       password: query.password,
     })
   })
     .then((response) => {
-      console.log(response);
+      return response.json();
+    })
+    .then((data) => {
+      return data;
     })
     .catch((error) => {
       console.log(error);

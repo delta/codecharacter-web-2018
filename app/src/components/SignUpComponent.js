@@ -28,14 +28,19 @@ export default class SignUpComponent extends React.Component {
     });
   };
 
-  
+  handleSubmit = () => {
+    console.log("Here");
+    console.log("Here");
+    this.props.userSignup(this.state.emailId, this.state.name, this.state.password);
+  };
+
   render() {
     return (
       <div>
-        <Input type="email" onChange={this.changeEmailId}/>
-        <Input type="text" onChange={this.changeName}/>
-        <Input type="password" onChange={this.changePassword}/>
-        <Input type="submit" />
+        <input type="email" onChange={this.changeEmailId}/>
+        <input type="text" onChange={this.changeName}/>
+        <input type="password" onChange={this.changePassword}/>
+        <input type="submit" onClick={this.handleSubmit}/>
       </div>
     );
   }

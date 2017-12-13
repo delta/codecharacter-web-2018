@@ -28,11 +28,26 @@ export default class LoginComponent extends React.Component {
 
   render() {
     return (
-      <div>
-        <input type="text" onChange={this.updateUsername}/>
-        <input type="password" onChange={this.updatePassword}/>
-        <input type="submit" onClick={this.handleSubmit}/>
+      <div id="loginWrapper" style={styles.loginWrapper}>
+        <div>
+          <input type="text" onChange={this.updateUsername}/>
+          <input type="password" onChange={this.updatePassword}/>
+          <input type="submit" onClick={this.handleSubmit}/>
+        </div>
       </div>
     );
   }
 }
+
+let styles = {
+  loginWrapper: {
+    position: 'absolute',
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0
+  }
+};
+
+
+//("#697784","#4E5C66")
