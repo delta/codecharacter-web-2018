@@ -1,12 +1,11 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
+import React                  from 'react';
+import { Switch, Route }      from 'react-router-dom';
+import LoginContainer         from '../containers/loginContainer';
 
 export const RouteList = () => (
-	<Routes>
 		<Switch>
-			<Route exact path='/' component={Home} />
+			<Route exact path='/' component={LoginContainer} />
 		  <Route path='/leaderboard' component={Leaderboard} />
 			<Route path='/dashboard' component={DashBoard} />
 		</Switch>
-	</Routes>
 );
