@@ -9,7 +9,7 @@ const models = require("../models");
 
 // GET handlers
 router.get("/login", (req, res) => {
-	if (req.session.isLoggedIn) {
+  if (req.session.isLoggedIn) {
 		return res.redirect("/");
 	}
 	//res.redirect("/login.html");

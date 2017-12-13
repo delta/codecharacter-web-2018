@@ -1,25 +1,17 @@
 import { connect }                    from 'react-redux';
 import LoginComponent                 from '../components/LoginComponent';
 import {
-  userAuthenticate
+  userSignup
 }                                     from '../actions';
 
 const mapStateToProps = state => {
   return {
-    loginStatus: state.loginStatus,
-    username: state.username
-  }
+    loginStatus: state.loginStatus
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    authenticate: (username, password) => {dispatch(userAuthenticate(username, password));}
+    userSignup: (emailId, name, password) => {dispatch(userSignup(emailId, name, password));}
   }
 };
-
-const LoginContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginComponent);
-
-export default LoginContainer;

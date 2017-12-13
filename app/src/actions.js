@@ -1,21 +1,24 @@
-import { action_types }           from "./action_types";
+import actionTypes           from "./action_types";
 
-export function authenticateUser(username, password) {
-  return {
-    type: action_types.AUTHENTICATE_USER,
-    username,
-    password
-  };
-}
+export const userAuthenticate = (username, password) => ({
+  type: actionTypes.USER_AUTHENTICATE,
+  username,
+  password
+});
 
-export function signoutUser() {
-  return {
-    type: action_types.SIGNOUT_USER
-  }
-}
+export const userSignup = (emailId, username, password) => ({
+  type: actionTypes.USER_SIGNUP,
+  emailId,
+  username,
+  password
+});
 
-export function getLeaderboard() {
-  return {
-    type: action_types.GET_LEADERBOARD
-  }
-}
+export const userLogout = () => ({
+  type: actionTypes.USER_LOGOUT
+});
+
+export const updateUserLoginStatus = (username, loginStatus) => ({
+  type: actionTypes.UPDATE_USER_LOGIN_STATUS,
+  username,
+  loginStatus
+});
