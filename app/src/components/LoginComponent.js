@@ -5,8 +5,23 @@ import {
   FormGroup,
   FormControl,
 }                     from 'react-bootstrap';
+import PropTypes      from 'prop-types';
 
 export default class LoginComponent extends React.Component {
+
+  static propTypes = {
+    loginStatus: PropTypes.bool,
+    username: PropTypes.string,
+    message: PropTypes.string,
+    authenticate: PropTypes.func,
+    redirectToHome: PropTypes.func,
+  };
+
+  static defaultProps = {
+    loginStatus: true,
+    username: '000000000',
+    message: '',
+  };
 
   // Constructor assigning state
   constructor(props) {
@@ -15,6 +30,12 @@ export default class LoginComponent extends React.Component {
       username: '',
       password: ''
     };
+  }
+
+  componentDidMount() {
+    if (this.props.loginStatus) {
+      this.history.push('/home');
+    }
   }
 
   // Function to update state with the entered username
