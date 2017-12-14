@@ -9,7 +9,7 @@ import {
 }                                     from './actions';
 import {
   userLogin,
-  userSignup,
+  userRegister,
   userLogout
 }                                     from './shellFetch';
 
@@ -35,7 +35,7 @@ function* userSignupSaga(action) {
       username: action.username,
       password: action.password
     };
-    const response = yield call(userSignup,{req: null, query: query});
+    const response = yield call(userRegister,{req: null, query: query});
     yield put(updateUserLoginStatus({username: action.username, loginStatus: true}));
     console.log(response);
   }
