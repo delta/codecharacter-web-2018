@@ -6,6 +6,7 @@ import SignUpContainer        from '../containers/SignUpContainer';
 export const RouteList = () => (
 		<Switch>
 			<Route exact path='/' component={LoginContainer} />
+      <Route exact path='/login' component={LoginContainer} />
       <Route exact path='/signup' component={SignUpContainer} />
 		</Switch>
 );

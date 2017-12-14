@@ -1,0 +1,32 @@
+.loginField {
+  padding-left: 40px;
+  width: 89.5%;
+  height: 40px;
+  border: 1px solid #3D3F56;
+  background-color: #33354A;
+  color: #AAA;
+}
+
+.loginField:focus {
+  outline: none;
+}
+
+.loginSubmitButton {
+  height: 40px;
+  margin-left: 30px;
+  width: 160px;
+  border-radius: 20px;
+  background-color: transparent;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: blue;
+  border: 2px solid blue;
+  transition: 0.2s background-color, 0.2s color;
+}
+
+.loginSubmitButton:hover {
+  background-color: blue;
+  color: #232733;
+  cursor: pointer;
+  transition: 0.2s background-color, 0.2s color;
+}
