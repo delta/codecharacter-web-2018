@@ -1,5 +1,63 @@
 body {
+  background-color: #002E3A;
   margin: 0;
   padding: 0;
+  height: 100% !important;
   font-family: sans-serif;
+}
+
+.customNavbar {
+  height: 50px !important;
+}
+
+.customNavbarButton {
+  border-radius: 0px;
+  height: 50px;
+}
+
+.customNavbarButton:hover {
+  cursor: pointer;
+}
+
+#codeCharacterEditor {
+  width: 600px !important;
+}
+
+.container {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.codeButtons {
+  border-radius: 0px;
+  height: 50px;
+  margin: 10px;
+}
+
+.codeButtons:hover {
+  cursor: pointer;
+}
+
+
+.container {
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+}
+
+.navbarWrapper {
+  height: 100% !important;
+}
+
+.routeWrapper {
+  height: 100% !important;
+}
+
+div {
+  height: 100%;
+  width: 100%;
+}
+
+.col {
+  padding: 0;
 }

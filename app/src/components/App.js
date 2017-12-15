@@ -4,7 +4,7 @@ import {RouteList} from "../routes/routes";
 class App extends Component {
 	render() {
 		return (
-			<div>
+			<div className='routeWrapper'>
 				<RouteList/>
 			</div>
 		);
