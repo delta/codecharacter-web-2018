@@ -30,6 +30,8 @@ export default class LoginComponent extends React.Component {
       username: '',
       password: ''
     };
+    this.passwordStatus = 'form-group';
+    this.usernameStatus = 'form-group';
   }
 
   componentDidMount() {
@@ -61,122 +63,39 @@ export default class LoginComponent extends React.Component {
   // Rendering Function
   render() {
     return (
-      <div className="static-modal" style={this.styles.wrapper}>
-        <Modal.Dialog style={this.styles.dialog} className='modalDialog'>
-          <Modal.Header style={this.styles.header}>
-            <Modal.Title style={this.styles.title}>
-              Login to your account
-            </Modal.Title>
-          </Modal.Header>
+      <div className="static-modal">
+        <Modal.Dialog>
+          <div className='modal-content'>
+            <Modal.Header>
+              <Modal.Title>
+                Login to your account
+              </Modal.Title>
+            </Modal.Header>
 
-          <Modal.Body style={this.styles.body}>
-            <form>
-              <FormGroup
-                controlId="formBasicText"
-                style={this.styles.formGroup}
-              >
-                <FormControl
-                  type="text"
-                  placeholder='Username'
-                  className='loginField'
-                  onChange={this.updateUsername}
-                />
-              </FormGroup>
-              <FormGroup
-                controlId="formBasicText"
-                style={this.styles.formGroup}
-              >
-                <FormControl
-                  type="password"
-                  placeholder="Password"
-                  className='loginField'
-                  onChange={this.updatePassword}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
-            </form>
-          </Modal.Body>
+            <Modal.Body>
+              <div className={this.usernameStatus}>
+                  <input onChange={this.updateUsername} type="text" className="form-control" placeholder="Username" id="inputDefault"/>
+              </div>
+              <div className={this.passwordStatus}>
+                <input onChange={this.updatePassword} type="password" className='form-control' placeholder="Password" id="inputDefault"/>
+              </div>
+            </Modal.Body>
 
-          <Modal.Footer
-            style={this.styles.footer}
-          >
-            <Button
-              bsStyle="primary"
-              className='loginSubmitButton'
-              onClick={this.handleSubmit}
+            <Modal.Footer
             >
-              LOG IN
-            </Button>
-          </Modal.Footer>
-          <div style={this.styles.div}>
-            <p style={this.styles.p}>
-              {this.props.message}
-            </p>
+              <Button
+                className='btn btn-primary'
+                bsStyle="primary"
+                onClick={this.handleSubmit}
+              >
+                LOG IN
+              </Button>
+              <Button className="btn btn-secondary">Sign Up</Button>
+            </Modal.Footer>
           </div>
         </Modal.Dialog>
       </div>
     );
   }
-
-  // Styles for components in Render() [Some CSS has been written in loginStyles.css in app/public]
-  styles = {
-    wrapper: {
-      display: 'flex',
-      justifyContent: 'center',
-      background: 'linear-gradient(blue, violet)',
-      alignItems: 'flex-start',
-      width: '100%',
-      height: '100%',
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      paddingTop: "2%"
-    },
-
-    dialog: {
-      backgroundColor: '#232733',
-       position: 'absolute',
-      width: 400,
-      height: 550,
-    },
-
-    header: {
-      height: 40,
-      marginTop: 130,
-      paddingLeft: 40
-    },
-
-    title: {
-      color: '#AAA',
-      fontSize: 18,
-      fontFamily: 'Roboto',
-      fontWeight: 8
-    },
-
-    body: {
-      marginTop: 20,
-    },
-
-    formGroup: {
-      backgroundColor: 'red'
-    },
-    footer: {
-      marginTop: "15%",
-      height: 40,
-    },
-
-    div: {
-      marginTop: 90,
-      position: 'relative',
-      paddingLeft: 40
-    },
-
-    p: {
-      fontFamily: 'Roboto',
-      fontSize: 15,
-      color: '#AAA'
-    }
-
-  };
 }
 
