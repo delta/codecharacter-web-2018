@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Matches', {
+    queryInterface.createTable('Matches', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -28,7 +28,18 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+      .then( () => {
+        queryInterface.addConstraint('Queues', ['match_id'], {
+          type: 'FOREIGN KEY',
+          references: {
+            table: 'Matches',
+            field: 'id',
+          },
+          onDelete: 'no action',
+          onUpdate: 'no action',
+        })
+      })
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Matches');

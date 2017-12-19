@@ -1,18 +1,22 @@
 'use strict';
+let Match = require('../models/user');
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Ais', {
+    return queryInterface.createTable('Queues', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      dll1: {
-        type: Sequelize.STRING
+      match_id: {
+        type: Sequelize.INTEGER
       },
-      dll2: {
-        type: Sequelize.STRING
+      timestamp: {
+        type: Sequelize.DATE
+      },
+      priority: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +29,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('ais');
+    return queryInterface.dropTable('Queues');
   }
 };

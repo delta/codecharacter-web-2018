@@ -1,7 +1,16 @@
 "use strict";
+const Match = require("./match");
 module.exports = (sequelize, DataTypes) => {
 	let Queue = sequelize.define("Queue", {
-		match_id: DataTypes.INTEGER,
+		id: DataTypes.INTEGER,
+		match_id: {
+			primaryKey:true,
+			type:DataTypes.INTEGER,
+			references: {
+				model: Match,
+				key: "id",
+			}
+		},
 		timestamp: DataTypes.DATE,
 		priority: DataTypes.INTEGER
 	}, {

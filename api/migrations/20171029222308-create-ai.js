@@ -1,18 +1,12 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Codes', {
+    queryInterface.createTable('Ais', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
-      },
-      user_id: {
-        type: Sequelize.INTEGER
-      },
-      source: {
-        type: Sequelize.STRING
       },
       dll1: {
         type: Sequelize.STRING
@@ -28,9 +22,20 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+      .then( () => {
+        queryInterface.addConstraint('Matches', ['ai_id'], {
+          type: 'FOREIGN KEY',
+          references: {
+            table: 'Ais',
+            field: 'id',
+          },
+          onDelete: 'no action',
+          onUpdate: 'no action',
+        })
+      })
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Codes');
+    return queryInterface.dropTable('ais');
   }
 };

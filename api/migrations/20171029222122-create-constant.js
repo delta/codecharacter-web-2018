@@ -2,8 +2,12 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Constants', {
-      key: {
+      id:{
         primaryKey: true,
+        autoIncrement: true,
+        type: Sequelize.INTEGER
+      },
+      key: {
         type: Sequelize.STRING
       },
       value: {

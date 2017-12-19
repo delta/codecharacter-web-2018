@@ -1,21 +1,24 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Queues', {
+    return queryInterface.createTable('Codes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      match_id: {
+      user_id: {
         type: Sequelize.INTEGER
       },
-      timestamp: {
-        type: Sequelize.DATE
+      source: {
+        type: Sequelize.STRING
       },
-      priority: {
-        type: Sequelize.INTEGER
+      dll1: {
+        type: Sequelize.STRING
+      },
+      dll2: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Queues');
+    return queryInterface.dropTable('Codes');
   }
 };
