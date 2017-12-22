@@ -20,7 +20,6 @@ export default class DashboardComponent extends React.Component {
               <div>
                 <div style={{backgroundColor: 'black', width: '100%',height: 400}}><p>Simulator coming soon</p></div>
               </div>
-              <DebugComponent />
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ let app = require("../app");
 if(!process.env.STAGE){
 	process.env.STAGE = "development";
 }
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 3001);
 
 let server = app.listen(app.get("port"), function() {
 	debug("Express server listening on port " + server.address().port);
