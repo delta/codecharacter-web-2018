@@ -18,9 +18,8 @@ module.exports = (sequelize, DataTypes) => {
 			type:DataTypes.STRING
 		},
 		rating:{
-      allowNull: false,
-      type: Sequelize.INTEGER
-    }
+			type:DataTypes.INTEGER
+		}
     
 	}, {
 		classMethods: {
