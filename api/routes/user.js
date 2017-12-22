@@ -3,7 +3,11 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt-nodejs");
-const models = require("../models");
+const saltRounds = 10;
+const dbInit = require('../middlewares/dbInit');
+const sequelize = dbInit.sequelize;
+const models = require('../models');
+console.log(models.Code);
 /* GET home page. */
 // User login+signup handlers
 
