@@ -1,28 +1,55 @@
 import React                          from 'react';
+import PropTypes                      from 'prop-types';
 import NavbarComponent                from './NavbarComponent';
 import CodeComponent                  from './CodeComponent.js';
+import SplitPane                      from 'react-split-pane';
+import SubmitButtons                  from './SubmitButtons';
 
 export default class DashboardComponent extends React.Component {
+  static propTypes = {
+    username: PropTypes.string,
+    compilationStatus: PropTypes.string,
+    code: PropTypes.string,
+    runCode: PropTypes.func,
+    submitCode: PropTypes.func
+  };
+
+  static defaultProps = {
+    username: '000000000',
+    compilationStatus: '>> Compilation Status Goes Here',
+    code: '#include <iostream> \nusing namespace std; \n\nint main() \n// Enter code here (C or C++)',
+    readOnly: false,
+    runCode: () => {},
+    submitCode: () => {}
+  };
+
   render() {
     return (
-      <div className='navbarWrapper'>
+      <div>
         <NavbarComponent/>
-        <div className='container'>
-          <div className='row'>
-            <div className='col codeComponentWrapper'>
-              <CodeComponent />
-              <div style={{float: 'right'}}>
-                <button className="btn btn-danger codeButtons" type="submit">Run Code</button>
-                <button className="btn btn-danger codeButtons" type="submit">Submit Code</button>
-              </div>
-            </div>
-            <div className='col'>
-              <div>
-                <div style={{backgroundColor: 'black', width: '100%',height: 400}}><p>Simulator coming soon</p></div>
-              </div>
-            </div>
+        <SplitPane split="vertical" minSize={100} maxSize={600} defaultSize={600} style={{height: window.innerHeight - 50 }}>
+          <div>
+            <CodeComponent
+              code={this.props.code}
+            />
           </div>
-        </div>
+          <div>
+            <SplitPane split="horizontal" minSize={400} defaultSize={400}>
+              <div>
+                <div style={{display: 'block'}}>Render Component Goes Here</div>
+              </div>
+              <div style={{backgroundColor: 'black'}}>
+                <CodeComponent
+                  showLineNumbers={false}
+                  code={this.props.compilationStatus}
+                  theme={'terminal'}
+                  highlightActiveLine={false}
+                />
+              </div>
+            </SplitPane>
+          </div>
+        </SplitPane>
+        <SubmitButtons runCode={this.props.runCode} submitCode={this.props.submitCode}/>
       </div>
     );
   }

@@ -1,26 +1,34 @@
 import React                          from 'react';
 import AceEditor                      from 'react-ace';
-import brace                          from 'brace';
-import 'brace/mode/javascript';
-import 'brace/theme/solarized_dark';
+import PropTypes                      from 'prop-types';
+import 'brace/mode/c_cpp';
+import 'brace/theme/xcode';
+import 'brace/theme/monokai';
+import 'brace/theme/terminal';
 
 export default class CodeComponent extends React.Component {
+  static propTypes = {
+    theme: PropTypes.string,
+    showLineNumbers: PropTypes.bool,
+    code: PropTypes.string,
+    mode: PropTypes.string,
+    readOnly: PropTypes.bool,
+    highlightActiveLine: PropTypes.bool
+  };
+
+  static defaultProps = {
+    theme: 'monokai',
+    showLineNumbers: true,
+    code: '// Enter Code Here',
+    mode: 'c_cpp',
+    readOnly: false,
+    highlightActiveLine: true
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      splits: 2,
-      orientation: 'beside',
-      theme: 'solarized_dark',
-      mode: 'javascript',
-      enableBasicAutocompletion: false,
-      enableLiveAutocompletion: false,
-      fontSize: 14,
-      showGutter: true,
-      showPrintMargin: true,
-      highlightActiveLine: true,
-      enableSnippets: false,
-      showLineNumbers: true,
-      code: '// Enter your Code here'
+      code: this.props.code,
     };
   }
 
@@ -33,25 +41,25 @@ export default class CodeComponent extends React.Component {
   render() {
     return (
       <AceEditor
-        mode={this.state.mode}
-        theme={this.state.theme}
+        mode={this.props.mode}
+        theme={this.props.theme}
         name="codeCharacterEditor"
         onChange={this.onChange}
         value={this.state.code}
-        fontSize={this.state.fontSize}
-        showPrintMargin={this.state.showPrintMargin}
-        showGutter={this.state.showGutter}
-        highlightActiveLine={this.state.highlightActiveLine}
+        fontSize={14}
+        showPrintMargin={false}
+        showGutter={true}
+        highlightActiveLine={this.props.highlightActiveLine}
         setOptions={{
-          enableBasicAutocompletion: this.state.enableBasicAutocompletion,
-          enableLiveAutocompletion: this.state.enableLiveAutocompletion,
-          enableSnippets: this.state.enableSnippets,
-          showLineNumbers: this.state.showLineNumbers,
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          enableSnippets: false,
+          showLineNumbers: this.props.showLineNumbers,
           tabSize: 2,
         }}
         style={{
-          position: 'relative',
           width: '100%',
+          height: window.innerHeight - 50
         }}
       />
     );

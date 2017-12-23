@@ -3,24 +3,29 @@ import {
   Modal,
   Button,
   FormGroup,
-  FormControl,
 }                     from 'react-bootstrap';
 import PropTypes      from 'prop-types';
 
 export default class LoginComponent extends React.Component {
 
   static propTypes = {
-    loginStatus: PropTypes.bool,
+    usernameStatus: PropTypes.string,
+    passwordStatus: PropTypes.string,
+    usernameMessage: PropTypes.string,
+    passwordMessage: PropTypes.string,
     username: PropTypes.string,
-    message: PropTypes.string,
     authenticate: PropTypes.func,
     redirectToHome: PropTypes.func,
   };
 
   static defaultProps = {
-    loginStatus: true,
-    username: '000000000',
-    message: '',
+    usernameStatus: '',
+    passwordStatus: '',
+    usernameMessage: '',
+    passwordMessage: '',
+    username: '',
+    authenticate: () => {},
+    redirectToHome: () => {},
   };
 
   // Constructor assigning state
@@ -63,34 +68,36 @@ export default class LoginComponent extends React.Component {
   // Rendering Function
   render() {
     return (
-      <div className="static-modal">
+      <div className='static-modal'>
         <Modal.Dialog>
           <div className='modal-content'>
             <Modal.Header>
               <Modal.Title>
-                Login to your account
+                Login to CodeCharacter
               </Modal.Title>
             </Modal.Header>
 
-            <Modal.Body>
-              <div className={this.usernameStatus}>
-                  <input onChange={this.updateUsername} type="text" className="form-control" placeholder="Username" id="inputDefault"/>
-              </div>
-              <div className={this.passwordStatus}>
-                <input onChange={this.updatePassword} type="password" className='form-control' placeholder="Password" id="inputDefault"/>
-              </div>
+            <Modal.Body className='loginModalBody'>
+              <FormGroup className={this.props.usernameStatus} style={{paddingTop: 20, paddingBottom: 10}}>
+                <input onChange={this.updateUsername} type='text' className='form-control is-invalid' placeholder='Username' id='inputDefault'/>
+                <div className="invalid-feedback">{this.props.usernameMessage}</div>
+              </FormGroup>
+              <FormGroup className={this.props.passwordStatus} style={{paddingTop: 10, paddingBottom: 20}}>
+                <input onChange={this.updatePassword} type='password' className='form-control is-invalid' placeholder='Password' id='inputDefault'/>
+                <div className="invalid-feedback">{this.props.passwordMessage}</div>
+              </FormGroup>
             </Modal.Body>
 
             <Modal.Footer
             >
               <Button
                 className='btn btn-primary'
-                bsStyle="primary"
+                bsStyle='primary'
                 onClick={this.handleSubmit}
               >
                 LOG IN
               </Button>
-              <Button className="btn btn-secondary">Sign Up</Button>
+              <Button className='btn btn-secondary'>Sign Up</Button>
             </Modal.Footer>
           </div>
         </Modal.Dialog>
