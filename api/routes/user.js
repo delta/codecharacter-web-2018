@@ -38,7 +38,7 @@ router.post("/signup", (req, res) => {
 		});
 	//create user
 	const hashedPassword = bcrypt.hashSync(password);
-	models.User.create({ email: emailId, name: name, password: hashedPassword })//pragyanId has to be added later
+	models.User.create({ email: emailId, name: name, password: hashedPassword, rating: 0 })//pragyanId has to be added later
 		.then((user) => {
 			if (user) {
 				return res.json({ success: true, message: "User signedup!" });
