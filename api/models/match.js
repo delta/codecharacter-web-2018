@@ -3,7 +3,10 @@ const User = require("./user");
 const Ai = require("./ai");
 module.exports = (sequelize, DataTypes) => {
 	let Match = sequelize.define("Match", {
-		id: DataTypes.INTEGER,
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true
+		},
 		player_id1: {
 			type:DataTypes.INTEGER,
 			references: {
