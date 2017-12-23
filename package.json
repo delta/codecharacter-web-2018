@@ -4,10 +4,7 @@
   "description": "Web App for codecharacter game",
   "main": "app/main.jsx",
   "scripts": {
-    "precommit": "npm run lint",
-    "commitmsg": "npm run lint:msg",
     "lint": "eslint --cache --ignore-path .gitignore --ext .jsx,.js --format=node_modules/eslint-formatter-pretty .",
-    "lint:msg": "validate-commit-msg",
     "test": "npm run lint",
     "build": "webpack",
     "start_webpack": "webpack-dev-server --devtool eval --progress --hot --content-base app",
