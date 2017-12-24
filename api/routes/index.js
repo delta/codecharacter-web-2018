@@ -3,8 +3,8 @@ const express = require("express");
 const router = express.Router();
 const user = require("./user");
 const protectedRoutes = require("./userProtected");
-//const code = require("./code");
-//const leaderboard = require("./leaderboard");
+const code = require("./code");
+const leaderboard = require("./leaderboard");
 const authenticateMiddleware = require("../middlewares/authenticate");
 /* GET home page. */
 router.get("/", function(req, res) {
@@ -13,4 +13,6 @@ router.get("/", function(req, res) {
 router.use("/user", user);
 router.use(authenticateMiddleware.authenticate);
 router.use("/user_protected", protectedRoutes);
+router.use("/code", code);
+router.use("/leaderboard", leaderboard);
 module.exports = router;
