@@ -70,7 +70,7 @@ function* userLogoutSaga(action) {
 
 function* leaderboardGetPlayersSaga(action) {
   try {
-    const response = yield call(leaderboardGetPlayers);
+    const response = yield call(leaderboardGetPlayers, {req: null, query: null});
     yield put(updateLeaderboard(response));
     console.log(response);
   }

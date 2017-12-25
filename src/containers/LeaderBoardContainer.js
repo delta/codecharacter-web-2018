@@ -7,14 +7,14 @@ import {
 
 const mapStateToProps = state => {
   return {
-    playersData: state.leaderboardData
+    // playersData: state.leaderboardData
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchLeaderboardData: () => {dispatch(fetchLeaderboardData());},
-    startChallenge: (username, opponent) => {dispatch(startChallenge(username, opponent))}
+    // fetchLeaderboardData: () => {dispatch(fetchLeaderboardData());},
+    // startChallenge: (username, opponent) => {dispatch(startChallenge(username, opponent))}
   };
 };
 

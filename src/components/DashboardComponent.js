@@ -10,6 +10,8 @@ export default class DashboardComponent extends React.Component {
     username: PropTypes.string,
     compilationStatus: PropTypes.string,
     code: PropTypes.string,
+    matchesView: PropTypes.bool,
+    matchesViewTable: PropTypes.element,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
     logout: PropTypes.func
@@ -20,6 +22,8 @@ export default class DashboardComponent extends React.Component {
     compilationStatus: '>> Compilation Status Goes Here',
     code: '#include <iostream> \nusing namespace std; \n\nint main() \n// Enter code here (C or C++)',
     readOnly: false,
+    matchesView: false,
+    matchesViewTable: null,
     runCode: () => {},
     lockCode: () => {}
   };
@@ -51,10 +55,13 @@ export default class DashboardComponent extends React.Component {
         <NavbarComponent onLogout={this.props.logout}/>
         <SplitPane split="vertical" minSize={100} maxSize={600} defaultSize={600} style={{height: window.innerHeight - 50 }}>
           <div>
-            <CodeComponent
-              code={this.state.code}
-              onChange={this.updateCode}
-            />
+            {!this.props.matchesView
+              ? <CodeComponent
+                code={this.state.code}
+                onChange={this.updateCode}
+              />
+              : this.props.matchesViewTable
+            }
           </div>
           <div>
             <SplitPane split="horizontal" minSize={400} defaultSize={400}>
@@ -72,7 +79,7 @@ export default class DashboardComponent extends React.Component {
             </SplitPane>
           </div>
         </SplitPane>
-        <SubmitButtons runCode={this.runCode} lockCode={this.lockCode}/>
+        {!this.props.matchesView ? <SubmitButtons runCode={this.runCode} lockCode={this.lockCode}/>: null}
       </div>
     );
   }
