@@ -13,7 +13,8 @@ export default class CodeComponent extends React.Component {
     code: PropTypes.string,
     mode: PropTypes.string,
     readOnly: PropTypes.bool,
-    highlightActiveLine: PropTypes.bool
+    highlightActiveLine: PropTypes.bool,
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
@@ -22,20 +23,8 @@ export default class CodeComponent extends React.Component {
     code: '// Enter Code Here',
     mode: 'c_cpp',
     readOnly: false,
-    highlightActiveLine: true
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      code: this.props.code,
-    };
-  }
-
-  onChange = (data) => {
-    this.setState({
-      code: data
-    });
+    highlightActiveLine: true,
+    onChange: () => {}
   };
 
   render() {
@@ -44,8 +33,8 @@ export default class CodeComponent extends React.Component {
         mode={this.props.mode}
         theme={this.props.theme}
         name="codeCharacterEditor"
-        onChange={this.onChange}
-        value={this.state.code}
+        onChange={(data) => this.props.onChange(data)}
+        value={this.props.code}
         fontSize={14}
         showPrintMargin={false}
         showGutter={true}

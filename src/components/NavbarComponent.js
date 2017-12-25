@@ -1,12 +1,17 @@
-import React          from 'react';
+import React                  from 'react';
 import {
   Navbar,
   Nav,
   NavItem,
-}                     from 'react-bootstrap';
-import { Link } from 'react-router-dom'
+}                             from 'react-bootstrap';
+import PropTypes              from 'prop-types';
+import { Link }               from 'react-router-dom';
 
 export default class NavbarComponent extends React.Component {
+  static propTypes = {
+    logout: PropTypes.func
+  };
+
   render() {
     return (
       <Navbar className='navbar-expand-lg navbar-dark bg-dark' style={{height: 50}}>
@@ -28,7 +33,13 @@ export default class NavbarComponent extends React.Component {
             </NavItem>
           </ul>
           <Navbar.Form>
-            <button className="btn btn-secondary" style={{borderRadius: 0, height: 50}}>Sign Out</button>
+            <button
+              className="btn btn-secondary"
+              style={{borderRadius: 0, height: 50}}
+              onClick={this.props.logout}
+            >
+              Log Out
+            </button>
           </Navbar.Form>
         </Nav>
       </Navbar>

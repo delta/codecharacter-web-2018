@@ -2,7 +2,11 @@ import actionTypes           from "./action_types";
 
 export const initialState = {
   loginStatus: false,
-  username: "000000000",
+  username: '000000000',
+  leaderboardData: [],
+  matchesData: [],
+  code: '',
+  compilationStatus: ''
 };
 
 export function codeCharacterReducer(state = initialState, action) {
@@ -14,6 +18,27 @@ export function codeCharacterReducer(state = initialState, action) {
         username: action.username
       }
     }
+    case actionTypes.UPDATE_LEADERBOARD: {
+      return {
+        ...state,
+        leaderboardData: action.data
+      }
+    }
+
+    case actionTypes.UPDATE_MATCH_DATA: {
+      return {
+        ...state,
+        matchesData: action.data
+      }
+    }
+
+    case actionTypes.UPDATE_COMPILATION_STATUS: {
+      return {
+        ...state,
+        compilationStatus: action.data
+      }
+    }
+
     default: {
       return state;
     }

@@ -11,7 +11,8 @@ export default class DashboardComponent extends React.Component {
     compilationStatus: PropTypes.string,
     code: PropTypes.string,
     runCode: PropTypes.func,
-    submitCode: PropTypes.func
+    lockCode: PropTypes.func,
+    logout: PropTypes.func
   };
 
   static defaultProps = {
@@ -20,17 +21,39 @@ export default class DashboardComponent extends React.Component {
     code: '#include <iostream> \nusing namespace std; \n\nint main() \n// Enter code here (C or C++)',
     readOnly: false,
     runCode: () => {},
-    submitCode: () => {}
+    lockCode: () => {}
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      code: this.props.code
+    };
+  };
+
+  runCode = () => {
+    this.props.runCode(this.props.username, this.state.code);
+  };
+
+  lockCode = () => {
+    this.props.lockCode(this.props.username);
+  };
+
+  updateCode = (code) => {
+    this.setState({
+      code: code
+    });
   };
 
   render() {
     return (
       <div>
-        <NavbarComponent/>
+        <NavbarComponent onLogout={this.props.logout}/>
         <SplitPane split="vertical" minSize={100} maxSize={600} defaultSize={600} style={{height: window.innerHeight - 50 }}>
           <div>
             <CodeComponent
-              code={this.props.code}
+              code={this.state.code}
+              onChange={this.updateCode}
             />
           </div>
           <div>
@@ -49,7 +72,7 @@ export default class DashboardComponent extends React.Component {
             </SplitPane>
           </div>
         </SplitPane>
-        <SubmitButtons runCode={this.props.runCode} submitCode={this.props.submitCode}/>
+        <SubmitButtons runCode={this.runCode} lockCode={this.lockCode}/>
       </div>
     );
   }
