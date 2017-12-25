@@ -9,23 +9,23 @@ import PropTypes      from 'prop-types';
 export default class LoginComponent extends React.Component {
 
   static propTypes = {
+    loginStatus: PropTypes.bool,
     usernameStatus: PropTypes.string,
     passwordStatus: PropTypes.string,
     usernameMessage: PropTypes.string,
     passwordMessage: PropTypes.string,
     username: PropTypes.string,
     authenticate: PropTypes.func,
-    redirectToHome: PropTypes.func,
   };
 
   static defaultProps = {
+    loginStatus: false,
     usernameStatus: '',
     passwordStatus: '',
     usernameMessage: '',
     passwordMessage: '',
     username: '',
     authenticate: () => {},
-    redirectToHome: () => {},
   };
 
   // Constructor assigning state
@@ -41,7 +41,7 @@ export default class LoginComponent extends React.Component {
 
   componentDidMount() {
     if (this.props.loginStatus) {
-      this.history.push('/home');
+      this.props.history.push('/dashboard');
     }
   }
 
