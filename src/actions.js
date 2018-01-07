@@ -17,10 +17,14 @@ export const userLogout = () => ({
   type: actionTypes.USER_LOGOUT
 });
 
-export const updateUserLoginStatus = (username, loginStatus) => ({
+export const updateLoginMessage = (response) => ({
+  type: actionTypes.UPDATE_LOGIN_MESSAGE,
+  response: response
+});
+
+export const updateUserLoginStatus = (response) => ({
   type: actionTypes.UPDATE_USER_LOGIN_STATUS,
-  username,
-  loginStatus
+  response: response
 });
 
 export const fetchLeaderboardData = () => ({

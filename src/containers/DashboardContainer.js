@@ -8,8 +8,8 @@ import {
 
 const mapStateToProps = state => {
   return {
+    loginStatus: state.loginStatus,
     username: state.username,
-    compilationStatus: state.compilationStatus,
     code: state.code
   }
 };
@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => {
   return {
     runCode: (username, code) => {dispatch(runCode(username, code));},
     lockCode: (username) => {dispatch(lockCode(username));},
-    logout: () =>  {dispatch(userLogout);}
+    logout: () =>  {dispatch(userLogout());}
   }
 };
 

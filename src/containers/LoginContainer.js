@@ -3,20 +3,22 @@ import { connect }                    from 'react-redux';
 import { Redirect }                   from 'react-router';
 import LoginComponent                 from '../components/LoginComponent';
 import {
-userAuthenticate
+  userAuthenticate,
+  userLogout
 }                                     from '../actions';
 
 const mapStateToProps = state => {
   return {
     loginStatus: state.loginStatus,
-    username: state.username
+    username: state.username,
+    loginMessage: state.loginMessage
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     authenticate: (username, password) => {dispatch(userAuthenticate(username, password));},
-    redirectToHome: () => {return (<Redirect to="/dashboard" />)}
+    logout: () => {dispatch(userLogout());}
   }
 };
 

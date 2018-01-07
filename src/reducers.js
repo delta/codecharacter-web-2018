@@ -3,6 +3,7 @@ import actionTypes           from "./action_types";
 export const initialState = {
   loginStatus: false,
   username: '000000000',
+  loginMessage: '',
   leaderboardData: [],
   matchesData: [],
   code: '',
@@ -11,32 +12,52 @@ export const initialState = {
 
 export function codeCharacterReducer(state = initialState, action) {
   switch(action.type) {
+
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
-      return {
+      let nextState = {
         ...state,
-        loginStatus: action.loginStatus,
-        username: action.username
-      }
+        username: action.response.username ? action.response.username.toString() : state.username.toString(),
+        loginStatus: action.response.loginStatus
+      };
+      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
     }
+
     case actionTypes.UPDATE_LEADERBOARD: {
-      return {
+      let nextState = {
         ...state,
         leaderboardData: action.data
-      }
+      };
+      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
+    }
+
+    case actionTypes.UPDATE_LOGIN_MESSAGE: {
+      let nextState = {
+        ...state,
+        loginMessage: action.response.loginMessage
+      };
+      console.log(action);
+      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
     }
 
     case actionTypes.UPDATE_MATCH_DATA: {
-      return {
+      let nextState = {
         ...state,
         matchesData: action.data
-      }
+      };
+      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
     }
 
     case actionTypes.UPDATE_COMPILATION_STATUS: {
-      return {
+      let nextState = {
         ...state,
         compilationStatus: action.data
-      }
+      };
+      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
     }
 
     default: {

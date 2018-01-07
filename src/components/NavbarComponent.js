@@ -9,7 +9,7 @@ import { Link }               from 'react-router-dom';
 
 export default class NavbarComponent extends React.Component {
   static propTypes = {
-    logout: PropTypes.func
+    onLogout: PropTypes.func
   };
 
   render() {
@@ -36,7 +36,7 @@ export default class NavbarComponent extends React.Component {
             <button
               className="btn btn-secondary"
               style={{borderRadius: 0, height: 50}}
-              onClick={this.props.logout}
+              onClick={() => this.props.onLogout()}
             >
               Log Out
             </button>

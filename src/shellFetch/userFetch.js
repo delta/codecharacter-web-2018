@@ -7,14 +7,14 @@ const API_BASE_URL = 'http://localhost:3000';
  */
 
 export const userLogin = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/user/login',{
+  return fetch(API_BASE_URL + '/user/login',{
     method: "POST",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: query.username,
+      emailId: query.emailId,
       password: query.password,
     })
   })
@@ -22,27 +22,7 @@ export const userLogin = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      throw error;
-    });
-};
-
-
-export const userCheckUsername = ({req, query}) => {
-  return fetch(API_BASE_URL + 'api/user/username', {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    }
-  })
-    .then((response) => {
-      return response;
-    })
-    .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -58,33 +38,31 @@ export const userCheckUsername = ({req, query}) => {
  * @returns {}
  */
 export const userRegister = ({req, query}) => {
-  return fetch(API_BASE_URL + 'api/user/register',{
+  return fetch(API_BASE_URL + '/user/signup',{
     method: "POST",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: query.username,
+      emailId: query.emailId,
       name: query.username,
       password: query.password,
     })
   })
     .then((response) => {
-      return response;
+      return response.json();
     })
     .then((data) => {
       return data;
     })
     .catch((error) => {
       console.log(error);
-      throw error;
     });
 };
 
-
-export const userLogout = ({req, query}) => {
-  return fetch(API_BASE_URL + 'api/user/logout', {
+export const userLogout = () => {
+  return fetch(API_BASE_URL + '/user/logout', {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -92,60 +70,9 @@ export const userLogout = ({req, query}) => {
     }
   })
     .then((response) => {
-      return response;
-    })
-    .then((data) => {
-      return data;
+      console.log(response)
     })
     .catch((error) => {
       console.log(error);
-      throw error;
-    });
-};
-
-
-export const userGetProfile = ({req, query}) => {
-  return fetch(API_BASE_URL + 'api/user/profile', {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    }
-  })
-    .then((response) => {
-      return response;
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      throw error;
-    });
-};
-
-
-export const userSetProfile = ({req, query}) => {
-  return fetch(API_BASE_URL + 'api/user/profile', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: query.username,
-      name: query.name,
-      password: query.name
-    })
-  })
-    .then((response) => {
-      return response;
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      throw error;
     });
 };

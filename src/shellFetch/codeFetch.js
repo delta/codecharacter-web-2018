@@ -1,7 +1,7 @@
 const API_BASE_URL = 'http://localhost:3000';
 
 export const codeSubmit = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/code',{
+  return fetch(API_BASE_URL + '/',{
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -25,7 +25,7 @@ export const codeSubmit = ({req , query}) => {
 };
 
 export const codeFetch = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/code',{
+  return fetch(API_BASE_URL + '/',{
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -48,7 +48,7 @@ export const codeFetch = ({req , query}) => {
 };
 
 export const codeLock = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/code/lock',{
+  return fetch(API_BASE_URL + '/code/lock',{
     method: "POST",
     headers: {
       'Accept': 'application/json',

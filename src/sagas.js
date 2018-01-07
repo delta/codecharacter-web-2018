@@ -8,13 +8,14 @@ import {
   updateUserLoginStatus,
   updateLeaderboard,
   updateMatchData,
-  updateCompilationStatus
+  updateCompilationStatus,
+  updateLoginMessage
 }                                     from './actions';
 import {
   userLogin,
   userRegister,
   userLogout
-}                                     from './shellFetch';
+}                                     from './shellFetch/userFetch';
 import {
   leaderboardGetPlayers,
   leaderboardStartChallenge
@@ -26,12 +27,15 @@ import {
 
 function* userLoginSaga (action) {
   try {
+    console.log(action);
     let query = {
       emailId: action.username,
       password: action.password
     };
     let response = yield call(userLogin,{req: null, query: query});
-    yield put(updateUserLoginStatus({emailId: action.emailId, loginStatus: response.success}));
+    console.log(response);
+    yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
+    yield put(updateLoginMessage({loginMessage: response.message}));
   }
   catch (err) {
     console.log(err);
@@ -58,9 +62,10 @@ function* userSignupSaga(action) {
 
 function* userLogoutSaga(action) {
   try {
+    console.log(action);
     const response = yield call(userLogout);
-    yield put(updateUserLoginStatus({username: action.username, loginStatus: false}));
     console.log(response);
+    yield put(updateUserLoginStatus({username: action.username, loginStatus: false}));
   }
   catch (err) {
     console.log(err);
@@ -99,10 +104,10 @@ function* leaderBoardStartChallengeSaga(action) {
 function* codeSubmitSaga(action) {
   try {
     let query = {
-      username: action.username,
-      code: action.code
+      source: action.code
     };
     const response = yield call(codeSubmit,{req: null, query: query});
+    console.log(response);
     yield put(updateCompilationStatus(response));
     console.log(response);
   }

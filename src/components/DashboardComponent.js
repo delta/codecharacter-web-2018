@@ -4,9 +4,11 @@ import NavbarComponent                from './NavbarComponent';
 import CodeComponent                  from './CodeComponent.js';
 import SplitPane                      from 'react-split-pane';
 import SubmitButtons                  from './SubmitButtons';
+import { Redirect }                   from 'react-router';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
+    loginStatus: PropTypes.bool,
     username: PropTypes.string,
     compilationStatus: PropTypes.string,
     code: PropTypes.string,
@@ -31,7 +33,7 @@ export default class DashboardComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      code: this.props.code
+      code: props.code
     };
   };
 
@@ -52,7 +54,7 @@ export default class DashboardComponent extends React.Component {
   render() {
     return (
       <div>
-        <NavbarComponent onLogout={this.props.logout}/>
+        <NavbarComponent onLogout={() => this.props.logout()}/>
         <SplitPane split="vertical" minSize={100} maxSize={600} defaultSize={600} style={{height: window.innerHeight - 50 }}>
           <div>
             {!this.props.matchesView
@@ -80,6 +82,7 @@ export default class DashboardComponent extends React.Component {
           </div>
         </SplitPane>
         {!this.props.matchesView ? <SubmitButtons runCode={this.runCode} lockCode={this.lockCode}/>: null}
+        {!this.props.loginStatus ? <Redirect to="/login" /> : null}
       </div>
     );
   }
