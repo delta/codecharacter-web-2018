@@ -31,6 +31,7 @@ export default class LeaderBoardComponent extends React.Component {
   };
 
   render() {
+    console.log(this.props.playersData);
     let tableColumns = (this.props.playersData).map((data, index) => {
       return (
         <tr key={index} align='center'>

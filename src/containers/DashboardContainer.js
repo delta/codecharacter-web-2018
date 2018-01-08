@@ -3,8 +3,8 @@ import DashboardComponent             from '../components/DashboardComponent';
 import {
   userLogout,
   runCode,
-  lockCode
-}                                     from '../actions';
+  lockCode,
+} from '../actions';
 
 const mapStateToProps = state => {
   return {
