@@ -31,6 +31,27 @@ export const userLogin = ({req , query}) => {
     });
 };
 
+export const userLoginStatus = ({req , query}) => {
+  return fetch(API_BASE_URL + '/user/login',{
+    method: "GET",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
+
 /**
  * Promise Based function to signup
  * @param req: null

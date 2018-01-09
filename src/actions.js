@@ -6,6 +6,11 @@ export const userAuthenticate = (username, password) => ({
   password
 });
 
+export const userAuthenticateCheck = (username) => ({
+  type: actionTypes.USER_AUTHENTICATE_CHECK,
+  username
+});
+
 export const userSignup = (emailId, username, password) => ({
   type: actionTypes.USER_SIGNUP,
   emailId,

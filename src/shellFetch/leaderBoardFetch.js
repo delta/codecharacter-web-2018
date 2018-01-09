@@ -1,7 +1,7 @@
-const API_BASE_URL = 'http://localhost:3000/leaderboard';
+const API_BASE_URL = 'http://localhost:3001/leaderboard';
 
 export const leaderboardGetPlayers = ({req , query}) => {
-  return fetch(API_BASE_URL + '/',{
+  return fetch(API_BASE_URL + '',{
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -9,10 +9,10 @@ export const leaderboardGetPlayers = ({req , query}) => {
     },
   })
     .then((response) => {
-      console.log(response);
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((error) => {

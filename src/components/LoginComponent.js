@@ -42,6 +42,7 @@ export default class LoginComponent extends React.Component {
   }
 
   componentDidMount() {
+    this.props.authenticateCheck(this.props.username);
     this.updateLoginMessages(this.props);
   }
 

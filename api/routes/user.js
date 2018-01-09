@@ -10,11 +10,12 @@ const models = require("../models");
 // GET handlers
 router.get("/login", (req, res) => {
 	if (req.session.isLoggedIn) {
-		return res.redirect("/");
-	}
-	//res.redirect("/login.html");
+    return res.redirect("/");
+  }
+  console.log("Here");
+  //res.redirect("/login.html");
 	//for now
-	res.json({ success: "true", message: "login page" });
+	res.json({ success: false, message: "login page" });
 });
 
 // signup

@@ -14,8 +14,9 @@ import {
 import {
   userLogin,
   userRegister,
-  userLogout
-}                                     from './shellFetch/userFetch';
+  userLogout,
+  userLoginStatus
+} from './shellFetch/userFetch';
 import {
   leaderboardGetPlayers,
   leaderboardStartChallenge
@@ -27,7 +28,6 @@ import {
 
 function* userLoginSaga (action) {
   try {
-    console.log(action);
     let query = {
       emailId: action.username,
       password: action.password
@@ -38,6 +38,17 @@ function* userLoginSaga (action) {
     yield put(updateLoginMessage({loginMessage: response.message}));
   }
   catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* userLoginStatusSaga (action) {
+  try {
+    let response = yield call(userLoginStatus,{req: null, query: null});
+    yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
+  }
+  catch(err) {
     console.log(err);
     throw err;
   }
@@ -134,6 +145,7 @@ function* codeLockSaga(action) {
 
 export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.USER_AUTHENTICATE, userLoginSaga);
+  yield takeEvery(actionTypes.USER_AUTHENTICATE_CHECK, userLoginStatusSaga);
   yield takeEvery(actionTypes.USER_LOGOUT, userLogoutSaga);
   yield takeEvery(actionTypes.USER_SIGNUP, userSignupSaga);
   yield takeEvery(actionTypes.FETCH_LEADERBOARD_DATA, leaderboardGetPlayersSaga);

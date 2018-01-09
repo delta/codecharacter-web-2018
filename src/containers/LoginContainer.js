@@ -3,9 +3,9 @@ import { connect }                    from 'react-redux';
 import { Redirect }                   from 'react-router';
 import LoginComponent                 from '../components/LoginComponent';
 import {
-  userAuthenticate,
+  userAuthenticate, userAuthenticateCheck,
   userLogout
-}                                     from '../actions';
+} from '../actions';
 
 const mapStateToProps = state => {
   return {
@@ -18,6 +18,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     authenticate: (username, password) => {dispatch(userAuthenticate(username, password));},
+    authenticateCheck: (username) => {dispatch(userAuthenticateCheck(username));},
     logout: () => {dispatch(userLogout());}
   }
 };
