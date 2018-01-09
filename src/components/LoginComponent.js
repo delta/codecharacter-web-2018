@@ -118,11 +118,11 @@ export default class LoginComponent extends React.Component {
 
             <Modal.Body className='loginModalBody'>
               <FormGroup className={this.state.usernameStatus} style={{paddingTop: 20, paddingBottom: 10}}>
-                <input onChange={this.updateUsername} type='text' className='form-control is-invalid' placeholder='Username' id='inputDefault'/>
+                <input onChange={this.updateUsername} type='text' className='form-control is-invalid' placeholder='Username'/>
                 <div className="invalid-feedback">{this.state.usernameMessage}</div>
               </FormGroup>
               <FormGroup className={this.state.passwordStatus} style={{paddingTop: 10, paddingBottom: 20}}>
-                <input onChange={this.updatePassword} type='password' className='form-control is-invalid' placeholder='Password' id='inputDefault'/>
+                <input onChange={this.updatePassword} type='password' className='form-control is-invalid' placeholder='Password'/>
                 <div className="invalid-feedback">{this.state.passwordMessage}</div>
               </FormGroup>
             </Modal.Body>
