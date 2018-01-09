@@ -1,9 +1,9 @@
 {
-  "name": "app",
-  "version": "0.1.0",
+  "name": "application-name",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodejs ./bin/www",
+    "start": "nodemon ./bin/www",
     "back": "nodemon api/bin/www",
     "front": "react-scripts start",
     "build": "react-scripts build",
@@ -12,6 +12,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
@@ -22,12 +23,12 @@
     "install": "^0.10.2",
     "morgan": "~1.0.0",
     "mysql2": "^1.4.2",
-    "nodemon": "^1.12.1",
+    "nodemon": "^1.14.8",
     "npm": "^5.6.0",
     "prop-types": "^15.6.0",
     "re-resizable": "^4.1.2",
     "react": "^16.2.0",
-    "react-ace": "^5.8.0",
+    "react-ace": "^5.9.0",
     "react-bootstrap": "^0.31.5",
     "react-codemirror": "^1.0.0",
     "react-dom": "^16.2.0",
@@ -41,15 +42,15 @@
     "redux": "^3.7.2",
     "redux-persist": "^5.4.0",
     "redux-saga": "^0.16.0",
-    "sequelize": "^4.19.0",
+    "sequelize": "^4.29.0",
     "sequelize-cli": "^3.0.0",
     "static-favicon": "~1.0.0",
-    "terminal-in-react": "^3.5.1",
+    "terminal-in-react": "^3.5.2",
     "typeface-roboto": "0.0.45"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
-    "eslint": "^4.12.0",
+    "eslint": "^4.15.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-compat": "^2.1.0",
     "eslint-plugin-promise": "^3.6.0"
