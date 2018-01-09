@@ -6,6 +6,7 @@ export const codeSubmit = ({req , query}) => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'credentials': 'include'
     },
     body: JSON.stringify({
       username: query.username,
@@ -30,6 +31,7 @@ export const codeFetch = ({req , query}) => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'credentials': 'include'
     },
     body: JSON.stringify({
       username: query.username,
