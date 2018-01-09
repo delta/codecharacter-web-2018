@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3000/leaderboard';
+const API_BASE_URL = 'http://localhost:3001/leaderboard';
 
 export const leaderboardGetPlayers = ({req , query}) => {
   return fetch(API_BASE_URL + '/',{
