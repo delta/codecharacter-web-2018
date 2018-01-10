@@ -35,13 +35,13 @@ export default class SignUpComponent extends React.Component {
   };
 
   handleSubmit = () => {
-    this.props.userSignup(this.state.emailId, this.state.name, this.state.password);
+    this.props.userSignup(this.state.username, this.state.name, this.state.password);
   };
 
   render() {
     return (
       <div className="static-modal">
-        <Modal.Dialog>
+        <Modal.Dialog style={{position: 'static'}}>
           <div className='modal-content'>
             <Modal.Header>
               <Modal.Title>
@@ -68,9 +68,9 @@ export default class SignUpComponent extends React.Component {
                 className='btn btn-primary'
                 onClick={this.handleSubmit}
               >
-                LOG IN
+                SIGN UP
               </button>
-              <button type='button' className="btn btn-secondary">Sign Up</button>
+              <button onClick={() => this.props.history.push('/login')} type='button' className="btn btn-secondary">LOG IN</button>
             </Modal.Footer>
           </div>
         </Modal.Dialog>

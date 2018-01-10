@@ -8,7 +8,6 @@ import { createStore, applyMiddleware }     from 'redux';
 import createSagaMiddleware                 from 'redux-saga';
 import { codeCharacterReducer }             from './reducers';
 import codeCharacterSagas                   from './sagas';
-import { persistStore }                     from 'redux-persist'
 
 const sagaMiddleware = createSagaMiddleware();
 const persistedState = localStorage.getItem('codecharacter') ? JSON.parse(localStorage.getItem('codecharacter')) : {};

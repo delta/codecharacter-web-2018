@@ -7,6 +7,7 @@ export const initialState = {
   leaderboardData: [],
   matchesData: [],
   code: '',
+  profileData: null,
   compilationStatus: ''
 };
 
@@ -26,7 +27,7 @@ export function codeCharacterReducer(state = initialState, action) {
     case actionTypes.UPDATE_LEADERBOARD: {
       let nextState = {
         ...state,
-        leaderboardData: action.data
+        leaderboardData: action.data.ratings
       };
       localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
@@ -37,7 +38,6 @@ export function codeCharacterReducer(state = initialState, action) {
         ...state,
         loginMessage: action.response.loginMessage
       };
-      console.log(action);
       localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
@@ -47,6 +47,16 @@ export function codeCharacterReducer(state = initialState, action) {
         ...state,
         matchesData: action.data
       };
+      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
+    }
+
+    case actionTypes.UPDATE_CODE: {
+      let nextState = {
+        ...state,
+        code: action.code
+      };
+      console.log(action);
       localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }

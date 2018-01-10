@@ -9,7 +9,8 @@ import {
   updateLeaderboard,
   updateMatchData,
   updateCompilationStatus,
-  updateLoginMessage
+  updateLoginMessage,
+  updateCode
 }                                     from './actions';
 import {
   userLogin,
@@ -23,8 +24,8 @@ import {
 }                                     from './shellFetch/leaderBoardFetch';
 import {
   codeSubmit,
-  codeLock
-}                                     from './shellFetch/codeFetch';
+  codeLock, codeFetch
+} from './shellFetch/codeFetch';
 
 function* userLoginSaga (action) {
   try {
@@ -33,7 +34,6 @@ function* userLoginSaga (action) {
       password: action.password
     };
     let response = yield call(userLogin,{req: null, query: query});
-    console.log(response);
     yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
     yield put(updateLoginMessage({loginMessage: response.message}));
   }
@@ -61,9 +61,8 @@ function* userSignupSaga(action) {
       username: action.username,
       password: action.password
     };
-    const response = yield call(userRegister,{req: null, query: query});
+    yield call(userRegister,{req: null, query: query});
     yield put(updateUserLoginStatus({username: action.username, loginStatus: true}));
-    console.log(response);
   }
   catch (err) {
     console.log(err);
@@ -73,9 +72,7 @@ function* userSignupSaga(action) {
 
 function* userLogoutSaga(action) {
   try {
-    console.log(action);
-    const response = yield call(userLogout);
-    console.log(response);
+    yield call(userLogout);
     yield put(updateUserLoginStatus({username: action.username, loginStatus: false}));
   }
   catch (err) {
@@ -84,11 +81,10 @@ function* userLogoutSaga(action) {
   }
 }
 
-function* leaderboardGetPlayersSaga(action) {
+function* leaderboardGetPlayersSaga() {
   try {
     const response = yield call(leaderboardGetPlayers, {req: null, query: null});
     yield put(updateLeaderboard(response));
-    console.log(response);
   }
   catch(err) {
     console.log(err);
@@ -104,7 +100,6 @@ function* leaderBoardStartChallengeSaga(action) {
     };
     const response = yield call(leaderboardStartChallenge,{req: null, query: query});
     yield put(updateMatchData(response));
-    console.log(response);
   }
   catch(err) {
     console.log(err);
@@ -117,10 +112,20 @@ function* codeSubmitSaga(action) {
     let query = {
       source: action.code
     };
+    yield put(updateCode(action.code));
     const response = yield call(codeSubmit,{req: null, query: query});
-    console.log(response);
-    yield put(updateCompilationStatus(response));
-    console.log(response);
+    yield put(updateCompilationStatus(response.message));
+  }
+  catch(err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* codeFetchSaga() {
+  try {
+    const response = yield call(codeFetch,{req: null, query: null});
+    yield put(updateCode(response.source));
   }
   catch(err) {
     console.log(err);
@@ -131,11 +136,9 @@ function* codeSubmitSaga(action) {
 function* codeLockSaga(action) {
   try {
     let query = {
-      username: action.username,
+      source: action.code,
     };
-    const response = yield call(codeLock,{req: null, query: query});
-    yield put(updateMatchData(response));
-    console.log(response);
+    yield call(codeLock,{req: null, query: query});
   }
   catch(err) {
     console.log(err);
@@ -152,4 +155,5 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.START_CHALLENGE, leaderboardStartChallenge);
   yield takeEvery(actionTypes.RUN_CODE, codeSubmitSaga);
   yield takeEvery(actionTypes.LOCK_CODE, codeLockSaga);
+  yield takeEvery(actionTypes.FETCH_CODE, codeFetchSaga);
 }

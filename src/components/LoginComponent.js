@@ -43,7 +43,6 @@ export default class LoginComponent extends React.Component {
 
   componentDidMount() {
     this.props.authenticateCheck(this.props.username);
-    this.updateLoginMessages(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -109,7 +108,7 @@ export default class LoginComponent extends React.Component {
   render() {
     return (
       <div className='static-modal'>
-        <Modal.Dialog>
+        <Modal.Dialog style={{position: 'static'}}>
           <div className='modal-content'>
             <Modal.Header>
               <Modal.Title>
@@ -137,7 +136,7 @@ export default class LoginComponent extends React.Component {
               >
                 LOG IN
               </Button>
-              <Button className='btn btn-secondary'>Sign Up</Button>
+              <Button className='btn btn-secondary' onClick={() => this.props.history.push('/signup')}>Sign Up</Button>
             </Modal.Footer>
           </div>
         </Modal.Dialog>

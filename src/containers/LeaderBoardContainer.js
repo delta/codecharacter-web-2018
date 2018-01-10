@@ -6,9 +6,9 @@ import {
 }                                     from '../actions';
 
 const mapStateToProps = state => {
-  console.log(state.loginStatus);
   return {
-    // playersData: state.leaderboardData
+    playersData: state.leaderboardData,
+    loginStatus: state.loginStatus
   };
 };
 

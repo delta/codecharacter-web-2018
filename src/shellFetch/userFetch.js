@@ -23,7 +23,6 @@ export const userLogin = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -35,6 +34,7 @@ export const userLogin = ({req , query}) => {
 export const userLoginStatus = ({req , query}) => {
   return fetch(API_BASE_URL + '/user/login',{
     method: "GET",
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -50,59 +50,6 @@ export const userLoginStatus = ({req , query}) => {
       throw error;
     });
 };
-
-/*
-export const userLogin = ({req , query}) => {
-  let headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-  headers.append('Access-Control-Allow-Credentials', 'include');
-  return fetch(API_BASE_URL + '/user/login',{
-    method: "POST",
-    // mode: 'cors',
-    // credentials: 'include',
-    body: JSON.stringify({
-      emailId: query.emailId,
-      password: query.password,
-    }),
-    headers: headers
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(document.cookie);
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      throw error;
-    });
-};
-
-export const userLoginStatus = ({req , query}) => {
-  let headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-  // headers.append('Access-Control-Allow-Credentials', 'true');
-  return fetch(API_BASE_URL + '/user/login',{
-    method: "GET",
-    // mode: 'cors',
-    // credentials: 'include',
-    headers: headers,
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(document.cookie);
-      console.log(data);
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      throw error;
-    });
-};
-*/
 
 /**
  * Promise Based function to signup

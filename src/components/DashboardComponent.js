@@ -1,6 +1,5 @@
 import React                          from 'react';
 import PropTypes                      from 'prop-types';
-import NavbarComponent                from './NavbarComponent';
 import CodeComponent                  from './CodeComponent.js';
 import SplitPane                      from 'react-split-pane';
 import SubmitButtons                  from './SubmitButtons';
@@ -16,6 +15,7 @@ export default class DashboardComponent extends React.Component {
     matchesViewTable: PropTypes.element,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
+    fetchCode: PropTypes.func,
     logout: PropTypes.func
   };
 
@@ -27,7 +27,9 @@ export default class DashboardComponent extends React.Component {
     matchesView: false,
     matchesViewTable: null,
     runCode: () => {},
-    lockCode: () => {}
+    lockCode: () => {},
+    fetchCode: () => {},
+    logout: () => {}
   };
 
   constructor(props) {
@@ -37,12 +39,16 @@ export default class DashboardComponent extends React.Component {
     };
   };
 
+  componentWillMount() {
+    this.props.fetchCode();
+  }
+
   runCode = () => {
-    this.props.runCode(this.props.username, this.state.code);
+    this.props.runCode(this.state.code);
   };
 
   lockCode = () => {
-    this.props.lockCode(this.props.username);
+    this.props.lockCode(this.state.code);
   };
 
   updateCode = (code) => {
@@ -52,39 +58,44 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
-    return (
-      <div>
-        <NavbarComponent onLogout={() => this.props.logout()}/>
-        <SplitPane split="vertical" minSize={100} maxSize={600} defaultSize={600} style={{height: window.innerHeight - 50 }}>
-          <div>
-            {!this.props.matchesView
-              ? <CodeComponent
-                code={this.state.code}
-                onChange={this.updateCode}
-              />
-              : this.props.matchesViewTable
-            }
-          </div>
-          <div>
-            <SplitPane split="horizontal" minSize={400} defaultSize={400}>
-              <div>
-                <div style={{display: 'block'}}>Render Component Goes Here</div>
-              </div>
-              <div style={{backgroundColor: 'black'}}>
-                <CodeComponent
-                  showLineNumbers={false}
-                  code={this.props.compilationStatus}
-                  theme={'terminal'}
-                  highlightActiveLine={false}
+
+    if (!this.props.loginStatus) {
+      return <Redirect to="/login" />;
+    }
+
+    else {
+      return (
+        <div>
+          <SplitPane split="vertical" minSize={100} maxSize={600} defaultSize={600} style={{height: window.innerHeight - 50 }}>
+            <div>
+              {!this.props.matchesView
+                ? <CodeComponent
+                  code={this.state.code}
+                  onChange={this.updateCode}
                 />
-              </div>
-            </SplitPane>
-          </div>
-        </SplitPane>
-        {!this.props.matchesView ? <SubmitButtons runCode={this.runCode} lockCode={this.lockCode}/>: null}
-        {!this.props.loginStatus ? <Redirect to="/login" /> : null}
-      </div>
-    );
+                : this.props.matchesViewTable
+              }
+            </div>
+            <div>
+              <SplitPane split="horizontal" minSize={400} defaultSize={400}>
+                <div>
+                  <div style={{display: 'block'}}>Render Component Goes Here</div>
+                </div>
+                <div style={{backgroundColor: 'black'}}>
+                  <CodeComponent
+                    showLineNumbers={false}
+                    code={this.props.compilationStatus}
+                    theme={'terminal'}
+                    highlightActiveLine={false}
+                  />
+                </div>
+              </SplitPane>
+            </div>
+          </SplitPane>
+          {!this.props.matchesView ? <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/>: null}
+        </div>
+      );
+    }
   }
 }
 

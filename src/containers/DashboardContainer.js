@@ -4,11 +4,13 @@ import {
   userLogout,
   runCode,
   lockCode,
+  fetchCode,
 } from '../actions';
 
 const mapStateToProps = state => {
   return {
     loginStatus: state.loginStatus,
+    compilationStatus: state.compilationStatus,
     username: state.username,
     code: state.code
   }
@@ -16,8 +18,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    runCode: (username, code) => {dispatch(runCode(username, code));},
-    lockCode: (username) => {dispatch(lockCode(username));},
+    runCode: (code) => {dispatch(runCode(code));},
+    lockCode: (code) => {dispatch(lockCode(code));},
+    fetchCode: ()  => {dispatch(fetchCode())},
     logout: () =>  {dispatch(userLogout());}
   }
 };

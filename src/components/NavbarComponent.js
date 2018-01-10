@@ -1,47 +1,70 @@
 import React                  from 'react';
 import {
   Navbar,
-  Nav,
   NavItem,
 }                             from 'react-bootstrap';
 import PropTypes              from 'prop-types';
-import { Link }               from 'react-router-dom';
+import { LinkContainer }               from 'react-router-bootstrap';
 
 export default class NavbarComponent extends React.Component {
   static propTypes = {
+    loginStatus: PropTypes.bool,
     onLogout: PropTypes.func
+  };
+
+  static defaultProps = {
+    loginStatus: false,
+    onLogout: () => {}
   };
 
   render() {
     return (
       <Navbar className='navbar-expand-lg navbar-dark bg-dark' style={{height: 50}}>
-        <Navbar.Header>
+        <Navbar.Header style={{paddingTop: 22}}>
           <Navbar.Brand>
-            <Link to='/' style={{color: 'white'}}>Code Character</Link>
+            <LinkContainer to='/login' style={{color: 'white'}}><p>Code Character</p></LinkContainer>
           </Navbar.Brand>
         </Navbar.Header>
-        <Nav className='collapse navbar-collapse' id='navbarColor02'>
-          <ul className="navbar-nav mr-auto">
-            <NavItem className=" active">
-              <Link to='/dashboard' className="nav-link">Dashboard</Link>
-            </NavItem>
-            <NavItem>
-              <Link to='/leaderboard' className="nav-link">Leaderboard</Link>
-            </NavItem>
-            <NavItem>
-              <Link to='/matches' className="nav-link">Matches</Link>
-            </NavItem>
-          </ul>
-          <Navbar.Form>
+        <Navbar.Collapse className='collapse' id='navbarColor02'>
+          {this.props.loginStatus
+            ? <ul className="navbar-nav mr-auto" style={{paddingTop: 10}}>
+              <NavItem>
+                <LinkContainer to='/profile' className="nav-link"><p>Profile</p></LinkContainer>
+              </NavItem>
+              <NavItem>
+                <LinkContainer to='/dashboard' className="nav-link"><p>Dashboard</p></LinkContainer>
+              </NavItem>
+              <NavItem>
+                <LinkContainer to='/leaderboard' className="nav-link"><p>Leaderboard</p></LinkContainer>
+              </NavItem>
+              <NavItem>
+                <LinkContainer to='/matches' className="nav-link"><p>Matches</p></LinkContainer>
+              </NavItem>
+              <NavItem>
+                <LinkContainer to='/rules' className="nav-link"><p>Rules</p></LinkContainer>
+              </NavItem>
+            </ul>
+            : <ul className="navbar-nav mr-auto" style={{paddingTop: 10}}>
+              <NavItem>
+                <LinkContainer to='/login' className="nav-link"><p>Login</p></LinkContainer>
+              </NavItem>
+              <NavItem>
+                <LinkContainer to='/signup' className="nav-link"><p>Signup</p></LinkContainer>
+              </NavItem>
+              <NavItem>
+                <LinkContainer to='/rules' className="nav-link"><p>Rules</p></LinkContainer>
+              </NavItem>
+            </ul>}
+        </Navbar.Collapse>
+          {this.props.loginStatus ? <Navbar.Form>
             <button
               className="btn btn-secondary"
-              style={{borderRadius: 0, height: 50}}
-              onClick={() => this.props.onLogout()}
+              style={{borderRadius: 0, height: 50, paddingTop: -10}}
+              onClick={() => {this.props.onLogout();}}
             >
               Log Out
             </button>
-          </Navbar.Form>
-        </Nav>
+          </Navbar.Form> : null}
       </Navbar>
     );
   }
