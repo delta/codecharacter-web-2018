@@ -23,7 +23,15 @@ app.use(favicon());
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+app.use(cookieParser(secretString));
+
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Credentials', true);
+	res.header('Access-Control-Allow-Origin', req.headers.origin);
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+	res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+	next();
+});
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", routes);
