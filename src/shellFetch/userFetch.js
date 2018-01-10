@@ -9,6 +9,7 @@ const API_BASE_URL = 'http://localhost:3001';
 export const userLogin = ({req , query}) => {
   return fetch(API_BASE_URL + '/user/login',{
     method: "POST",
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -40,6 +41,7 @@ export const userLogin = ({req , query}) => {
 export const userRegister = ({req, query}) => {
   return fetch(API_BASE_URL + '/user/signup',{
     method: "POST",
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -64,6 +66,7 @@ export const userRegister = ({req, query}) => {
 export const userLogout = () => {
   return fetch(API_BASE_URL + '/user/logout', {
     method: 'GET',
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

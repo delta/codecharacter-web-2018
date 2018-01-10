@@ -3,6 +3,7 @@ const API_BASE_URL = 'http://localhost:3000';
 export const codeSubmit = ({req , query}) => {
   return fetch(API_BASE_URL + '/',{
     method: "POST",
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -27,6 +28,7 @@ export const codeSubmit = ({req , query}) => {
 export const codeFetch = ({req , query}) => {
   return fetch(API_BASE_URL + '/',{
     method: "GET",
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -50,6 +52,7 @@ export const codeFetch = ({req , query}) => {
 export const codeLock = ({req , query}) => {
   return fetch(API_BASE_URL + '/code/lock',{
     method: "POST",
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

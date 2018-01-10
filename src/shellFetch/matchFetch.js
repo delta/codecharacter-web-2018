@@ -3,6 +3,7 @@ const API_BASE_URL = 'http://localhost:3000';
 export const matchFetchAll = ({req , query}) => {
   return fetch(API_BASE_URL + 'api/match/all',{
     method: 'GET',
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -26,6 +27,7 @@ export const matchFetchAll = ({req , query}) => {
 export const matchFetchDetails = ({req , query}) => {
   return fetch(API_BASE_URL + 'api/match',{
     method: "GET",
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -50,6 +52,7 @@ export const matchFetchDetails = ({req , query}) => {
 export const matchFetchLastActiveStatus = ({req , query}) => {
   return fetch(API_BASE_URL + 'api/match/status',{
     method: "GET",
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
