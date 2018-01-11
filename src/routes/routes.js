@@ -13,8 +13,8 @@ export const RouteList = () => (
   <div>
     <NavbarContainer/>
     <Switch>
-      <Route exact path='/profile' component={ProfileContainer} />
-      <Route exact path='/dashboard' component={DashboardContainer} />
+      <Route exact path='/profile' component={ProfileContainer}/>
+      <Route exact path='/dashboard' component={DashboardContainer}/>
       <Route exact path='/login' component={LoginContainer} />
       <Route exact path='/signup' component={SignUpContainer} />
       <Route exact path='/leaderboard' component={LeaderBoardContainer} />

@@ -2,36 +2,37 @@ import {
   call,
   put,
   takeEvery,
-}                                     from 'redux-saga/effects';
-import actionTypes                    from './action_types';
+}                                                from 'redux-saga/effects';
+import actionTypes                               from './action_types';
 import {
   updateUserLoginStatus,
   updateLeaderboard,
   updateMatchData,
   updateCompilationStatus,
   updateLoginMessage,
-  updateCode
-}                                     from './actions';
+  updateCode,
+}                                                from './actions';
 import {
   userLogin,
   userRegister,
   userLogout,
-  userLoginStatus
-} from './shellFetch/userFetch';
+  userLoginStatus,
+}                                                from '../shellFetch/userFetch';
 import {
   leaderboardGetPlayers,
-  leaderboardStartChallenge
-}                                     from './shellFetch/leaderBoardFetch';
+  leaderboardStartChallenge,
+}                                                from '../shellFetch/leaderBoardFetch';
 import {
   codeSubmit,
-  codeLock, codeFetch
-} from './shellFetch/codeFetch';
+  codeLock,
+  codeFetch,
+}                                                from '../shellFetch/codeFetch';
 
 function* userLoginSaga (action) {
   try {
     let query = {
       emailId: action.username,
-      password: action.password
+      password: action.password,
     };
     let response = yield call(userLogin,{req: null, query: query});
     yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
@@ -59,7 +60,7 @@ function* userSignupSaga(action) {
     let query = {
       emailId: action.emailId,
       username: action.username,
-      password: action.password
+      password: action.password,
     };
     yield call(userRegister,{req: null, query: query});
     yield put(updateUserLoginStatus({username: action.username, loginStatus: true}));
@@ -96,7 +97,7 @@ function* leaderBoardStartChallengeSaga(action) {
   try {
     let query = {
       username: action.username,
-      opponent: action.opponent
+      opponent: action.opponent,
     };
     const response = yield call(leaderboardStartChallenge,{req: null, query: query});
     yield put(updateMatchData(response));
@@ -110,7 +111,7 @@ function* leaderBoardStartChallengeSaga(action) {
 function* codeSubmitSaga(action) {
   try {
     let query = {
-      source: action.code
+      source: action.code,
     };
     yield put(updateCode(action.code));
     const response = yield call(codeSubmit,{req: null, query: query});

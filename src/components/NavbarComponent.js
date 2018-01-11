@@ -1,10 +1,10 @@
-import React                  from 'react';
+import React                                      from 'react';
+import PropTypes                                  from 'prop-types';
 import {
   Navbar,
-  NavItem,
-}                             from 'react-bootstrap';
-import PropTypes              from 'prop-types';
-import { LinkContainer }               from 'react-router-bootstrap';
+  NavItem
+}                                                 from 'react-bootstrap';
+import { LinkContainer }                          from 'react-router-bootstrap';
 
 export default class NavbarComponent extends React.Component {
   static propTypes = {

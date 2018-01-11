@@ -1,21 +1,21 @@
-import { connect }                    from 'react-redux';
-import LeaderBoardComponent           from '../components/LeaderBoardComponent';
+import { connect }                             from 'react-redux';
+import LeaderBoardComponent                    from '../components/LeaderBoardComponent';
 import {
   fetchLeaderboardData,
   startChallenge
-}                                     from '../actions';
+}                                              from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
     playersData: state.leaderboardData,
-    loginStatus: state.loginStatus
+    loginStatus: state.loginStatus,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchLeaderboardData: () => {dispatch(fetchLeaderboardData());},
-    startChallenge: (username, opponent) => {dispatch(startChallenge(username, opponent))}
+    startChallenge: (username, opponent) => {dispatch(startChallenge(username, opponent))},
   };
 };
 

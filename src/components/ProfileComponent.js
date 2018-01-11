@@ -1,14 +1,13 @@
-import React from 'react';
+import React                                      from 'react';
 import {
   Table
-}           from 'react-bootstrap';
-import PropTypes from 'prop-types';
+}                                                 from 'react-bootstrap';
+import PropTypes                                  from 'prop-types';
 
 export default class ProfileComponent extends React.Component {
   static propTypes = {
     profileData: PropTypes.object,
     getProfileData: PropTypes.func,
-    loginStatus: PropTypes.bool
   };
 
   static defaultProps = {
@@ -23,20 +22,7 @@ export default class ProfileComponent extends React.Component {
       college: 'NITT'
     },
     getProfileData: () => {},
-    loginStatus: false
   };
-
-  componentWillMount() {
-    if(!this.props.loginStatus) {
-      this.props.history.push('/login');
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(!nextProps.loginStatus) {
-      this.props.history.push('/login');
-    }
-  }
 
   render() {
     return (

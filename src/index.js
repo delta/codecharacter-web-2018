@@ -6,8 +6,8 @@ import App                                  from "./components/App";
 import registerServiceWorker                from "./registerServiceWorker";
 import { createStore, applyMiddleware }     from 'redux';
 import createSagaMiddleware                 from 'redux-saga';
-import { codeCharacterReducer }             from './reducers';
-import codeCharacterSagas                   from './sagas';
+import { codeCharacterReducer }             from './redux/reducers';
+import codeCharacterSagas                   from './redux/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 const persistedState = localStorage.getItem('codecharacter') ? JSON.parse(localStorage.getItem('codecharacter')) : {};

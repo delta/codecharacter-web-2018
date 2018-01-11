@@ -1,15 +1,5 @@
 import actionTypes           from "./action_types";
-
-export const initialState = {
-  loginStatus: false,
-  username: '000000000',
-  loginMessage: '',
-  leaderboardData: [],
-  matchesData: [],
-  code: '',
-  profileData: null,
-  compilationStatus: ''
-};
+import initialState          from './initialState';
 
 export function codeCharacterReducer(state = initialState, action) {
   switch(action.type) {

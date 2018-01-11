@@ -1,9 +1,9 @@
-import React                          from 'react';
-import PropTypes                      from 'prop-types';
-import CodeComponent                  from './CodeComponent.js';
-import SplitPane                      from 'react-split-pane';
-import SubmitButtons                  from './SubmitButtons';
-import { Redirect }                   from 'react-router';
+import React                                      from 'react';
+import PropTypes                                  from 'prop-types';
+import SplitPane                                  from 'react-split-pane';
+import { Redirect }                               from 'react-router-dom'
+import CodeComponent                              from './CodeComponent';
+import SubmitButtons                              from './SubmitButtons';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -35,7 +35,8 @@ export default class DashboardComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      code: props.code
+      code: props.code,
+      height: window.innerHeight
     };
   };
 
@@ -43,13 +44,9 @@ export default class DashboardComponent extends React.Component {
     this.props.fetchCode();
   }
 
-  runCode = () => {
-    this.props.runCode(this.state.code);
-  };
+  runCode = () => { this.props.runCode(this.state.code); };
 
-  lockCode = () => {
-    this.props.lockCode(this.state.code);
-  };
+  lockCode = () => { this.props.lockCode(this.state.code); };
 
   updateCode = (code) => {
     this.setState({
@@ -58,44 +55,41 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
-
     if (!this.props.loginStatus) {
-      return <Redirect to="/login" />;
+      return <Redirect to='/login'/>
     }
 
-    else {
-      return (
-        <div>
-          <SplitPane split="vertical" minSize={100} maxSize={600} defaultSize={600} style={{height: window.innerHeight - 50 }}>
-            <div>
-              {!this.props.matchesView
-                ? <CodeComponent
-                  code={this.state.code}
-                  onChange={this.updateCode}
+    return (
+      <div>
+        <SplitPane split="vertical" minSize={100} maxSize={1000} defaultSize={600} style={{ height: this.state.height - 50 }}>
+          <div>
+            {!this.props.matchesView
+              ? <CodeComponent
+                code={this.state.code}
+                onChange={this.updateCode}
+              />
+              : this.props.matchesViewTable
+            }
+          </div>
+          <div>
+            <SplitPane split="horizontal" minSize={100} defaultSize={400}>
+              <div>
+                <div style={{display: 'block'}}>Render Component Goes Here</div>
+              </div>
+              <div>
+                <CodeComponent
+                  showLineNumbers={false}
+                  code={this.props.compilationStatus}
+                  theme={'terminal'}
+                  highlightActiveLine={false}
                 />
-                : this.props.matchesViewTable
-              }
-            </div>
-            <div>
-              <SplitPane split="horizontal" minSize={400} defaultSize={400}>
-                <div>
-                  <div style={{display: 'block'}}>Render Component Goes Here</div>
-                </div>
-                <div style={{backgroundColor: 'black'}}>
-                  <CodeComponent
-                    showLineNumbers={false}
-                    code={this.props.compilationStatus}
-                    theme={'terminal'}
-                    highlightActiveLine={false}
-                  />
-                </div>
-              </SplitPane>
-            </div>
-          </SplitPane>
-          {!this.props.matchesView ? <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/>: null}
-        </div>
-      );
-    }
+              </div>
+            </SplitPane>
+          </div>
+        </SplitPane>
+        {!this.props.matchesView ? <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/>: null}
+      </div>
+    );
   }
 }
 

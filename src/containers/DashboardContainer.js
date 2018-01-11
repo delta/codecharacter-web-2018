@@ -1,18 +1,18 @@
-import { connect }                    from 'react-redux';
-import DashboardComponent             from '../components/DashboardComponent';
+import { connect }                             from 'react-redux';
+import DashboardComponent                      from '../components/DashboardComponent';
 import {
   userLogout,
   runCode,
   lockCode,
   fetchCode,
-} from '../actions';
+}                                              from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
     loginStatus: state.loginStatus,
     compilationStatus: state.compilationStatus,
     username: state.username,
-    code: state.code
+    code: state.code,
   }
 };
 
@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => {
     runCode: (code) => {dispatch(runCode(code));},
     lockCode: (code) => {dispatch(lockCode(code));},
     fetchCode: ()  => {dispatch(fetchCode())},
-    logout: () =>  {dispatch(userLogout());}
+    logout: () =>  {dispatch(userLogout());},
   }
 };
 

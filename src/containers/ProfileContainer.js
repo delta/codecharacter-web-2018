@@ -1,6 +1,6 @@
-import { connect }                    from 'react-redux';
-import ProfileComponent               from '../components/ProfileComponent';
-import { getProfileData }             from '../actions';
+import { connect }                             from 'react-redux';
+import ProfileComponent                        from '../components/ProfileComponent';
+import { getProfileData }                      from '../redux/actions';
 
 const mapStateToProps = state => {
   return {

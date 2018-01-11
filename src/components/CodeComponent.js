@@ -1,6 +1,6 @@
-import React                          from 'react';
-import AceEditor                      from 'react-ace';
-import PropTypes                      from 'prop-types';
+import React                                      from 'react';
+import AceEditor                                  from 'react-ace';
+import PropTypes                                  from 'prop-types';
 import 'brace/mode/c_cpp';
 import 'brace/theme/xcode';
 import 'brace/theme/monokai';

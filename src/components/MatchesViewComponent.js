@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React                                      from 'react';
+import PropTypes                                  from 'prop-types';
 import {
   Table
-}             from 'react-bootstrap';
-import DashboardComponent from './DashboardComponent';
+}                                                 from 'react-bootstrap';
+import DashboardComponent                         from './DashboardComponent';
 
 export default class MatchesViewComponent extends React.Component {
   static propTypes = {
@@ -45,8 +45,6 @@ export default class MatchesViewComponent extends React.Component {
         </tbody>
       </Table>
     );
-    return (
-      <DashboardComponent matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus}/>
-    );
+    return <DashboardComponent matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus}/>
   }
 }
