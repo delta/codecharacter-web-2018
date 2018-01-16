@@ -4,6 +4,7 @@ import SplitPane                                  from 'react-split-pane';
 import { Redirect }                               from 'react-router-dom'
 import CodeComponent                              from './CodeComponent';
 import SubmitButtons                              from './SubmitButtons';
+// import CodeCharacterRenderer                      from 'codecharacter-renderer';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -38,10 +39,24 @@ export default class DashboardComponent extends React.Component {
       code: props.code,
       height: window.innerHeight
     };
+    /*fetch('game.log').then((response) => {
+      response.arrayBuffer().then((buffer) => {
+        let logFile = new Uint8Array(buffer);
+        this.setState({logFile: logFile});
+      });
+    });*/
   };
 
   componentWillMount() {
     this.props.fetchCode();
+  }
+
+  componentDidMount() {
+    this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight})});
+  }
+
+  componentWillUnmount() {
+    this.windowResizeListener.remove();
   }
 
   runCode = () => { this.props.runCode(this.state.code); };
@@ -92,4 +107,3 @@ export default class DashboardComponent extends React.Component {
     );
   }
 }
-
