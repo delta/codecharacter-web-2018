@@ -1,21 +1,20 @@
-let compileQueueSize = 100;
+let compileQueueSize = 1;
 let compileQueue = [];
-let buffer = [];
-
+const models = require("../models");
 const request = require("request");
+
+const secretString = require("../config/serverConfig").cookieKey;
 let pushToQueue = (userId, code) => {
-	if(compileQueue.size === compileQueueSize){
-		buffer.push({
-			userId,
-			code
-		});
+	console.log(compileQueueSize, compileQueue.length, compileQueue);
+	if(compileQueue.length === compileQueueSize){
+		return false;
 	}else{
 		compileQueue.push({
 			userId,
 			code
 		});
+		return true;
 	}
-	return;
 }
 
 /*let popCode = (userId) => {
@@ -43,16 +42,29 @@ setInterval(() => {
 		console.log(codeToBeCompiled);
 		request
 			.post({
-				url: 'http://localhost:3000/dll',
+				url: 'http://localhost:3000/compile',
 				json: true,
-				body: codeToBeCompiled
+				body: {...codeToBeCompiled, secretString}
 			})
 			.on('response', (response) => {
-				compileQueue.shift();
-				if(buffer.length){
-					compileQueue.push(buffer.shift())
-				}
-				console.log(response.headers); 
+				let codeDetails = compileQueue.shift();
+						console.log(response.headers); 
+				models.Code.update({
+					status:'success',
+					dll1: response.body
+				},
+				{
+					where:{
+						user_id: Number(response.headers['user_id'])
+					}
+				})
+					.then((code) => {
+						//do something
+						return; 
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			})   
 			.on('error', (err) => {
 				console.log(err);

@@ -28,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
 				key: "id",
 			}
 		},
-		status: DataTypes.STRING
+		status: DataTypes.STRING,
+		log: DataTypes.STRING
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {
