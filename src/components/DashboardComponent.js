@@ -61,7 +61,7 @@ export default class DashboardComponent extends React.Component {
 
     return (
       <div>
-        <SplitPane split="vertical" minSize={100} maxSize={1000} defaultSize={600} style={{ height: this.state.height - 50 }}>
+        <SplitPane split="vertical" minSize={50} maxSize='10%' defaultSize='40%' style={{ height: this.state.height - 50 }}>
           <div>
             {!this.props.matchesView
               ? <CodeComponent
