@@ -2,6 +2,9 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+const request = require("request");
+const queueCompile = require('../utils/queueCompile');
+console.log(queueCompile.getQueueSize());
 /* GET home page. */
 router.post("/", function(req, res) {
 	const source = req.body.source;
@@ -10,10 +13,16 @@ router.post("/", function(req, res) {
 	}
 	models.Code.create({
 		user_id: req.session.userId,
-		source: source
+		source: source,
+		dll1:'',
+		dll2:'',
+		status:'compiling'
 	})
 		.then((code)=>{
 			//here compile code and save as dlls in code
+			//just push the code and userID to the queue
+			queueCompile.pushToQueue(req.session.userId, source);
+			console.log(queueCompile.compileQueue);
 			if(!code){
 				return res.json({success:"false", message:"Internal server error!"});
 			}
@@ -49,3 +58,4 @@ router.post("/save", (req, res)=>{
 		});
 });
 module.exports = router;
+

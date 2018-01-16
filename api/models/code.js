@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		source: DataTypes.STRING,
 		dll1: DataTypes.STRING,
-		dll2: DataTypes.STRING
+		dll2: DataTypes.STRING,
+		status: DataTypes.STRING
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {

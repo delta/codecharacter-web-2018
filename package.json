@@ -42,8 +42,9 @@
     "redux": "^3.7.2",
     "redux-persist": "^5.4.0",
     "redux-saga": "^0.16.0",
-    "sequelize": "^4.29.0",
-    "sequelize-cli": "^3.0.0",
+    "request": "^2.83.0",
+    "sequelize": "^4.31.2",
+    "sequelize-cli": "^3.2.0",
     "static-favicon": "~1.0.0",
     "terminal-in-react": "^3.5.2",
     "typeface-roboto": "0.0.45"
