@@ -4,7 +4,7 @@ import SplitPane                                  from 'react-split-pane';
 import { Redirect }                               from 'react-router-dom'
 import CodeComponent                              from './CodeComponent';
 import SubmitButtons                              from './SubmitButtons';
-import CodeCharacterRenderer                      from 'codecharacter-renderer';
+// import CodeCharacterRenderer                      from 'codecharacter-renderer';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -93,10 +93,10 @@ export default class DashboardComponent extends React.Component {
               <SplitPane split="horizontal" minSize={100} defaultSize={400}>
                 <div style={{width: "100%"}}>
                   <div style={{ display: 'block', width: '100%', height: '100%'}}>
-                    {this.state.logFile
+                    {/*{this.state.logFile
                       ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
                       : <div>LOADING .. </div>
-                    }
+                    }*/}
                   </div>
                 </div>
                 <div>
@@ -120,13 +120,13 @@ export default class DashboardComponent extends React.Component {
       return (
         <div>
           <div>
-            {!this.props.matchesView
+            {/*{!this.props.matchesView
               ? <CodeComponent
                 code={this.state.code}
                 onChange={this.updateCode}
               />
               : this.props.matchesViewTable
-            }
+            }*/}
           </div>
           <div>
             <div>

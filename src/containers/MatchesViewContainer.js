@@ -1,5 +1,7 @@
 import { connect }                             from 'react-redux';
 import MatchViewComponent                      from '../components/MatchesViewComponent';
+import { matchFetchAll } from '../shellFetch/matchFetch';
+import { fetchMatchData } from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
@@ -9,7 +11,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return null;
+  return {
+    fetchMatchData: () => {dispatch(fetchMatchData());}
+  };
 };
 
 const MatchesViewContainer = connect(
