@@ -58,12 +58,60 @@ router.get('/match_status/:matchId', (req, res) => {
 router.get('/compete/player', (req, res) => {
   let userId = req.session.userId;
   let competetorId = req.body.againstId;
+  Code.findOne({
+    where:{
+      user_id: userId
+    },
+    attributes: ['dll1']
+  })
+    .then(code1 => {
+      Code.findOne({
+        where:{
+          user_id: competetorId
+        },
+        attributes: ['dll2']
+      })
+        .then(code2 => {
+          //execute code1.dll1, code2.dll2
+        })
+        .catch(err => {
+          res.json({success: false, message: "Internal server error!"});
+        });
+    })
+    .catch(err => {
+      res.json({success: false, message: "Internal server error!"});
+    })
   //get 2 dlls
   //execute them and send back
 });
 router.get('/compete/ai', (req, res) => {
   let userId = req.session.userId;
   let aiId = req.body.aiId;
+  //get 2 dlls
+  //execute them and send back
+  Code.findOne({
+    where:{
+      user_id: userId
+    },
+    attributes: ['dll1']
+  })
+    .then(code1 => {
+      Ai.findOne({
+        where:{
+          id: aiId
+        },
+        attributes: ['dll2']
+      })
+        .then(code2 => {
+          //execute code1.dll1, code2.dll2
+        })
+        .catch(err => {
+          res.json({success: false, message: "Internal server error!"});
+        });
+    })
+    .catch(err => {
+      res.json({success: false, message: "Internal server error!"});
+    })
 });
 router.post('/ai', (req, res) => {
   let dll1 = req.params.dll1;
