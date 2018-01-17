@@ -7,12 +7,14 @@ import LeaderBoardContainer   from '../containers/LeaderBoardContainer';
 import MatchViewContainer     from '../containers/MatchesViewContainer';
 import ProfileContainer       from '../containers/ProfileContainer';
 import NavbarContainer        from '../containers/NavbarContainer';
-import RulesComponent from '../components/RulesComponent';
+import RulesComponent         from '../components/RulesComponent';
+import WelcomeScreenComponent from '../components/WelcomeScreenComponent';
 
 export const RouteList = () => (
   <div>
     <NavbarContainer/>
     <Switch>
+      <Route exact path='/' component={WelcomeScreenComponent}/>
       <Route exact path='/profile' component={ProfileContainer}/>
       <Route exact path='/dashboard' component={DashboardContainer}/>
       <Route exact path='/login' component={LoginContainer} />

@@ -8,7 +8,8 @@ import DashboardComponent                         from './DashboardComponent';
 export default class MatchesViewComponent extends React.Component {
   static propTypes = {
     matchesData: PropTypes.arrayOf(PropTypes.object),
-    loginStatus: PropTypes.bool
+    loginStatus: PropTypes.bool,
+    fetchMatchData: PropTypes.func
   };
 
   static defaultProps = {
@@ -17,10 +18,16 @@ export default class MatchesViewComponent extends React.Component {
       {opponent: '106116049', gameStatus: 'Finished', result: 'You Won'},
       {opponent: '106116066', gameStatus: 'Not Finished', result: 'Yet to be decided'}
     ],
-    loginStatus: false
+    loginStatus: false,
+    fetchMatchData: () => {}
   };
 
+  componentDidMount() {
+    this.props.fetchMatchData();
+  }
+
   render() {
+    console.log(this.props.matchesData);
     let matchDataColumns = (this.props.matchesData).map((data,index) => {
       return (
           <tr key={index} align='center'>

@@ -27,6 +27,9 @@ import {
   codeLock,
   codeFetch,
 }                                                from '../shellFetch/codeFetch';
+import {
+  matchFetchAll
+}                                                from '../shellFetch/matchFetch';
 
 function* userLoginSaga (action) {
   try {
@@ -134,6 +137,18 @@ function* codeFetchSaga() {
   }
 }
 
+function* matchFetchSaga() {
+  try {
+    const response = yield call(matchFetchAll,{req: null, query: null});
+    console.log(response);
+    yield put(updateMatchData(response));
+  }
+  catch(err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 function* codeLockSaga(action) {
   try {
     let query = {
@@ -157,4 +172,5 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.RUN_CODE, codeSubmitSaga);
   yield takeEvery(actionTypes.LOCK_CODE, codeLockSaga);
   yield takeEvery(actionTypes.FETCH_CODE, codeFetchSaga);
+  yield takeEvery(actionTypes.FETCH_MATCH_DATA, matchFetchSaga);
 }

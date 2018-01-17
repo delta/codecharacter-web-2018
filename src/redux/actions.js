@@ -52,6 +52,10 @@ export const updateMatchData = (data) => ({
   data
 });
 
+export const fetchMatchData = () => ({
+  type: actionTypes.FETCH_MATCH_DATA,
+});
+
 export const runCode = (code) => ({
   type: actionTypes.RUN_CODE,
   code

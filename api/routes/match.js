@@ -72,6 +72,7 @@ router.get('/compete/player', (req, res) => {
         attributes: ['dll2']
       })
         .then(code2 => {
+          res.json({success: true, message:'Dummy log1'});
           //execute code1.dll1, code2.dll2
           res.json({success: true, message:'Dummy log'});
         })
@@ -104,6 +105,7 @@ router.get('/compete/ai', (req, res) => {
         attributes: ['dll2']
       })
         .then(code2 => {
+          res.json({success: true, message:'Dummy log1'});
           //execute code1.dll1, code2.dll2
           res.json({success: true, message:'Dummy log'});
         })

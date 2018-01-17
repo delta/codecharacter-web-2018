@@ -37,14 +37,15 @@ export default class DashboardComponent extends React.Component {
     super(props);
     this.state = {
       code: props.code,
-      height: window.innerHeight
+      height: window.innerHeight,
+      width: window.innerWidth
     };
-    /*fetch('game.log').then((response) => {
+    fetch('game.log').then((response) => {
       response.arrayBuffer().then((buffer) => {
         let logFile = new Uint8Array(buffer);
         this.setState({logFile: logFile});
       });
-    });*/
+    });
   };
 
   componentWillMount() {
@@ -52,11 +53,11 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight})});
+    this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight, width: window.innerWidth})});
   }
 
   componentWillUnmount() {
-    this.windowResizeListener.remove();
+    window.removeEventListener('resize', this.windowResizeListener);
   }
 
   runCode = () => { this.props.runCode(this.state.code); };
@@ -74,36 +75,76 @@ export default class DashboardComponent extends React.Component {
       return <Redirect to='/login'/>
     }
 
-    return (
-      <div>
-        <SplitPane split="vertical" minSize={50} maxSize='10%' defaultSize='40%' style={{ height: this.state.height - 50 }}>
+    if (this.state.width >= 600) {
+      return (
+        <div>
+          <SplitPane split="vertical" minSize={50} maxSize='10%' defaultSize='40%'
+                     style={{ height: this.state.height - 50 }}>
+            <div>
+              {!this.props.matchesView
+                ? <CodeComponent
+                  code={this.state.code}
+                  onChange={this.updateCode}
+                />
+                : this.props.matchesViewTable
+              }
+            </div>
+            <div>
+              <SplitPane split="horizontal" minSize={100} defaultSize={400}>
+                <div style={{width: "100%"}}>
+                  <div style={{ display: 'block', width: '100%', height: '100%'}}>
+                    {/*{this.state.logFile
+                      ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
+                      : <div>LOADING .. </div>
+                    }*/}
+                  </div>
+                </div>
+                <div>
+                  <CodeComponent
+                    showLineNumbers={false}
+                    code={this.props.compilationStatus}
+                    theme={'terminal'}
+                    highlightActiveLine={false}
+                  />
+                </div>
+              </SplitPane>
+            </div>
+          </SplitPane>
+          {!this.props.matchesView ?
+            <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/> : null}
+        </div>
+      );
+    }
+
+    else {
+      return (
+        <div>
           <div>
-            {!this.props.matchesView
+            {/*{!this.props.matchesView
               ? <CodeComponent
                 code={this.state.code}
                 onChange={this.updateCode}
               />
               : this.props.matchesViewTable
-            }
+            }*/}
           </div>
           <div>
-            <SplitPane split="horizontal" minSize={100} defaultSize={400}>
-              <div>
-                <div style={{display: 'block'}}>Render Component Goes Here</div>
-              </div>
-              <div>
-                <CodeComponent
-                  showLineNumbers={false}
-                  code={this.props.compilationStatus}
-                  theme={'terminal'}
-                  highlightActiveLine={false}
-                />
-              </div>
-            </SplitPane>
+            <div>
+              <div style={{ display: 'block' }}>Render Component Goes Here</div>
+            </div>
+            <div>
+              <CodeComponent
+                showLineNumbers={false}
+                code={this.props.compilationStatus}
+                theme={'terminal'}
+                highlightActiveLine={false}
+              />
+            </div>
           </div>
-        </SplitPane>
-        {!this.props.matchesView ? <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/>: null}
-      </div>
-    );
+          {!this.props.matchesView ?
+            <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/> : null}
+        </div>
+      );
+    }
   }
 }
