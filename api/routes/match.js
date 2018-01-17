@@ -5,7 +5,7 @@ const models = require("../models");
 
 router.get('/get_matches', (req, res) => {
   let userId = req.session.userId;
-  models.Match.findOne({
+  models.Match.find({
     where:{
       $or:[
         {
@@ -73,6 +73,7 @@ router.get('/compete/player', (req, res) => {
       })
         .then(code2 => {
           //execute code1.dll1, code2.dll2
+          res.json({success: true, message:'Dummy log'});
         })
         .catch(err => {
           res.json({success: false, message: "Internal server error!"});
@@ -104,6 +105,7 @@ router.get('/compete/ai', (req, res) => {
       })
         .then(code2 => {
           //execute code1.dll1, code2.dll2
+          res.json({success: true, message:'Dummy log'});
         })
         .catch(err => {
           res.json({success: false, message: "Internal server error!"});
