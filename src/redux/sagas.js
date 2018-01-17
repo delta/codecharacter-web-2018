@@ -2,42 +2,54 @@ import {
   call,
   put,
   takeEvery,
-}                                     from 'redux-saga/effects';
-import actionTypes                    from './action_types';
+}                                                from 'redux-saga/effects';
+import actionTypes                               from './action_types';
 import {
   updateUserLoginStatus,
   updateLeaderboard,
   updateMatchData,
   updateCompilationStatus,
-  updateLoginMessage
-}                                     from './actions';
+  updateLoginMessage,
+  updateCode,
+}                                                from './actions';
 import {
   userLogin,
   userRegister,
-  userLogout
-}                                     from './shellFetch/userFetch';
+  userLogout,
+  userLoginStatus,
+}                                                from '../shellFetch/userFetch';
 import {
   leaderboardGetPlayers,
-  leaderboardStartChallenge
-}                                     from './shellFetch/leaderBoardFetch';
+  leaderboardStartChallenge,
+}                                                from '../shellFetch/leaderBoardFetch';
 import {
   codeSubmit,
-  codeLock
-}                                     from './shellFetch/codeFetch';
+  codeLock,
+  codeFetch,
+}                                                from '../shellFetch/codeFetch';
 
 function* userLoginSaga (action) {
   try {
-    console.log(action);
     let query = {
       emailId: action.username,
-      password: action.password
+      password: action.password,
     };
     let response = yield call(userLogin,{req: null, query: query});
-    console.log(response);
     yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
     yield put(updateLoginMessage({loginMessage: response.message}));
   }
   catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* userLoginStatusSaga (action) {
+  try {
+    let response = yield call(userLoginStatus,{req: null, query: null});
+    yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
+  }
+  catch(err) {
     console.log(err);
     throw err;
   }
@@ -48,11 +60,10 @@ function* userSignupSaga(action) {
     let query = {
       emailId: action.emailId,
       username: action.username,
-      password: action.password
+      password: action.password,
     };
-    const response = yield call(userRegister,{req: null, query: query});
+    yield call(userRegister,{req: null, query: query});
     yield put(updateUserLoginStatus({username: action.username, loginStatus: true}));
-    console.log(response);
   }
   catch (err) {
     console.log(err);
@@ -62,9 +73,7 @@ function* userSignupSaga(action) {
 
 function* userLogoutSaga(action) {
   try {
-    console.log(action);
-    const response = yield call(userLogout);
-    console.log(response);
+    yield call(userLogout);
     yield put(updateUserLoginStatus({username: action.username, loginStatus: false}));
   }
   catch (err) {
@@ -73,11 +82,10 @@ function* userLogoutSaga(action) {
   }
 }
 
-function* leaderboardGetPlayersSaga(action) {
+function* leaderboardGetPlayersSaga() {
   try {
     const response = yield call(leaderboardGetPlayers, {req: null, query: null});
     yield put(updateLeaderboard(response));
-    console.log(response);
   }
   catch(err) {
     console.log(err);
@@ -89,11 +97,10 @@ function* leaderBoardStartChallengeSaga(action) {
   try {
     let query = {
       username: action.username,
-      opponent: action.opponent
+      opponent: action.opponent,
     };
     const response = yield call(leaderboardStartChallenge,{req: null, query: query});
     yield put(updateMatchData(response));
-    console.log(response);
   }
   catch(err) {
     console.log(err);
@@ -104,12 +111,22 @@ function* leaderBoardStartChallengeSaga(action) {
 function* codeSubmitSaga(action) {
   try {
     let query = {
-      source: action.code
+      source: action.code,
     };
+    yield put(updateCode(action.code));
     const response = yield call(codeSubmit,{req: null, query: query});
-    console.log(response);
-    yield put(updateCompilationStatus(response));
-    console.log(response);
+    yield put(updateCompilationStatus(response.message));
+  }
+  catch(err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* codeFetchSaga() {
+  try {
+    const response = yield call(codeFetch,{req: null, query: null});
+    yield put(updateCode(response.source));
   }
   catch(err) {
     console.log(err);
@@ -120,11 +137,9 @@ function* codeSubmitSaga(action) {
 function* codeLockSaga(action) {
   try {
     let query = {
-      username: action.username,
+      source: action.code,
     };
-    const response = yield call(codeLock,{req: null, query: query});
-    yield put(updateMatchData(response));
-    console.log(response);
+    yield call(codeLock,{req: null, query: query});
   }
   catch(err) {
     console.log(err);
@@ -134,10 +149,12 @@ function* codeLockSaga(action) {
 
 export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.USER_AUTHENTICATE, userLoginSaga);
+  yield takeEvery(actionTypes.USER_AUTHENTICATE_CHECK, userLoginStatusSaga);
   yield takeEvery(actionTypes.USER_LOGOUT, userLogoutSaga);
   yield takeEvery(actionTypes.USER_SIGNUP, userSignupSaga);
   yield takeEvery(actionTypes.FETCH_LEADERBOARD_DATA, leaderboardGetPlayersSaga);
   yield takeEvery(actionTypes.START_CHALLENGE, leaderboardStartChallenge);
   yield takeEvery(actionTypes.RUN_CODE, codeSubmitSaga);
   yield takeEvery(actionTypes.LOCK_CODE, codeLockSaga);
+  yield takeEvery(actionTypes.FETCH_CODE, codeFetchSaga);
 }

@@ -5,13 +5,21 @@ import SignUpContainer        from '../containers/SignUpContainer';
 import DashboardContainer     from '../containers/DashboardContainer';
 import LeaderBoardContainer   from '../containers/LeaderBoardContainer';
 import MatchViewContainer     from '../containers/MatchesViewContainer';
+import ProfileContainer       from '../containers/ProfileContainer';
+import NavbarContainer        from '../containers/NavbarContainer';
+import RulesComponent from '../components/RulesComponent';
 
 export const RouteList = () => (
-		<Switch>
-			<Route exact path='/dashboard' component={DashboardContainer} />
+  <div>
+    <NavbarContainer/>
+    <Switch>
+      <Route exact path='/profile' component={ProfileContainer}/>
+      <Route exact path='/dashboard' component={DashboardContainer}/>
       <Route exact path='/login' component={LoginContainer} />
       <Route exact path='/signup' component={SignUpContainer} />
       <Route exact path='/leaderboard' component={LeaderBoardContainer} />
       <Route exact path='/matches' component={MatchViewContainer}/>
-		</Switch>
+      <Route exact path='/rules' component={RulesComponent}/>
+    </Switch>
+  </div>
 );

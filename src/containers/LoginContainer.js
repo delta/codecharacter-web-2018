@@ -1,24 +1,24 @@
-import React                          from 'react';
-import { connect }                    from 'react-redux';
-import { Redirect }                   from 'react-router';
-import LoginComponent                 from '../components/LoginComponent';
+import { connect }                             from 'react-redux';
+import LoginComponent                          from '../components/LoginComponent';
 import {
   userAuthenticate,
-  userLogout
-}                                     from '../actions';
+  userAuthenticateCheck,
+  userLogout,
+}                                              from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
     loginStatus: state.loginStatus,
     username: state.username,
-    loginMessage: state.loginMessage
+    loginMessage: state.loginMessage,
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     authenticate: (username, password) => {dispatch(userAuthenticate(username, password));},
-    logout: () => {dispatch(userLogout());}
+    authenticateCheck: (username) => {dispatch(userAuthenticateCheck(username));},
+    logout: () => {dispatch(userLogout());},
   }
 };
 

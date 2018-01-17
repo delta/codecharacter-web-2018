@@ -1,10 +1,10 @@
-import React                          from 'react';
-import PropTypes                      from 'prop-types';
-import NavbarComponent                from './NavbarComponent';
-import CodeComponent                  from './CodeComponent.js';
-import SplitPane                      from 'react-split-pane';
-import SubmitButtons                  from './SubmitButtons';
-import { Redirect }                   from 'react-router';
+import React                                      from 'react';
+import PropTypes                                  from 'prop-types';
+import SplitPane                                  from 'react-split-pane';
+import { Redirect }                               from 'react-router-dom'
+import CodeComponent                              from './CodeComponent';
+import SubmitButtons                              from './SubmitButtons';
+// import CodeCharacterRenderer                      from 'codecharacter-renderer';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -16,6 +16,7 @@ export default class DashboardComponent extends React.Component {
     matchesViewTable: PropTypes.element,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
+    fetchCode: PropTypes.func,
     logout: PropTypes.func
   };
 
@@ -27,23 +28,40 @@ export default class DashboardComponent extends React.Component {
     matchesView: false,
     matchesViewTable: null,
     runCode: () => {},
-    lockCode: () => {}
+    lockCode: () => {},
+    fetchCode: () => {},
+    logout: () => {}
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      code: props.code
+      code: props.code,
+      height: window.innerHeight
     };
+    /*fetch('game.log').then((response) => {
+      response.arrayBuffer().then((buffer) => {
+        let logFile = new Uint8Array(buffer);
+        this.setState({logFile: logFile});
+      });
+    });*/
   };
 
-  runCode = () => {
-    this.props.runCode(this.props.username, this.state.code);
-  };
+  componentWillMount() {
+    this.props.fetchCode();
+  }
 
-  lockCode = () => {
-    this.props.lockCode(this.props.username);
-  };
+  componentDidMount() {
+    this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight})});
+  }
+
+  componentWillUnmount() {
+    this.windowResizeListener.remove();
+  }
+
+  runCode = () => { this.props.runCode(this.state.code); };
+
+  lockCode = () => { this.props.lockCode(this.state.code); };
 
   updateCode = (code) => {
     this.setState({
@@ -52,10 +70,13 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
+    if (!this.props.loginStatus) {
+      return <Redirect to='/login'/>
+    }
+
     return (
       <div>
-        <NavbarComponent onLogout={() => this.props.logout()}/>
-        <SplitPane split="vertical" minSize={100} maxSize={600} defaultSize={600} style={{height: window.innerHeight - 50 }}>
+        <SplitPane split="vertical" minSize={50} maxSize='10%' defaultSize='40%' style={{ height: this.state.height - 50 }}>
           <div>
             {!this.props.matchesView
               ? <CodeComponent
@@ -66,11 +87,11 @@ export default class DashboardComponent extends React.Component {
             }
           </div>
           <div>
-            <SplitPane split="horizontal" minSize={400} defaultSize={400}>
+            <SplitPane split="horizontal" minSize={100} defaultSize={400}>
               <div>
                 <div style={{display: 'block'}}>Render Component Goes Here</div>
               </div>
-              <div style={{backgroundColor: 'black'}}>
+              <div>
                 <CodeComponent
                   showLineNumbers={false}
                   code={this.props.compilationStatus}
@@ -81,10 +102,8 @@ export default class DashboardComponent extends React.Component {
             </SplitPane>
           </div>
         </SplitPane>
-        {!this.props.matchesView ? <SubmitButtons runCode={this.runCode} lockCode={this.lockCode}/>: null}
-        {!this.props.loginStatus ? <Redirect to="/login" /> : null}
+        {!this.props.matchesView ? <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/>: null}
       </div>
     );
   }
 }
-

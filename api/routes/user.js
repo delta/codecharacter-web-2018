@@ -9,7 +9,7 @@ const models = require("../models");
 
 // GET handlers
 router.get("/login", (req, res) => {
-	if (req.session.isLoggedIn) {
+  if (req.session.isLoggedIn) {
 		//return res.redirect("/");
 		return res.json({success: true});
 	}else{
@@ -73,7 +73,6 @@ router.post("/login", (req, res) => {
 			if(bcrypt.compareSync(password, user.dataValues.password)){
 				req.session.isLoggedIn = true;
 				req.session.userId = user.id;
-				console.log(req.session);
 				return res.json({success:true, message:"Logged in!"});
 			}else{
 				return res.json({success:false, message:"Wrong Password!"});

@@ -1,16 +1,15 @@
-import { connect }        from 'react-redux';
-import MatchViewComponent from '../components/MatchesViewComponent';
+import { connect }                             from 'react-redux';
+import MatchViewComponent                      from '../components/MatchesViewComponent';
 
 const mapStateToProps = state => {
   return {
-    // matches: state.matchesData
+    matches: state.matchesData,
+    loginStatus: state.loginStatus,
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-
-  }
+  return null;
 };
 
 const MatchesViewContainer = connect(

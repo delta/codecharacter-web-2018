@@ -1,17 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React                                      from 'react';
+import PropTypes                                  from 'prop-types';
 import {
   Table
-}             from 'react-bootstrap';
-import DashboardComponent from './DashboardComponent';
+}                                                 from 'react-bootstrap';
+import DashboardComponent                         from './DashboardComponent';
 
 export default class MatchesViewComponent extends React.Component {
   static propTypes = {
-    matchesData: PropTypes.arrayOf(PropTypes.object)
+    matchesData: PropTypes.arrayOf(PropTypes.object),
+    loginStatus: PropTypes.bool
   };
 
   static defaultProps = {
-    matchesData: [{opponent: '106116053', gameStatus: 'Finished', result: 'Draw'},{opponent: '106116049', gameStatus: 'Finished', result: 'You Won'},{opponent: '106116066', gameStatus: 'Not Finished', result: 'Yet to be decided'}]
+    matchesData: [
+      {opponent: '106116053', gameStatus: 'Finished', result: 'Draw'},
+      {opponent: '106116049', gameStatus: 'Finished', result: 'You Won'},
+      {opponent: '106116066', gameStatus: 'Not Finished', result: 'Yet to be decided'}
+    ],
+    loginStatus: false
   };
 
   render() {
@@ -39,8 +45,6 @@ export default class MatchesViewComponent extends React.Component {
         </tbody>
       </Table>
     );
-    return (
-      <DashboardComponent matchesViewTable={table} matchesView={true}/>
-    );
+    return <DashboardComponent matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus}/>
   }
 }

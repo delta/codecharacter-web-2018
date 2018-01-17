@@ -1,10 +1,11 @@
-import React                          from 'react';
-import AceEditor                      from 'react-ace';
-import PropTypes                      from 'prop-types';
+import React                                      from 'react';
+import AceEditor                                  from 'react-ace';
+import PropTypes                                  from 'prop-types';
 import 'brace/mode/c_cpp';
 import 'brace/theme/xcode';
 import 'brace/theme/monokai';
 import 'brace/theme/terminal';
+import 'brace/ext/language_tools';
 
 export default class CodeComponent extends React.Component {
   static propTypes = {
@@ -39,6 +40,9 @@ export default class CodeComponent extends React.Component {
         showPrintMargin={false}
         showGutter={true}
         highlightActiveLine={this.props.highlightActiveLine}
+        editorProps={{
+          $blockScrolling: Infinity
+        }}
         setOptions={{
           enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,

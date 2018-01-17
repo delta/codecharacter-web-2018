@@ -15,7 +15,7 @@ const secretString = require("./config/serverConfig").cookieKey;
 app.use(session({
 	"secret": secretString,
 	"cookie": {
-		"maxAge": 186000000,
+	  "maxAge": 186000000,
 	},
 	"path": "/",
 }));

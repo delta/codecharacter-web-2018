@@ -6,6 +6,11 @@ export const userAuthenticate = (username, password) => ({
   password
 });
 
+export const userAuthenticateCheck = (username) => ({
+  type: actionTypes.USER_AUTHENTICATE_CHECK,
+  username
+});
+
 export const userSignup = (emailId, username, password) => ({
   type: actionTypes.USER_SIGNUP,
   emailId,
@@ -47,15 +52,28 @@ export const updateMatchData = (data) => ({
   data
 });
 
-export const runCode = (username, code) => ({
+export const runCode = (code) => ({
   type: actionTypes.RUN_CODE,
-  username,
   code
 });
 
 export const lockCode = (code) => ({
   type: actionTypes.LOCK_CODE,
   code
+});
+
+export const fetchCode = (code) => ({
+  type: actionTypes.FETCH_CODE,
+});
+
+export const updateCode = (code) => ({
+  type: actionTypes.UPDATE_CODE,
+  code
+});
+
+export const getProfileData = (username) => ({
+  type: actionTypes.UPDATE_CODE,
+  username
 });
 
 export const updateCompilationStatus = (data) => ({

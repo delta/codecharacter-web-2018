@@ -1,7 +1,7 @@
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'http://localhost:3001/code';
 
 export const codeSubmit = ({req , query}) => {
-  return fetch(API_BASE_URL + '/',{
+  return fetch(API_BASE_URL + '',{
     method: "POST",
     credentials: 'include',
     headers: {
@@ -9,8 +9,7 @@ export const codeSubmit = ({req , query}) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: query.username,
-      code: query.code
+      source: query.source
     })
   })
     .then((response) => {
@@ -26,16 +25,13 @@ export const codeSubmit = ({req , query}) => {
 };
 
 export const codeFetch = ({req , query}) => {
-  return fetch(API_BASE_URL + '/',{
+  return fetch(API_BASE_URL + '',{
     method: "GET",
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      username: query.username,
-    })
   })
     .then((response) => {
       return response.json();
@@ -50,7 +46,7 @@ export const codeFetch = ({req , query}) => {
 };
 
 export const codeLock = ({req , query}) => {
-  return fetch(API_BASE_URL + '/code/lock',{
+  return fetch(API_BASE_URL + '/save',{
     method: "POST",
     credentials: 'include',
     headers: {
@@ -58,7 +54,7 @@ export const codeLock = ({req , query}) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: query.username,
+      source: query.source
     })
   })
     .then((response) => {
@@ -72,3 +68,4 @@ export const codeLock = ({req , query}) => {
       throw error;
     });
 };
+
