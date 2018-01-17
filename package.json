@@ -39,8 +39,9 @@
     "react-split-pane": "^0.1.74",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "sequelize": "^4.29.0",
-    "sequelize-cli": "^3.0.0",
+    "request": "^2.83.0",
+    "sequelize": "^4.31.2",
+    "sequelize-cli": "^3.2.0",
     "static-favicon": "~1.0.0",
     "typeface-roboto": "0.0.45"
   },

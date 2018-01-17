@@ -4,6 +4,7 @@ const router = express.Router();
 const user = require("./user");
 const protectedRoutes = require("./userProtected");
 const code = require("./code");
+const match = require("./match");
 const leaderboard = require("./leaderboard");
 const authenticateMiddleware = require("../middlewares/authenticate");
 /* GET home page. */
@@ -15,4 +16,5 @@ router.use(authenticateMiddleware.authenticate);
 router.use("/user_protected", protectedRoutes);
 router.use("/code", code);
 router.use("/leaderboard", leaderboard);
+router.use("/match", match);
 module.exports = router;

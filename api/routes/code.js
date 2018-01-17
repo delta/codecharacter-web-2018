@@ -2,21 +2,42 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+const request = require("request");
+const queueCompile = require('../utils/queueCompile');
+console.log(queueCompile.getQueueSize());
 /* GET home page. */
 router.post("/", function(req, res) {
 	const source = req.body.source;
 	if(!source){
 		return res.json({success:false, message:"Pass proper params!"});
 	}
-	models.Code.create({
+	//update if already
+	models.Code.upsert({
 		user_id: req.session.userId,
-		source: source
+		source: source,
+		dll1:'',
+		dll2:'',
+		status:'compiling'
+	},{
+		where:{
+			user_id: req.session.userId,
+		}
 	})
 		.then((code)=>{
+			//here compile code and save as dlls in code
+			//just push the code and userID to the queue
+			let success = queueCompile.pushToQueue(req.session.userId, source);
+			console.log(success);
+			if(!success){
+				return res.json({success: false, message: "Please try again later!"});
+			}
 			if(!code){
-				return res.json({success:"false", message:"Internal server error!"});
+				return res.json({success:true, message:"Updated!"});
 			}
 			return res.json({success:true, message:"Code saved!"});
+		})
+		.catch(err => {
+			res.json({success: false, err: err});
 		});
 });
 router.get("/", (req, res)=>{
@@ -27,7 +48,13 @@ router.get("/", (req, res)=>{
 			if(!code){
 				return res.json({success:false, message:"Oops, this user has no code saved!"});
 			}
-			return res.json({success:true, source:code.dataValues.source});
+			if(code.dataValues.status === 'compiling'){
+				return res.json({success:true, source:code.dataValues.source, status:'compiling'});
+			}else if(code.dataValues.status === 'success'){
+				//add these , dll1: code.dataValues.dll1, dll2: code.dataValues.dll2
+				console.log({dll1: code.dataValues.dll1, dll2: code.dataValues.dll2});
+				return res.json({success:true, source:code.dataValues.source, status: 'Success'});
+			}
 		});
 });
 router.post("/save", (req, res)=>{
@@ -48,3 +75,4 @@ router.post("/save", (req, res)=>{
 		});
 });
 module.exports = router;
+

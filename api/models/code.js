@@ -7,7 +7,9 @@ module.exports = (sequelize, DataTypes) => {
 			primaryKey: true
 		},
 		user_id: {
-			type:DataTypes.INTEGER,
+			type: DataTypes.UUID,
+	    allowNull: false,
+	    unique: true,
 			references: {
 				model: User,
 				key: "id",
@@ -15,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		source: DataTypes.STRING,
 		dll1: DataTypes.STRING,
-		dll2: DataTypes.STRING
+		dll2: DataTypes.STRING,
+		status: DataTypes.STRING
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {
