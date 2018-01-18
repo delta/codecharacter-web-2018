@@ -7,15 +7,13 @@ const queueCompile = require('../utils/queueCompile');
 /* GET home page. */
 router.post("/", function(req, res) {
 	const source = req.body.source;
+	const userId = Number(req.session.userId);
+	console.log(userId);
 	if(!source){
 		return res.json({success:false, message:"Pass proper params!"});
 	}
-	//update if already
-	models.Code.upsert({
-		user_id: req.session.userId,
-		source: source,
-		status:'compiling'
-	},{
+	//update if already 
+	models.Code.findOne({
 		where:{
 			user_id: req.session.userId,
 		} 
@@ -23,7 +21,55 @@ router.post("/", function(req, res) {
 		.then((code)=>{
 			//here compile code and save as dlls in code
 			//just push the code and userID to the queue
-			let success = queueCompile.pushToQueue(req.session.userId, source);
+			if(!code){
+				//create
+				models.Code.create({
+					source,
+					user_id: userId,
+					status: 'compiling'
+				})
+					.then(code => {
+						let success = queueCompile.pushToQueue(req.session.userId, source);
+						console.log(success);
+						if(!success){
+							return res.json({success: false, message: "Please try again later!"});
+						}
+						return res.json({success:true, message:"Code saved!", userId});
+					})
+					.catch(err => {
+						res.json({success: false, message: 'Please try later!'});
+					})
+			}else{
+				//update
+				models.Code.update({
+					source,
+					status: 'compiling'
+				},{
+					where: {
+						user_id: userId
+					}
+				})
+					.then(code => {
+						let success = queueCompile.pushToQueue(req.session.userId, source);
+						console.log(success);
+						if(!success){
+							return res.json({success: false, message: "Please try again later!"});
+						}
+						return res.json({success:true, message:"Code saved!", userId});
+						//res.json({success: true, message:'Code compiling!', user_id: userId});
+					})
+					.catch(err => {
+						res.json({success: false, message: 'Please try later!'});
+					})
+			}
+		})
+		.catch(err => {
+			console.log(err);
+			res.json({success: false, err: err});
+		});
+});
+/*
+let success = queueCompile.pushToQueue(req.session.userId, source);
 			console.log(success);
 			if(!success){
 				return res.json({success: false, message: "Please try again later!"});
@@ -32,11 +78,7 @@ router.post("/", function(req, res) {
 				return res.json({success:true, message:"Updated!"});
 			}
 			return res.json({success:true, message:"Code saved!"});
-		})
-		.catch(err => {
-			res.json({success: false, err: err});
-		});
-});
+*/
 router.get("/", (req, res)=>{
 	models.Code.findOne({
 		where: {user_id: req.session.userId}

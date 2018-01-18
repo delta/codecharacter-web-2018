@@ -54,6 +54,7 @@ setInterval(() => {
 				requestUnderway = false;
 				executeQueue.shift();
 				//console.log(body);   
+				console.log(matchId);
 				if(err) throw err;
 				if(!body.success){
 					models.Match.update({

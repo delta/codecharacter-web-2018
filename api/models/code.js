@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 				key: "id",
 			}
 		},
-		source: DataTypes.STRING,
+		source: DataTypes.TEXT,
 		dll1: DataTypes.TEXT,
 		dll2: DataTypes.TEXT ,
 		status: DataTypes.STRING,

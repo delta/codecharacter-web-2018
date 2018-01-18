@@ -18,7 +18,7 @@ module.exports = {
 				}
 			},
 			source: {
-				type: Sequelize.STRING
+				type: Sequelize.TEXT
 			},
 			dll1: {
 				type: Sequelize.TEXT
