@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
 			}
 		},
 		status: DataTypes.STRING,
-		log: DataTypes.STRING,
+		log: DataTypes.TEXT,
 		error_log: DataTypes.TEXT
 	}, {
 		classMethods: {

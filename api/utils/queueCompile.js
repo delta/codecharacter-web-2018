@@ -1,4 +1,4 @@
-let compileQueueSize = 2;
+let compileQueueSize = 100;
 let compileQueue = [];
 const models = require("../models");
 const request = require("request");

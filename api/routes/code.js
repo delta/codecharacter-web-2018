@@ -52,7 +52,10 @@ router.get("/", (req, res)=>{
 				console.log({dll1: code.dataValues.dll1, dll2: code.dataValues.dll2});
 				return res.json({success:true, source:code.dataValues.source, status: 'Success'});
 			}
-		});
+		})
+		.catch(err => {
+			res.json({success: false, message: 'Internal server error'});
+		})
 });
 router.post("/save", (req, res)=>{
 	const source = req.body.source;
