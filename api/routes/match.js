@@ -87,6 +87,7 @@ router.get('/compete/player', (req, res) => {
   //execute them and send back
 });
 router.get('/compete/ai', (req, res) => {
+  //ALWAYS COMPILE AND RUN
   let userId = req.session.userId;
   let aiId = req.body.aiId;
   //get 2 dlls

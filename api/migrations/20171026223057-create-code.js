@@ -21,10 +21,10 @@ module.exports = {
 				type: Sequelize.STRING
 			},
 			dll1: {
-				type: Sequelize.STRING
+				type: Sequelize.TEXT
 			},
 			dll2: {
-				type: Sequelize.STRING
+				type: Sequelize.TEXT
 			},
 			createdAt: {
 				allowNull: false,

@@ -1,8 +1,8 @@
-let compileQueueSize = 1;
+let compileQueueSize = 2;
 let compileQueue = [];
 const models = require("../models");
 const request = require("request");
-
+let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
 let pushToQueue = (userId, code) => {
 	console.log(compileQueueSize, compileQueue.length, compileQueue);
@@ -37,38 +37,63 @@ module.exports = {
 
 //write watcher for compileQueue
 setInterval(() => {
+	if(requestUnderway){
+		return;
+	}
 	if(getQueueSize()){
 		let codeToBeCompiled = compileQueue[0];
 		console.log(codeToBeCompiled);
-		request
-			.post({
+		requestUnderway = true;
+		request(
+			{
+				method:'POST', 
 				url: 'http://localhost:3000/compile',
 				json: true,
 				body: {...codeToBeCompiled, secretString}
-			})
-			.on('response', (response) => {
-				let codeDetails = compileQueue.shift();
-						console.log(response.headers); 
+			}, (err, response, body) =>{
+				requestUnderway = false;
+				compileQueue.shift();
+				let userId = response.headers['user_id'];
+				//console.log(err, body);
+				//console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
+				if(!response.body.success){
+					return models.Code.update({
+								error_log: response.body.error,
+								status:'error'
+							},{
+								where:{
+									user_id:Number(userId) 
+								}
+							}
+						)
+							.then(code => {
+								console.log(code);
+								console.log("Compilation Error!"); 
+							})
+							.catch(err => {
+								console.log(err);
+							})
+				}
 				models.Code.update({
-					status:'success',
-					dll1: response.body
-				},
-				{
-					where:{
-						user_id: Number(response.headers['user_id'])
+						dll1: response.body.dll1Encoded,
+						dll2: response.body.dll2Encoded,
+						error_log:'',
+						status:'success'
+					},{
+						where:{
+							user_id:Number(userId) 
+						}
 					}
-				})
-					.then((code) => {
-						//do something
-						return; 
+				)
+					.then(code => {
+						console.log(code);
+						console.log("successfully compiled!"); 
 					})
-					.catch((err) => {
+					.catch(err => {
 						console.log(err);
-					});
-			})   
-			.on('error', (err) => {
-				console.log(err);
-			})
+					})
+
+			});
 		//api call and pop() when necessary
 	}
 }, 300);
