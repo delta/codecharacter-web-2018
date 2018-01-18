@@ -47,13 +47,18 @@ export const startChallenge = (username, opponent) => ({
   opponent
 });
 
-export const updateMatchData = (data) => ({
-  type: actionTypes.UPDATE_MATCH_DATA,
+export const updateMatchAllData = (data) => ({
+  type: actionTypes.UPDATE_MATCH_ALL_DATA,
   data
 });
 
-export const fetchMatchData = () => ({
-  type: actionTypes.FETCH_MATCH_DATA,
+export const fetchMatchAllData = () => ({
+  type: actionTypes.FETCH_MATCH_ALL_DATA,
+});
+
+export const getMatchData = (matchId) => ({
+  type: actionTypes.GET_MATCH_DATA,
+  matchId
 });
 
 export const runCode = (code) => ({

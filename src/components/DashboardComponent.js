@@ -40,19 +40,21 @@ export default class DashboardComponent extends React.Component {
       height: window.innerHeight,
       width: window.innerWidth
     };
-    fetch('game.log').then((response) => {
+
+    /*fetch('game.log').then((response) => {
       response.arrayBuffer().then((buffer) => {
         let logFile = new Uint8Array(buffer);
         this.setState({logFile: logFile});
       });
-    });
-  };
+    });*/
 
-  componentWillMount() {
-    this.props.fetchCode();
   }
 
   componentDidMount() {
+    this.props.fetchCode();
+    if(!this.props.loginStatus) {
+      this.props.history.push('/login');
+    }
     this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight, width: window.innerWidth})});
   }
 
@@ -60,6 +62,15 @@ export default class DashboardComponent extends React.Component {
     window.removeEventListener('resize', this.windowResizeListener);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.loginStatus) {
+      this.props.history.push('/login');
+    }
+  }
+
+  getCompilationStatus() {
+    // this.props.fetchDashboardStatus();
+  }
   runCode = () => { this.props.runCode(this.state.code); };
 
   lockCode = () => { this.props.lockCode(this.state.code); };
@@ -71,10 +82,6 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
-    if (!this.props.loginStatus) {
-      return <Redirect to='/login'/>
-    }
-
     if (this.state.width >= 600) {
       return (
         <div>
@@ -84,7 +91,7 @@ export default class DashboardComponent extends React.Component {
               {!this.props.matchesView
                 ? <CodeComponent
                   code={this.state.code}
-                  onChange={this.updateCode}
+                  onChange={() => this.updateCode()}
                 />
                 : this.props.matchesViewTable
               }
@@ -120,13 +127,13 @@ export default class DashboardComponent extends React.Component {
       return (
         <div>
           <div>
-            {/*{!this.props.matchesView
+            {!this.props.matchesView
               ? <CodeComponent
                 code={this.state.code}
                 onChange={this.updateCode}
               />
               : this.props.matchesViewTable
-            }*/}
+            }
           </div>
           <div>
             <div>

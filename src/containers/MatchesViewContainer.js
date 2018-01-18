@@ -1,18 +1,20 @@
 import { connect }                             from 'react-redux';
 import MatchViewComponent                      from '../components/MatchesViewComponent';
 import { matchFetchAll } from '../shellFetch/matchFetch';
-import { fetchMatchData } from '../redux/actions';
+import { fetchMatchAllData, getMatchData } from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
-    matches: state.matchesData,
+    matchesData: state.matchesData,
     loginStatus: state.loginStatus,
+    compilationStatus: state.compilationStatus
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchMatchData: () => {dispatch(fetchMatchData());}
+    fetchMatchData: () => {dispatch(fetchMatchAllData());},
+    getMatchData: (matchId) => {dispatch(getMatchData(matchId));}
   };
 };
 

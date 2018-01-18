@@ -41,6 +41,7 @@ router.post("/", function(req, res) {
 		});
 });
 router.get("/", (req, res)=>{
+  console.log(req.session.userId);
 	models.Code.findOne({
 		where: {user_id: req.session.userId}
 	})

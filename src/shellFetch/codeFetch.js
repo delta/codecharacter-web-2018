@@ -25,7 +25,7 @@ export const codeSubmit = ({req , query}) => {
 };
 
 export const codeFetch = ({req , query}) => {
-  return fetch(API_BASE_URL + '',{
+  return fetch(API_BASE_URL + '/',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -37,6 +37,7 @@ export const codeFetch = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((error) => {

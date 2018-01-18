@@ -9,20 +9,22 @@ export default class MatchesViewComponent extends React.Component {
   static propTypes = {
     matchesData: PropTypes.arrayOf(PropTypes.object),
     loginStatus: PropTypes.bool,
-    fetchMatchData: PropTypes.func
+    fetchMatchData: PropTypes.func,
+    getMatchData: PropTypes.func,
   };
 
   static defaultProps = {
     matchesData: [
-      {opponent: '106116053', gameStatus: 'Finished', result: 'Draw'},
-      {opponent: '106116049', gameStatus: 'Finished', result: 'You Won'},
-      {opponent: '106116066', gameStatus: 'Not Finished', result: 'Yet to be decided'}
+      {player_id1: '106116053', player_id2: 'Finished', status: 'Draw'},
+      {player_id1: '106116049', player_id2: 'Finished', status: 'You Won'},
+      {player_id1: '106116066', player_id2: 'Not Finished', status: 'Yet to be decided'}
     ],
     loginStatus: false,
-    fetchMatchData: () => {}
+    fetchMatchData: () => {},
+    getMatchData: () => {}
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchMatchData();
   }
 
@@ -30,10 +32,10 @@ export default class MatchesViewComponent extends React.Component {
     console.log(this.props.matchesData);
     let matchDataColumns = (this.props.matchesData).map((data,index) => {
       return (
-          <tr key={index} align='center'>
-            <td>{data.opponent}</td>
-            <td>{data.gameStatus}</td>
-            <td>{data.result}</td>
+          <tr key={index} align='center' onClick={() => {console.log(data); this.props.getMatchData(data.id);}}>
+            <td>{data.player_id1}</td>
+            <td>{data.player_id2}</td>
+            <td>{data.status}</td>
           </tr>
       );
     });
@@ -41,9 +43,9 @@ export default class MatchesViewComponent extends React.Component {
     let table = (
       <Table striped bordered condensed hover responsive className='table-success'>
         <thead>
-        <tr align='center' >
-          <th>Opponent</th>
-          <th>Game Status</th>
+        <tr align='center'>
+          <th>Player 1</th>
+          <th>Player 2</th>
           <th>Result</th>
         </tr>
         </thead>
@@ -52,6 +54,6 @@ export default class MatchesViewComponent extends React.Component {
         </tbody>
       </Table>
     );
-    return <DashboardComponent matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus}/>
+    return <DashboardComponent compilationStatus={this.props.compilationStatus} matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus}/>
   }
 }

@@ -21,18 +21,14 @@ export const matchFetchAll = ({req , query}) => {
     });
 };
 
-export const matchFetchDetails = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/match',{
+export const matchFetchData = ({req , query}) => {
+  return fetch(API_BASE_URL + 'match/' + query.matchId,{
     method: "GET",
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: query.username,
-      matchId: query.matchId,
-    })
+    }
   })
     .then((response) => {
       return response.json();

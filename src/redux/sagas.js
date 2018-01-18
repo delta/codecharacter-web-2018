@@ -7,7 +7,7 @@ import actionTypes                               from './action_types';
 import {
   updateUserLoginStatus,
   updateLeaderboard,
-  updateMatchData,
+  updateMatchAllData,
   updateCompilationStatus,
   updateLoginMessage,
   updateCode,
@@ -28,8 +28,8 @@ import {
   codeFetch,
 }                                                from '../shellFetch/codeFetch';
 import {
-  matchFetchAll
-}                                                from '../shellFetch/matchFetch';
+  matchFetchAll, matchFetchData
+} from '../shellFetch/matchFetch';
 
 function* userLoginSaga (action) {
   try {
@@ -103,7 +103,7 @@ function* leaderBoardStartChallengeSaga(action) {
       opponent: action.opponent,
     };
     const response = yield call(leaderboardStartChallenge,{req: null, query: query});
-    yield put(updateMatchData(response));
+    yield put(updateMatchAllData(response));
   }
   catch(err) {
     console.log(err);
@@ -129,6 +129,7 @@ function* codeSubmitSaga(action) {
 function* codeFetchSaga() {
   try {
     const response = yield call(codeFetch,{req: null, query: null});
+    console.log(response);
     yield put(updateCode(response.source));
   }
   catch(err) {
@@ -137,11 +138,28 @@ function* codeFetchSaga() {
   }
 }
 
-function* matchFetchSaga() {
+function* matchFetchAllSaga() {
   try {
     const response = yield call(matchFetchAll,{req: null, query: null});
-    console.log(response);
-    yield put(updateMatchData(response));
+    console.log(response, "Hello");
+    yield put(updateMatchAllData(response.matches));
+  }
+  catch(err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* matchFetchDataSaga(action) {
+  try {
+
+    let query = {
+      matchId: action.matchId,
+    };
+    console.log(action);
+    const response = yield call(matchFetchData,{req: null, query: query});
+    console.log(response, "Inga");
+    yield put(updateCompilationStatus(response.status));
   }
   catch(err) {
     console.log(err);
@@ -172,5 +190,6 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.RUN_CODE, codeSubmitSaga);
   yield takeEvery(actionTypes.LOCK_CODE, codeLockSaga);
   yield takeEvery(actionTypes.FETCH_CODE, codeFetchSaga);
-  yield takeEvery(actionTypes.FETCH_MATCH_DATA, matchFetchSaga);
+  yield takeEvery(actionTypes.FETCH_MATCH_ALL_DATA, matchFetchAllSaga);
+  yield takeEvery(actionTypes.GET_MATCH_DATA, matchFetchDataSaga);
 }
