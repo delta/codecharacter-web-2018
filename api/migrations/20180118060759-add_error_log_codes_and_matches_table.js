@@ -2,9 +2,8 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.addColumn('Matches', 'log', Sequelize.TEXT, {
-        first: true
-    });
+    queryInterface.addColumn('Codes', 'error_log', Sequelize.TEXT);
+    queryInterface.addColumn('Matches', 'error_log', Sequelize.TEXT);
     /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.

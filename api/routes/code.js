@@ -4,7 +4,6 @@ const router = express.Router();
 const models = require("../models");
 const request = require("request");
 const queueCompile = require('../utils/queueCompile');
-console.log(queueCompile.getQueueSize());
 /* GET home page. */
 router.post("/", function(req, res) {
 	const source = req.body.source;
@@ -15,14 +14,12 @@ router.post("/", function(req, res) {
 	models.Code.upsert({
 		user_id: req.session.userId,
 		source: source,
-		dll1:'',
-		dll2:'',
 		status:'compiling'
 	},{
 		where:{
 			user_id: req.session.userId,
-		}
-	})
+		} 
+	}) 
 		.then((code)=>{
 			//here compile code and save as dlls in code
 			//just push the code and userID to the queue
@@ -56,7 +53,10 @@ router.get("/", (req, res)=>{
 				console.log({dll1: code.dataValues.dll1, dll2: code.dataValues.dll2});
 				return res.json({success:true, source:code.dataValues.source, status: 'Success'});
 			}
-		});
+		})
+		.catch(err => {
+			res.json({success: false, message: 'Internal server error'});
+		})
 });
 router.post("/save", (req, res)=>{
 	const source = req.body.source;
@@ -74,6 +74,20 @@ router.post("/save", (req, res)=>{
 			//compile the code here and save the dll
 			return res.json({success:true, message:"Code saved!"});
 		});
+});
+router.get('/code_status', (req, res) => {
+	let userId = req.session.userId;
+	models.Code.findOne({
+		where: {
+			user_id: userId
+		}
+	})
+		.then(code => {
+			res.json({success: true, status: code.dataValues.status});
+		})
+		.catch(err => {
+			res.json({success: false, message: "Internal server error"});
+		}) 
 });
 module.exports = router;
 
