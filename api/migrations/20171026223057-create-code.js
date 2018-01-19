@@ -21,10 +21,10 @@ module.exports = {
 				type: Sequelize.TEXT
 			},
 			dll1: {
-				type: Sequelize.TEXT
+				type: Sequelize.BLOB
 			},
 			dll2: {
-				type: Sequelize.TEXT
+				type: Sequelize.BLOB
 			},
 			createdAt: {
 				allowNull: false,

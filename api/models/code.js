@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
 			}
 		},
 		source: DataTypes.TEXT,
-		dll1: DataTypes.TEXT,
-		dll2: DataTypes.TEXT ,
+		dll1: DataTypes.BLOB,
+		dll2: DataTypes.BLOB,
 		status: DataTypes.ENUM( 'compiling', 'success', 'error'),
 		error_log: DataTypes.TEXT
 	}, {
