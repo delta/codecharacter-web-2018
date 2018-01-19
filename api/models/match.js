@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
 			}
 		},
 		status: DataTypes.ENUM( 'executing', 'success', 'error'),
-		log: DataTypes.TEXT,
+		log: DataTypes.BLOB,
 		error_log: DataTypes.TEXT
 	}, {
 		classMethods: {
