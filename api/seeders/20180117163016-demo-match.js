@@ -6,14 +6,14 @@ module.exports = {
         {
           player_id1: 1,
           player_id2: 2,
-          status: 'compiling',
+          status: 'executing',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           player_id1: 2,
           player_id2: 1,
-          status: 'compiling',
+          status: 'executing',
           createdAt: new Date(),
           updatedAt: new Date(),
         }

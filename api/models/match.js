@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 				key: "id",
 			}
 		},
-		status: DataTypes.STRING,
+		status: DataTypes.ENUM( 'executing', 'success', 'error'),
 		log: DataTypes.TEXT,
 		error_log: DataTypes.TEXT
 	}, {

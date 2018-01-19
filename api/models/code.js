@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
 		source: DataTypes.TEXT,
 		dll1: DataTypes.TEXT,
 		dll2: DataTypes.TEXT ,
-		status: DataTypes.STRING,
+		status: DataTypes.ENUM( 'compiling', 'success', 'error'),
 		error_log: DataTypes.TEXT
 	}, {
 		classMethods: {

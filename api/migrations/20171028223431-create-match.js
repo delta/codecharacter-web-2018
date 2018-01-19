@@ -30,7 +30,7 @@ module.exports = {
 				}
 			},
 			status: {
-				type: Sequelize.STRING
+				type: Sequelize.ENUM( 'executing', 'success', 'error')
 			},
 			createdAt: {
 				allowNull: false,

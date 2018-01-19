@@ -38,7 +38,7 @@ module.exports = {
 //write watcher for compileQueue
 setInterval(() => {
 	if(requestUnderway){
-		return;
+		return; 
 	}
 	if(getQueueSize()){
 		let codeToBeCompiled = compileQueue[0];
@@ -51,13 +51,15 @@ setInterval(() => {
 				json: true,
 				body: {...codeToBeCompiled, secretString}
 			}, (err, response, body) =>{
+				if(err) throw err;
 				requestUnderway = false;
 				compileQueue.shift();
+				console.log(response);
 				let userId = response.headers['user_id'];
 				//console.log(err, body);
 				//console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
 				if(!response.body.success){
-					return models.Code.update({
+					return models.Code.update({ 
 								error_log: response.body.error,
 								status:'error'
 							},{
