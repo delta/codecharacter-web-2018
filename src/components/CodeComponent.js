@@ -39,6 +39,7 @@ export default class CodeComponent extends React.Component {
         fontSize={14}
         showPrintMargin={false}
         showGutter={true}
+        readOnly={this.props.readOnly}
         highlightActiveLine={this.props.highlightActiveLine}
         editorProps={{
           $blockScrolling: Infinity

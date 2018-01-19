@@ -22,7 +22,8 @@ export const leaderboardGetPlayers = ({req , query}) => {
 };
 
 export const leaderboardStartChallenge = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/challenge',{
+  console.log(query);
+  return fetch(API_BASE_URL + 'match/compete/player',{
     method: "POST",
     credentials: 'include',
     headers: {
@@ -30,8 +31,8 @@ export const leaderboardStartChallenge = ({req , query}) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: query.username,
-      opponent: query.opponent,
+      userId: query.username,
+      competetorId: query.opponent,
     })
   })
     .then((response) => {

@@ -1,26 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  height: 100% !important;
-  font-family: sans-serif;
-}
-
-.customNavbar {
-  height: 50px !important;
-}
-
-.customNavbarButton {
-  border-radius: 0px;
-  height: 50px;
-}
-
-.customNavbarButton:hover {
-  cursor: pointer;
-}
-
-.container {
-  margin: 0 !important;
-  padding: 0 !important;
+  font-family: Rubik, sans-serif;
 }
 
 .codeButtons {
@@ -33,19 +14,14 @@ body {
   cursor: pointer;
 }
 
+.routeWrapper {
+  height: 100% !important;
+}
 
 .container {
   height: 100%;
   margin: 0;
   max-width: 100%;
-}
-
-.navbarWrapper {
-  height: 100% !important;
-}
-
-.routeWrapper {
-  height: 100% !important;
 }
 
 .col {
@@ -94,4 +70,31 @@ body {
 .Resizer.vertical:hover {
   border-left: 5px solid rgba(0, 0, 0, 0.5);
   border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.navbar-collapse.collapse.in {
+  display: block!important;
+}
+
+.circle:before {
+  content: ' \25CF';
+  padding: 0;
+  margin: 0;
+  color: greenyellow;
+  font-size: 30px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: hsla(0,0%,100%,.5) !important;
+  font-weight: 900 !important;
+  font-family: Rubik, sans-serif;
+  font-size: 16px;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: hsla(0,0%,100%,1) !important;
+}
+.nav-link {
+  display: block;
+  padding: .5rem 1rem !important;
 }

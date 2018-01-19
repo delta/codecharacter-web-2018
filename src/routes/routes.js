@@ -13,6 +13,7 @@ import WelcomeScreenComponent from '../components/WelcomeScreenComponent';
 export const RouteList = () => (
   <div>
     <NavbarContainer/>
+    <div style={{height: 50}}/>
     <Switch>
       <Route exact path='/' component={WelcomeScreenComponent}/>
       <Route exact path='/profile' component={ProfileContainer}/>

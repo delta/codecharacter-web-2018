@@ -32,7 +32,7 @@ export function codeCharacterReducer(state = initialState, action) {
       return nextState;
     }
 
-    case actionTypes.UPDATE_MATCH_DATA: {
+    case actionTypes.UPDATE_MATCH_ALL_DATA: {
       let nextState = {
         ...state,
         matchesData: action.data

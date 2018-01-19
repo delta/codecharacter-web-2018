@@ -1,4 +1,5 @@
 import React                                      from 'react';
+import marked                                     from 'marked';
 
 export default class RulesComponent extends React.Component {
   constructor(props) {
@@ -16,12 +17,13 @@ export default class RulesComponent extends React.Component {
       })
       .then(text => {
         this.setState({
-          markdown: text
+          markdown: marked(text)
         })
       });
+    console.log(this.state.markdown);
   }
 
   render() {
-    return <p>{this.state.markdown}</p>;
+    return <div dangerouslySetInnerHTML={{__html: this.state.markdown}} style={{margin: 50}}/> ;
   }
 }

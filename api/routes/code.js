@@ -80,6 +80,7 @@ let success = queueCompile.pushToQueue(req.session.userId, source);
 			return res.json({success:true, message:"Code saved!"});
 */
 router.get("/", (req, res)=>{
+  console.log(req.session.userId);
 	models.Code.findOne({
 		where: {user_id: req.session.userId}
 	})

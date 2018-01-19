@@ -6,7 +6,7 @@ const models = require("../models");
 const queueExecute = require('../utils/queueExecute');
 router.get('/get_matches', (req, res) => {
   let userId = req.session.userId;
-  models.Match.find({
+  models.Match.findAll({
     where:{
       $or:[
         {

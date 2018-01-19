@@ -4,7 +4,7 @@ import SplitPane                                  from 'react-split-pane';
 import { Redirect }                               from 'react-router-dom'
 import CodeComponent                              from './CodeComponent';
 import SubmitButtons                              from './SubmitButtons';
-// import CodeCharacterRenderer                      from 'codecharacter-renderer';
+import CodeCharacterRenderer                      from 'codecharacter-renderer';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -40,19 +40,22 @@ export default class DashboardComponent extends React.Component {
       height: window.innerHeight,
       width: window.innerWidth
     };
+
     fetch('game.log').then((response) => {
       response.arrayBuffer().then((buffer) => {
         let logFile = new Uint8Array(buffer);
         this.setState({logFile: logFile});
       });
     });
-  };
 
-  componentWillMount() {
-    this.props.fetchCode();
   }
 
   componentDidMount() {
+    this.props.fetchCode();
+    console.log("Rendering");
+    if(!this.props.loginStatus) {
+      this.props.history.push('/login');
+    }
     this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight, width: window.innerWidth})});
   }
 
@@ -60,6 +63,20 @@ export default class DashboardComponent extends React.Component {
     window.removeEventListener('resize', this.windowResizeListener);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.loginStatus) {
+      this.props.history.push('/login');
+    }
+    if(nextProps.code !== this.props.code) {
+      this.setState({
+        code: nextProps.code
+      });
+    }
+  }
+
+  getCompilationStatus() {
+    // this.props.fetchDashboardStatus();
+  }
   runCode = () => { this.props.runCode(this.state.code); };
 
   lockCode = () => { this.props.lockCode(this.state.code); };
@@ -71,10 +88,6 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
-    if (!this.props.loginStatus) {
-      return <Redirect to='/login'/>
-    }
-
     if (this.state.width >= 600) {
       return (
         <div>
@@ -84,7 +97,7 @@ export default class DashboardComponent extends React.Component {
               {!this.props.matchesView
                 ? <CodeComponent
                   code={this.state.code}
-                  onChange={this.updateCode}
+                  onChange={(code) => this.updateCode(code)}
                 />
                 : this.props.matchesViewTable
               }
@@ -93,10 +106,10 @@ export default class DashboardComponent extends React.Component {
               <SplitPane split="horizontal" minSize={100} defaultSize={400}>
                 <div style={{width: "100%"}}>
                   <div style={{ display: 'block', width: '100%', height: '100%'}}>
-                    {/*{this.state.logFile
+                    {this.state.logFile
                       ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
                       : <div>LOADING .. </div>
-                    }*/}
+                    }
                   </div>
                 </div>
                 <div>
@@ -120,13 +133,13 @@ export default class DashboardComponent extends React.Component {
       return (
         <div>
           <div>
-            {/*{!this.props.matchesView
+            {!this.props.matchesView
               ? <CodeComponent
                 code={this.state.code}
                 onChange={this.updateCode}
               />
               : this.props.matchesViewTable
-            }*/}
+            }
           </div>
           <div>
             <div>

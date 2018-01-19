@@ -1,10 +1,6 @@
 import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
-import {
-  Navbar,
-  NavItem
-}                                                 from 'react-bootstrap';
-import { LinkContainer }                          from 'react-router-bootstrap';
+import { Link }                                   from 'react-router-dom';
 
 export default class NavbarComponent extends React.Component {
   static propTypes = {
@@ -19,53 +15,57 @@ export default class NavbarComponent extends React.Component {
 
   render() {
     return (
-      <Navbar className='navbar-expand-lg navbar-dark bg-dark' style={{height: 50}}>
-        <Navbar.Header style={{paddingTop: 22}}>
-          <Navbar.Brand>
-            <LinkContainer to='/login' style={{color: 'white'}}><p>Code Character</p></LinkContainer>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Navbar.Collapse className='collapse' id='navbarColor02'>
-          {this.props.loginStatus
-            ? <ul className="navbar-nav mr-auto" style={{paddingTop: 10}}>
-              <NavItem>
-                <LinkContainer to='/profile' className="nav-link"><p>Profile</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/dashboard' className="nav-link"><p>Dashboard</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/leaderboard' className="nav-link"><p>Leaderboard</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/matches' className="nav-link"><p>Matches</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/rules' className="nav-link"><p>Rules</p></LinkContainer>
-              </NavItem>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style={{paddingTop: 0, paddingBottom: 0, minHeight: 50}}>
+        <Link className="navbar-brand" to={"/login"} style={{fontWeight: 900, color: 'hsla(0,0%,100%,.8)', fontSize: '1.25rem'}}>Code Character</Link>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="true" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"/>
+        </button>
+        {this.props.loginStatus
+          ? <div className="collapse navbar-collapse" id={"navbarColor02"}>
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to={"/"}>Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/profile"}>Profile</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/dashboard"}>Dashboard</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/leaderboard"}>Leaderboard</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/matches"}>Matches</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/rules"}>Rules</Link>
+              </li>
+              <li className="nav-item">
+                <span className="nav-link" onClick={() => {this.props.onLogout();}}>Logout</span>
+              </li>
             </ul>
-            : <ul className="navbar-nav mr-auto" style={{paddingTop: 10}}>
-              <NavItem>
-                <LinkContainer to='/login' className="nav-link"><p>Login</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/signup' className="nav-link"><p>Signup</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/rules' className="nav-link"><p>Rules</p></LinkContainer>
-              </NavItem>
-            </ul>}
-        </Navbar.Collapse>
-          {this.props.loginStatus ? <Navbar.Form>
-            <button
-              className="btn btn-secondary"
-              style={{borderRadius: 0, height: 50, paddingTop: -10}}
-              onClick={() => {this.props.onLogout();}}
-            >
-              Log Out
-            </button>
-          </Navbar.Form> : null}
-      </Navbar>
+            <form className="form-inline my-2 my-lg-0">
+                <span className="circle" style={{paddingRight: 20, marginBottom: 3}}/>
+              <span className="nav-item" style={{color: 'hsla(0,0%,100%,0.5)', fontSize: 16, fontWeight: 900 }}>Compiling</span>
+            </form>
+          </div>
+          : <div className="collapse navbar-collapse" id={"navbarColor02"}>
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link className="nav-link" to={"/"}>Home</Link>
+            </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/login"}>Login</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/signup"}>Signup</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/rules"}>Rules</Link>
+              </li>
+          </ul></div>}
+      </nav>
     );
   }
 }
