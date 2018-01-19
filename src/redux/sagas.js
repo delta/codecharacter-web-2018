@@ -25,8 +25,8 @@ import {
 import {
   codeSubmit,
   codeLock,
-  codeFetch,
-}                                                from '../shellFetch/codeFetch';
+  codeFetch, codeCompile,
+} from '../shellFetch/codeFetch';
 import {
   matchFetchAll, matchFetchData
 } from '../shellFetch/matchFetch';
@@ -117,7 +117,8 @@ function* codeSubmitSaga(action) {
       source: action.code,
     };
     yield put(updateCode(action.code));
-    const response = yield call(codeSubmit,{req: null, query: query});
+    const response = yield call(codeCompile,{req: null, query: query});
+    console.log(response);
     yield put(updateCompilationStatus(response.message));
   }
   catch(err) {
@@ -129,7 +130,7 @@ function* codeSubmitSaga(action) {
 function* codeFetchSaga() {
   try {
     const response = yield call(codeFetch,{req: null, query: null});
-    console.log(response);
+    console.log(response, "Here");
     yield put(updateCode(response.source));
   }
   catch(err) {

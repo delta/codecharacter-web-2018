@@ -46,8 +46,8 @@ setInterval(() => {
 		requestUnderway = true;
 		request(
 			{
-				method:'POST', 
-				url: 'http://localhost:3000/compile',
+				method:'POST',
+				url: 'https://66164a42.ngrok.io:3000/compile',
 				json: true,
 				body: {...codeToBeCompiled, secretString}
 			}, (err, response, body) =>{
@@ -62,13 +62,13 @@ setInterval(() => {
 								status:'error'
 							},{
 								where:{
-									user_id:Number(userId) 
+									user_id:Number(userId)
 								}
 							}
 						)
 							.then(code => {
 								console.log(code);
-								console.log("Compilation Error!"); 
+								console.log("Compilation Error!");
 							})
 							.catch(err => {
 								console.log(err);
@@ -81,13 +81,13 @@ setInterval(() => {
 						status:'success'
 					},{
 						where:{
-							user_id:Number(userId) 
+							user_id:Number(userId)
 						}
 					}
 				)
 					.then(code => {
 						console.log(code);
-						console.log("successfully compiled!"); 
+						console.log("successfully compiled!");
 					})
 					.catch(err => {
 						console.log(err);

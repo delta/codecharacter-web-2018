@@ -4,7 +4,7 @@ import SplitPane                                  from 'react-split-pane';
 import { Redirect }                               from 'react-router-dom'
 import CodeComponent                              from './CodeComponent';
 import SubmitButtons                              from './SubmitButtons';
-// import CodeCharacterRenderer                      from 'codecharacter-renderer';
+import CodeCharacterRenderer                      from 'codecharacter-renderer';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -41,17 +41,18 @@ export default class DashboardComponent extends React.Component {
       width: window.innerWidth
     };
 
-    /*fetch('game.log').then((response) => {
+    fetch('game.log').then((response) => {
       response.arrayBuffer().then((buffer) => {
         let logFile = new Uint8Array(buffer);
         this.setState({logFile: logFile});
       });
-    });*/
+    });
 
   }
 
   componentDidMount() {
     this.props.fetchCode();
+    console.log("Rendering");
     if(!this.props.loginStatus) {
       this.props.history.push('/login');
     }
@@ -65,6 +66,11 @@ export default class DashboardComponent extends React.Component {
   componentWillReceiveProps(nextProps) {
     if(!nextProps.loginStatus) {
       this.props.history.push('/login');
+    }
+    if(nextProps.code !== this.props.code) {
+      this.setState({
+        code: nextProps.code
+      });
     }
   }
 
@@ -91,7 +97,7 @@ export default class DashboardComponent extends React.Component {
               {!this.props.matchesView
                 ? <CodeComponent
                   code={this.state.code}
-                  onChange={() => this.updateCode()}
+                  onChange={(code) => this.updateCode(code)}
                 />
                 : this.props.matchesViewTable
               }
@@ -100,10 +106,10 @@ export default class DashboardComponent extends React.Component {
               <SplitPane split="horizontal" minSize={100} defaultSize={400}>
                 <div style={{width: "100%"}}>
                   <div style={{ display: 'block', width: '100%', height: '100%'}}>
-                    {/*{this.state.logFile
+                    {this.state.logFile
                       ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
                       : <div>LOADING .. </div>
-                    }*/}
+                    }
                   </div>
                 </div>
                 <div>

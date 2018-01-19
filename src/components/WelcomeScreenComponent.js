@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 export default class WelcomeScreenComponent extends React.Component {
   render() {
@@ -13,8 +14,8 @@ export default class WelcomeScreenComponent extends React.Component {
                   The Coding Game to challenge yourself and everyone.
                 </p>
                 <p className="mt-5" style={{textAlign: 'center'}}>
-                  <a href="/login" className="btn btn-white mr-2 mb-2 page-scroll">Log In</a>
-                  <a href="/signup" className="btn btn-white mb-2 page-scroll">Sign Up</a>
+                  <Link to={"/login"} className="btn btn-white mr-2 mb-2 page-scroll">Log In</Link>
+                  <Link to={"/signup"} className="btn btn-white mb-2 page-scroll">Sign Up</Link>
                 </p>
               </div>
             </div>
@@ -40,7 +41,7 @@ export default class WelcomeScreenComponent extends React.Component {
                   <li>Aenean commodo ligula eget dolor.</li>
                   <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
                 </ul>
-                <a href="/signup" className="btn btn-primary mr-2 page-scroll">Get Started</a>
+                <Link to={"/signup"} className="btn btn-primary mr-2 page-scroll">Get Started</Link>
               </div>
             </div>
           </div>

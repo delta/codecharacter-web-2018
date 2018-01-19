@@ -70,3 +70,26 @@ export const codeLock = ({req , query}) => {
     });
 };
 
+export const codeCompile = ({req, query}) => {
+  return fetch(API_BASE_URL + '/', {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      source: query.source
+    })
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
