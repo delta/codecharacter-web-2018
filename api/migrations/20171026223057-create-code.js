@@ -21,10 +21,10 @@ module.exports = {
 				type: Sequelize.TEXT
 			},
 			dll1: {
-				type: Sequelize.BLOB
+				type: Sequelize.BLOB('long')
 			},
 			dll2: {
-				type: Sequelize.BLOB
+				type: Sequelize.BLOB('long')
 			},
 			createdAt: {
 				allowNull: false,
