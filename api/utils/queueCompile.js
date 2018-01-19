@@ -47,7 +47,7 @@ setInterval(() => {
 		request(
 			{
 				method:'POST',
-				url: 'https://66164a42.ngrok.io:3000/compile',
+				url: 'http://localhost:3002/compile',
 				json: true,
 				body: {...codeToBeCompiled, secretString}
 			}, (err, response, body) =>{
