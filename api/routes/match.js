@@ -81,8 +81,10 @@ router.get('/compete/player/:againstId', (req, res) => {
           let dll1 = code1.dll1;
           let dll2 = code2.dll2;
           models.Match.findOne({
-            player_id1: userId,
-            player_id2: competetorId
+            where:{
+              player_id1: userId,
+              player_id2: competetorId
+            }
           })
             .then(match => {
               if(match){

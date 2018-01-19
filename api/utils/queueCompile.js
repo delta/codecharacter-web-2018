@@ -54,10 +54,12 @@ setInterval(() => {
 				if(err) throw err;
 				requestUnderway = false;
 				compileQueue.shift();
-				console.log(response);
-				let userId = response.headers['user_id'];
+				let userId = codeToBeCompiled.userId;
+				console.log(userId, 'hey');
 				//console.log(err, body);
 				//console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
+				console.log("INSIDE BEFORE UPDATE");
+				console.log(new Buffer(response.body.dll1));
 				if(!response.body.success){
 					return models.Code.update({ 
 								error_log: response.body.error,
@@ -77,8 +79,8 @@ setInterval(() => {
 							})
 				}
 				models.Code.update({
-						dll1: response.body.dll1Encoded,
-						dll2: response.body.dll2Encoded,
+						dll1: response.body.dll1.data,
+						dll2: response.body.dll2.data,
 						error_log:'',
 						status:'success'
 					},{
