@@ -21,7 +21,7 @@ export default class WelcomeScreenComponent extends React.Component {
             </div>
           </div>
           <div style={{width: '100%', height: '100%', backgroundColor: 'white', opacity: 0.5, position: 'absolute'}}/>
-          <iframe src='https://www.youtube.com/embed/VftPlkRbf58?autoplay=1&controls=0&loop=1&playlist=VftPlkRbf58&showinfo=0' muted="muted" frameBorder={0} style={{width: '100%', height: '100%'}}/>
+          <iframe src='https://www.youtube.com/embed/VftPlkRbf58?enablejsapi&autoplay=1&controls=0&loop=1&playlist=VftPlkRbf58&showinfo=0&muted=1' frameBorder={0} style={{width: '100%', height: '100%'}}/>
         </section>
         <section className="bg-white p-0">
           <div className="container-fluid">
