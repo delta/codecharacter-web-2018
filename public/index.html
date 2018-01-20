@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Supermercado+One" rel="stylesheet">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <link rel="stylesheet" href="./comply/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -51,15 +52,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
   <script src="./comply/js/scripts.js"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script>
-    var x = document.createElement("LINK");
-    x.setAttribute("rel", "stylesheet");
-    if(window.location.pathname == "/") {
-      x.setAttribute("href","./comply/css/bootstrap.min.css");
-    }
-    else {
-      x.setAttribute("href","./styles/bootstrap.min.css");
-    }
-    document.head.appendChild(x);
-  </script>
 </html>

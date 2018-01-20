@@ -5,12 +5,14 @@ import { Link }                                   from 'react-router-dom';
 export default class NavbarComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
-    onLogout: PropTypes.func
+    onLogout: PropTypes.func,
+    status: PropTypes.string
   };
 
   static defaultProps = {
     loginStatus: false,
-    onLogout: () => {}
+    onLogout: () => {},
+    status: 'idle'
   };
 
 
@@ -52,7 +54,7 @@ export default class NavbarComponent extends React.Component {
             </ul>
             <form className="form-inline my-2 my-lg-0">
                 <span className="circle" style={{paddingRight: 20, marginBottom: 3}}/>
-              <span className="nav-item" style={{color: 'hsla(0,0%,100%,0.5)', fontSize: 16, fontWeight: 900 }}>Compiling</span>
+              <span className="nav-item" style={{color: 'hsla(0,0%,100%,0.5)', fontSize: 16, fontWeight: 900 }}>{this.props.status}</span>
             </form>
           </div>
           : <div className="collapse navbar-collapse" id={"navbarColor02"}>

@@ -60,6 +60,15 @@ export function codeCharacterReducer(state = initialState, action) {
       return nextState;
     }
 
+    case actionTypes.CHANGE_STATUS: {
+      let nextState = {
+        ...state,
+        status: action.status
+      };
+      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
+    }
+
     default: {
       return state;
     }

@@ -46,6 +46,10 @@ export const startChallenge = (opponent) => ({
   opponent
 });
 
+export const getCodeStatus = () => ({
+  type: actionTypes.GET_CODE_STATUS
+});
+
 export const updateMatchAllData = (data) => ({
   type: actionTypes.UPDATE_MATCH_ALL_DATA,
   data
@@ -72,6 +76,11 @@ export const lockCode = (code) => ({
 
 export const fetchCode = (code) => ({
   type: actionTypes.FETCH_CODE,
+});
+
+export const changeStatus = (status) => ({
+  type: actionTypes.CHANGE_STATUS,
+  status
 });
 
 export const updateCode = (code) => ({
