@@ -12,6 +12,7 @@ export default class NotificationComponent extends React.Component {
       })
     ),
     loginStatus: PropTypes.bool,
+
   };
 
   constructor(props) {

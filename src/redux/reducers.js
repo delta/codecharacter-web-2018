@@ -69,6 +69,15 @@ export function codeCharacterReducer(state = initialState, action) {
       return nextState;
     }
 
+    case actionTypes.CHANGE_LAST_USED: {
+      let nextState = {
+        ...state,
+        lastUsed: action.lastUsed
+      };
+      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
+    }
+
     default: {
       return state;
     }

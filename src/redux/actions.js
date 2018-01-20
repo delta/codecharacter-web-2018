@@ -83,6 +83,11 @@ export const changeStatus = (status) => ({
   status
 });
 
+export const changeLastUsed = (lastUsed) => ({
+  type: actionTypes.CHANGE_LAST_USED,
+  lastUsed
+});
+
 export const updateCode = (code) => ({
   type: actionTypes.UPDATE_CODE,
   code
