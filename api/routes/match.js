@@ -25,6 +25,29 @@ router.get('/get_matches', (req, res) => {
       res.json({err});
     })
 });
+router.get('/get_latest_match_id', (req, res) => {
+  let userId = req.session.userId;
+  models.Match.findAll({
+    where:{
+      $or:[
+        {
+          player_id1: userId
+        },
+        {
+          player_id2: userId
+        }
+      ]
+    },
+    order:['updatedAt'],
+    attributes: ['id']
+  })
+    .then(matches => {
+      res.json({match: matches[matches.length - 1]});
+    })
+    .catch(err => {
+      res.json({err});
+    })
+})
 router.get('/get_ais', (req, res) =>{
   let userId = req.session.userId;
   models.Ai.findAll({
@@ -70,6 +93,9 @@ router.get('/compete/player/:againstId', (req, res) => {
     attributes: ['dll1']
   })
     .then(code1 => {
+      if(!code1 && (code1.status === 'SUCCESS')){
+        return res.json({success: false, message: 'Upload a working code first!'});
+      }
       models.Code.findOne({
         where:{
           user_id: competetorId
@@ -77,6 +103,9 @@ router.get('/compete/player/:againstId', (req, res) => {
         attributes: ['dll2']
       })
         .then(code2 => {
+          if(!code2 && (code1.status === 'SUCCESS')){
+            return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
+          }
           //execute code1.dll1, code2.dll2
           let dll1 = code1.dll1;
           let dll2 = code2.dll2;
@@ -98,7 +127,7 @@ router.get('/compete/player/:againstId', (req, res) => {
                   }
                 })
                   .then(matchSaved => {
-                    let success = queueExecute.pushToQueue(match.id, dll1, dll2);
+                    let success = queueExecute.pushToQueue(match.id, dll1, dll2, userId);
                     if(success){
                       res.json({success: true, message: 'Match is executing'});
                     }else{
