@@ -6,6 +6,7 @@ import 'brace/theme/xcode';
 import 'brace/theme/monokai';
 import 'brace/theme/terminal';
 import 'brace/ext/language_tools';
+import EditorCustomizeComponent from './EditorCustomizeComponent';
 
 export default class CodeComponent extends React.Component {
   static propTypes = {

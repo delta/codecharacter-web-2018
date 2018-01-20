@@ -4,7 +4,8 @@ import NavbarComponent                         from '../components/NavbarCompone
 
 const mapStateToProps = state => {
   return {
-    loginStatus: state.loginStatus
+    loginStatus: state.loginStatus,
+    status: state.status
   };
 };
 

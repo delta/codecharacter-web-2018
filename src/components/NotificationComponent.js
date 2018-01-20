@@ -9,9 +9,9 @@ export default class NotificationComponent extends React.Component {
         read: PropTypes.bool,
         status: PropTypes.string,
         message: PropTypes.string
-    })
+      })
     ),
-    loginStatus: PropTypes.bool
+    loginStatus: PropTypes.bool,
   };
 
   constructor(props) {
@@ -24,6 +24,7 @@ export default class NotificationComponent extends React.Component {
 
   componentDidMount() {
     console.log(this.props.notifications);
+    this.codeStatus = setInterval(() => this.props.getCodeStatus(), 500);
     if(this.props.loginStatus) {
       this.setInterval = setInterval(() => {if(this.state.index < (this.props.notifications).length) this.addNotification()}, 2000);
     }
@@ -41,7 +42,8 @@ export default class NotificationComponent extends React.Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.setInterval);
+    clearInterval(this.setInterval);
+    clearInterval(this.codeStatus);
   }
 
   addNotification = () => {
@@ -56,6 +58,7 @@ export default class NotificationComponent extends React.Component {
       hide={true}
       nonblock={false}
       desktop={false}
+      key={this.state.index}
     />;
 
     this.setState({
@@ -69,6 +72,6 @@ export default class NotificationComponent extends React.Component {
   };
 
   render() {
-    return <div>{this.state.notifications}</div>/**/
+    return <div>{this.state.notifications}</div>
   }
 }

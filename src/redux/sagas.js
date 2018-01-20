@@ -10,8 +10,8 @@ import {
   updateMatchAllData,
   updateCompilationStatus,
   updateLoginMessage,
-  updateCode,
-}                                                from './actions';
+  updateCode, changeStatus,
+} from './actions';
 import {
   userLogin,
   userRegister,
@@ -25,7 +25,7 @@ import {
 import {
   codeSubmit,
   codeLock,
-  codeFetch, codeCompile,
+  codeFetch, codeCompile, getCodeStatus,
 } from '../shellFetch/codeFetch';
 import {
   challengePlayer,
@@ -182,6 +182,18 @@ function* codeLockSaga(action) {
   }
 }
 
+function* getCodeStatusSaga(action) {
+  try {
+    let response = yield call(getCodeStatus, {req: null, query: null});
+    console.log(response);
+    yield put(changeStatus(response.status));
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.USER_AUTHENTICATE, userLoginSaga);
   yield takeEvery(actionTypes.USER_AUTHENTICATE_CHECK, userLoginStatusSaga);
@@ -194,4 +206,5 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.FETCH_CODE, codeFetchSaga);
   yield takeEvery(actionTypes.FETCH_MATCH_ALL_DATA, matchFetchAllSaga);
   yield takeEvery(actionTypes.GET_MATCH_DATA, matchFetchDataSaga);
+  yield takeEvery(actionTypes.GET_CODE_STATUS, getCodeStatusSaga);
 }
