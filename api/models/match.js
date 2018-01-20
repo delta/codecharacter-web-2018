@@ -28,9 +28,9 @@ module.exports = (sequelize, DataTypes) => {
 				key: "id",
 			}
 		},
-		status: DataTypes.ENUM( 'executing', 'success', 'error'),
-		log: DataTypes.BLOB,
-		error_log: DataTypes.TEXT
+		status: DataTypes.ENUM( 'EXECUTING', 'SUCCESS', 'ERROR'),
+		log: DataTypes.BLOB("long"),
+		error_log:  DataTypes.BLOB("long")
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {
