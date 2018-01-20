@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.addColumn('Codes', 'status', Sequelize.ENUM( 'compiling', 'success', 'error'), {
+    queryInterface.addColumn('Codes', 'status', Sequelize.ENUM( 'COMPILING', 'SUCCESS', 'ERROR'), {
         first: true
     });
     /*

@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
 		source: DataTypes.TEXT,
 		dll1: DataTypes.BLOB('long'),
 		dll2: DataTypes.BLOB('long'),
-		status: DataTypes.ENUM( 'compiling', 'success', 'error'),
-		error_log: DataTypes.TEXT
+		status: DataTypes.ENUM( 'COMPILING', 'SUCCESS', 'ERROR'),
+		error_log:  DataTypes.BLOB("long")
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {

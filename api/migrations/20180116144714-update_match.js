@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.addColumn('Matches', 'log', Sequelize.BLOB, {
+    queryInterface.addColumn('Matches', 'log', Sequelize.BLOB("long"), {
         first: true
     });
     /*
