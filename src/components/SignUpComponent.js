@@ -2,6 +2,7 @@ import React                                      from 'react';
 import {
   Modal
 }                                                 from 'react-bootstrap';
+import Recaptcha                                  from 'react-recaptcha';
 
 export default class SignUpComponent extends React.Component {
   constructor(props) {
@@ -10,11 +11,19 @@ export default class SignUpComponent extends React.Component {
       username: "",
       name: "",
       password: "",
+      verified: false,
+      captchaMessage: ''
     };
     this.usernameStatus = 'form-group';
     this.passwordStatus = 'form-group';
     this.nameStatus = 'form-group';
   }
+
+  verifyCallback = () => {
+    this.setState({
+      verified: true
+    });
+  };
 
   updateUsername = (e) => {
     this.setState({
@@ -35,7 +44,14 @@ export default class SignUpComponent extends React.Component {
   };
 
   handleSubmit = () => {
-    this.props.userSignup(this.state.username, this.state.name, this.state.password);
+    if(this.state.verified) {
+      this.props.userSignup(this.state.username, this.state.name, this.state.password);
+    }
+    else {
+      this.setState({
+        captchaMessage: 'Verify Captcha'
+      });
+    }
   };
 
   render() {
@@ -57,6 +73,10 @@ export default class SignUpComponent extends React.Component {
               </div>
               <div className={this.passwordStatus}>
                 <input onChange={this.updatePassword} type="password" className='form-control' placeholder="Password" id="inputDefault"/>
+              </div>
+              <div style={{margin: '0 auto'}} className="form-group">
+                <Recaptcha verifyCallback={() => this.verifyCallback()} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>
+                <div style={{color: 'red'}}>{this.state.captchaMessage}</div>
               </div>
             </Modal.Body>
             <Modal.Footer>

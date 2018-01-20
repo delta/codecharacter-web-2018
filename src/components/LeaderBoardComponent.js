@@ -30,7 +30,8 @@ export default class LeaderBoardComponent extends React.Component {
   }
 
   startChallenge = (opponent) => {
-    this.props.startChallenge(this.props.username, opponent);
+    console.log(opponent);
+    this.props.startChallenge(opponent);
   };
 
   render() {
@@ -43,7 +44,7 @@ export default class LeaderBoardComponent extends React.Component {
         <tr key={index} align='center'>
           <td>
             <img
-            onClick={() => this.startChallenge(data.username)}
+            onClick={() => this.startChallenge(data.id)}
             src='http://www.pngmart.com/files/1/Cross-Sword-PNG-Clipart.png'
             alt='Fight'
             style={{cursor: 'pointer', width: 20, height: 20}}

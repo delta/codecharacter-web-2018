@@ -41,9 +41,8 @@ export const updateLeaderboard = (data) => ({
   data
 });
 
-export const startChallenge = (username, opponent) => ({
+export const startChallenge = (opponent) => ({
   type: actionTypes.START_CHALLENGE,
-  username,
   opponent
 });
 

@@ -28,6 +28,7 @@ import {
   codeFetch, codeCompile,
 } from '../shellFetch/codeFetch';
 import {
+  challengePlayer,
   matchFetchAll, matchFetchData
 } from '../shellFetch/matchFetch';
 
@@ -96,14 +97,14 @@ function* leaderboardGetPlayersSaga() {
   }
 }
 
-function* leaderBoardStartChallengeSaga(action) {
+function* leaderboardStartChallengeSaga(action) {
+  console.log(action);
   try {
     let query = {
-      username: action.username,
-      opponent: action.opponent,
+      opponent: action.opponent
     };
-    const response = yield call(leaderboardStartChallenge,{req: null, query: query});
-    yield put(updateMatchAllData(response));
+    const response = yield call(challengePlayer, {req: null, query: query});
+    console.log(response);
   }
   catch(err) {
     console.log(err);
@@ -187,7 +188,7 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.USER_LOGOUT, userLogoutSaga);
   yield takeEvery(actionTypes.USER_SIGNUP, userSignupSaga);
   yield takeEvery(actionTypes.FETCH_LEADERBOARD_DATA, leaderboardGetPlayersSaga);
-  yield takeEvery(actionTypes.START_CHALLENGE, leaderboardStartChallenge);
+  yield takeEvery(actionTypes.START_CHALLENGE, leaderboardStartChallengeSaga);
   yield takeEvery(actionTypes.RUN_CODE, codeSubmitSaga);
   yield takeEvery(actionTypes.LOCK_CODE, codeLockSaga);
   yield takeEvery(actionTypes.FETCH_CODE, codeFetchSaga);

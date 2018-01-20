@@ -74,9 +74,6 @@ export default class DashboardComponent extends React.Component {
     }
   }
 
-  getCompilationStatus() {
-    // this.props.fetchDashboardStatus();
-  }
   runCode = () => { this.props.runCode(this.state.code); };
 
   lockCode = () => { this.props.lockCode(this.state.code); };

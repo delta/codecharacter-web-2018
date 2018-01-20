@@ -13,6 +13,8 @@ export default class NavbarComponent extends React.Component {
     onLogout: () => {}
   };
 
+
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style={{paddingTop: 0, paddingBottom: 0, minHeight: 50}}>
@@ -40,6 +42,9 @@ export default class NavbarComponent extends React.Component {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/rules"}>Rules</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/notifications"}>Notifications</Link>
               </li>
               <li className="nav-item">
                 <span className="nav-link" onClick={() => {this.props.onLogout();}}>Logout</span>

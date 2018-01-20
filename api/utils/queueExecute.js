@@ -32,7 +32,7 @@ let getQueueSize = () => {
 module.exports = {
 	executeQueue,
 	pushToQueue,
-	getQueueSize 
+	getQueueSize
 };
 
 //write watcher for executeQueue
@@ -45,25 +45,25 @@ setInterval(() => {
 		requestUnderway = true;
 		request(
 			{
-				method:'POST', 
-				url: 'http://localhost:3000/execute',
+				method:'POST',
+				url: 'http://localhost:3002/execute',
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
 				let matchId = body.matchId;
 				requestUnderway = false;
 				executeQueue.shift();
-				//console.log(body);   
+				//console.log(body);
 				console.log(matchId);
 				if(err) throw err;
 				if(!body.success){
 					models.Match.update({
 							status: 'error',
 							error_log: body.error
-						}, 
+						},
 						{
 							where:{
-								id: matchId	
+								id: matchId
 							}
 						}
 					)
@@ -78,10 +78,10 @@ setInterval(() => {
 					models.Match.update({
 							status: 'success',
 							log: body.log
-						}, 
+						},
 						{
 							where:{
-								id: matchId	
+								id: matchId
 							}
 						}
 					)

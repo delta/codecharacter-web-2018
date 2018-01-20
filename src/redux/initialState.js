@@ -6,7 +6,8 @@ const initialState = {
   matchesData: [],
   code: '',
   profileData: null,
-  compilationStatus: ''
+  compilationStatus: '',
+  notifications: [{status: 'success', message: 'Compilation is done'},{status: 'error', message: 'You lost the match against 2'}]
 };
 
 export default initialState;
