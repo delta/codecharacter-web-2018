@@ -50,7 +50,7 @@ setInterval(() => {
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
-				let matchId = body.matchId;
+				let matchId = response.body.matchId;
 				requestUnderway = false;
 				executeQueue.shift();
 				//console.log(body);
