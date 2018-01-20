@@ -8,16 +8,15 @@ const queueCompile = require('../utils/queueCompile');
 router.post("/", function(req, res) {
 	const source = req.body.source;
 	const userId = Number(req.session.userId);
-	console.log(userId);
 	if(!source){
 		return res.json({success:false, message:"Pass proper params!"});
 	}
-	//update if already 
+	//update if already
 	models.Code.findOne({
 		where:{
 			user_id: req.session.userId,
-		} 
-	}) 
+		}
+	})
 		.then((code)=>{
 			//here compile code and save as dlls in code
 			//just push the code and userID to the queue
@@ -130,7 +129,7 @@ router.get('/code_status', (req, res) => {
 		})
 		.catch(err => {
 			res.json({success: false, message: "Internal server error"});
-		}) 
+		})
 });
 module.exports = router;
 

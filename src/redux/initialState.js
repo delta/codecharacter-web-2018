@@ -8,8 +8,11 @@ const initialState = {
   profileData: null,
   compilationStatus: '',
   notifications: [{status: 'success', message: 'Compilation is done'},{status: 'error', message: 'You lost the match against 2'}],
-  status: '',
-  lastUsed: 0
+  codeStatus: '',
+  matchStatus: '',
+  lastUsed: 0,
+  lastMatchId: -1,
+  gameLog: ''
 };
 
 export default initialState;

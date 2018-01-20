@@ -5,6 +5,7 @@ import {
   runCode,
   lockCode,
   fetchCode,
+  fetchGameLog
 }                                              from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -13,6 +14,9 @@ const mapStateToProps = state => {
     compilationStatus: state.compilationStatus,
     username: state.username,
     code: state.code,
+    lastMatchId: state.lastMatchId,
+    gameLog: state.gameLog,
+    shouldFetchLog: ((state.lastUsed===1)&&(state.matchStatus==="success"))
   }
 };
 
@@ -22,6 +26,7 @@ const mapDispatchToProps = dispatch => {
     lockCode: (code) => {dispatch(lockCode(code));},
     fetchCode: ()  => {dispatch(fetchCode())},
     logout: () =>  {dispatch(userLogout());},
+    fetchGameLog: () => {dispatch(fetchGameLog());}
   }
 };
 

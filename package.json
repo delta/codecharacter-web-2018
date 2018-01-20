@@ -41,6 +41,7 @@
     "react-scripts": "1.0.17",
     "react-split-pane": "^0.1.74",
     "redux": "^3.7.2",
+    "redux-persist": "^5.5.0",
     "redux-saga": "^0.16.0",
     "request": "^2.83.0",
     "sequelize": "^4.31.2",

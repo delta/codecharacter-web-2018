@@ -5,7 +5,7 @@ import { Redirect }                               from 'react-router-dom'
 import CodeComponent                              from './CodeComponent';
 import SubmitButtons                              from './SubmitButtons';
 import EditorCustomizeComponent from './EditorCustomizeComponent';
-// import CodeCharacterRenderer                      from 'codecharacter-renderer';
+import CodeCharacterRenderer                      from 'codecharacter-renderer';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -15,6 +15,8 @@ export default class DashboardComponent extends React.Component {
     code: PropTypes.string,
     matchesView: PropTypes.bool,
     matchesViewTable: PropTypes.element,
+    shouldFetchLog: PropTypes.bool,
+    lastMatchId: PropTypes.number,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
     fetchCode: PropTypes.func,
@@ -27,6 +29,7 @@ export default class DashboardComponent extends React.Component {
     code: '#include <iostream> \nusing namespace std; \n\nint main() \n// Enter code here (C or C++)',
     readOnly: false,
     matchesView: false,
+    shouldFetchLog: false,
     matchesViewTable: null,
     runCode: () => {},
     lockCode: () => {},
@@ -46,9 +49,9 @@ export default class DashboardComponent extends React.Component {
       response.arrayBuffer().then((buffer) => {
         let logFile = new Uint8Array(buffer);
         this.setState({logFile: logFile});
+        console.log(this.state.logFile, this.props.gameLog);
       });
     });
-
   }
 
   componentDidMount() {
@@ -57,6 +60,10 @@ export default class DashboardComponent extends React.Component {
     if(!this.props.loginStatus) {
       this.props.history.push('/login');
     }
+    if(this.props.shouldFetchLog) {
+      this.props.fetchGameLog();
+    }
+    console.log("Component is being Mounted");
     this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight, width: window.innerWidth})});
   }
 
@@ -72,6 +79,12 @@ export default class DashboardComponent extends React.Component {
       this.setState({
         code: nextProps.code
       });
+    }
+    if(nextProps.shouldFetchLog && !this.props.shouldFetchLog) {
+      this.props.fetchGameLog();
+    }
+    if(nextProps.gameLog !== this.props.gameLog) {
+      console.log("Log should replace now.");
     }
   }
 
@@ -107,10 +120,10 @@ export default class DashboardComponent extends React.Component {
               <SplitPane split="horizontal" minSize={100} defaultSize={400}>
                 <div style={{width: "100%"}}>
                   <div style={{ display: 'block', width: '100%', height: '100%'}}>
-                    {/*{this.state.logFile
+                    {this.state.logFile
                       ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
                       : <div>LOADING .. </div>
-                    }*/}
+                    }
                   </div>
                 </div>
                 <div>

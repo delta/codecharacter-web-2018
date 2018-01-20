@@ -64,6 +64,20 @@ export const getMatchData = (matchId) => ({
   matchId
 });
 
+export const getLatestMatchId = () => ({
+  type: actionTypes.GET_LATEST_MATCH_ID
+});
+
+export const getMatchStatus = (matchId) => ({
+  type: actionTypes.GET_MATCH_STATUS,
+  matchId
+});
+
+export const changeLastMatchId = (matchId) => ({
+  type: actionTypes.CHANGE_LAST_MATCH_ID,
+  matchId
+});
+
 export const runCode = (code) => ({
   type: actionTypes.RUN_CODE,
   code
@@ -78,8 +92,13 @@ export const fetchCode = (code) => ({
   type: actionTypes.FETCH_CODE,
 });
 
-export const changeStatus = (status) => ({
-  type: actionTypes.CHANGE_STATUS,
+export const changeCodeStatus = (status) => ({
+  type: actionTypes.CHANGE_CODE_STATUS,
+  status
+});
+
+export const changeMatchStatus = (status) => ({
+  type: actionTypes.CHANGE_MATCH_STATUS,
   status
 });
 
@@ -101,4 +120,14 @@ export const getProfileData = (username) => ({
 export const updateCompilationStatus = (data) => ({
   type: actionTypes.UPDATE_COMPILATION_STATUS,
   data
+});
+
+export const fetchGameLog = (matchId) => ({
+  type: actionTypes.FETCH_GAME_LOG,
+  matchId
+});
+
+export const updateGameLog = (gameLog) => ({
+  type: actionTypes.UPDATE_GAME_LOG,
+  gameLog
 });

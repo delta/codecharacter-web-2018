@@ -1,19 +1,27 @@
 import { connect }                             from 'react-redux';
 import NotificationComponent                   from '../components/NotificationComponent';
-import { changeStatus, getCodeStatus } from '../redux/actions';
+import {
+  changeCodeStatus,
+  getCodeStatus,
+  getMatchStatus,
+  getLatestMatchId
+}                                              from '../redux/actions';
 
 const mapStateToProps = state => {
-  console.log(state.notifications);
   return {
     notifications: state.notifications,
-    loginStatus: state.loginStatus
+    loginStatus: state.loginStatus,
+    lastUsed: state.lastUsed,
+    matchId: state.lastMatchId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getCodeStatus: () => {dispatch(getCodeStatus());},
-    changeStatus: () => {dispatch(changeStatus());}
+    changeStatus: () => {dispatch(changeCodeStatus());},
+    getLatestMatchId: () => {dispatch(getLatestMatchId());},
+    getMatchStatus: (matchId) => {dispatch(getMatchStatus(matchId));}
   };
 };
 

@@ -6,16 +6,13 @@ export default class NavbarComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
     onLogout: PropTypes.func,
-    status: PropTypes.string
   };
 
   static defaultProps = {
     loginStatus: false,
     onLogout: () => {},
-    status: 'idle'
+    codeStatus: 'idle'
   };
-
-
 
   render() {
     return (
@@ -65,7 +62,7 @@ export default class NavbarComponent extends React.Component {
             <form className="form-inline my-2 my-lg-0">
               <div className="nav-item" style={{margin: '0 !important'}}>
               <span className="circle" style={{paddingRight: 20, marginBottom: 3}}/>
-                <span style={{color: 'white'}}>{this.props.status}</span>
+                <span style={{color: 'white'}}>{(this.props.lastUsed===0) ? this.props.codeStatus : this.props.matchStatus}</span>
               </div>
             </form>
           </div>

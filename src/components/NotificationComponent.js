@@ -12,7 +12,7 @@ export default class NotificationComponent extends React.Component {
       })
     ),
     loginStatus: PropTypes.bool,
-
+    lastUsed: PropTypes.number
   };
 
   constructor(props) {
@@ -24,10 +24,9 @@ export default class NotificationComponent extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.notifications);
-    this.codeStatus = setInterval(() => this.props.getCodeStatus(), 500);
+    this.codeStatus = setInterval(() => {this.props.getCodeStatus(); this.props.getLatestMatchId(); this.props.getMatchStatus(this.props.matchId);}, 500);
     if(this.props.loginStatus) {
-      this.setInterval = setInterval(() => {if(this.state.index < (this.props.notifications).length) this.addNotification()}, 2000);
+      this.setInterval = setInterval(() => {if(this.state.index < (this.props.notifications).length){ this.addNotification();} }, 2000);
     }
   }
 

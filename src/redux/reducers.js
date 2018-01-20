@@ -5,12 +5,13 @@ export function codeCharacterReducer(state = initialState, action) {
   switch(action.type) {
 
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
+      console.log(action.response, state.username, "SUddenlt Broke");
       let nextState = {
         ...state,
-        username: action.response.username ? action.response.username.toString() : state.username.toString(),
+        username: action.response.username ? action.response.username : state.username.toString(),
         loginStatus: action.response.loginStatus
       };
-      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
 
@@ -19,7 +20,7 @@ export function codeCharacterReducer(state = initialState, action) {
         ...state,
         leaderboardData: action.data.ratings
       };
-      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
 
@@ -28,7 +29,7 @@ export function codeCharacterReducer(state = initialState, action) {
         ...state,
         loginMessage: action.response.loginMessage
       };
-      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
 
@@ -37,7 +38,7 @@ export function codeCharacterReducer(state = initialState, action) {
         ...state,
         matchesData: action.data
       };
-      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
 
@@ -47,7 +48,7 @@ export function codeCharacterReducer(state = initialState, action) {
         code: action.code
       };
       console.log(action);
-      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
 
@@ -56,16 +57,25 @@ export function codeCharacterReducer(state = initialState, action) {
         ...state,
         compilationStatus: action.data
       };
-      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
 
-    case actionTypes.CHANGE_STATUS: {
+    case actionTypes.CHANGE_CODE_STATUS: {
       let nextState = {
         ...state,
-        status: action.status
+        codeStatus: action.status
       };
-      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      return nextState;
+    }
+
+    case actionTypes.CHANGE_MATCH_STATUS: {
+      let nextState = {
+        ...state,
+        matchStatus: action.status
+      };
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
 
@@ -74,10 +84,24 @@ export function codeCharacterReducer(state = initialState, action) {
         ...state,
         lastUsed: action.lastUsed
       };
-      localStorage.setItem('codecharacter', JSON.stringify(nextState));
+      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
       return nextState;
     }
 
+    case actionTypes.CHANGE_LAST_MATCH_ID: {
+      return {
+        ...state,
+        lastMatchId: action.matchId
+      };
+    }
+
+    case actionTypes.UPDATE_GAME_LOG: {
+      console.log(action.gameLog);
+      return {
+        ...state,
+        gameLog: action.gameLog
+      }
+    }
     default: {
       return state;
     }
