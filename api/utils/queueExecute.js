@@ -4,14 +4,16 @@ const models = require("../models");
 const request = require("request");
 let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
-let pushToQueue = (matchId, dll1, dll2) => {
+let pushToQueue = (matchId, dll1, dll2, userId) => {
 	if(executeQueue.length === executeQueueSize){
 		return false;
 	}else{
+		console.log(userId, 'hey');
 		executeQueue.push({
 			dll1,
 			dll2,
-			matchId
+			matchId,
+			userId
 		});
 		return true;
 	}
@@ -42,6 +44,7 @@ setInterval(() => {
 	}
 	if(getQueueSize()){
 		let codeToBeExecuted = executeQueue[0];
+		let userId = executeQueue[0].userId;
 		requestUnderway = true;
 		request(
 			{
@@ -69,6 +72,19 @@ setInterval(() => {
 					)
 						.then(match => {
 							console.log(match);
+							models.Notification.create({
+								type: 'ERROR'	,
+								title: 'Execution Error',
+								message: 'Your or the player\'s code didn\'t execute properly, please try again later!',
+								isRead: false,
+								user_id: userId
+							})
+								.then(notification => {
+									//idk what to do here
+								})
+								.catch(err => {
+									console.log(err);
+								})
 						})
 						.catch(err => {
 							throw err;
@@ -87,6 +103,19 @@ setInterval(() => {
 					)
 						.then(match => {
 							console.log(match);
+							models.Notification.create({
+								type: 'SUCCESS'	,
+								title: 'Executed successfully!',
+								message: 'Your match just successfully got executed!',
+								isRead: false,
+								user_id: userId
+							})
+								.then(notification => {
+									//idk what to do here
+								})
+								.catch(err => {
+									console.log(err);
+								})
 						})
 						.catch(err => {
 							throw err;

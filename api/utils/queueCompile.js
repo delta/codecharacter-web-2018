@@ -55,11 +55,6 @@ setInterval(() => {
 				requestUnderway = false;
 				compileQueue.shift();
 				let userId = codeToBeCompiled.userId;
-				console.log(userId, 'hey');
-				//console.log(err, body);
-				//console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
-				console.log("INSIDE BEFORE UPDATE");
-				console.log(new Buffer(response.body.dll1));
 				if(!response.body.success){
 					return models.Code.update({ 
 								error_log: response.body.error,
@@ -73,6 +68,20 @@ setInterval(() => {
 							.then(code => {
 								console.log(code);
 								console.log("Compilation Error!");
+
+								models.Notification.create({
+									type: 'ERROR'	,
+									title: 'Compilation Error',
+									message: 'Your code didn\'t compile, please check your code and compile again!',
+									isRead: false,
+									user_id: userId
+								})
+									.then(notification => {
+										//idk what to do here
+									})
+									.catch(err => {
+										console.log(err);
+									})
 							})
 							.catch(err => {
 								console.log(err);
@@ -92,6 +101,19 @@ setInterval(() => {
 					.then(code => {
 						console.log(code);
 						console.log("successfully compiled!");
+						models.Notification.create({
+							type: 'SUCCESS'	,
+							title: 'Compiled successfully!',
+							message: 'Your code just compiled.',
+							isRead: false,
+							user_id: userId
+						})
+							.then(notification => {
+								//idk what to do here
+							})
+							.catch(err => {
+								console.log(err);
+							})
 					})
 					.catch(err => {
 						console.log(err);
