@@ -100,6 +100,22 @@ export function codeCharacterReducer(state = initialState, action) {
         gameLog: action.gameLog
       }
     }
+
+    case actionTypes.UPDATE_UNREAD_NOTIFICATIONS: {
+      return {
+        ...state,
+        notifications: action.notifications
+      }
+    }
+
+    case actionTypes.UPDATE_ALL_NOTIFICATIONS: {
+      console.log(action);
+      return {
+        ...state,
+        allNotifications: action.notifications
+      }
+    }
+
     default: {
       return state;
     }

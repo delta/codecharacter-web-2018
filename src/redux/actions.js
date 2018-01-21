@@ -122,6 +122,24 @@ export const updateCompilationStatus = (data) => ({
   data
 });
 
+export const getUnreadNotifications = () => ({
+  type: actionTypes.GET_UNREAD_NOTIFICATIONS
+});
+
+export const getAllNotifications = () => ({
+  type: actionTypes.GET_ALL_NOTIFICATIONS
+});
+
+export const updateAllNotifications = (notifications) => ({
+  type: actionTypes.UPDATE_ALL_NOTIFICATIONS,
+  notifications
+});
+
+export const updateUnreadNotifications = (notifications) => ({
+  type: actionTypes.UPDATE_UNREAD_NOTIFICATIONS,
+  notifications
+});
+
 export const fetchGameLog = (matchId) => ({
   type: actionTypes.FETCH_GAME_LOG,
   matchId

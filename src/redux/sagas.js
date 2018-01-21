@@ -2,6 +2,7 @@ import {
   call,
   put,
   takeEvery,
+  takeLatest
 }                                                from 'redux-saga/effects';
 import actionTypes                               from './action_types';
 import {
@@ -15,7 +16,9 @@ import {
   changeLastUsed,
   changeLastMatchId,
   changeMatchStatus,
-  updateGameLog
+  updateGameLog,
+  updateUnreadNotifications,
+  updateAllNotifications
 }                                                from './actions';
 import {
   userLogin,
@@ -40,6 +43,10 @@ import {
   getMatchStatus,
   fetchGameLog
 }                                                from '../shellFetch/matchFetch';
+import {
+  getAllNotifications,
+  getUnreadNotifications
+}                                                from '../shellFetch/userProtectedFetch';
 
 function* userLoginSaga (action) {
   try {
@@ -236,7 +243,43 @@ function* fetchGameLogSaga(action) {
     };
     let response = yield call(fetchGameLog,{req: null, query: query});
     console.log(response, "Match Response");
-    yield put(updateGameLog(response.match.log.data));
+    if (response.match) {
+      yield put(updateGameLog(response.match.log.data));
+    }
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* getUnreadNotificationsSaga() {
+  try {
+    let response = yield call(getUnreadNotifications,{req: null, query: null});
+    console.log(response);
+    if (response.notifications) {
+      yield put(updateUnreadNotifications(response.notifications));
+    }
+    else {
+      yield put(updateUnreadNotifications([]));
+    }
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* getAllNotificationsSaga() {
+  try {
+    let response = yield call(getAllNotifications,{req: null, query: null});
+    console.log(response, "Getting all notifications");
+    if(response.notifications) {
+      yield put(updateAllNotifications(response.notifications));
+    }
+    else {
+      yield put(updateAllNotifications([]));
+    }
   }
   catch (err) {
     console.log(err);
@@ -251,7 +294,7 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.USER_SIGNUP, userSignupSaga);
   yield takeEvery(actionTypes.FETCH_LEADERBOARD_DATA, leaderboardGetPlayersSaga);
   yield takeEvery(actionTypes.START_CHALLENGE, leaderboardStartChallengeSaga);
-  yield takeEvery(actionTypes.RUN_CODE, codeSubmitSaga);
+  yield takeLatest(actionTypes.RUN_CODE, codeSubmitSaga);
   yield takeEvery(actionTypes.LOCK_CODE, codeLockSaga);
   yield takeEvery(actionTypes.FETCH_CODE, codeFetchSaga);
   yield takeEvery(actionTypes.FETCH_MATCH_ALL_DATA, matchFetchAllSaga);
@@ -259,5 +302,7 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.GET_CODE_STATUS, getCodeStatusSaga);
   yield takeEvery(actionTypes.GET_LATEST_MATCH_ID, getLatestMatchIdSaga);
   yield takeEvery(actionTypes.GET_MATCH_STATUS, getMatchStatusSaga);
+  yield takeEvery(actionTypes.GET_ALL_NOTIFICATIONS, getAllNotificationsSaga);
+  yield takeEvery(actionTypes.GET_UNREAD_NOTIFICATIONS, getUnreadNotificationsSaga);
   yield takeEvery(actionTypes.FETCH_GAME_LOG, fetchGameLogSaga);
 }

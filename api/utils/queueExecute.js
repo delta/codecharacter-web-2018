@@ -16,6 +16,7 @@ let pushToQueue = (matchId, dll1, dll2, userId, opponentId) => {
 			userId,
 			opponentId
 		});
+		console.log(executeQueue);
 		return true;
 	}
 }
@@ -121,7 +122,7 @@ setInterval(() => {
 									.catch(err => {
 										console.log(err);
 									})
-								
+
 							*/
 							let winner = userId;
 							let loser = opponentId;
