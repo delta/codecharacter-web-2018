@@ -90,7 +90,7 @@ router.get('/compete/player/:againstId', (req, res) => {
     where:{
       user_id: userId
     },
-    attributes: ['dll1']
+    attributes: ['dll1_locked']
   })
     .then(code1 => {
       if(!code1 && (code1.status === 'SUCCESS')){
@@ -100,15 +100,21 @@ router.get('/compete/player/:againstId', (req, res) => {
         where:{
           user_id: competetorId
         },
-        attributes: ['dll2']
+        attributes: ['dll2_locked']
       })
         .then(code2 => {
           if(!code2 && (code1.status === 'SUCCESS')){
             return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
           }
           //execute code1.dll1, code2.dll2
-          let dll1 = code1.dll1;
-          let dll2 = code2.dll2;
+          let dll1 = code1.dll1_locked;
+          let dll2 = code2.dll2_locked;
+          if(!dll1){
+            return res.json({success: false, message: "Please lock your code and proceed!"});
+          }
+          if(!dll2){
+            return res.json({success: false, message:'Your opponent hasn\'t locked the code yet'});
+          }
           models.Match.findOne({
             where:{
               player_id1: userId,

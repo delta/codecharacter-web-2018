@@ -78,6 +78,32 @@ let success = queueCompile.pushToQueue(req.session.userId, source);
 			}
 			return res.json({success:true, message:"Code saved!"});
 */
+router.get("/lock", (req, res) => {
+	models.Code.findOne({
+		where: {
+			user_id: req.session.userId
+		}
+	})
+		.then(code => {
+			let dll1 = code.dll1;
+			let dll2 = code.dll2;
+			models.Code.update({
+				dll1_locked: dll1,
+				dll2_locked: dll2
+			},
+			{
+				where: {
+					user_id: req.session.userId
+				}
+			})
+				.then(() => {
+					res.json({success: true, message: 'Code locked!'})
+				})
+				.catch(err => {
+					res.json({success: false, message: 'Code locked failed!'});
+				})
+		})
+})
 router.get("/", (req, res)=>{
   console.log(req.session.userId);
 	models.Code.findOne({

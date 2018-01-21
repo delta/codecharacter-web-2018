@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
 		dll1: DataTypes.BLOB('long'),
 		dll2: DataTypes.BLOB('long'),
 		status: DataTypes.ENUM( 'COMPILING', 'SUCCESS', 'ERROR'),
-		error_log:  DataTypes.BLOB("long")
+		error_log:  DataTypes.BLOB("long"),
+		dll1_locked: DataTypes.BLOB("long"),
+		dll2_locked: DataTypes.BLOB("long"),
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {
