@@ -1,12 +1,19 @@
 import { connect }                             from 'react-redux';
+import {
+  getAllNotifications
+}                                              from '../redux/actions';
 import NotificationsTableComponent             from '../components/NotificationsTableComponent';
 
 const mapStateToProps = state => {
-  return null;
+  return {
+    notifications: state.allNotifications
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-  return null;
+  return {
+    getAllNotifications: () => {dispatch(getAllNotifications());}
+  };
 };
 
 const NotificationsTableContainer = connect(
@@ -14,4 +21,4 @@ const NotificationsTableContainer = connect(
   mapDispatchToProps
 )(NotificationsTableComponent);
 
-export default NotificationsTableComponent;
+export default NotificationsTableContainer;

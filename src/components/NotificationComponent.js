@@ -24,50 +24,50 @@ export default class NotificationComponent extends React.Component {
   };
 
   componentDidMount() {
-    this.codeStatus = setInterval(() => {this.props.getCodeStatus(); this.props.getLatestMatchId(); this.props.getMatchStatus(this.props.matchId);}, 500);
-    if(this.props.loginStatus) {
-      this.setInterval = setInterval(() => {if(this.state.index < (this.props.notifications).length){ this.addNotification();} }, 2000);
-    }
+    this.codeStatus = setInterval(() => {this.props.getCodeStatus(); this.props.getLatestMatchId(); this.props.getMatchStatus(this.props.matchId); this.props.getUnreadNotifications();}, 500);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.loginStatus) {
-      clearTimeout(this.setInterval);
-    }
-    else {
-      if(!this.setInterval) {
-        this.setInterval = setInterval(() => {if(this.state.index < (this.props.notifications).length) this.addNotification()}, 2000);
-      }
+    console.log(JSON.stringify(nextProps.notifications) !== JSON.stringify(this.props.notifications));
+    if (JSON.stringify(nextProps.notifications) !== JSON.stringify(this.props.notifications)) {
+      console.log(nextProps.notifications);
+      console.log("Gonna Update Notifications");
+      this.addNotifications(nextProps.notifications);
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.setInterval);
     clearInterval(this.codeStatus);
   }
 
-  addNotification = () => {
-    let notify = <Notification
-      type='info'
-      title='Info example'
-      text= {this.props.notifications[this.state.index].message}
-      animateIn='slideInDown'
-      animateOut='slideOutUp'
-      delay={4000}
-      shadow={true}
-      hide={true}
-      nonblock={false}
-      desktop={false}
-      key={this.state.index}
-    />;
+  addNotifications = (notifications) => {
+
+    let notifyDomElements = [];
+
+    for(let i=0;i< notifications.length;i++) {
+      let index = this.state.index;
+      let notify = <Notification
+        type={notifications[i].type==="SUCCESS"?'success':(notifications[i].type==="ERROR"?'error':(notifications[i].type==="WARNING"?'notice':(notifications[i].type==="INFORMATION"?'info':'info')))}
+        title={notifications[i].title}
+        text= {notifications[i].message}
+        animateIn='slideInDown'
+        animateOut='slideOutUp'
+        delay={4000}
+        shadow={true}
+        hide={true}
+        nonblock={false}
+        desktop={false}
+        key={index}
+      />;
+      console.log(index);
+      notifyDomElements.push(notify);
+      this.setState({
+        index: index+1
+      });
+    }
 
     this.setState({
-      index: this.state.index+1
-    });
-    let notifications = this.state.notifications;
-    notifications.push(notify);
-    this.setState({
-      notifications: notifications
+      notifications: notifyDomElements,
     });
   };
 

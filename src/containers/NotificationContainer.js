@@ -4,7 +4,8 @@ import {
   changeCodeStatus,
   getCodeStatus,
   getMatchStatus,
-  getLatestMatchId
+  getLatestMatchId,
+  getUnreadNotifications
 }                                              from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -21,7 +22,8 @@ const mapDispatchToProps = dispatch => {
     getCodeStatus: () => {dispatch(getCodeStatus());},
     changeStatus: () => {dispatch(changeCodeStatus());},
     getLatestMatchId: () => {dispatch(getLatestMatchId());},
-    getMatchStatus: (matchId) => {dispatch(getMatchStatus(matchId));}
+    getMatchStatus: (matchId) => {dispatch(getMatchStatus(matchId));},
+    getUnreadNotifications: () => {dispatch(getUnreadNotifications());}
   };
 };
 
