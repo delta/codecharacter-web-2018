@@ -142,7 +142,6 @@ function* codeSubmitSaga(action) {
 function* codeFetchSaga() {
   try {
     const response = yield call(codeFetch,{req: null, query: null});
-    console.log(response, "Here");
     yield put(updateCode(response.source));
   }
   catch(err) {
@@ -231,12 +230,13 @@ function* getMatchStatusSaga(action) {
 
 function* fetchGameLogSaga(action) {
   try {
+    console.log(action);
     let query = {
       matchId: action.matchId
     };
     let response = yield call(fetchGameLog,{req: null, query: query});
     console.log(response, "Match Response");
-    yield put(updateGameLog(response.match));
+    yield put(updateGameLog(response.match.log.data));
   }
   catch (err) {
     console.log(err);

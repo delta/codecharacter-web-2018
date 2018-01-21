@@ -131,6 +131,7 @@ export const getLatestMatchId = ({req, query}) => {
 };
 
 export const fetchGameLog = ({req,query}) => {
+  console.log(query.matchId);
   return fetch(API_BASE_URL + 'match/' + query.matchId, {
     method: "GET",
     credentials: 'include',

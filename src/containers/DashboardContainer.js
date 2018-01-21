@@ -26,7 +26,7 @@ const mapDispatchToProps = dispatch => {
     lockCode: (code) => {dispatch(lockCode(code));},
     fetchCode: ()  => {dispatch(fetchCode())},
     logout: () =>  {dispatch(userLogout());},
-    fetchGameLog: () => {dispatch(fetchGameLog());}
+    fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));}
   }
 };
 
