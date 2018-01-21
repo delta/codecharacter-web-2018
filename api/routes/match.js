@@ -90,7 +90,7 @@ router.get('/compete/player/:againstId', (req, res) => {
     where:{
       user_id: userId
     },
-    attributes: ['dll1']
+    attributes: ['dll1_locked']
   })
     .then(code1 => {
       if(!code1 && (code1.status === 'SUCCESS')){
@@ -100,69 +100,54 @@ router.get('/compete/player/:againstId', (req, res) => {
         where:{
           user_id: competetorId
         },
-        attributes: ['dll2']
+        attributes: ['dll2_locked']
       })
         .then(code2 => {
           if(!code2 && (code1.status === 'SUCCESS')){
             return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
           }
           //execute code1.dll1, code2.dll2
-          let dll1 = code1.dll1;
-          let dll2 = code2.dll2;
-          models.Match.findOne({
-            where:{
-              player_id1: userId,
-              player_id2: competetorId
-            }
+          let dll1 = code1.dll1_locked;
+          let dll2 = code2.dll2_locked;
+          if(!dll1){
+            return res.json({success: false, message: "Please lock your code and proceed!"});
+          }
+          if(!dll2){
+            return res.json({success: false, message:'Your opponent hasn\'t locked the code yet'});
+          }
+          models.Match.create({
+            player_id1: userId,
+            player_id2: competetorId,
+            dll1,
+            dll2,
+            status: 'executing'
           })
-            .then(match => {
-              if(match){
-                models.Match.update({
-                  dll1,
-                  dll2,
-                  status: 'executing'
-                },{
-                  where: {
-                    id: match.id
-                  }
+            .then(matchSaved => {
+              models.Notification.create({
+                type: 'INFORMATION' ,
+                title: 'Match Initiated',
+                message:`User with id ${userId} has initiated a match.`,
+                isRead: false,
+                user_id: competetorId
+              })
+                .then(notification => {
+                  //idk what to do here
                 })
-                  .then(matchSaved => {
-                    let success = queueExecute.pushToQueue(match.id, dll1, dll2, userId);
-                    if(success){
-                      res.json({success: true, message: 'Match is executing'});
-                    }else{
-                      res.json({success: false, message: 'Try after sometime!'});  
-                    }
-                  })
-                  .catch(err => {
-                    res.json({success: false, message: 'Try after sometime!'});
-                  });
+                .catch(err => {
+                  console.log(err);
+                })
+              console.log(matchSaved.id, matchSaved.player_id1, 'test2');
+              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
+              if(success){
+                res.json({success: true, message: 'Match is executing'});
               }else{
-                models.Match.create({
-                  player_id1: userId,
-                  player_id2: competetorId,
-                  dll1,
-                  dll2,
-                  status: 'executing'
-                })
-                  .then(matchSaved => {
-                    let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2);
-                    if(success){
-                      res.json({success: true, message: 'Match is executing'});
-                    }else{
-                      res.json({success: false, message: 'Try after sometime!'});  
-                    }
-                  })
-                  .catch(err => {
-                    console.log(err);
-                    res.json({success: false, message: 'Try after sometime!'});
-                  });
+                res.json({success: false, message: 'Try after sometime!'});  
               }
             })
             .catch(err => {
               console.log(err);
               res.json({success: false, message: 'Try after sometime!'});
-            })
+            });
         })
         .catch(err => {
           console.log(err);
