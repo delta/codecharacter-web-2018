@@ -66,38 +66,40 @@ router.post("/login", (req, res) => {
 	//check if user exists
 	let usePragyan = req.body.usePragyan;
 	if(usePragyan){
+		console.log('using pragyan');
 		let options = {
 			user_email: emailId,
 			user_pass: password,
-			event_id: 12,
-			event_secret: "dummyDummyDummy"
+			event_id: 2,
+			event_secret: "b6557e6b07dbae3265f83f088a7fad4a7a8203b4"
 		};
 		request({
 			method:'POST',
-			url: 'http://localhost:3002/compile',
+			url: 'https://api.pragyan.org/event/login',
 			json: true,
 			body: options
 		}, (err, response) => {
+			console.log(response.body);
 			if(err) console.log(err);
-			switch(response.statusCode){
+			switch(response.body.status_code){
 				case 400: {
-					res.json({success: false, message: 'Server Error'}); // Invalid Parameters unexposed
+					return res.json({success: false, message: 'Server Error'}); // Invalid Parameters unexposed
 				}
 				break;
 				case 403: {
-					res.json({success: false, message: 'Server Error'}); //forbidden secret mismatch
+					return res.json({success: false, message: 'Server Error'}); //forbidden secret mismatch
 				}
 				break;
 				case 412: {
-					res.json({success: false, message: 'Please register on main website'});
+					return res.json({success: false, message: 'Please register on main website'});
 				}
 				break;
 				case 401: {
-					res.json({success: false, message: 'Please enter correct emailid, password combination!'});
+					return res.json({success: false, message: 'Please enter correct emailid, password combination!'});
 				}
 				break;
 				case 406: {
-					res.json({success: false, message: 'Please register for the event!'});
+					return res.json({success: false, message: 'Please register for the event!'});
 				}
 				break;
 				case 200: {
@@ -130,22 +132,24 @@ router.post("/login", (req, res) => {
 				break;
 			}
 		})
+	}else{
+		
+		models.User.findOne({
+			where: { email: emailId }
+		})
+			.then((user) => {
+				if (!user) {
+					return res.json({ success: false, message: "User doesn't exist!" });
+				}
+				if(bcrypt.compareSync(password, user.dataValues.password)){
+					req.session.isLoggedIn = true;
+					req.session.userId = user.id;
+					return res.json({success:true, message:"Logged in!"});
+				}else{
+					return res.json({success:false, message:"Wrong Password!"});
+				}
+			});
 	}
-	models.User.findOne({
-		where: { email: emailId }
-	})
-		.then((user) => {
-			if (!user) {
-				return res.json({ success: false, message: "User doesn't exist!" });
-			}
-			if(bcrypt.compareSync(password, user.dataValues.password)){
-				req.session.isLoggedIn = true;
-				req.session.userId = user.id;
-				return res.json({success:true, message:"Logged in!"});
-			}else{
-				return res.json({success:false, message:"Wrong Password!"});
-			}
-		});
 });
 router.get("/logout", (req, res)=>{
 	if(req.session.isLoggedIn){
