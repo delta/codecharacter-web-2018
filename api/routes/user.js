@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt-nodejs");
 const models = require("../models");
+const request = require("request");
 /* GET home page. */
 // User login+signup handlers
 
@@ -63,6 +64,73 @@ router.post("/login", (req, res) => {
 		return res.json({success:false, message:"Pass proper params"});
 	}
 	//check if user exists
+	let usePragyan = req.body.usePragyan;
+	if(usePragyan){
+		let options = {
+			user_email: emailId,
+			user_pass: password,
+			event_id: 12,
+			event_secret: "dummyDummyDummy"
+		};
+		request({
+			method:'POST',
+			url: 'http://localhost:3002/compile',
+			json: true,
+			body: options
+		}, (err, response) => {
+			if(err) console.log(err);
+			switch(response.statusCode){
+				case 400: {
+					res.json({success: false, message: 'Server Error'}); // Invalid Parameters unexposed
+				}
+				break;
+				case 403: {
+					res.json({success: false, message: 'Server Error'}); //forbidden secret mismatch
+				}
+				break;
+				case 412: {
+					res.json({success: false, message: 'Please register on main website'});
+				}
+				break;
+				case 401: {
+					res.json({success: false, message: 'Please enter correct emailid, password combination!'});
+				}
+				break;
+				case 406: {
+					res.json({success: false, message: 'Please register for the event!'});
+				}
+				break;
+				case 200: {
+					models.User.findOne({
+						 email_id: emailId
+					})
+						.then(user => {
+							if(user){
+								req.session.isLoggedIn = true;
+								req.session.userId = user.id;
+								res.json({success: true, message: 'Log In Successful!'});
+							}else{
+								//no user with the emailId
+								models.User.create({
+									email_id: emailId,
+									name: response.body.message.user_fullname,
+									pragyanId: response.body.message.user_id
+								})
+									.then(userCreated => {
+										req.session.isLoggedIn = true;
+										req.session.userId = userCreated.id;
+										res.json({success: true, message: 'Log In Successful!'});
+									})
+							}
+						})
+						.catch(err => {
+							res.json({success: false, message: 'Login failed.'});
+						})
+				}
+				break;
+			}
+		})
+	}
 	models.User.findOne({
 		where: { email: emailId }
 	})
