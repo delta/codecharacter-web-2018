@@ -44,7 +44,12 @@ export default class DashboardComponent extends React.Component {
       code: props.code,
       height: window.innerHeight,
       width: window.innerWidth,
-      logFile: ''
+      logFile: '',
+      theme: 'monokai',
+      fontSize: 14,
+      enableBasicAutocompletion: false,
+      enableLiveAutocompletion: false,
+      highlightActiveLine: false
     };
   }
 
@@ -73,7 +78,6 @@ export default class DashboardComponent extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.windowResizeListener);
-    // this.request.abort();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -93,7 +97,6 @@ export default class DashboardComponent extends React.Component {
         let logFile = new Uint8Array(nextProps.gameLog);
         console.log(logFile);
         this.setState({logFile: logFile});
-      // this.setState({logFile: logFile});
     }
   }
 
@@ -107,6 +110,38 @@ export default class DashboardComponent extends React.Component {
     });
   };
 
+  changeTheme = (theme) => {
+    this.setState({
+      theme: theme
+    });
+  };
+
+  changeFontSize = (fontSize) => {
+    console.log(fontSize);
+    this.setState({
+      fontSize: Number(fontSize)
+    });
+  };
+
+  changeEnableBasicAutoCompletion = (basicAutocompletion) => {
+    this.setState({
+      enableBasicAutoCompletion: basicAutocompletion
+    })
+  };
+
+  changeEnableLiveAutoCompletion = (liveAutocompletion) => {
+    console.log(liveAutocompletion);
+    this.setState({
+      enableLiveAutoCompletion: liveAutocompletion
+    })
+  };
+
+  changeHighlightActiveLine = (highlightActiveLine) => {
+    this.setState({
+      highlightActiveLine: highlightActiveLine
+    })
+  };
+
   render() {
     if (this.state.width >= 600) {
       return (
@@ -116,9 +151,20 @@ export default class DashboardComponent extends React.Component {
             <div>
               {!this.props.matchesView
                 ? <div>
-                  <EditorCustomizeComponent/>
+                  <EditorCustomizeComponent
+                    changeTheme={this.changeTheme}
+                    changeFontSize={this.changeFontSize}
+                    changeEnableBasicAutoCompletion={this.changeEnableBasicAutoCompletion}
+                    changeEnableLiveAutoCompletion={this.changeEnableLiveAutoCompletion}
+                    changeHighlightActiveLine={this.changeHighlightActiveLine}
+                  />
                   <CodeComponent
                     code={this.state.code}
+                    theme={this.state.theme}
+                    fontSize={this.state.fontSize}
+                    enableBasicAutocompletion={this.state.enableBasicAutoCompletion}
+                    enableLiveAutocompletion={this.state.enableLiveAutoCompletion}
+                    highlightActiveLine={this.state.highlightActiveLine}
                     onChange={(code) => this.updateCode(code)}
                   />
                 </div>
@@ -155,20 +201,25 @@ export default class DashboardComponent extends React.Component {
     else {
       return (
         <div>
-          <div>
+          <div style={{display: 'block'}}>
             {!this.props.matchesView
-              ? <CodeComponent
-                code={this.state.code}
-                onChange={this.updateCode}
-              />
+              ? <div>
+                <EditorCustomizeComponent/>
+                <CodeComponent
+                  code={this.state.code}
+                  onChange={this.updateCode}
+                /></div>
               : this.props.matchesViewTable
             }
           </div>
-          <div>
-            <div>
-              <div style={{ display: 'block' }}>Render Component Goes Here</div>
+          <div style={{display: 'block'}}>
+            <div style={{ display: 'block', width: '100%', height: 300}}>
+              {this.state.logFile
+                ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
+                : <div>LOADING .. </div>
+              }
             </div>
-            <div>
+            <div style={{display: 'block'}}>
               <CodeComponent
                 showLineNumbers={false}
                 code={this.props.compilationStatus}

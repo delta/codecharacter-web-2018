@@ -105,6 +105,12 @@ div .alert {
   margin-top: 20px;
 }
 
+.editor-panel::after {
+  content: '&#9658;';
+  font-size: 50px;
+  background-color: red;
+}
+
 @media only screen and (max-width: 700px) {
   div .alert {
     margin-left: 5%;

@@ -4,9 +4,16 @@ import PropTypes                                  from 'prop-types';
 import 'brace/mode/c_cpp';
 import 'brace/theme/xcode';
 import 'brace/theme/monokai';
+import 'brace/theme/github';
+import 'brace/theme/tomorrow';
+import 'brace/theme/kuroir';
+import 'brace/theme/twilight';
+import 'brace/theme/xcode';
+import 'brace/theme/textmate';
+import 'brace/theme/solarized_dark';
+import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/ext/language_tools';
-import EditorCustomizeComponent from './EditorCustomizeComponent';
 
 export default class CodeComponent extends React.Component {
   static propTypes = {
@@ -14,8 +21,11 @@ export default class CodeComponent extends React.Component {
     showLineNumbers: PropTypes.bool,
     code: PropTypes.string,
     mode: PropTypes.string,
+    fontSize: PropTypes.number,
     readOnly: PropTypes.bool,
     highlightActiveLine: PropTypes.bool,
+    enableBasicAutocompletion: PropTypes.bool,
+    enableLiveAutocompletion: PropTypes.bool,
     onChange: PropTypes.func
   };
 
@@ -24,8 +34,11 @@ export default class CodeComponent extends React.Component {
     showLineNumbers: true,
     code: '// Enter Code Here',
     mode: 'c_cpp',
+    fontSize: 14,
     readOnly: false,
-    highlightActiveLine: true,
+    highlightActiveLine: false,
+    enableBasicAutocompletion: false,
+    enableLiveAutocompletion: false,
     onChange: () => {}
   };
 
@@ -37,20 +50,21 @@ export default class CodeComponent extends React.Component {
         name="codeCharacterEditor"
         onChange={(data) => this.props.onChange(data)}
         value={this.props.code}
-        fontSize={14}
-        showPrintMargin={false}
+        fontSize={this.props.fontSize}
+        showPrintMargin={true}
         showGutter={true}
+        wrapEnabled={true}
         readOnly={this.props.readOnly}
         highlightActiveLine={this.props.highlightActiveLine}
         editorProps={{
           $blockScrolling: Infinity
         }}
         setOptions={{
-          enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true,
+          enableBasicAutocompletion: this.props.enableBasicAutocompletion,
+          enableLiveAutocompletion: this.props.enableLiveAutocompletion,
           enableSnippets: false,
           showLineNumbers: this.props.showLineNumbers,
-          tabSize: 2,
+          tabSize: 4,
         }}
         style={{
           width: '100%',
