@@ -235,8 +235,9 @@ function* fetchGameLogSaga(action) {
       matchId: action.matchId
     };
     let response = yield call(fetchGameLog,{req: null, query: query});
-    console.log(response, "Match Response");
-    yield put(updateGameLog(response.match.log.data));
+    if (response.match) {
+      yield put(updateGameLog(response.match.log.data));
+    }
   }
   catch (err) {
     console.log(err);

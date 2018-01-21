@@ -49,7 +49,7 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentDidMount() {
-    /*this.request = fetch('game.log')
+    this.request = fetch('game.log')
       .then((response) => {
         response.arrayBuffer()
           .then((buffer) => {
@@ -60,7 +60,7 @@ export default class DashboardComponent extends React.Component {
       this.setState({
         logFile: response
       })
-    });*/
+    });
     this.props.fetchCode();
     if(!this.props.loginStatus) {
       this.props.history.push('/login');

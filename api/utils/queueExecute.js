@@ -15,6 +15,7 @@ let pushToQueue = (matchId, dll1, dll2, userId) => {
 			matchId,
 			userId
 		});
+		console.log(executeQueue);
 		return true;
 	}
 }
@@ -44,7 +45,7 @@ setInterval(() => {
 	}
 	if(getQueueSize()){
 		let codeToBeExecuted = executeQueue[0];
-		let userId = executeQueue[0].userId;
+		let userId = codeToBeExecuted.userId;
 		requestUnderway = true;
 		request(
 			{
