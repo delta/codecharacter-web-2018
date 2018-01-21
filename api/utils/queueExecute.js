@@ -4,7 +4,7 @@ const models = require("../models");
 const request = require("request");
 let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
-let pushToQueue = (matchId, dll1, dll2, userId) => {
+let pushToQueue = (matchId, dll1, dll2, userId, opponentId) => {
 	if(executeQueue.length === executeQueueSize){
 		return false;
 	}else{
@@ -13,7 +13,8 @@ let pushToQueue = (matchId, dll1, dll2, userId) => {
 			dll1,
 			dll2,
 			matchId,
-			userId
+			userId,
+			opponentId
 		});
 		return true;
 	}
@@ -44,7 +45,8 @@ setInterval(() => {
 	}
 	if(getQueueSize()){
 		let codeToBeExecuted = executeQueue[0];
-		let userId = executeQueue[0].userId;
+		let userId = executeQueue[0].userId; //say this dude wins
+		let opponentId = executeQueue[0].opponentId;
 		requestUnderway = true;
 		request(
 			{
@@ -53,6 +55,8 @@ setInterval(() => {
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
+				//handle scores
+				//create appropriate notifications
 				let matchId = response.body.matchId;
 				requestUnderway = false;
 				executeQueue.shift();
@@ -103,15 +107,42 @@ setInterval(() => {
 					)
 						.then(match => {
 							console.log(match);
-							models.Notification.create({
-								type: 'SUCCESS'	,
-								title: 'Executed successfully!',
-								message: 'Your match just successfully got executed!',
-								isRead: false,
-								user_id: userId
-							})
-								.then(notification => {
-									//idk what to do here
+							/*
+								models.Notification.create({
+									type: 'SUCCESS'	,
+									title: 'Executed successfully!',
+									message: 'Your match just successfully got executed!',
+									isRead: false,
+									user_id: userId
+								})
+									.then(notification => {
+										//idk what to do here
+									})
+									.catch(err => {
+										console.log(err);
+									})
+								
+							*/
+							let winner = userId;
+							let loser = opponentId;
+							models.bulkCreate([
+								{
+									type: 'INFORMATION'	,
+									title: 'Match Update',
+									message: `${winner} won the match!`,
+									isRead: false,
+									user_id: loser
+								},
+								{
+									type: 'SUCCESS'	,
+									title: 'Match Update',
+									message: `${winner} won the match!`,
+									isRead: false,
+									user_id: winner
+								}
+							])
+								.then(() => {
+
 								})
 								.catch(err => {
 									console.log(err);

@@ -101,19 +101,21 @@ setInterval(() => {
 					.then(code => {
 						console.log(code);
 						console.log("successfully compiled!");
-						models.Notification.create({
-							type: 'SUCCESS'	,
-							title: 'Compiled successfully!',
-							message: 'Your code just compiled.',
-							isRead: false,
-							user_id: Number(userId)
-						})
-							.then(notification => {
-								//idk what to do here
+						/*
+							models.Notification.create({
+								type: 'SUCCESS'	,
+								title: 'Compiled successfully!',
+								message: 'Your code just compiled.',
+								isRead: false,
+								user_id: Number(userId)
 							})
-							.catch(err => {
-								console.log(err);
-							})
+								.then(notification => {
+									//idk what to do here
+								})
+								.catch(err => {
+									console.log(err);
+								})
+						*/
 					})
 					.catch(err => {
 						console.log(err);

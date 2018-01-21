@@ -123,8 +123,21 @@ router.get('/compete/player/:againstId', (req, res) => {
             status: 'executing'
           })
             .then(matchSaved => {
+              models.Notification.create({
+                type: 'INFORMATION' ,
+                title: 'Match Initiated',
+                message:`User with id ${userId} has initiated a match.`,
+                isRead: false,
+                user_id: competetorId
+              })
+                .then(notification => {
+                  //idk what to do here
+                })
+                .catch(err => {
+                  console.log(err);
+                })
               console.log(matchSaved.id, matchSaved.player_id1, 'test2');
-              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1);
+              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
               if(success){
                 res.json({success: true, message: 'Match is executing'});
               }else{
