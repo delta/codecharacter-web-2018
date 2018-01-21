@@ -93,7 +93,7 @@ setInterval(() => {
 				}else{
 					models.Match.update({
 							status: 'success',
-							log: body.log
+							log: body.log.data
 						},
 						{
 							where:{
