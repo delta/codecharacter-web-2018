@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
 	let Match = sequelize.define("Match", {
 		id: {
 			type: DataTypes.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+    	autoIncrement: true
 		},
 		player_id1: {
 			type:DataTypes.INTEGER,

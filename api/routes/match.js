@@ -115,63 +115,26 @@ router.get('/compete/player/:againstId', (req, res) => {
           if(!dll2){
             return res.json({success: false, message:'Your opponent hasn\'t locked the code yet'});
           }
-          models.Match.findOne({
-            where:{
-              player_id1: userId,
-              player_id2: competetorId
-            }
+          models.Match.create({
+            player_id1: userId,
+            player_id2: competetorId,
+            dll1,
+            dll2,
+            status: 'executing'
           })
-            .then(match => {
-              if(match){
-                models.Match.update({
-                  dll1,
-                  dll2,
-                  status: 'executing'
-                },{
-                  where: {
-                    id: match.id
-                  }
-                })
-                  .then(matchSaved => {
-                    console.log(match.id, userId, 'test2');
-                    let success = queueExecute.pushToQueue(match.id, dll1, dll2, userId);
-                    if(success){
-                      res.json({success: true, message: 'Match is executing'});
-                    }else{
-                      res.json({success: false, message: 'Try after sometime!'});  
-                    }
-                  })
-                  .catch(err => {
-                    res.json({success: false, message: 'Try after sometime!'});
-                  });
+            .then(matchSaved => {
+              console.log(matchSaved.id, matchSaved.player_id1, 'test2');
+              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1);
+              if(success){
+                res.json({success: true, message: 'Match is executing'});
               }else{
-                models.Match.create({
-                  player_id1: userId,
-                  player_id2: competetorId,
-                  dll1,
-                  dll2,
-                  status: 'executing'
-                })
-                  .then(matchSaved => {
-
-                    console.log(matchSaved.id, userId, 'test2');
-                    let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, userId);
-                    if(success){
-                      res.json({success: true, message: 'Match is executing'});
-                    }else{
-                      res.json({success: false, message: 'Try after sometime!'});  
-                    }
-                  })
-                  .catch(err => {
-                    console.log(err);
-                    res.json({success: false, message: 'Try after sometime!'});
-                  });
+                res.json({success: false, message: 'Try after sometime!'});  
               }
             })
             .catch(err => {
               console.log(err);
               res.json({success: false, message: 'Try after sometime!'});
-            })
+            });
         })
         .catch(err => {
           console.log(err);
