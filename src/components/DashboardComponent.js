@@ -5,7 +5,7 @@ import { Redirect }                               from 'react-router-dom'
 import CodeComponent                              from './CodeComponent';
 import SubmitButtons                              from './SubmitButtons';
 import EditorCustomizeComponent from './EditorCustomizeComponent';
-// import CodeCharacterRenderer                      from 'codecharacter-renderer';
+import CodeCharacterRenderer                      from 'codecharacter-renderer';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -15,6 +15,8 @@ export default class DashboardComponent extends React.Component {
     code: PropTypes.string,
     matchesView: PropTypes.bool,
     matchesViewTable: PropTypes.element,
+    shouldFetchLog: PropTypes.bool,
+    lastMatchId: PropTypes.number,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
     fetchCode: PropTypes.func,
@@ -27,11 +29,13 @@ export default class DashboardComponent extends React.Component {
     code: '#include <iostream> \nusing namespace std; \n\nint main() \n// Enter code here (C or C++)',
     readOnly: false,
     matchesView: false,
+    shouldFetchLog: false,
     matchesViewTable: null,
     runCode: () => {},
     lockCode: () => {},
     fetchCode: () => {},
-    logout: () => {}
+    logout: () => {},
+    logFile: ''
   };
 
   constructor(props) {
@@ -39,29 +43,37 @@ export default class DashboardComponent extends React.Component {
     this.state = {
       code: props.code,
       height: window.innerHeight,
-      width: window.innerWidth
+      width: window.innerWidth,
+      logFile: ''
     };
-
-    fetch('game.log').then((response) => {
-      response.arrayBuffer().then((buffer) => {
-        let logFile = new Uint8Array(buffer);
-        this.setState({logFile: logFile});
-      });
-    });
-
   }
 
   componentDidMount() {
+    /*this.request = fetch('game.log')
+      .then((response) => {
+        response.arrayBuffer()
+          .then((buffer) => {
+            return new Uint8Array(buffer);
+          });
+      });
+    (this.request).then((response) => {
+      this.setState({
+        logFile: response
+      })
+    });*/
     this.props.fetchCode();
-    console.log("Rendering");
     if(!this.props.loginStatus) {
       this.props.history.push('/login');
+    }
+    if(this.props.shouldFetchLog) {
+      this.props.fetchGameLog(this.props.lastMatchId);
     }
     this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight, width: window.innerWidth})});
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.windowResizeListener);
+    // this.request.abort();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,6 +84,16 @@ export default class DashboardComponent extends React.Component {
       this.setState({
         code: nextProps.code
       });
+    }
+    if(nextProps.shouldFetchLog && !this.props.shouldFetchLog) {
+      this.props.fetchGameLog(nextProps.lastMatchId);
+    }
+
+    if(nextProps.gameLog !== this.props.gameLog) {
+        let logFile = new Uint8Array(nextProps.gameLog);
+        console.log(logFile);
+        this.setState({logFile: logFile});
+      // this.setState({logFile: logFile});
     }
   }
 
@@ -107,10 +129,10 @@ export default class DashboardComponent extends React.Component {
               <SplitPane split="horizontal" minSize={100} defaultSize={400}>
                 <div style={{width: "100%"}}>
                   <div style={{ display: 'block', width: '100%', height: '100%'}}>
-                    {/*{this.state.logFile
+                    {this.state.logFile
                       ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
                       : <div>LOADING .. </div>
-                    }*/}
+                    }
                   </div>
                 </div>
                 <div>

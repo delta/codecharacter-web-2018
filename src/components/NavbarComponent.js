@@ -6,16 +6,13 @@ export default class NavbarComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
     onLogout: PropTypes.func,
-    status: PropTypes.string
   };
 
   static defaultProps = {
     loginStatus: false,
     onLogout: () => {},
-    status: 'idle'
+    codeStatus: 'idle'
   };
-
-
 
   render() {
     return (
@@ -51,17 +48,29 @@ export default class NavbarComponent extends React.Component {
               <li className="nav-item">
                 <span className="nav-link" onClick={() => {this.props.onLogout();}}>Logout</span>
               </li>
+              {/*<li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div className="dropdown-menu" x-placement="bottom-start" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: 0, left: 0, willChange: 'transform'}}>
+                  <a className="dropdown-item" href="#">Action</a>
+                  <a className="dropdown-item" href="#">Another action</a>
+                  <a className="dropdown-item" href="#">Something else here</a>
+                  <div className="dropdown-divider"></div>
+                  <a className="dropdown-item" href="#">Separated link</a>
+                </div>
+              </li>*/}
             </ul>
             <form className="form-inline my-2 my-lg-0">
-                <span className="circle" style={{paddingRight: 20, marginBottom: 3}}/>
-              <span className="nav-item" style={{color: 'hsla(0,0%,100%,0.5)', fontSize: 16, fontWeight: 900 }}>{this.props.status}</span>
+              <div className="nav-item" style={{margin: '0 !important'}}>
+              <span className="circle" style={{paddingRight: 20, marginBottom: 3}}/>
+                <span style={{color: 'white'}}>{(this.props.lastUsed===0) ? this.props.codeStatus : this.props.matchStatus}</span>
+              </div>
             </form>
           </div>
           : <div className="collapse navbar-collapse" id={"navbarColor02"}>
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to={"/"}>Home</Link>
-            </li>
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to={"/"}>Home</Link>
+              </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/login"}>Login</Link>
               </li>

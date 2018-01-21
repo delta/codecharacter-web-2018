@@ -10,8 +10,13 @@ import {
   updateMatchAllData,
   updateCompilationStatus,
   updateLoginMessage,
-  updateCode, changeStatus,
-} from './actions';
+  updateCode,
+  changeCodeStatus,
+  changeLastUsed,
+  changeLastMatchId,
+  changeMatchStatus,
+  updateGameLog
+}                                                from './actions';
 import {
   userLogin,
   userRegister,
@@ -26,11 +31,15 @@ import {
   codeSubmit,
   codeLock,
   codeFetch, codeCompile, getCodeStatus,
-} from '../shellFetch/codeFetch';
+}                                               from '../shellFetch/codeFetch';
 import {
   challengePlayer,
-  matchFetchAll, matchFetchData
-} from '../shellFetch/matchFetch';
+  matchFetchAll,
+  matchFetchData,
+  getLatestMatchId,
+  getMatchStatus,
+  fetchGameLog
+}                                                from '../shellFetch/matchFetch';
 
 function* userLoginSaga (action) {
   try {
@@ -105,6 +114,7 @@ function* leaderboardStartChallengeSaga(action) {
     };
     const response = yield call(challengePlayer, {req: null, query: query});
     console.log(response);
+    yield put(changeLastUsed(1));
   }
   catch(err) {
     console.log(err);
@@ -120,6 +130,7 @@ function* codeSubmitSaga(action) {
     yield put(updateCode(action.code));
     const response = yield call(codeCompile,{req: null, query: query});
     console.log(response);
+    yield put(changeLastUsed(0));
     yield put(updateCompilationStatus(response.message));
   }
   catch(err) {
@@ -131,7 +142,6 @@ function* codeSubmitSaga(action) {
 function* codeFetchSaga() {
   try {
     const response = yield call(codeFetch,{req: null, query: null});
-    console.log(response, "Here");
     yield put(updateCode(response.source));
   }
   catch(err) {
@@ -185,8 +195,48 @@ function* codeLockSaga(action) {
 function* getCodeStatusSaga(action) {
   try {
     let response = yield call(getCodeStatus, {req: null, query: null});
-    console.log(response);
-    yield put(changeStatus(response.status));
+    yield put(changeCodeStatus(response.status));
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* getLatestMatchIdSaga() {
+  try {
+    let response = yield call(getLatestMatchId,{req: null, query: null});
+    yield put(changeLastMatchId(response.match ? response.match.id : -1));
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* getMatchStatusSaga(action) {
+  try {
+    let query = {
+      matchId: action.matchId
+    };
+    let response = yield call(getMatchStatus,{req: null, query: query});
+    yield put(changeMatchStatus(response.status));
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* fetchGameLogSaga(action) {
+  try {
+    console.log(action);
+    let query = {
+      matchId: action.matchId
+    };
+    let response = yield call(fetchGameLog,{req: null, query: query});
+    console.log(response, "Match Response");
+    yield put(updateGameLog(response.match.log.data));
   }
   catch (err) {
     console.log(err);
@@ -207,4 +257,7 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.FETCH_MATCH_ALL_DATA, matchFetchAllSaga);
   yield takeEvery(actionTypes.GET_MATCH_DATA, matchFetchDataSaga);
   yield takeEvery(actionTypes.GET_CODE_STATUS, getCodeStatusSaga);
+  yield takeEvery(actionTypes.GET_LATEST_MATCH_ID, getLatestMatchIdSaga);
+  yield takeEvery(actionTypes.GET_MATCH_STATUS, getMatchStatusSaga);
+  yield takeEvery(actionTypes.FETCH_GAME_LOG, fetchGameLogSaga);
 }
