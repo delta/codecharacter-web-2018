@@ -127,6 +127,7 @@ router.get('/compete/player/:againstId', (req, res) => {
                   }
                 })
                   .then(matchSaved => {
+                    console.log(match.id, userId, 'test2');
                     let success = queueExecute.pushToQueue(match.id, dll1, dll2, userId);
                     if(success){
                       res.json({success: true, message: 'Match is executing'});
@@ -146,7 +147,9 @@ router.get('/compete/player/:againstId', (req, res) => {
                   status: 'executing'
                 })
                   .then(matchSaved => {
-                    let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2);
+
+                    console.log(matchSaved.id, userId, 'test2');
+                    let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, userId);
                     if(success){
                       res.json({success: true, message: 'Match is executing'});
                     }else{

@@ -74,7 +74,7 @@ setInterval(() => {
 									title: 'Compilation Error',
 									message: 'Your code didn\'t compile, please check your code and compile again!',
 									isRead: false,
-									user_id: userId
+									user_id: Number(userId)
 								})
 									.then(notification => {
 										//idk what to do here
@@ -106,7 +106,7 @@ setInterval(() => {
 							title: 'Compiled successfully!',
 							message: 'Your code just compiled.',
 							isRead: false,
-							user_id: userId
+							user_id: Number(userId)
 						})
 							.then(notification => {
 								//idk what to do here
