@@ -26,7 +26,6 @@ module.exports = {
 				type: Sequelize.DATE
 			},
 			password: {
-				allowNull: false,
 				type: Sequelize.STRING
 			},
 			rating:{
