@@ -5,9 +5,39 @@ const router = express.Router();
 const bcrypt = require("bcrypt-nodejs");
 const models = require("../models");
 const request = require("request");
+const nodemailer = require("nodemailer");
+
+const senderEmailId = require("../config/email.js").email_id; // use const here
+const senderPassword = require("../config/email.js").password;
 /* GET home page. */
 // User login+signup handlers
 
+const smtpTransport = nodemailer.createTransport({
+  "service": "Gmail",
+  "auth": {
+    "user": senderEmailId,
+    "pass": senderPassword,
+  },
+});
+
+let sendEmail = (email, message, res, activationToken, subject) => {
+  const mailOptions = {
+    "to": email,
+    "subject": subject,
+    "text": message,
+  };
+
+  smtpTransport.sendMail(mailOptions, (error, response) => {
+    if (error) {
+      console.log(error);
+      // send message from callee
+      return res.json({ "status": 200, "success": true, "message": message });
+    }
+
+    res.json({ "status": 200, "success": true, "message": "Thank you for registering. Please check your e-mail inbox to complete registration!" });
+    console.log(`Message sent: ${response.message}`);
+  });
+};
 // GET handlers
 router.get("/login", (req, res) => {
   if (req.session.isLoggedIn) {
@@ -42,10 +72,22 @@ router.post("/signup", (req, res) => {
 		});
 	//create user
 	const hashedPassword = bcrypt.hashSync(password);
-	models.User.create({ email: emailId, name: name, password: hashedPassword, rating: 0 })//pragyanId has to be added later
+	const date = new Date();
+  const dateInMs = date.getTime();
+  const activationToken = bcrypt.hashSync(emailId + dateInMs);
+  const activationTokenExpiryTime = new Date(dateInMs + 86400000);
+	models.User.create({ 
+		email: emailId,
+		name: name,
+		password: hashedPassword,
+		rating: 0,
+		is_active: false,
+		activation_key: bcrypt.hashSync(password + Math.random()*3001),
+		activation_deadline: activationTokenExpiryTime
+	})//pragyanId has to be added later
 		.then((user) => {
 			if (user) {
-				return res.json({ success: true, message: "User signedup!" });
+				return res.json({ success: true, message: "User signedup!", activation_key: user.activation_key });
 			}
 		});
 });
@@ -103,20 +145,25 @@ router.post("/login", (req, res) => {
 				}
 				break;
 				case 200: {
+					console.log(emailId);
 					models.User.findOne({
-						 email_id: emailId
+						 where:{
+						 	email: emailId
+						 }
 					})
 						.then(user => {
 							if(user){
 								req.session.isLoggedIn = true;
 								req.session.userId = user.id;
+								console.log(req.session);
 								res.json({success: true, message: 'Log In Successful!'});
 							}else{
 								//no user with the emailId
 								models.User.create({
-									email_id: emailId,
+									email: emailId,
 									name: response.body.message.user_fullname,
-									pragyanId: response.body.message.user_id
+									pragyanId: response.body.message.user_id,
+									rating: 0
 								})
 									.then(userCreated => {
 										req.session.isLoggedIn = true;
@@ -126,6 +173,7 @@ router.post("/login", (req, res) => {
 							}
 						})
 						.catch(err => {
+							console.log(err);
 							res.json({success: false, message: 'Login failed.'});
 						})
 				}
@@ -133,13 +181,16 @@ router.post("/login", (req, res) => {
 			}
 		})
 	}else{
-		
+
 		models.User.findOne({
 			where: { email: emailId }
 		})
 			.then((user) => {
 				if (!user) {
 					return res.json({ success: false, message: "User doesn't exist!" });
+				}
+				if(!user.is_active){
+					res.json({success: false, message:'Please check your e-mail for activation link!'})
 				}
 				if(bcrypt.compareSync(password, user.dataValues.password)){
 					req.session.isLoggedIn = true;
@@ -151,6 +202,44 @@ router.post("/login", (req, res) => {
 			});
 	}
 });
+router.post('/activate', (req, res) => {
+	models.User.findOne({
+		where: {
+			activation_key: req.body.activation_key
+		}
+	})
+		.then(user => {
+			let time = new Date();
+			let timeInMs = time.getTime()
+			//if(user.activation_deadline > timeInMs){} //for now lets not check the limit
+			if(user.is_active){
+				return res.json({success: false, message: 'Already activated!'});
+			}
+			models.User.update({
+				is_active: true
+			},
+			{
+				where: {
+					id: user.id
+				}
+			})
+				.then(success => {
+					if(success){
+						res.json({success: true, message: 'User activated!'});
+					}else{
+
+					}
+				})
+				.catch(err => {
+					console.log(err, 1);
+					res.json({success: false, message: 'Activation Failed!'});
+				})
+		})
+		.catch(err => {
+			console.log(err, 1);
+			res.json({success: false, message: 'Activation Failed!'});
+		})
+})
 router.get("/logout", (req, res)=>{
 	if(req.session.isLoggedIn){
 		req.session.isLoggedIn = false;

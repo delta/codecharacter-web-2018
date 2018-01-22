@@ -50,4 +50,6 @@ lib
 # Editor
 .idea
 
-api/config/*
+api/config/config.js
+api/config/serverConfig.js
+api/config/email.js

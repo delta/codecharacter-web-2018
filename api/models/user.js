@@ -20,8 +20,10 @@ module.exports = (sequelize, DataTypes) => {
 		rating:{
 			allowNull: false,
 			type: DataTypes.INTEGER
-		}
-    
+		},
+		is_active: DataTypes.BOOLEAN,
+		activation_key: DataTypes.STRING,
+		activation_deadline: DataTypes.DATE
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {
