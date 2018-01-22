@@ -141,7 +141,7 @@ router.get('/compete/player/:againstId', (req, res) => {
               if(success){
                 res.json({success: true, message: 'Match is executing'});
               }else{
-                res.json({success: false, message: 'Try after sometime!'});  
+                res.json({success: false, message: 'Try after sometime!'});
               }
             })
             .catch(err => {

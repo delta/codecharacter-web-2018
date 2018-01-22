@@ -174,7 +174,7 @@ export default class DashboardComponent extends React.Component {
             <div>
               <SplitPane split="horizontal" minSize={100} defaultSize={400}>
                 <div style={{width: "100%"}}>
-                  <div style={{ display: 'block', width: '100%', height: '100%'}}>
+                  <div style={{ display: 'block', width: '100%'}}>
                     {this.state.logFile
                       ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
                       : <div>LOADING .. </div>

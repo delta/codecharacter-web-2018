@@ -131,8 +131,29 @@ export const getLatestMatchId = ({req, query}) => {
 };
 
 export const fetchGameLog = ({req,query}) => {
-  console.log(query.matchId);
   return fetch(API_BASE_URL + 'match/' + query.matchId, {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
+
+export const executeCode = ({req, query}) => {
+  return fetch(API_BASE_URL + 'match/compete/player_same', {
     method: "GET",
     credentials: 'include',
     headers: {

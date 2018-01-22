@@ -41,7 +41,8 @@ import {
   matchFetchData,
   getLatestMatchId,
   getMatchStatus,
-  fetchGameLog
+  fetchGameLog,
+  executeCode
 }                                                from '../shellFetch/matchFetch';
 import {
   getAllNotifications,
@@ -287,6 +288,17 @@ function* getAllNotificationsSaga() {
   }
 }
 
+function* executeCodeSaga() {
+  try {
+    yield put(executeCode, {req: null, query: null});
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+
 export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.USER_AUTHENTICATE, userLoginSaga);
   yield takeEvery(actionTypes.USER_AUTHENTICATE_CHECK, userLoginStatusSaga);
@@ -305,4 +317,5 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.GET_ALL_NOTIFICATIONS, getAllNotificationsSaga);
   yield takeEvery(actionTypes.GET_UNREAD_NOTIFICATIONS, getUnreadNotificationsSaga);
   yield takeEvery(actionTypes.FETCH_GAME_LOG, fetchGameLogSaga);
+  yield takeEvery(actionTypes.EXECUTE_CODE, executeCodeSaga);
 }
