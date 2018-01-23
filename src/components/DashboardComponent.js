@@ -54,7 +54,7 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.request = fetch('game.log')
+    /*this.request = fetch('game.log')
       .then((response) => {
         response.arrayBuffer()
           .then((buffer) => {
@@ -65,7 +65,7 @@ export default class DashboardComponent extends React.Component {
       this.setState({
         logFile: response
       })
-    });
+    });*/
     this.props.fetchCode();
     if(!this.props.loginStatus) {
       this.props.history.push('/login');
@@ -96,6 +96,7 @@ export default class DashboardComponent extends React.Component {
     if(nextProps.gameLog !== this.props.gameLog) {
         let logFile = new Uint8Array(nextProps.gameLog);
         console.log(logFile);
+        console.log("Here, Updating Log File");
         this.setState({logFile: logFile});
     }
   }

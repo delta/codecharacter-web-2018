@@ -1,6 +1,7 @@
 import React                                      from 'react';
 import {
-  Modal
+  Modal,
+  Form
 }                                                 from 'react-bootstrap';
 import Recaptcha                                  from 'react-recaptcha';
 
@@ -57,34 +58,36 @@ export default class SignUpComponent extends React.Component {
   render() {
     return (
       <div className="static-modal">
-        <Modal.Dialog style={{position: 'static'}}>
-          <div className='modal-content'>
-            <Modal.Header>
-              <Modal.Title>
-                Create a new account
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className={this.usernameStatus}>
-                <input onChange={this.updateUsername} type="text" className="form-control" placeholder="Username" id="inputDefault"/>
-              </div>
-              <div className={this.nameStatus}>
-                <input onChange={this.updateName} type="text" className='form-control' placeholder="Name" id="inputDefault"/>
-              </div>
-              <div className={this.passwordStatus}>
-                <input onChange={this.updatePassword} type="password" className='form-control' placeholder="Password" id="inputDefault"/>
-              </div>
-              <div style={{margin: '0 auto'}} className="form-group">
-                <Recaptcha verifyCallback={() => this.verifyCallback()} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>
-                <div style={{color: 'red'}}>{this.state.captchaMessage}</div>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <button className='btn btn-primary' type='button' onClick={this.handleSubmit}>SIGN UP</button>
-              <button className="btn btn-secondary" type='button' onClick={() => this.props.history.push('/login')}>LOG IN</button>
-            </Modal.Footer>
-          </div>
-        </Modal.Dialog>
+        <Form>
+          <Modal.Dialog style={{position: 'static'}}>
+            <div className='modal-content'>
+              <Modal.Header>
+                <Modal.Title>
+                  Create a new account
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className={this.usernameStatus}>
+                  <input onChange={this.updateUsername} type="text" className="form-control" placeholder="Username" id="inputDefault"/>
+                </div>
+                <div className={this.nameStatus}>
+                  <input onChange={this.updateName} type="text" className='form-control' placeholder="Name" id="inputDefault"/>
+                </div>
+                <div className={this.passwordStatus}>
+                  <input onChange={this.updatePassword} type="password" className='form-control' placeholder="Password" id="inputDefault"/>
+                </div>
+                <div style={{margin: '0 auto'}} className="form-group">
+                  <Recaptcha verifyCallback={() => this.verifyCallback()} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>
+                  <div style={{color: 'red'}}>{this.state.captchaMessage}</div>
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <button className='btn btn-primary' type='submit' onClick={this.handleSubmit}>SIGN UP</button>
+                <button className="btn btn-secondary" type='button' onClick={() => this.props.history.push('/login')}>LOG IN</button>
+              </Modal.Footer>
+            </div>
+          </Modal.Dialog>
+        </Form>
       </div>
     );
   }

@@ -290,7 +290,8 @@ function* getAllNotificationsSaga() {
 
 function* executeCodeSaga() {
   try {
-    yield put(executeCode, {req: null, query: null});
+    yield put(changeLastUsed(1));
+    yield call(executeCode, {req: null, query: null});
   }
   catch (err) {
     console.log(err);

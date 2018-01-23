@@ -21,7 +21,7 @@ export default class NavbarComponent extends React.Component {
   }
   checkCodeStatusChange = (codeStatusOld, codeStatusNew) => {
     if (codeStatusOld==="compiling" && codeStatusNew==="success") {
-      // this.props.executeCode();
+      this.props.executeCode();
     }
   };
 
