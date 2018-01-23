@@ -78,6 +78,21 @@ let success = queueCompile.pushToQueue(req.session.userId, source);
 			}
 			return res.json({success:true, message:"Code saved!"});
 */
+router.get('/error_status', (req, res) => {
+	//params
+	models.Code.find({
+		where: {
+			user_id: req.session.userId
+		}
+	})
+		.then(code => {
+			if(code.status === "ERROR"){
+				res.json({success: true, error: code.error_log});
+			}else{
+				res.json({success: false, message:'There are no error in your saved code!'});
+			}
+		})
+})
 router.get("/lock", (req, res) => {
 	models.Code.findOne({
 		where: {

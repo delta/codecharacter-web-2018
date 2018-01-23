@@ -121,7 +121,7 @@ router.post("/login", (req, res) => {
 			json: true,
 			body: options
 		}, (err, response) => {
-			console.log(response.body);
+			//console.log(response.body);
 			if(err) console.log(err);
 			switch(response.body.status_code){
 				case 400: {
