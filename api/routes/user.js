@@ -164,7 +164,8 @@ router.post("/login", (req, res) => {
 									email: emailId,
 									name: response.body.message.user_fullname,
 									pragyanId: response.body.message.user_id,
-									rating: 0
+									rating: 0,
+									is_active: 1
 								})
 									.then(userCreated => {
 										req.session.isLoggedIn = true;
