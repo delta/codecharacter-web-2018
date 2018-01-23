@@ -6,7 +6,8 @@ import {
   lockCode,
   fetchCode,
   fetchGameLog,
-  getAIs
+  getAIs,
+  changeAIid
 }                                              from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -29,7 +30,8 @@ const mapDispatchToProps = dispatch => {
     fetchCode: ()  => {dispatch(fetchCode())},
     logout: () =>  {dispatch(userLogout());},
     fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));},
-    getAIs: () => {dispatch(getAIs());}
+    getAIs: () => {dispatch(getAIs());},
+    changeAIid: (id) => {dispatch(changeAIid(id))}
   }
 };
 

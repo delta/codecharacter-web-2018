@@ -76,7 +76,7 @@ router.post("/signup", (req, res) => {
   const dateInMs = date.getTime();
   const activationToken = bcrypt.hashSync(emailId + dateInMs);
   const activationTokenExpiryTime = new Date(dateInMs + 86400000);
-	models.User.create({ 
+	models.User.create({
 		email: emailId,
 		name: name,
 		password: hashedPassword,
@@ -106,7 +106,7 @@ router.post("/login", (req, res) => {
 		return res.json({success:false, message:"Pass proper params"});
 	}
 	//check if user exists
-	let usePragyan = req.body.usePragyan;
+	let usePragyan = 0;
 	if(usePragyan){
 		console.log('using pragyan');
 		let options = {

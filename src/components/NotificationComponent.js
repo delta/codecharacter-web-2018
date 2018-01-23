@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Notification } from 'react-pnotify';
+import React                                      from 'react';
+import PropTypes                                  from 'prop-types';
+import { Notification }                           from 'react-pnotify';
 
 export default class NotificationComponent extends React.Component {
   static propTypes = {
@@ -15,6 +15,12 @@ export default class NotificationComponent extends React.Component {
     lastUsed: PropTypes.number
   };
 
+  static defaultProps = {
+    notifications: [],
+    loginStatus: false,
+    lastUsed: 0
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,21 +29,10 @@ export default class NotificationComponent extends React.Component {
     }
   };
 
-  componentDidMount() {
-    this.codeStatus = setInterval(() => {this.props.getCodeStatus(); this.props.getLatestMatchId(); this.props.getMatchStatus(this.props.matchId); this.props.getUnreadNotifications();}, 500);
-  }
-
   componentWillReceiveProps(nextProps) {
-    console.log(JSON.stringify(nextProps.notifications) !== JSON.stringify(this.props.notifications));
     if (JSON.stringify(nextProps.notifications) !== JSON.stringify(this.props.notifications)) {
-      console.log(nextProps.notifications);
-      console.log("Gonna Update Notifications");
       this.addNotifications(nextProps.notifications);
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.codeStatus);
   }
 
   addNotifications = (notifications) => {

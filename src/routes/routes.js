@@ -6,17 +6,14 @@ import DashboardContainer     from '../containers/DashboardContainer';
 import LeaderBoardContainer   from '../containers/LeaderBoardContainer';
 import MatchViewContainer     from '../containers/MatchesViewContainer';
 import ProfileContainer       from '../containers/ProfileContainer';
-import NavbarContainer        from '../containers/NavbarContainer';
+import GlobalContainer        from '../containers/GloabalContainer';
 import RulesComponent         from '../components/RulesComponent';
 import WelcomeScreenComponent from '../components/WelcomeScreenComponent';
-import NotificationContainer  from '../containers/NotificationContainer';
 import NotificationTableContainer from '../containers/NotificationsTableContainer';
 
 export const RouteList = () => (
   <div>
-    <NavbarContainer/>
-    <div style={{height: 50}}/>
-    <NotificationContainer/>
+    <GlobalContainer/>
     <Switch>
       <Route exact path='/' component={WelcomeScreenComponent}/>
       <Route exact path='/profile' component={ProfileContainer}/>

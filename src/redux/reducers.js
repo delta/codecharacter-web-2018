@@ -3,87 +3,69 @@ import initialState          from './initialState';
 
 export function codeCharacterReducer(state = initialState, action) {
   switch(action.type) {
-
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
-      let nextState = {
+      console.log(action.response.loginStatus, "UPDATE_USER_LOGIN_STATUS");
+      return {
         ...state,
         username: action.response.username ? action.response.username : state.username.toString(),
         loginStatus: action.response.loginStatus
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.UPDATE_LEADERBOARD: {
-      let nextState = {
+      return {
         ...state,
         leaderboardData: action.data.ratings
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.UPDATE_LOGIN_MESSAGE: {
-      let nextState = {
+      return {
         ...state,
         loginMessage: action.response.loginMessage
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.UPDATE_MATCH_ALL_DATA: {
-      let nextState = {
+      return {
         ...state,
         matchesData: action.data
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.UPDATE_CODE: {
-      let nextState = {
+      return {
         ...state,
         code: action.code
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.UPDATE_COMPILATION_STATUS: {
-      let nextState = {
+      return {
         ...state,
         compilationStatus: action.data
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.CHANGE_CODE_STATUS: {
-      let nextState = {
+      return {
         ...state,
         codeStatus: action.status
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.CHANGE_MATCH_STATUS: {
-      let nextState = {
+      return {
         ...state,
         matchStatus: action.status
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.CHANGE_LAST_USED: {
-      let nextState = {
+      return {
         ...state,
         lastUsed: action.lastUsed
       };
-      // localStorage.setItem('codecharacter', JSON.stringify(nextState));
-      return nextState;
     }
 
     case actionTypes.CHANGE_LAST_MATCH_ID: {

@@ -7,7 +7,7 @@ import registerServiceWorker                from "./registerServiceWorker";
 import { createStore, applyMiddleware }     from 'redux';
 import createSagaMiddleware                 from 'redux-saga';
 import { codeCharacterReducer }             from './redux/reducers';
-import codeCharacterSagas                   from './redux/sagas';
+import codeCharacterSagas                   from './redux/Sagas/sagas';
 import initialState                         from './redux/initialState';
 import { persistStore, persistReducer }     from 'redux-persist';
 import storage                              from 'redux-persist/lib/storage';

@@ -12,17 +12,13 @@ export default class LoginComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
     loginMessage: PropTypes.string,
-    username: PropTypes.string,
     authenticate: PropTypes.func,
-    redirectToHome: PropTypes.func
   };
 
   static defaultProps = {
     loginStatus: false,
     loginMessage: '',
-    username: '',
     authenticate: () => {},
-    redirectToHome: () => {}
   };
 
   constructor(props) {
@@ -95,11 +91,11 @@ export default class LoginComponent extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.authenticate(this.state.username, this.state.password);
-    this.props.history.push('/dashboard');
   };
 
   render() {
     if (this.props.loginStatus) {
+      console.log("Redirecting Here");
       return <Redirect to='/dashboard'/>
     }
     return (

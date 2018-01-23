@@ -20,7 +20,6 @@ export default class CodeComponent extends React.Component {
     theme: PropTypes.string,
     showLineNumbers: PropTypes.bool,
     code: PropTypes.string,
-    mode: PropTypes.string,
     fontSize: PropTypes.number,
     readOnly: PropTypes.bool,
     highlightActiveLine: PropTypes.bool,
@@ -33,7 +32,6 @@ export default class CodeComponent extends React.Component {
     theme: 'monokai',
     showLineNumbers: true,
     code: '// Enter Code Here',
-    mode: 'c_cpp',
     fontSize: 14,
     readOnly: false,
     highlightActiveLine: false,
@@ -45,9 +43,9 @@ export default class CodeComponent extends React.Component {
   render() {
     return (
       <AceEditor
-        mode={this.props.mode}
+        mode={'c_cpp'}
         theme={this.props.theme}
-        name="codeCharacterEditor"
+        name='codeCharacterEditor'
         onChange={(data) => this.props.onChange(data)}
         value={this.props.code}
         fontSize={this.props.fontSize}

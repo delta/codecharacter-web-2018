@@ -7,28 +7,24 @@ import DashboardComponent                         from './DashboardComponent';
 
 export default class MatchesViewComponent extends React.Component {
   static propTypes = {
-    matchesData: PropTypes.arrayOf(PropTypes.object),
     loginStatus: PropTypes.bool,
+    matchesData: PropTypes.arrayOf(PropTypes.object),
+    fetchGameLog: PropTypes.func,
     fetchMatchData: PropTypes.func,
-    getMatchData: PropTypes.func,
   };
 
   static defaultProps = {
-    matchesData: [
-      {player_id1: '106116053', player_id2: 'Finished', status: 'Draw'},
-      {player_id1: '106116049', player_id2: 'Finished', status: 'You Won'},
-      {player_id1: '106116066', player_id2: 'Not Finished', status: 'Yet to be decided'}
-    ],
+    matchesData: [],
     loginStatus: false,
     fetchMatchData: () => {},
-    getMatchData: () => {}
+    fetchGameLog: () => {}
   };
 
-  componentWillMount() {
+  componentDidMount() {
+    this.props.fetchMatchData();
   }
 
   render() {
-    console.log(this.props.matchesData);
     let matchDataColumns = (this.props.matchesData).map((data,index) => {
       return (
           <tr key={index} align='center' onClick={() => {console.log(data); this.props.fetchGameLog(data.id);}}>

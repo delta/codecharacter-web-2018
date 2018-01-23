@@ -21,7 +21,7 @@ export const leaderboardGetPlayers = ({req , query}) => {
     });
 };
 
-export const leaderboardStartChallenge = ({req , query}) => {
+export const startChallenge = ({req , query}) => {
   console.log(query);
   return fetch(API_BASE_URL + 'match/compete/player',{
     method: "POST",

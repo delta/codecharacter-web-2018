@@ -13,7 +13,7 @@ const initialState = {
   matchStatus: '',
   lastUsed: 0,
   lastMatchId: -1,
-  gameLog: '',
+  gameLog: [],
   ais: [],
   active_ai_id: -1,
 };
