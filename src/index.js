@@ -11,7 +11,6 @@ import codeCharacterSagas                   from './redux/sagas';
 import initialState                         from './redux/initialState';
 import { persistStore, persistReducer }     from 'redux-persist';
 import storage                              from 'redux-persist/lib/storage';
-import { PersistGate }                      from 'redux-persist/lib/integration/react';
 import { initializeRendererAssets }         from 'codecharacter-renderer';
 
 initializeRendererAssets();
@@ -37,9 +36,10 @@ let persistor = persistStore(store);
 
 ReactDOM.render((
   <BrowserRouter>
-    <Provider store={store} persistor={persistor}>
+      <Provider store={store} persistor={persistor}>
         <App/>
-    </Provider>
+      </Provider>
   </BrowserRouter>
 ), document.getElementById("root"));
 registerServiceWorker();
+

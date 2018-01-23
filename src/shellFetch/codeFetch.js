@@ -46,16 +46,13 @@ export const codeFetch = ({req , query}) => {
 };
 
 export const codeLock = ({req , query}) => {
-  return fetch(API_BASE_URL + '/save',{
-    method: "POST",
+  return fetch(API_BASE_URL + '/lock',{
+    method: "GET",
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      source: query.source
-    })
+    }
   })
     .then((response) => {
       return response.json();

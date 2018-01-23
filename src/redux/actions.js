@@ -59,6 +59,10 @@ export const fetchMatchAllData = () => ({
   type: actionTypes.FETCH_MATCH_ALL_DATA,
 });
 
+export const executeCode = () => ({
+  type: actionTypes.EXECUTE_CODE
+});
+
 export const getMatchData = (matchId) => ({
   type: actionTypes.GET_MATCH_DATA,
   matchId

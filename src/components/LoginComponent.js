@@ -5,6 +5,7 @@ import {
   Modal,
   Button,
   FormGroup,
+  Form
 }                                                 from 'react-bootstrap';
 
 export default class LoginComponent extends React.Component {
@@ -103,6 +104,7 @@ export default class LoginComponent extends React.Component {
     }
     return (
       <div className='static-modal'>
+        <Form>
         <Modal.Dialog style={{position: 'static'}}>
           <div className='modal-content'>
             <Modal.Header>
@@ -123,13 +125,14 @@ export default class LoginComponent extends React.Component {
             </Modal.Body>
 
             <Modal.Footer>
-              <Button className='btn-primary' bsStyle='primary' onClick={this.handleSubmit}>
+              <Button className='btn-primary' bsStyle='primary' type="submit" onClick={this.handleSubmit}>
                 LOG IN
               </Button>
               <Button className='btn-secondary' onClick={() => this.props.history.push('/signup')}>Sign Up</Button>
             </Modal.Footer>
           </div>
         </Modal.Dialog>
+        </Form>
       </div>
     );
   }

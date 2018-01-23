@@ -14,6 +14,17 @@ export default class NavbarComponent extends React.Component {
     codeStatus: 'idle'
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.codeStatus !== nextProps.codeStatus) {
+      this.checkCodeStatusChange(this.props.codeStatus, nextProps.codeStatus);
+    }
+  }
+  checkCodeStatusChange = (codeStatusOld, codeStatusNew) => {
+    if (codeStatusOld==="compiling" && codeStatusNew==="success") {
+      this.props.executeCode();
+    }
+  };
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style={{paddingTop: 0, paddingBottom: 0, minHeight: 50}}>

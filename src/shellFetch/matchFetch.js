@@ -152,3 +152,25 @@ export const fetchGameLog = ({req,query}) => {
       throw error;
     });
 };
+
+export const executeCode = ({req, query}) => {
+  return fetch(API_BASE_URL + 'match/compete/player/2', {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
