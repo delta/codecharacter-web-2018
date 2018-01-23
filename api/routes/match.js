@@ -161,31 +161,63 @@ router.get('/compete/player/:againstId', (req, res) => {
   //get 2 dlls
   //execute them and send back
 });
-router.get('/compete/ai', (req, res) => {
+router.get('/compete/ai/:ai_id', (req, res) => {
   //ALWAYS COMPILE AND RUN
   let userId = req.session.userId;
-  let aiId = req.body.aiId;
+  let aiId = req.params.ai_id;
+  if(!aiId){
+    return res.json({success: false, message: 'Pass proper params!'});
+  }
   //get 2 dlls
   //execute them and send back
-  Code.findOne({
+  models.Code.findOne({
     where:{
       user_id: userId
     },
     attributes: ['dll1']
   })
     .then(code1 => {
-      Ai.findOne({
+      models.Ai.findOne({
         where:{
           id: aiId
         },
         attributes: ['dll2']
       })
         .then(code2 => {
-          res.json({success: true, message:'Dummy log1'});
+          let dll1 = code1.dll1;
+          let dll2 = code2.dll2;
+          if(!dll1){
+            return res.json({success: false, message: "Please successfully compile your code.!"});
+          }
+          if(!dll2){
+            return res.json({success: false, message:'Ask administrator to add this AI!'});
+          }
+          models.Match.create({
+            player_id1: userId,
+            ai_id: aiId,
+            dll1,
+            dll2,
+            status: 'executing'
+          })
+            .then(matchSaved => {
+              console.log(matchSaved.id, matchSaved.player_id1, 'test2');
+              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, aiId, true);
+              if(success){
+                res.json({success: true, message: 'Match is executing'});
+              }else{
+                res.json({success: false, message: 'Try after sometime!'});  
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              res.json({success: false, message: 'Try after sometime!'});
+            });
+          //res.json({success: true, message:'Dummy log1'});
           //execute code1.dll1, code2.dll2
-          res.json({success: true, message:'Dummy log'});
+          //res.json({success: true, message:'Dummy log'});
         })
         .catch(err => {
+          console.log(err, 1);
           res.json({success: false, message: "Internal server error!"});
         });
     })
@@ -193,6 +225,45 @@ router.get('/compete/ai', (req, res) => {
       res.json({success: false, message: "Internal server error!"});
     })
 });
+router.get('/compete/self', (req, res) => {
+  let userId = req.session.userId;
+  models.Code.find({
+    where: {
+      user_id: userId
+    }
+  })
+    .then(code => {
+      if(!code){
+        return res.json({success: false, message: 'Compile the code first.'});
+      }
+      let dll1 = code.dll1;
+      let dll2 = code.dll2;
+      if(!dll1 || !dll2){
+        return res.json({success: false,  message:'Upload a good code first!'});
+      }
+       models.Match.create({
+          player_id1: userId,
+          player_id2: userId,
+          dll1,
+          dll2,
+          status: 'executing'
+        })
+          .then(matchSaved => {
+            console.log(matchSaved.id, matchSaved.player_id1, 'test2');
+            let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id1, true);
+            if(success){
+              res.json({success: true, message: 'Match is executing'});
+            }else{
+              res.json({success: false, message: 'Try after sometime!'});  
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            res.json({success: false, message: 'Try after sometime!'});
+          });
+    })
+})
+//no use of the following for now
 router.post('/ai', (req, res) => {
   let dll1 = req.params.dll1;
   let dll2 = req.params.dll2;

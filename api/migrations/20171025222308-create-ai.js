@@ -9,10 +9,10 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			dll1: {
-				type: Sequelize.STRING
+				type: Sequelize.BLOB("long")
 			},
 			dll2: {
-				type: Sequelize.STRING
+				type: Sequelize.BLOB("long")
 			},
 			createdAt: {
 				allowNull: false,

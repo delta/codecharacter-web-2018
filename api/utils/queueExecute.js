@@ -4,7 +4,7 @@ const models = require("../models");
 const request = require("request");
 let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
-let pushToQueue = (matchId, dll1, dll2, userId, opponentId) => {
+let pushToQueue = (matchId, dll1, dll2, userId, opponentId, isAi) => {
 	if(executeQueue.length === executeQueueSize){
 		return false;
 	}else{
@@ -14,7 +14,8 @@ let pushToQueue = (matchId, dll1, dll2, userId, opponentId) => {
 			dll2,
 			matchId,
 			userId,
-			opponentId
+			opponentId,
+			isAi
 		});
 		console.log(executeQueue);
 		return true;
@@ -48,6 +49,7 @@ setInterval(() => {
 		let codeToBeExecuted = executeQueue[0];
 		let userId = executeQueue[0].userId; //say this dude wins
 		let opponentId = executeQueue[0].opponentId;
+		let isAi = executeQueue[0].isAi;
 		requestUnderway = true;
 		request(
 			{
@@ -56,6 +58,10 @@ setInterval(() => {
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
+				if(isAi){
+					console.log('hey');
+
+				}
 				//handle scores
 				//create appropriate notifications
 				let matchId = response.body.matchId;
@@ -126,18 +132,18 @@ setInterval(() => {
 							*/
 							let winner = userId;
 							let loser = opponentId;
-							models.bulkCreate([
+							models.Notification.bulkCreate([
 								{
 									type: 'INFORMATION'	,
 									title: 'Match Update',
-									message: `${winner} won the match!`,
+									message: (isAi? 'Ai' : 'User') + `${winner} won the match!`,
 									isRead: false,
 									user_id: loser
 								},
 								{
 									type: 'SUCCESS'	,
 									title: 'Match Update',
-									message: `${winner} won the match!`,
+									message: (isAi? 'Ai' : 'User') + `${winner} won the match!`,
 									isRead: false,
 									user_id: winner
 								}
