@@ -21,7 +21,9 @@ export default class DashboardComponent extends React.Component {
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
     fetchCode: PropTypes.func,
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    getAIs: PropTypes.func,
+    ais: PropTypes.array
   };
 
   static defaultProps = {
@@ -36,7 +38,9 @@ export default class DashboardComponent extends React.Component {
     lockCode: () => {},
     fetchCode: () => {},
     logout: () => {},
-    logFile: ''
+    logFile: '',
+    getAIs: () => {},
+    ais: []
   };
 
   constructor(props) {
@@ -55,6 +59,7 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getAIs();
     /*this.request = fetch('game.log')
       .then((response) => {
         response.arrayBuffer()
@@ -68,9 +73,6 @@ export default class DashboardComponent extends React.Component {
       })
     });*/
     this.props.fetchCode();
-    if(!this.props.loginStatus) {
-      this.props.history.push('/login');
-    }
     if(this.props.shouldFetchLog) {
       this.props.fetchGameLog(this.props.lastMatchId);
     }
@@ -85,19 +87,19 @@ export default class DashboardComponent extends React.Component {
     if(!nextProps.loginStatus) {
       this.props.history.push('/login');
     }
+
     if(nextProps.code !== this.props.code) {
       this.setState({
         code: nextProps.code
       });
     }
+
     if(nextProps.shouldFetchLog && !this.props.shouldFetchLog) {
       this.props.fetchGameLog(nextProps.lastMatchId);
     }
 
     if(nextProps.gameLog !== this.props.gameLog) {
         let logFile = new Uint8Array(nextProps.gameLog);
-        console.log(logFile);
-        console.log("Here, Updating Log File");
         this.setState({logFile: logFile});
     }
   }
@@ -145,6 +147,7 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
+    console.log(this.props.ais, "AIS IN DASHBOARD DDAAAAAWWWW");
     if (this.state.width >= 600) {
       return (
         <DemoComponent>
@@ -200,7 +203,7 @@ export default class DashboardComponent extends React.Component {
           </SplitPane>
           <div className="run-compile-button">
             {!this.props.matchesView ?
-              <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/> : null}
+              <SubmitButtons runCode={() => this.runCode()} aiList={this.props.ais} lockCode={() => this.lockCode()}/> : null}
           </div>
         </DemoComponent>
       );
@@ -237,7 +240,7 @@ export default class DashboardComponent extends React.Component {
             </div>
           </div>
           {!this.props.matchesView ?
-            <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/> : null}
+            <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()} aiList={this.props.ais}/> : null}
         </div>
       );
     }

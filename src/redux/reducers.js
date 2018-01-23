@@ -94,7 +94,7 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_GAME_LOG: {
-      console.log(action.gameLog);
+      console.log(action.gameLog, "Updating state da... Idhukku mela theriyadhu");
       return {
         ...state,
         gameLog: action.gameLog
@@ -113,6 +113,20 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...state,
         allNotifications: action.notifications
+      }
+    }
+
+    case actionTypes.UPDATE_AIS: {
+      return {
+        ...state,
+        ais: action.ais
+      }
+    }
+
+    case actionTypes.CHANGE_AI_ID: {
+      return {
+        ...state,
+        ai_id: action.id
       }
     }
 

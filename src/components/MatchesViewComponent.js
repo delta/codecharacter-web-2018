@@ -25,14 +25,13 @@ export default class MatchesViewComponent extends React.Component {
   };
 
   componentWillMount() {
-    this.props.fetchMatchData();
   }
 
   render() {
     console.log(this.props.matchesData);
     let matchDataColumns = (this.props.matchesData).map((data,index) => {
       return (
-          <tr key={index} align='center' onClick={() => {console.log(data); this.props.getMatchData(data.id);}}>
+          <tr key={index} align='center' onClick={() => {console.log(data); this.props.fetchGameLog(data.id);}}>
             <td>{data.player_id1}</td>
             <td>{data.player_id2}</td>
             <td>{data.status}</td>
@@ -54,6 +53,6 @@ export default class MatchesViewComponent extends React.Component {
         </tbody>
       </Table>
     );
-    return <DashboardComponent compilationStatus={this.props.compilationStatus} matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus}/>
+    return <DashboardComponent compilationStatus={this.props.compilationStatus} matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus} gameLog={this.props.gameLog}/>
   }
 }

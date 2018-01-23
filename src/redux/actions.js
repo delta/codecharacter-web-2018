@@ -153,3 +153,22 @@ export const updateGameLog = (gameLog) => ({
   type: actionTypes.UPDATE_GAME_LOG,
   gameLog
 });
+
+export const getAIs = () => ({
+  type: actionTypes.GET_AIS
+});
+
+export const updateAIs = (ais) => ({
+  type: actionTypes.UPDATE_AIS,
+  ais
+});
+
+export const competeAgainstAI = (id) => ({
+  type: actionTypes.COMPETE_AGAINST_AI,
+  id
+});
+
+export const changeAIid = (id) => ({
+  type: actionTypes.CHANGE_AI_ID,
+  id
+});

@@ -18,7 +18,8 @@ import {
   changeMatchStatus,
   updateGameLog,
   updateUnreadNotifications,
-  updateAllNotifications
+  updateAllNotifications,
+  updateAIs
 }                                                from './actions';
 import {
   userLogin,
@@ -48,6 +49,11 @@ import {
   getAllNotifications,
   getUnreadNotifications
 }                                                from '../shellFetch/userProtectedFetch';
+
+import {
+  competeAgainstAI,
+  getAIs
+} from '../shellFetch/aiFetch';
 
 function* userLoginSaga (action) {
   try {
@@ -179,6 +185,7 @@ function* matchFetchDataSaga(action) {
     console.log(action);
     const response = yield call(matchFetchData,{req: null, query: query});
     console.log(response, "Inga");
+    yield put(updateGameLog(response.match.log.data));
     yield put(updateCompilationStatus(response.status));
   }
   catch(err) {
@@ -300,6 +307,34 @@ function* executeCodeSaga() {
 }
 
 
+function* getAIsSaga() {
+  try  {
+    let response = yield call(getAIs, {req: null, query: null});
+    console.log(response);
+    yield put(updateAIs(response.ais));
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+function* competeAgainstAISaga(action) {
+  try  {
+    let query = {
+      id: action.id
+    };
+
+    let response = yield call(competeAgainstAI, {req: null, query: query});
+    console.log(response);
+    yield put(changeLastUsed(response.ais));
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.USER_AUTHENTICATE, userLoginSaga);
   yield takeEvery(actionTypes.USER_AUTHENTICATE_CHECK, userLoginStatusSaga);
@@ -319,4 +354,6 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.GET_UNREAD_NOTIFICATIONS, getUnreadNotificationsSaga);
   yield takeEvery(actionTypes.FETCH_GAME_LOG, fetchGameLogSaga);
   yield takeEvery(actionTypes.EXECUTE_CODE, executeCodeSaga);
+  yield takeEvery(actionTypes.GET_AIS, getAIsSaga);
+  yield takeEvery(actionTypes.COMPETE_AGAINST_AI, competeAgainstAISaga);
 }
