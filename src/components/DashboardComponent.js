@@ -6,6 +6,7 @@ import CodeComponent                              from './CodeComponent';
 import SubmitButtons                              from './SubmitButtons';
 import EditorCustomizeComponent from './EditorCustomizeComponent';
 import CodeCharacterRenderer                      from 'codecharacter-renderer';
+import DemoComponent                              from './DemoComponent';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -146,28 +147,32 @@ export default class DashboardComponent extends React.Component {
   render() {
     if (this.state.width >= 600) {
       return (
-        <div>
+        <DemoComponent>
           <SplitPane split="vertical" minSize={50} maxSize='10%' defaultSize='40%'
                      style={{ height: this.state.height - 50 }}>
             <div>
               {!this.props.matchesView
                 ? <div>
-                  <EditorCustomizeComponent
-                    changeTheme={this.changeTheme}
-                    changeFontSize={this.changeFontSize}
-                    changeEnableBasicAutoCompletion={this.changeEnableBasicAutoCompletion}
-                    changeEnableLiveAutoCompletion={this.changeEnableLiveAutoCompletion}
-                    changeHighlightActiveLine={this.changeHighlightActiveLine}
-                  />
-                  <CodeComponent
-                    code={this.state.code}
-                    theme={this.state.theme}
-                    fontSize={this.state.fontSize}
-                    enableBasicAutocompletion={this.state.enableBasicAutoCompletion}
-                    enableLiveAutocompletion={this.state.enableLiveAutoCompletion}
-                    highlightActiveLine={this.state.highlightActiveLine}
-                    onChange={(code) => this.updateCode(code)}
-                  />
+                  <div>
+                    <EditorCustomizeComponent
+                      changeTheme={this.changeTheme}
+                      changeFontSize={this.changeFontSize}
+                      changeEnableBasicAutoCompletion={this.changeEnableBasicAutoCompletion}
+                      changeEnableLiveAutoCompletion={this.changeEnableLiveAutoCompletion}
+                      changeHighlightActiveLine={this.changeHighlightActiveLine}
+                    />
+                  </div>
+                  <div className="code-panel">
+                    <CodeComponent
+                      code={this.state.code}
+                      theme={this.state.theme}
+                      fontSize={this.state.fontSize}
+                      enableBasicAutocompletion={this.state.enableBasicAutoCompletion}
+                      enableLiveAutocompletion={this.state.enableLiveAutoCompletion}
+                      highlightActiveLine={this.state.highlightActiveLine}
+                      onChange={(code) => this.updateCode(code)}
+                    />
+                  </div>
                 </div>
                 : this.props.matchesViewTable
               }
@@ -175,14 +180,14 @@ export default class DashboardComponent extends React.Component {
             <div>
               <SplitPane split="horizontal" minSize={100} defaultSize={400}>
                 <div style={{width: "100%"}}>
-                  <div style={{ display: 'block', width: '100%'}}>
+                  <div style={{ display: 'block', width: '100%'}} className="renderer-panel">
                     {this.state.logFile
                       ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
                       : <div>LOADING .. </div>
                     }
                   </div>
                 </div>
-                <div>
+                <div className="debug-panel">
                   <CodeComponent
                     showLineNumbers={false}
                     code={this.props.compilationStatus}
@@ -193,9 +198,11 @@ export default class DashboardComponent extends React.Component {
               </SplitPane>
             </div>
           </SplitPane>
-          {!this.props.matchesView ?
-            <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/> : null}
-        </div>
+          <div className="run-compile-button">
+            {!this.props.matchesView ?
+              <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/> : null}
+          </div>
+        </DemoComponent>
       );
     }
 

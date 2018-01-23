@@ -36,9 +36,10 @@ let persistor = persistStore(store);
 
 ReactDOM.render((
   <BrowserRouter>
-    <Provider store={store} persistor={persistor}>
+      <Provider store={store} persistor={persistor}>
         <App/>
-    </Provider>
+      </Provider>
   </BrowserRouter>
 ), document.getElementById("root"));
 registerServiceWorker();
+
