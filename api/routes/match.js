@@ -207,7 +207,7 @@ router.get('/compete/ai/:ai_id', (req, res) => {
           })
             .then(matchSaved => {
               console.log(matchSaved.id, matchSaved.player_id1, 'test2');
-              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, aiId, true);
+              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, Number(aiId), true);
               if(success){
                 res.json({success: true, message: 'Match is executing'});
               }else{
@@ -267,7 +267,7 @@ router.get('/compete/self', (req, res) => {
             console.log(err);
             res.json({success: false, message: 'Try after sometime!'});
           });
-    })
+    }) 
 })
 //no use of the following for now
 router.post('/ai', (req, res) => {

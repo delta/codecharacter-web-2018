@@ -106,7 +106,8 @@ router.post("/login", (req, res) => {
 		return res.json({success:false, message:"Pass proper params"});
 	}
 	//check if user exists
-	let usePragyan = req.body.usePragyan;
+	let usePragyan = Number(req.body.usePragyan);
+	console.log(usePragyan);
 	if(usePragyan){
 		console.log('using pragyan');
 		let options = {
@@ -121,7 +122,7 @@ router.post("/login", (req, res) => {
 			json: true,
 			body: options
 		}, (err, response) => {
-			//console.log(response.body);
+			//console.log(response.body);   
 			if(err) console.log(err);
 			switch(response.body.status_code){
 				case 400: {
@@ -188,9 +189,6 @@ router.post("/login", (req, res) => {
 			.then((user) => {
 				if (!user) {
 					return res.json({ success: false, message: "User doesn't exist!" });
-				}
-				if(!user.is_active){
-					res.json({success: false, message:'Please check your e-mail for activation link!'})
 				}
 				if(bcrypt.compareSync(password, user.dataValues.password)){
 					req.session.isLoggedIn = true;

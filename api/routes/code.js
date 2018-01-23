@@ -94,30 +94,42 @@ router.get('/error_status', (req, res) => {
 		})
 })
 router.get("/lock", (req, res) => {
-	models.Code.findOne({
+	models.User.findOne({
 		where: {
-			user_id: req.session.userId
+			id: Number(req.session.userId)
 		}
 	})
-		.then(code => {
-			let dll1 = code.dll1;
-			let dll2 = code.dll2;
-			models.Code.update({
-				dll1_locked: dll1,
-				dll2_locked: dll2
-			},
-			{
-				where: {
-					user_id: req.session.userId
+		.then(user => {
+				if(!user.is_active){
+					return res.json({success: false, message:'Please check your e-mail for activation link!'})
+				}else{
+					models.Code.findOne({
+						where: {
+							user_id: req.session.userId
+						}
+					})
+						.then(code => {
+							let dll1 = code.dll1;
+							let dll2 = code.dll2;
+							models.Code.update({
+								dll1_locked: dll1,
+								dll2_locked: dll2
+							},
+							{
+								where: {
+									user_id: req.session.userId
+								}
+							})
+								.then(() => {
+									res.json({success: true, message: 'Code locked!'})
+								})
+								.catch(err => {
+									res.json({success: false, message: 'Code locked failed!'});
+								})
+						})
 				}
-			})
-				.then(() => {
-					res.json({success: true, message: 'Code locked!'})
-				})
-				.catch(err => {
-					res.json({success: false, message: 'Code locked failed!'});
-				})
 		})
+	
 })
 router.get("/", (req, res)=>{
   console.log(req.session.userId);
