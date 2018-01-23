@@ -2,6 +2,7 @@ import actionTypes           from "./action_types";
 import initialState          from './initialState';
 
 export function codeCharacterReducer(state = initialState, action) {
+  console.log(state.lastMatchId);
   switch(action.type) {
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
       console.log(action.response.loginStatus, "UPDATE_USER_LOGIN_STATUS");
@@ -108,7 +109,7 @@ export function codeCharacterReducer(state = initialState, action) {
     case actionTypes.CHANGE_AI_ID: {
       return {
         ...state,
-        ai_id: action.id
+        activeAiId: action.id
       }
     }
 

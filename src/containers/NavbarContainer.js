@@ -17,7 +17,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onLogout: () => {dispatch(userLogout())},
-    executeCode: () => {dispatch(executeCode());}
+    executeCode: () => {}
   }
 };
 

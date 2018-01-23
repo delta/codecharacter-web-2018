@@ -24,8 +24,8 @@ export default class SubmitButtons extends React.Component {
         key={index}
         className="dropdown-item"
         onClick={() => {
+          this.props.changeAIid(data.id);
           this.props.runCode();
-          this.props.changeAIid(data.id)
         }
         }
       >

@@ -205,7 +205,7 @@ router.get('/compete/ai/:ai_id', (req, res) => {
               if(success){
                 res.json({success: true, message: 'Match is executing'});
               }else{
-                res.json({success: false, message: 'Try after sometime!'});  
+                res.json({success: false, message: 'Try after sometime!'});
               }
             })
             .catch(err => {
@@ -254,7 +254,7 @@ router.get('/compete/self', (req, res) => {
             if(success){
               res.json({success: true, message: 'Match is executing'});
             }else{
-              res.json({success: false, message: 'Try after sometime!'});  
+              res.json({success: false, message: 'Try after sometime!'});
             }
           })
           .catch(err => {

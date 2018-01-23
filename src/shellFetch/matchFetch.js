@@ -22,7 +22,8 @@ export const matchFetchAll = ({req , query}) => {
 };
 
 export const matchFetchData = ({req , query}) => {
-  return fetch(API_BASE_URL + 'match/' + query.matchId,{
+  console.log(API_BASE_URL + 'match/' + query.matchId.toString());
+  return fetch(API_BASE_URL + 'match/' + query.matchId.toString(),{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -65,6 +66,7 @@ export const challengePlayer = ({req , query}) => {
 };
 
 export const getMatchStatus = ({req, query}) => {
+  console.log(query.matchId);
   return fetch(API_BASE_URL + 'match/match_status/' + query.matchId, {
     method: "GET",
     credentials: 'include',
@@ -77,6 +79,7 @@ export const getMatchStatus = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((error) => {

@@ -15,7 +15,7 @@ const initialState = {
   lastMatchId: -1,
   gameLog: [],
   ais: [],
-  active_ai_id: -1,
+  activeAiId: -1,
 };
 
 export default initialState;

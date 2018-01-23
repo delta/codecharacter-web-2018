@@ -23,11 +23,25 @@ export default class GlobalComponent extends React.Component {
   changePingStatus = () => {
     this.codeStatus = setInterval(() => {
         this.props.getCodeStatus();
-        this.props.getLatestMatchId();
         this.props.getMatchStatus(this.props.matchId);
+        this.props.getLatestMatchId();
+        this.props.fetchGameLog(this.props.matchId);
         this.props.getUnreadNotifications();
       }
       , 500);
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.codeStatus !== nextProps.codeStatus) {
+      this.startMatch(this.props.codeStatus, nextProps.codeStatus);
+    }
+  };
+
+  startMatch = (codeStatusOld, codeStatusNew) => {
+    if (codeStatusOld === 'compiling' && codeStatusNew === 'success') {
+      this.props.getLatestMatchId();
+      this.props.competeAgainstAI(this.props.aiId);
+    }
   };
 
   render() {

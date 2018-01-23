@@ -22,8 +22,8 @@ export const getAIs = ({req , query}) => {
 };
 
 export const competeAgainstAI = ({req , query}) => {
-  return fetch(API_BASE_URL + '/compete/ai',{
-    method: "POST",
+  return fetch(API_BASE_URL + '/compete/ai/' + query.id.toString(),{
+    method: "GET",
     credentials: 'include',
     headers: {
       'Accept': 'application/json',

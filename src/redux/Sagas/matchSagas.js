@@ -56,7 +56,9 @@ export function* getMatchStatusSaga(action) {
       matchId: action.matchId
     };
     let response = yield call(getMatchStatus,{req: null, query: query});
-    yield put(changeMatchStatus(response.status));
+    if (response.status) {
+      yield put(changeMatchStatus(response.status));
+    }
   }
   catch (err) {
     console.log(err);
@@ -72,7 +74,7 @@ export function* fetchGameLogSaga(action) {
     };
     let response = yield call(fetchGameLog,{req: null, query: query});
     console.log(response, "Match Response");
-    if (response.match) {
+    if (response.match && response.match.log) {
       yield put(updateGameLog(response.match.log.data));
     }
   }

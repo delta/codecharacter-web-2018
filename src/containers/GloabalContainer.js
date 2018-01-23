@@ -5,20 +5,26 @@ import {
   getLatestMatchId,
   getMatchStatus,
   getUnreadNotifications,
-  competeAgainstAI,
-}                                              from '../redux/actions';
+  competeAgainstAI, fetchGameLog,
+} from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
-    loginStatus: state.loginStatus
+    loginStatus: state.loginStatus,
+    codeStatus: state.codeStatus,
+    matchStatus: state.matchStatus,
+    lastUsed: state.lastUsed,
+    aiId: state.activeAiId,
+    matchId: state.lastMatchId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getCodeStatus: () => {dispatch(getCodeStatus());},
+    getMatchStatus: (id) => {dispatch(getMatchStatus(id));},
     getLatestMatchId: () => {dispatch(getLatestMatchId());},
-    getMatchStatus: (matchId) => {dispatch(getMatchStatus(matchId));},
+    fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));},
     getUnreadNotifications: () => {dispatch(getUnreadNotifications());},
     competeAgainstAI: (id) => {dispatch(competeAgainstAI(id));}
   };

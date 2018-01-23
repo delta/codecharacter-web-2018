@@ -19,10 +19,9 @@ export function* competeAgainstAISaga(action) {
     let query = {
       id: action.id
     };
-
     let response = yield call(competeAgainstAI, {req: null, query: query});
-    console.log(response);
-    yield put(changeLastUsed(response.ais));
+    console.log(response, action.id, "Challenging with AI");
+    yield put(changeLastUsed(1));
   }
   catch (err) {
     console.log(err);
