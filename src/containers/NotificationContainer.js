@@ -21,9 +21,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getCodeStatus: () => {dispatch(getCodeStatus());},
     changeStatus: () => {dispatch(changeCodeStatus());},
-    getLatestMatchId: () => {dispatch(getLatestMatchId());},
-    getMatchStatus: (matchId) => {dispatch(getMatchStatus(matchId));},
-    getUnreadNotifications: () => {dispatch(getUnreadNotifications());}
+    getLatestMatchId: () => {},
+    getMatchStatus: () => {},
+    getUnreadNotifications: () => {}
   };
 };
 

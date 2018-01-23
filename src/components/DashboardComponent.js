@@ -11,32 +11,40 @@ import DemoComponent                              from './DemoComponent';
 export default class DashboardComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
-    username: PropTypes.string,
     compilationStatus: PropTypes.string,
     code: PropTypes.string,
     matchesView: PropTypes.bool,
     matchesViewTable: PropTypes.element,
     shouldFetchLog: PropTypes.bool,
     lastMatchId: PropTypes.number,
+    ais: PropTypes.array,
+    gameLog: PropTypes.array,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
     fetchCode: PropTypes.func,
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    getAIs: PropTypes.func,
+    fetchGameLog: PropTypes.func,
+    changeAIid: PropTypes.func
   };
 
   static defaultProps = {
-    username: '000000000',
+    loginStatus: false,
     compilationStatus: '>> Compilation Status Goes Here',
     code: '#include <iostream> \nusing namespace std; \n\nint main() \n// Enter code here (C or C++)',
-    readOnly: false,
     matchesView: false,
-    shouldFetchLog: false,
     matchesViewTable: null,
+    shouldFetchLog: false,
+    lastMatchId: -1,
+    ais: [],
+    gameLog: [],
     runCode: () => {},
     lockCode: () => {},
     fetchCode: () => {},
     logout: () => {},
-    logFile: ''
+    getAIs: () => {},
+    fetchGameLog: () => {},
+    changeAIid: () => {}
   };
 
   constructor(props) {
@@ -55,26 +63,17 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentDidMount() {
-    /*this.request = fetch('game.log')
-      .then((response) => {
-        response.arrayBuffer()
-          .then((buffer) => {
-            return new Uint8Array(buffer);
-          });
-      });
-    (this.request).then((response) => {
-      this.setState({
-        logFile: response
-      })
-    });*/
+    this.props.getAIs();
     this.props.fetchCode();
-    if(!this.props.loginStatus) {
-      this.props.history.push('/login');
-    }
-    if(this.props.shouldFetchLog) {
+    if (this.props.shouldFetchLog) {
       this.props.fetchGameLog(this.props.lastMatchId);
     }
-    this.windowResizeListener = window.addEventListener('resize',() => {this.setState({height: window.innerHeight, width: window.innerWidth})});
+    this.windowResizeListener = window.addEventListener('resize',() => {
+      this.setState({
+        height: window.innerHeight,
+        width: window.innerWidth
+      })
+    });
   }
 
   componentWillUnmount() {
@@ -82,29 +81,30 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.loginStatus) {
-      this.props.history.push('/login');
-    }
     if(nextProps.code !== this.props.code) {
       this.setState({
         code: nextProps.code
       });
     }
+
     if(nextProps.shouldFetchLog && !this.props.shouldFetchLog) {
       this.props.fetchGameLog(nextProps.lastMatchId);
     }
 
     if(nextProps.gameLog !== this.props.gameLog) {
         let logFile = new Uint8Array(nextProps.gameLog);
-        console.log(logFile);
-        console.log("Here, Updating Log File");
         this.setState({logFile: logFile});
     }
+
   }
 
-  runCode = () => { this.props.runCode(this.state.code); };
+  runCode = () => {
+    this.props.runCode(this.state.code);
+  };
 
-  lockCode = () => { this.props.lockCode(this.state.code); };
+  lockCode = () => {
+    this.props.lockCode(this.state.code);
+  };
 
   updateCode = (code) => {
     this.setState({
@@ -145,12 +145,21 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
+    if(!this.props.loginStatus) {
+      return <Redirect to={'/login'} />;
+    }
+
     if (this.state.width >= 600) {
       return (
         <DemoComponent>
-          <SplitPane split="vertical" minSize={50} maxSize='10%' defaultSize='40%'
-                     style={{ height: this.state.height - 50 }}>
-            <div>
+          <SplitPane
+            split="vertical"
+            minSize={50}
+            maxSize='10%'
+            defaultSize='40%'
+            style={{ height: this.state.height - 50 }}
+          >
+            <div className={'codeSplitLeft'}>
               {!this.props.matchesView
                 ? <div>
                   <div>
@@ -177,10 +186,17 @@ export default class DashboardComponent extends React.Component {
                 : this.props.matchesViewTable
               }
             </div>
-            <div>
-              <SplitPane split="horizontal" minSize={100} defaultSize={400}>
+            <div className={'splitPaneRight'}>
+              <SplitPane
+                split="horizontal"
+                minSize={100}
+                defaultSize={400}
+              >
                 <div style={{width: "100%"}}>
-                  <div style={{ display: 'block', width: '100%'}} className="renderer-panel">
+                  <div
+                    style={{ display: 'block', width: '100%'}}
+                    className="renderer-panel"
+                  >
                     {this.state.logFile
                       ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
                       : <div>LOADING .. </div>
@@ -199,8 +215,15 @@ export default class DashboardComponent extends React.Component {
             </div>
           </SplitPane>
           <div className="run-compile-button">
-            {!this.props.matchesView ?
-              <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/> : null}
+            {!this.props.matchesView
+              ? <SubmitButtons
+                runCode={() => this.runCode()}
+                aiList={this.props.ais}
+                lockCode={() => this.lockCode()}
+                changeAIid={(id) => this.props.changeAIid(id)}
+                />
+              : null
+            }
           </div>
         </DemoComponent>
       );
@@ -216,7 +239,8 @@ export default class DashboardComponent extends React.Component {
                 <CodeComponent
                   code={this.state.code}
                   onChange={this.updateCode}
-                /></div>
+                />
+              </div>
               : this.props.matchesViewTable
             }
           </div>
@@ -236,8 +260,14 @@ export default class DashboardComponent extends React.Component {
               />
             </div>
           </div>
-          {!this.props.matchesView ?
-            <SubmitButtons runCode={() => this.runCode()} lockCode={() => this.lockCode()}/> : null}
+          {!this.props.matchesView
+            ? <SubmitButtons
+              runCode={() => this.runCode()}
+              lockCode={() => this.lockCode()}
+              aiList={this.props.ais}
+            />
+            : null
+          }
         </div>
       );
     }

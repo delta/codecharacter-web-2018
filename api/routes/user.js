@@ -76,7 +76,7 @@ router.post("/signup", (req, res) => {
   const dateInMs = date.getTime();
   const activationToken = bcrypt.hashSync(emailId + dateInMs);
   const activationTokenExpiryTime = new Date(dateInMs + 86400000);
-	models.User.create({ 
+	models.User.create({
 		email: emailId,
 		name: name,
 		password: hashedPassword,

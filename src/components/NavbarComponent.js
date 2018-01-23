@@ -27,9 +27,26 @@ export default class NavbarComponent extends React.Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style={{paddingTop: 0, paddingBottom: 0, minHeight: 50}}>
-        <Link className="navbar-brand" to={"/login"} style={{fontWeight: 900, color: 'hsla(0,0%,100%,.8)', fontSize: '1.25rem'}}>Code Character</Link>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="true" aria-label="Toggle navigation">
+      <nav
+        className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+        style={{paddingTop: 0, paddingBottom: 0, minHeight: 50}}
+      >
+        <Link
+          className="navbar-brand"
+          to={"/login"}
+          style={{fontWeight: 900, color: 'hsla(0,0%,100%,.8)', fontSize: '1.25rem'}}
+        >
+          Code Character
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarColor02"
+          aria-controls="navbarColor02"
+          aria-expanded="true"
+          aria-label="Toggle navigation"
+        >
           <span className="navbar-toggler-icon"/>
         </button>
         {this.props.loginStatus
@@ -59,16 +76,6 @@ export default class NavbarComponent extends React.Component {
               <li className="nav-item">
                 <span className="nav-link" onClick={() => {this.props.onLogout();}}>Logout</span>
               </li>
-              {/*<li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div className="dropdown-menu" x-placement="bottom-start" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: 0, left: 0, willChange: 'transform'}}>
-                  <a className="dropdown-item" href="#">Action</a>
-                  <a className="dropdown-item" href="#">Another action</a>
-                  <a className="dropdown-item" href="#">Something else here</a>
-                  <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">Separated link</a>
-                </div>
-              </li>*/}
             </ul>
             <form className="form-inline my-2 my-lg-0">
               <div className="nav-item" style={{margin: '0 !important'}}>

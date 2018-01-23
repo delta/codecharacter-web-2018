@@ -6,7 +6,8 @@ import NotificationsTableComponent             from '../components/Notifications
 
 const mapStateToProps = state => {
   return {
-    notifications: state.allNotifications
+    notifications: state.allNotifications,
+    loginStatus: state.loginStatus
   };
 };
 

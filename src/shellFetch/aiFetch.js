@@ -1,13 +1,13 @@
-const API_BASE_URL = 'http://localhost:3001/leaderboard';
+const API_BASE_URL = 'http://localhost:3001/match';
 
-export const leaderboardGetPlayers = ({req , query}) => {
-  return fetch(API_BASE_URL + '',{
+export const getAIs = ({req , query}) => {
+  return fetch(API_BASE_URL + '/get_ais',{
     method: "GET",
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-    },
+    }
   })
     .then((response) => {
       return response.json();
@@ -21,19 +21,17 @@ export const leaderboardGetPlayers = ({req , query}) => {
     });
 };
 
-export const startChallenge = ({req , query}) => {
-  console.log(query);
-  return fetch(API_BASE_URL + 'match/compete/player',{
-    method: "POST",
+export const competeAgainstAI = ({req , query}) => {
+  return fetch(API_BASE_URL + '/compete/ai/' + query.id.toString(),{
+    method: "GET",
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      userId: query.username,
-      competetorId: query.opponent,
-    })
+    body: {
+      aiId: query.id
+    }
   })
     .then((response) => {
       return response.json();
@@ -42,6 +40,7 @@ export const startChallenge = ({req , query}) => {
       return data;
     })
     .catch((error) => {
+      console.log(error);
       throw error;
     });
 };
