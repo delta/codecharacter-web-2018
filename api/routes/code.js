@@ -142,12 +142,14 @@ router.get("/", (req, res)=>{
 				return res.json({success:false, message:"Oops, this user has no code saved!"});
 			}
 			console.log(code.dataValues.status);
-			if(code.dataValues.status === 'compiling'){
-				return res.json({success:true, source:code.dataValues.source, status:'compiling'});
-			}else if(code.dataValues.status === 'success'){
+			if(code.dataValues.status === 'COMPILING'){
+				return res.json({success:true, source:code.dataValues.source, status:'COMPILING'});
+			}else if(code.dataValues.status === 'SUCCESS'){
 				//add these , dll1: code.dataValues.dll1, dll2: code.dataValues.dll2
 				//console.log({dll1: code.dataValues.dll1, dll2: code.dataValues.dll2});
-				return res.json({success:true, source:code.dataValues.source, status: 'Success'});
+				return res.json({success:true, source:code.dataValues.source, status: 'SUCCESS'});
+			}else{
+				return res.json({success:true, source:code.dataValues.source, status: 'ERROR'});
 			}
 		})
 		.catch(err => {
