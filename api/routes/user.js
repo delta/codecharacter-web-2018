@@ -20,6 +20,26 @@ const smtpTransport = nodemailer.createTransport({
   },
 });
 
+let userOfDbCheck = (req, res) => {
+
+	const emailId = req.body.emailId;
+	const password = req.body.password;
+	models.User.findOne({
+			where: { email: emailId }
+		})
+			.then((user) => {
+				if (!user) {
+					return res.json({ success: false, message: "User doesn't exist!" });
+				}
+				if(bcrypt.compareSync(password, user.dataValues.password)){
+					req.session.isLoggedIn = true;
+					req.session.userId = user.id;
+					return res.json({success:true, message:"Logged in!"});
+				}else{
+					return res.json({success:false, message:"Wrong Password!"});
+				}
+			});
+}
 let sendEmail = (email, message, res, activationToken, subject) => {
   const mailOptions = {
     "to": email,
@@ -80,7 +100,7 @@ router.post("/signup", (req, res) => {
 		email: emailId,
 		name: name,
 		password: hashedPassword,
-		rating: 0,
+		rating: 1000,
 		is_active: false,
 		activation_key: bcrypt.hashSync(password + Math.random()*3001),
 		activation_deadline: activationTokenExpiryTime
@@ -108,98 +128,82 @@ router.post("/login", (req, res) => {
 	//check if user exists
 	let usePragyan = Number(req.body.usePragyan);
 	console.log(usePragyan);
-	if(usePragyan){
-		console.log('using pragyan');
-		let options = {
-			user_email: emailId,
-			user_pass: password,
-			event_id: 2,
-			event_secret: "b6557e6b07dbae3265f83f088a7fad4a7a8203b4"
-		};
-		request({
-			method:'POST',
-			url: 'https://api.pragyan.org/event/login',
-			json: true,
-			body: options
-		}, (err, response) => {
-			//console.log(response.body);   
-			if(err) console.log(err);
-			switch(response.body.status_code){
-				case 400: {
-					return res.json({success: false, message: 'Server Error'}); // Invalid Parameters unexposed
-				}
-				break;
-				case 403: {
-					return res.json({success: false, message: 'Server Error'}); //forbidden secret mismatch
-				}
-				break;
-				case 412: {
-					return res.json({success: false, message: 'Please register on main website'});
-				}
-				break;
-				case 401: {
-					return res.json({success: false, message: 'Please enter correct emailid, password combination!'});
-				}
-				break;
-				case 406: {
-					return res.json({success: false, message: 'Please register for the event!'});
-				}
-				break;
-				case 200: {
-					console.log(emailId);
-					models.User.findOne({
-						 where:{
-						 	email: emailId
-						 }
-					})
-						.then(user => {
-							if(user){
-								req.session.isLoggedIn = true;
-								req.session.userId = user.id;
-								console.log(req.session);
-								res.json({success: true, message: 'Log In Successful!'});
-							}else{
-								//no user with the emailId
-								models.User.create({
-									email: emailId,
-									name: response.body.message.user_fullname,
-									pragyanId: response.body.message.user_id,
-									rating: 0,
-									is_active: 1
-								})
-									.then(userCreated => {
-										req.session.isLoggedIn = true;
-										req.session.userId = userCreated.id;
-										res.json({success: true, message: 'Log In Successful!'});
-									})
-							}
-						})
-						.catch(err => {
-							console.log(err);
-							res.json({success: false, message: 'Login failed.'});
-						})
-				}
-				break;
+	console.log('using pragyan');
+	let options = {
+		user_email: emailId,
+		user_pass: password,
+		event_id: 2,
+		event_secret: "b6557e6b07dbae3265f83f088a7fad4a7a8203b4"
+	};
+	request({
+		method:'POST',
+		url: 'https://api.pragyan.org/event/login',
+		json: true,
+		body: options
+	}, (err, response) => {
+		console.log(response.body);   
+		if(err) console.log(err);
+		switch(response.body.status_code){
+			case 400: {
+				userOfDbCheck(req, res);
+				//return res.json({success: false, message: 'Server Error'}); // Invalid Parameters unexposed
 			}
-		})
-	}else{
-
-		models.User.findOne({
-			where: { email: emailId }
-		})
-			.then((user) => {
-				if (!user) {
-					return res.json({ success: false, message: "User doesn't exist!" });
-				}
-				if(bcrypt.compareSync(password, user.dataValues.password)){
-					req.session.isLoggedIn = true;
-					req.session.userId = user.id;
-					return res.json({success:true, message:"Logged in!"});
-				}else{
-					return res.json({success:false, message:"Wrong Password!"});
-				}
-			});
-	}
+			break;
+			case 403: {
+				return res.json({success: false, message: 'Server Error'}); //forbidden secret mismatch
+			}
+			break;
+			case 412: {
+				return res.json({success: false, message: 'Please register on main website'});
+			}
+			break;
+			case 401: {
+				//return res.json({success: false, message: 'Please enter correct emailid, password combination!'}); //POTENTIAL USER OF OUR DB
+				userOfDbCheck(req, res);
+			}
+			break;
+			case 406: {
+				return res.json({success: false, message: 'Please register for the event!'});
+			}
+			break;
+			case 200: {
+				//console.log(emailId);
+				models.User.findOne({
+					 where:{
+					 	email: emailId
+					 }
+				})
+					.then(user => {
+						if(user){
+							req.session.isLoggedIn = true;
+							req.session.userId = user.id;
+							console.log(req.session);
+							res.json({success: true, message: 'Log In Successful!'});
+						}else{
+							//no user with the emailId
+							models.User.create({
+								email: emailId,
+								name: response.body.message.user_fullname,
+								pragyanId: response.body.message.user_id,
+								rating: 1000,
+								is_active: 1
+							})
+								.then(userCreated => {
+									req.session.isLoggedIn = true;
+									req.session.userId = userCreated.id;
+									res.json({success: true, message: 'Log In Successful!'});
+								})
+						}
+					})
+					.catch(err => {
+						console.log(err);
+						res.json({success: false, message: 'Login failed.'});
+					})
+			}
+			break;
+		}
+	})
+	
 });
 router.post('/activate', (req, res) => {
 	models.User.findOne({
