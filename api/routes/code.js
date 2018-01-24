@@ -87,7 +87,7 @@ router.get('/error_status', (req, res) => {
 		}
 	})
 		.then(code => {
-			if(code.status === "ERROR"){
+			if(code.status === "error"){
 				res.json({success: true, error: code.error_log});
 			}else{
 				res.json({success: false, message:'There are no error in your saved code!'});
@@ -130,7 +130,7 @@ router.get("/lock", (req, res) => {
 						})
 				}
 		})
-	
+
 })
 router.get("/", (req, res)=>{
   console.log(req.session.userId);

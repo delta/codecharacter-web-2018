@@ -141,7 +141,7 @@ router.post("/login", (req, res) => {
 		json: true,
 		body: options
 	}, (err, response) => {
-		console.log(response.body);   
+		// console.log(response.body);
 		if(err) console.log(err);
 		switch(response.body.status_code){
 			case 400: {
@@ -203,7 +203,7 @@ router.post("/login", (req, res) => {
 			break;
 		}
 	})
-	
+
 });
 router.post('/activate', (req, res) => {
 	models.User.findOne({

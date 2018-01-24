@@ -1,6 +1,17 @@
-import { changeCodeStatus, changeLastUsed, updateCode, updateCompilationStatus } from '../actions';
+import {
+  changeCodeStatus,
+  changeLastUsed,
+  updateCode,
+  updateCompilationStatus
+} from '../actions';
 import { call, put } from 'redux-saga/effects';
-import { codeCompile, codeFetch, codeLock, getCodeStatus } from '../../shellFetch/codeFetch';
+import {
+  codeCompile,
+  codeFetch,
+  codeLock,
+  getCodeStatus,
+  getCompilationStatus
+} from '../../shellFetch/codeFetch';
 import { executeCode } from '../../shellFetch/matchFetch';
 
 export function* codeSubmitSaga(action) {
@@ -22,6 +33,7 @@ export function* codeSubmitSaga(action) {
 
 export function* codeFetchSaga() {
   try {
+    console.log("Venkat");
     const response = yield call(codeFetch,{req: null, query: null});
     yield put(updateCode(response.source));
   }
@@ -59,6 +71,18 @@ export function* executeCodeSaga() {
   try {
     yield put(changeLastUsed(1));
     yield call(executeCode, {req: null, query: null});
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export function* getCompilationStatusSaga() {
+  try {
+    let response = yield call(getCompilationStatus, {req: null, query: null});
+    console.log(response);
+    yield put(updateCompilationStatus(response.error));
   }
   catch (err) {
     console.log(err);

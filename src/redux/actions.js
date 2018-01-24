@@ -172,3 +172,7 @@ export const changeAIid = (id) => ({
   type: actionTypes.CHANGE_AI_ID,
   id
 });
+
+export const getCompilationStatus = () => ({
+  type: actionTypes.GET_COMPILATION_STATUS
+});

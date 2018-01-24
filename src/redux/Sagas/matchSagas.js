@@ -73,7 +73,6 @@ export function* fetchGameLogSaga(action) {
       matchId: action.matchId
     };
     let response = yield call(fetchGameLog,{req: null, query: query});
-    console.log(response, "Match Response");
     if (response.match && response.match.log) {
       yield put(updateGameLog(response.match.log.data));
     }
