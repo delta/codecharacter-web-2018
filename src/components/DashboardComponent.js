@@ -65,7 +65,6 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getAIs();
     this.props.fetchCode();
     if (this.props.shouldFetchLog) {
       this.props.fetchGameLog(this.props.lastMatchId);
@@ -83,6 +82,9 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if ((this.props.loginStatus !== nextProps.loginStatus)) {
+      this.props.getAIs();
+    }
     if(nextProps.code !== this.props.code) {
       this.setState({
         code: nextProps.code
@@ -214,6 +216,7 @@ export default class DashboardComponent extends React.Component {
                     readOnly={true}
                     code={this.props.compilationStatus}
                     theme={'terminal'}
+                    mode={'plain_text'}
                     highlightActiveLine={false}
                   />
                 </div>

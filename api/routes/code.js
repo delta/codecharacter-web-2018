@@ -86,7 +86,7 @@ router.get('/error_status', (req, res) => {
 		}
 	})
 		.then(code => {
-			if(code.status === "ERROR"){
+			if(code.status === "error"){
 				res.json({success: true, error: code.error_log});
 			}else{
 				res.json({success: false, message:'There are no error in your saved code!'});
@@ -129,7 +129,7 @@ router.get("/lock", (req, res) => {
 						})
 				}
 		})
-	
+
 })
 router.get("/", (req, res)=>{
   console.log(req.session.userId);
@@ -141,9 +141,9 @@ router.get("/", (req, res)=>{
 				return res.json({success:false, message:"Oops, this user has no code saved!"});
 			}
 			console.log(code.dataValues.status);
-			if(code.dataValues.status === 'compiling'){
+			if(code.dataValues.status === 'COMPILING'){
 				return res.json({success:true, source:code.dataValues.source, status:'compiling'});
-			}else if(code.dataValues.status === 'success'){
+			}else if(code.dataValues.status === 'SUCCESS'){
 				//add these , dll1: code.dataValues.dll1, dll2: code.dataValues.dll2
 				//console.log({dll1: code.dataValues.dll1, dll2: code.dataValues.dll2});
 				return res.json({success:true, source:code.dataValues.source, status: 'Success'});

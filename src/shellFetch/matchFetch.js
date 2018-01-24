@@ -66,7 +66,6 @@ export const challengePlayer = ({req , query}) => {
 };
 
 export const getMatchStatus = ({req, query}) => {
-  console.log(query.matchId);
   return fetch(API_BASE_URL + 'match/match_status/' + query.matchId, {
     method: "GET",
     credentials: 'include',
@@ -79,7 +78,6 @@ export const getMatchStatus = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -110,7 +108,6 @@ export const getLatestMatchId = ({req, query}) => {
 };
 
 export const fetchGameLog = ({req,query}) => {
-  console.log(query.matchId);
   return fetch(API_BASE_URL + 'match/' + query.matchId, {
     method: "GET",
     credentials: 'include',
@@ -123,7 +120,6 @@ export const fetchGameLog = ({req,query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {

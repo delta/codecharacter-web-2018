@@ -5,7 +5,6 @@ import { call, put } from 'redux-saga/effects';
 export function* getUnreadNotificationsSaga() {
   try {
     let response = yield call(getUnreadNotifications,{req: null, query: null});
-    console.log(response);
     if (response.notifications) {
       yield put(updateUnreadNotifications(response.notifications));
     }

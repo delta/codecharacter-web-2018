@@ -9,6 +9,7 @@ export default class GlobalComponent extends React.Component {
     getCodeStatus: PropTypes.func,
     getLatestMatchId: PropTypes.func,
     getMatchStatus: PropTypes.func,
+    fetchCode: PropTypes.func,
     getUnreadNotifications: PropTypes.func,
   };
 
@@ -25,7 +26,7 @@ export default class GlobalComponent extends React.Component {
         this.props.getCodeStatus();
         this.props.getMatchStatus(this.props.matchId);
         this.props.getLatestMatchId();
-        // this.props.fetchGameLog(this.props.matchId);
+        this.props.fetchGameLog(this.props.matchId);
         this.props.getUnreadNotifications();
       }
       , 1000);
@@ -34,11 +35,18 @@ export default class GlobalComponent extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.codeStatus !== nextProps.codeStatus) {
       this.startMatch(this.props.codeStatus, nextProps.codeStatus);
+      this.getCompilationStatus(this.props.codeStatus, nextProps.codeStatus);
+    }
+  };
+
+  getCompilationStatus = (codeStatusOld, codeStatusNew) => {
+    if (codeStatusOld === 'COMPILING' && codeStatusNew === 'ERROR') {
+      this.props.getCompilationStatus();
     }
   };
 
   startMatch = (codeStatusOld, codeStatusNew) => {
-    if (codeStatusOld === 'compiling' && codeStatusNew === 'success') {
+    if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS') {
       this.props.getLatestMatchId();
       this.props.competeAgainstAI(this.props.aiId);
     }

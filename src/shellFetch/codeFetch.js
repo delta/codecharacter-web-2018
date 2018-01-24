@@ -1,6 +1,7 @@
 const API_BASE_URL = 'http://localhost:3001/code';
 
 export const codeFetch = () => {
+  console.log("Raman");
   return fetch(API_BASE_URL + '/',{
     method: "GET",
     credentials: 'include',
@@ -13,7 +14,7 @@ export const codeFetch = () => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
+      console.log(data, "Response from Code FETCH");
       return data;
     })
     .catch((error) => {
@@ -77,6 +78,28 @@ export const codeCompile = ({req, query}) => {
     body: JSON.stringify({
       source: query.source
     })
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
+
+export const getCompilationStatus = ({req, query}) => {
+  return fetch(API_BASE_URL + '/error_status', {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
   })
     .then((response) => {
       return response.json();
