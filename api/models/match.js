@@ -31,7 +31,9 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		status: DataTypes.ENUM( 'EXECUTING', 'SUCCESS', 'ERROR'),
 		log: DataTypes.BLOB("long"),
-		error_log:  DataTypes.BLOB("long")
+		error_log:  DataTypes.BLOB("long"),
+		'player1_dlog': Sequelize.BLOB('long'),
+		'player2_dlog': Sequelize.BLOB('long')
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {
