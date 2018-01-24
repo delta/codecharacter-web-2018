@@ -68,6 +68,8 @@ setInterval(() => {
         let player2ExitStatus = results[3];
         let player1Score =  results[0];
         let player2Score =  results[2];
+        let player1Dlog = response.body.player1LogCompressed.data;
+        let player2Dlog = response.body.player2LogCompressed.data; //idk if it should be .data
         player2ExitStatus = player2ExitStatus.replace('\r', '');
         let runtimeErrorPresent = player2ExitStatus === 'UNDEFINED' || player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT';
 
@@ -162,7 +164,9 @@ setInterval(() => {
 								
 									models.Match.update({
 											status: 'success',
-											log: body.log.data
+											log: body.log.data,
+											player1_dlog: player1Dlog,
+											player2_dlog: player2Dlog
 										},
 										{
 											where:{
