@@ -16,7 +16,8 @@ router.get('/get_matches', (req, res) => {
           player_id2: userId
         }
       ]
-    }
+    },
+    attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt']
   })
     .then(matches => {
       res.json({matches});
