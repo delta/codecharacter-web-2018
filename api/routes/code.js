@@ -36,6 +36,7 @@ router.post("/", function(req, res) {
 						return res.json({success:true, message:"Code saved!", userId});
 					})
 					.catch(err => {
+						console.log(err);
 						res.json({success: false, message: 'Please try later!'});
 					})
 			}else{

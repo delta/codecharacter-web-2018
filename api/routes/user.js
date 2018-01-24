@@ -126,8 +126,8 @@ router.post("/login", (req, res) => {
 		return res.json({success:false, message:"Pass proper params"});
 	}
 	//check if user exists
-	let usePragyan = Number(req.body.usePragyan);
-	console.log(usePragyan);
+	//let usePragyan = Number(req.body.usePragyan);
+	//console.log(usePragyan);
 	console.log('using pragyan');
 	let options = {
 		user_email: emailId,

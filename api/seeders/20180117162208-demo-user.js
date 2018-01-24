@@ -9,7 +9,7 @@ module.exports = {
           email:'lpg',
           createdAt: new Date(),
           updatedAt: new Date(),
-          rating: 0,
+          rating: 1000,
           is_active: 1
         },
         {
@@ -18,7 +18,7 @@ module.exports = {
           email:'lpg1',
           createdAt: new Date(),
           updatedAt: new Date(),
-          rating: 0,
+          rating: 1000,
           is_active: 1
         }
       ])
