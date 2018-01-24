@@ -25,7 +25,8 @@ export default class DashboardComponent extends React.Component {
     logout: PropTypes.func,
     getAIs: PropTypes.func,
     fetchGameLog: PropTypes.func,
-    changeAIid: PropTypes.func
+    changeAIid: PropTypes.func,
+    initialLogin: PropTypes.bool
   };
 
   static defaultProps = {
@@ -44,7 +45,8 @@ export default class DashboardComponent extends React.Component {
     logout: () => {},
     getAIs: () => {},
     fetchGameLog: () => {},
-    changeAIid: () => {}
+    changeAIid: () => {},
+    initialLogin: false
   };
 
   constructor(props) {
@@ -151,7 +153,7 @@ export default class DashboardComponent extends React.Component {
 
     if (this.state.width >= 600) {
       return (
-        <DemoComponent>
+        <DemoComponent initialLogin={this.props.initialLogin}>
           <SplitPane
             split="vertical"
             minSize={50}
@@ -192,20 +194,24 @@ export default class DashboardComponent extends React.Component {
                 minSize={100}
                 defaultSize={400}
               >
-                <div style={{width: "100%"}}>
+                <div style={{width: "100%"}} className={'renderer'}>
                   <div
                     style={{ display: 'block', width: '100%'}}
                     className="renderer-panel"
                   >
                     {this.state.logFile
-                      ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
+                      ?(<CodeCharacterRenderer
+                        logFile={this.state.logFile}
+                        logFunction={this.props.updateCompilationStatus}
+                      />)
                       : <div>LOADING .. </div>
                     }
                   </div>
                 </div>
                 <div className="debug-panel">
                   <CodeComponent
-                    showLineNumbers={false}
+                    showLineNumbers={true}
+                    readOnly={true}
                     code={this.props.compilationStatus}
                     theme={'terminal'}
                     highlightActiveLine={false}

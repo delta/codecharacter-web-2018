@@ -1,6 +1,7 @@
 import { changeLastUsed, updateAIs } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import { competeAgainstAI, getAIs } from '../../shellFetch/aiFetch';
+import { competeSelf } from '../../shellFetch/matchFetch';
 
 export function* getAIsSaga() {
   try  {
@@ -19,7 +20,13 @@ export function* competeAgainstAISaga(action) {
     let query = {
       id: action.id
     };
-    let response = yield call(competeAgainstAI, {req: null, query: query});
+    let response;
+    if (action.id === -1) {
+      response = yield call(competeSelf, {req: null, query: query});
+    }
+    else {
+      response = yield call(competeAgainstAI, {req: null, query: query});
+    }
     console.log(response, action.id, "Challenging with AI");
     yield put(changeLastUsed(1));
   }

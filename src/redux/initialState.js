@@ -1,4 +1,5 @@
 const initialState = {
+  initialLogin: false,
   loginStatus: false,
   username: '000000000',
   loginMessage: '',
@@ -9,8 +10,8 @@ const initialState = {
   compilationStatus: '',
   notifications: [],
   allNotifications: [],
-  codeStatus: '',
-  matchStatus: '',
+  codeStatus: 'Idle',
+  matchStatus: 'Idle',
   lastUsed: 0,
   lastMatchId: -1,
   gameLog: [],

@@ -38,6 +38,17 @@ export default class SubmitButtons extends React.Component {
         <div className="btn dropdown btn-success" style={{padding: 0, borderRadius: 0, paddingLeft: 10, paddingRight: 5, cursor: 'pointer'}}>
           <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style={{color: 'white'}} aria-expanded="true">RUN CODE</span>
           <div className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px', willChange: 'transform'}}>
+            <span
+              key={-1}
+              className="dropdown-item"
+              onClick={() => {
+                this.props.changeAIid(-1);
+                this.props.runCode();
+              }
+              }
+            >
+              Self
+            </span>
             {AIDropDown}
           </div>
         </div>

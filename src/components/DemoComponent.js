@@ -35,7 +35,7 @@ export default class DemoComponent extends React.Component {
             {
               title: 'Renderer',
               text: 'Your Compiled Code Runs Here',
-              selector: '.renderer-panel #renderer-container canvas',
+              selector: '.renderer',
               position: 'top-left',
               type: 'hover',
               isFixed: true
@@ -52,8 +52,8 @@ export default class DemoComponent extends React.Component {
           showSkipButton={true}
           stepIndex={1}
           keyboardNavigation={true}
-          run={true} // or some other boolean for when you want to start it
-          debug={true}
+          run={this.props.initialLogin} // or some other boolean for when you want to start it
+          debug={false}
           type={'continuous'}
         />
         {this.props.children}

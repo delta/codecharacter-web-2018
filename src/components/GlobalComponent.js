@@ -25,10 +25,10 @@ export default class GlobalComponent extends React.Component {
         this.props.getCodeStatus();
         this.props.getMatchStatus(this.props.matchId);
         this.props.getLatestMatchId();
-        this.props.fetchGameLog(this.props.matchId);
+        // this.props.fetchGameLog(this.props.matchId);
         this.props.getUnreadNotifications();
       }
-      , 500);
+      , 1000);
   };
 
   componentWillReceiveProps(nextProps) {

@@ -1,6 +1,7 @@
 import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
 import { Redirect }                               from 'react-router-dom';
+import { Link }                                   from 'react-router-dom';
 import {
   Modal,
   Button,
@@ -124,8 +125,8 @@ export default class LoginComponent extends React.Component {
               <Button className='btn-primary' bsStyle='primary' type="submit" onClick={this.handleSubmit}>
                 LOG IN
               </Button>
-              <Button className='btn-secondary' onClick={() => this.props.history.push('/signup')}>Sign Up</Button>
             </Modal.Footer>
+            <p style={{textAlign: 'right', paddingRight: 20}}>New user?<Link to={'/signup'}> Sign Up </Link></p>
           </div>
         </Modal.Dialog>
         </Form>

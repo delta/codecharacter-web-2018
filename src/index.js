@@ -10,8 +10,10 @@ import { codeCharacterReducer }             from './redux/reducers';
 import codeCharacterSagas                   from './redux/Sagas/sagas';
 import initialState                         from './redux/initialState';
 import { persistStore, persistReducer }     from 'redux-persist';
-import storage                              from 'redux-persist/lib/storage';
+import storage                              from 'redux-persist/es/storage';
 import { initializeRendererAssets }         from 'codecharacter-renderer';
+import { PersistGate } from 'redux-persist/es/integration/react';
+
 
 initializeRendererAssets();
 
@@ -23,23 +25,32 @@ const persistConfig = {
   storage: storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, codeCharacterReducer);
+const persistedReducer = persistReducer(persistConfig,codeCharacterReducer);
 
 const store = createStore(
   persistedReducer,
   initialState,
-  applyMiddleware(sagaMiddleware),
+  applyMiddleware(sagaMiddleware)
 );
 sagaMiddleware.run(codeCharacterSagas);
 
-let persistor = persistStore(store);
+const persistor = persistStore(store);
+
+const onBeforeLift = () => {
+  console.log("OnBeforeLift");
+};
 
 ReactDOM.render((
-  <BrowserRouter>
-      <Provider store={store} persistor={persistor}>
+  <Provider store={store}>
+    <PersistGate
+      onBeforeLift={onBeforeLift}
+      persistor={persistor}
+    >
+      <BrowserRouter>
         <App/>
-      </Provider>
-  </BrowserRouter>
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>
 ), document.getElementById("root"));
 registerServiceWorker();
 

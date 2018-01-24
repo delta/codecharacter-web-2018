@@ -2,14 +2,16 @@ import actionTypes           from "./action_types";
 import initialState          from './initialState';
 
 export function codeCharacterReducer(state = initialState, action) {
-  console.log(state.lastMatchId);
+  console.log(state.initialLogin);
   switch(action.type) {
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
       console.log(action.response.loginStatus, "UPDATE_USER_LOGIN_STATUS");
+      console.log(state.username, action.response.username, state.username !== action.response.username, actionTypes.UPDATE_USER_LOGIN_STATUS);
       return {
         ...state,
         username: action.response.username ? action.response.username : state.username.toString(),
-        loginStatus: action.response.loginStatus
+        loginStatus: action.response.loginStatus,
+        initialLogin: (action.response.loginStatus) ? (state.username !== action.response.username) : state.initialLogin
       };
     }
 
@@ -44,7 +46,7 @@ export function codeCharacterReducer(state = initialState, action) {
     case actionTypes.UPDATE_COMPILATION_STATUS: {
       return {
         ...state,
-        compilationStatus: action.data
+        compilationStatus: state.compilationStatus + "\n" + action.data
       };
     }
 
@@ -113,6 +115,9 @@ export function codeCharacterReducer(state = initialState, action) {
       }
     }
 
+    case "persist/REHYDRATE": {
+      return { ...state, ...action.payload }
+    }
     default: {
       return state;
     }

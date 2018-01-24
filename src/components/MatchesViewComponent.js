@@ -49,6 +49,6 @@ export default class MatchesViewComponent extends React.Component {
         </tbody>
       </Table>
     );
-    return <DashboardComponent compilationStatus={this.props.compilationStatus} matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus} gameLog={this.props.gameLog}/>
+    return <DashboardComponent updateCompilationStatus={this.props.updateCompilationStatus} compilationStatus={this.props.compilationStatus} matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus} gameLog={this.props.gameLog}/>
   }
 }

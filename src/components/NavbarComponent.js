@@ -79,8 +79,10 @@ export default class NavbarComponent extends React.Component {
             </ul>
             <form className="form-inline my-2 my-lg-0">
               <div className="nav-item" style={{margin: '0 !important'}}>
-              <span className="circle" style={{paddingRight: 20, marginBottom: 3}}/>
-                <span style={{color: 'white'}}>{(this.props.lastUsed===0) ? this.props.codeStatus : this.props.matchStatus}</span>
+              <span className="circle" style={{paddingRight: 20, marginBottom: 3, color: 'red'}}/>
+                <span style={{color: 'white'}}>{(this.props.lastUsed===0)
+                  ? (this.props.codeStatus ? (this.props.codeStatus.toString().charAt(0).toUpperCase() + this.props.codeStatus.toString().slice(1)) : this.props.codeStatus)
+                  : (this.props.matchStatus ? ((this.props.matchStatus).toString().charAt(0).toUpperCase() + this.props.matchStatus.toString().slice(1)) : this.props.matchStatus)}</span>
               </div>
             </form>
           </div>

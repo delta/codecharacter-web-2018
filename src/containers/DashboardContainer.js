@@ -7,11 +7,12 @@ import {
   fetchCode,
   fetchGameLog,
   getAIs,
-  changeAIid
-}                                              from '../redux/actions';
+  changeAIid, updateCompilationStatus
+} from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
+    initialLogin: state.initialLogin,
     loginStatus: state.loginStatus,
     compilationStatus: state.compilationStatus,
     username: state.username,
@@ -31,7 +32,8 @@ const mapDispatchToProps = dispatch => {
     logout: () =>  {dispatch(userLogout());},
     fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));},
     getAIs: () => {dispatch(getAIs());},
-    changeAIid: (id) => {dispatch(changeAIid(id))}
+    changeAIid: (id) => {dispatch(changeAIid(id))},
+    updateCompilationStatus: (status) => {dispatch(updateCompilationStatus(status));}
   }
 };
 
