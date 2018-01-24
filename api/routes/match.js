@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
-
+const zlib = require("zlib");
 const queueExecute = require('../utils/queueExecute');
 router.get('/get_matches', (req, res) => {
   let userId = req.session.userId;
@@ -26,6 +26,23 @@ router.get('/get_matches', (req, res) => {
       res.json({err});
     })
 });
+router.get('/get_match/:matchId', (req, res) => {
+   models.Match.findOne({
+    where:{
+      id: req.params.matchId
+    },
+    attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'status','player1_dlog', 'player2_dlog']
+  })
+    .then(match => {
+      //console.log(match.player1_dlog);
+      //match.player1_dlog = zlib.unzipSync(match.player1_dlog).toString('utf8');
+      res.json({match});
+    })
+    .catch(err => {
+      console.log(err);
+      res.json({err});
+    })
+})
 router.get('/get_latest_match_id', (req, res) => {
   let userId = req.session.userId;
   models.Match.findAll({
