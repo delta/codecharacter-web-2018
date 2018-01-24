@@ -34,7 +34,7 @@ let userOfDbCheck = (req, res) => {
 				if(bcrypt.compareSync(password, user.dataValues.password)){
 					req.session.isLoggedIn = true;
 					req.session.userId = user.id;
-					return res.json({success:true, message:"Logged in!"});
+					return res.json({success:true, message:"Logged in!", userId: user.id});
 				}else{
 					return res.json({success:false, message:"Wrong Password!"});
 				}
@@ -178,7 +178,7 @@ router.post("/login", (req, res) => {
 							req.session.isLoggedIn = true;
 							req.session.userId = user.id;
 							console.log(req.session);
-							res.json({success: true, message: 'Log In Successful!'});
+							res.json({success: true, message: 'Log In Successful!', userId: user.id});
 						}else{
 							//no user with the emailId
 							models.User.create({
@@ -191,7 +191,7 @@ router.post("/login", (req, res) => {
 								.then(userCreated => {
 									req.session.isLoggedIn = true;
 									req.session.userId = userCreated.id;
-									res.json({success: true, message: 'Log In Successful!'});
+									res.json({success: true, message: 'Log In Successful!',  userId: user.id});
 								})
 						}
 					})
