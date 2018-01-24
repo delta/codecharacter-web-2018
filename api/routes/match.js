@@ -16,7 +16,8 @@ router.get('/get_matches', (req, res) => {
           player_id2: userId
         }
       ]
-    }
+    },
+    attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt']
   })
     .then(matches => {
       res.json({matches});
@@ -93,7 +94,10 @@ router.get('/compete/player/:againstId', (req, res) => {
     attributes: ['dll1_locked']
   })
     .then(code1 => {
-      if(!code1 && (code1.status === 'SUCCESS')){
+      if(!code1){
+        return res.json({success: false, message: 'Upload a working code first!'});
+      }
+      if(code1.status === 'SUCCESS'){
         return res.json({success: false, message: 'Upload a working code first!'});
       }
       models.Code.findOne({
@@ -103,7 +107,10 @@ router.get('/compete/player/:againstId', (req, res) => {
         attributes: ['dll2_locked']
       })
         .then(code2 => {
-          if(!code2 && (code1.status === 'SUCCESS')){
+          if(!code2){
+            return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
+          }
+          if(code2.status === 'SUCCESS'){
             return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
           }
           //execute code1.dll1, code2.dll2
@@ -201,7 +208,7 @@ router.get('/compete/ai/:ai_id', (req, res) => {
           })
             .then(matchSaved => {
               console.log(matchSaved.id, matchSaved.player_id1, 'test2');
-              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, aiId, true);
+              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, Number(aiId), true);
               if(success){
                 res.json({success: true, message: 'Match is executing'});
               }else{
@@ -261,7 +268,7 @@ router.get('/compete/self', (req, res) => {
             console.log(err);
             res.json({success: false, message: 'Try after sometime!'});
           });
-    })
+    }) 
 })
 //no use of the following for now
 router.post('/ai', (req, res) => {
@@ -278,6 +285,25 @@ router.post('/ai', (req, res) => {
       res.json({success: false, message: "Save failed!"});
     })
 });
+router.get('/error_status/:match_id', (req, res) => {
+  //params
+  let matchId = req.params.match_id;
+  if(!matchId){
+    return res.json({success: false, message: 'Return with proper params!'});
+  }
+  models.Match.find({
+    where: {
+      id: matchId
+    }
+  })
+    .then(match => {
+      if(match.status === "ERROR"){
+        res.json({success: true, error: match.error_log});
+      }else{
+        res.json({success: false, message:'There are no error in your saved code!'});
+      }
+    })
+})
 module.exports = router;
 
 function getMatchHandler(req, res){

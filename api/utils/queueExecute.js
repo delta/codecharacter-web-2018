@@ -4,6 +4,8 @@ const models = require("../models");
 const request = require("request");
 let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
+const EloRank = require('elo-rank');
+const elo = new EloRank(32);
 let pushToQueue = (matchId, dll1, dll2, userId, opponentId, isAi) => {
 	if(executeQueue.length === executeQueueSize){
 		return false;
@@ -58,108 +60,180 @@ setInterval(() => {
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
-				if(isAi){
-					console.log('hey');
 
-				}
-				//handle scores
-				//create appropriate notifications
-				let matchId = response.body.matchId;
-				requestUnderway = false;
-				executeQueue.shift();
-				//console.log(body);
-				console.log(userId, matchId, 'test1');
-				if(err) throw err;
-				if(!body.success){
-					models.Match.update({
-							status: 'error',
-							error_log: body.error
-						},
-						{
-							where:{
-								id: matchId
-							}
-						}
-					)
-						.then(match => {
-							console.log(match);
-							models.Notification.create({
-								type: 'ERROR'	,
-								title: 'Execution Error',
-								message: 'Your or the player\'s code didn\'t execute properly, please try again later!',
-								isRead: false,
-								user_id: userId
-							})
-								.then(notification => {
-									//idk what to do here
-								})
-								.catch(err => {
-									console.log(err);
-								})
-						})
-						.catch(err => {
-							throw err;
-							console.log(err);
-						})
-				}else{
-					models.Match.update({
-							status: 'success',
-							log: body.log.data
-						},
-						{
-							where:{
-								id: matchId
-							}
-						}
-					)
-						.then(match => {
-							console.log(match);
-							/*
-								models.Notification.create({
-									type: 'SUCCESS'	,
-									title: 'Executed successfully!',
-									message: 'Your match just successfully got executed!',
-									isRead: false,
-									user_id: userId
-								})
-									.then(notification => {
-										//idk what to do here
-									})
-									.catch(err => {
-										console.log(err);
-									})
+        let results = response.body.results;
+        console.log(results);
+        results = results.split(' ').slice(1);
+        let player1ExitStatus = results[1];
+        let player2ExitStatus = results[3];
+        let player1Score =  results[0];
+        let player2Score =  results[2];
+        player2ExitStatus = player2ExitStatus.replace('\r', '');
+        let runtimeErrorPresent = player2ExitStatus === 'UNDEFINED' || player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT';
 
-							*/
-							let winner = userId;
-							let loser = opponentId;
-							models.Notification.bulkCreate([
-								{
-									type: 'INFORMATION'	,
-									title: 'Match Update',
-									message: (isAi? 'Ai' : 'User') + `${winner} won the match!`,
-									isRead: false,
-									user_id: loser
-								},
-								{
-									type: 'SUCCESS'	,
-									title: 'Match Update',
-									message: (isAi? 'Ai' : 'User') + `${winner} won the match!`,
-									isRead: false,
-									user_id: winner
+        //sort message and 
+				models.User.findOne({
+					where: {
+						id: userId
+					}
+				})
+					.then(user1 => {
+						models.User.findOne({
+							where: {
+								id:opponentId
+							}
+						})
+							.then(user2 => {
+								if(err) throw err;
+								if(!body.success || runtimeErrorPresent){
+									models.Match.update({
+											status: 'error',
+											error_log: body.error
+										},
+										{
+											where:{
+												id: matchId
+											}
+										}
+									)
+										.then(match => {
+											console.log(match);
+											models.Notification.create({
+												type: 'ERROR'	,
+												title: 'Execution Error',
+												message: (player2ExitStatus === 'UNDEFINED' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!'),
+												isRead: false,
+												user_id: userId
+											})
+												.then(notification => {
+													//idk what to do here
+													if( (player2ExitStatus === 'UNDEFINED' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT')){
+														models.Notification.create({
+															type: 'ERROR'	,
+															title: 'Execution Error',
+															message:(player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!'),
+															isRead: false,
+															user_id: opponentId
+														})
+															.then(notification => {
+																//idk what to do here
+																
+															})
+															.catch(err => {
+																console.log(err);
+															})
+													}
+													
+												})
+												.catch(err => {
+													console.log(err);
+												})
+										})
+										.catch(err => {
+											throw err;
+											console.log(err);
+										})
+								}else{
+
+									let score1 = user1.rating;
+					        let score2 = user2.rating;
+					        console.log(score1, score2);
+					        let expec1 = elo.getExpected(score1, score2);
+					        let expec2 = elo.getExpected(score2, score1);
+					        console.log(expec2, expec1);
+					        if(player2Score > player1Score){
+					        	score1 = elo.updateRating(expec1, 0, score1);
+					          score2 = elo.updateRating(expec2, 1, score2);
+					        }else if(player2Score < player1Score){
+					        	score1 = elo.updateRating(expec1, 1, score1);
+					          score2 = elo.updateRating(expec2, 0, score2);
+					        }else{
+					        	score1 = elo.updateRating(expec1, 0.5, score1);
+					          score2 = elo.updateRating(expec2, 0.5, score2);
+					        }
+					        console.log(score1, score2);
+									//handle scores
+									//create appropriate notifications
+									let matchId = response.body.matchId;
+									requestUnderway = false;
+									executeQueue.shift();
+									//console.log(body);
+									console.log(userId, matchId, 'test1');
+								
+									models.Match.update({
+											status: 'success',
+											log: body.log.data
+										},
+										{
+											where:{
+												id: matchId
+											}
+										}
+									)
+										.then(match => {
+											console.log(match);
+											/*
+												models.Notification.create({
+													type: 'SUCCESS'	,
+													title: 'Executed successfully!',
+													message: 'Your match just successfully got executed!',
+													isRead: false,
+													user_id: userId
+												})
+													.then(notification => {
+														//idk what to do here
+													})
+													.catch(err => {
+														console.log(err);
+													})
+
+											*/
+											models.User.update({
+												rating : score1
+											},
+											{
+												where: {
+													id: userId
+												}
+											})
+												.then(success => {
+													if(success){
+														console.log('User1 score update successful');
+													}
+													models.User.update({
+														rating: score2
+													},
+													{
+														where: {
+															id: opponentId
+														}
+													})
+														.then(success => {
+															if(success){
+																console.log('User2 score update successful');
+															}
+														})
+														.catch(err => {
+															console.log(err);
+														})
+												})
+												.catch(err => {
+													console.log(err);
+												})
+										})
+										.catch(err => {
+											throw err;
+											console.log(err);
+										})
 								}
-							])
-								.then(() => {
-
-								})
-								.catch(err => {
-									console.log(err);
-								})
-						})
-						.catch(err => {
-							throw err;
-							console.log(err);
-						})
-				}
+							})
+							.catch(err => {
+								console.log(err);
+							})
+					})
+					.catch(err => {
+						console.log(err);
+					})
 				//console.log(err, body);
 				//console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
 			});
