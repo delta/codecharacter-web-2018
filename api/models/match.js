@@ -33,7 +33,9 @@ module.exports = (sequelize, DataTypes) => {
 		log: DataTypes.BLOB("long"),
 		error_log:  DataTypes.BLOB("long"),
 		'player1_dlog': DataTypes.BLOB('long'),
-		'player2_dlog': DataTypes.BLOB('long')
+		'player2_dlog': DataTypes.BLOB('long'),
+		'scorep1' : DataTypes.STRING,
+		'scorep2' : DataTypes.STRING
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {

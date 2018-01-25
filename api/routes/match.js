@@ -16,11 +16,58 @@ router.get('/get_matches', (req, res) => {
           player_id2: userId
         }
       ]
+      /*
+        ,
+      ai_id: null,
+      $not: {
+        player_id1: userId,
+        player_id2: userId
+      }
+      */
     },
-    attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt']
+    attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'scorep1', 'scorep2']
   })
     .then(matches => {
-      res.json({matches});
+      //res.json({matches});
+      let fetchPromises = []
+
+      let matchesModified = [];
+      let x = matches.map(match => {
+        if((match.player_id1 === match.player_id2) || (match.ai_id != null)) return;
+        let competetorId = match.player_id2 === userId ? match.player_id1 : match.player_id2;
+        let x = models.User.findAll({
+          where: {
+            $or:[
+            {
+              id: userId
+            },
+            {
+              id: competetorId
+            }
+            ]
+          },
+          attributes:['id', 'name', 'rating']
+        })
+          .then(users => {
+            let usersFetched = users.map(user => user.dataValues);
+            //console.log(usersFetched);
+            //console.log(usersFetched.map(userFetched=> userFetched.dataValues));
+            match.dataValues.users = usersFetched;
+            console.log(match);
+            //console.log(match, users.map(user => {return }));
+            matchesModified.push(match);
+            //console.log(matchesModified);
+          })
+          .catch(err => {
+            console.log(err);
+            res.json({success: false})
+          });
+        fetchPromises.push(x);
+      })
+      Promise.all(fetchPromises).then(promises => {
+        console.log('hey');
+        res.json({matchesModified});
+      })
     })
     .catch(err => {
       res.json({err});
