@@ -166,7 +166,9 @@ setInterval(() => {
 											status: 'success',
 											log: body.log.data,
 											player1_dlog: player1Dlog,
-											player2_dlog: player2Dlog
+											player2_dlog: player2Dlog,
+											scorep1:player1Score,
+											scorep2:player2Score
 										},
 										{
 											where:{
