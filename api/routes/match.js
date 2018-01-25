@@ -78,7 +78,7 @@ router.get('/get_match/:matchId', (req, res) => {
     where:{
       id: req.params.matchId
     },
-    attributes: ['id','log', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'status','player1_dlog', 'player2_dlog']
+    attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'status','player1_dlog', 'player2_dlog', 'log']
   })
     .then(match => {
       //console.log(match.player1_dlog);
@@ -332,7 +332,7 @@ router.get('/compete/self', (req, res) => {
             console.log(err);
             res.json({success: false, message: 'Try after sometime!'});
           });
-    }) 
+    })
 })
 //no use of the following for now
 router.post('/ai', (req, res) => {
