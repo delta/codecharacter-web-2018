@@ -2,6 +2,7 @@ import actionTypes           from "./action_types";
 import initialState          from './initialState';
 
 export function codeCharacterReducer(state = initialState, action) {
+  console.log(action);
   switch(action.type) {
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
       return {
@@ -10,6 +11,14 @@ export function codeCharacterReducer(state = initialState, action) {
         loginStatus: action.response.loginStatus,
         initialLogin: (action.response.loginStatus) ? (state.username !== action.response.username) : state.initialLogin
       };
+    }
+
+    case actionTypes.UPDATE_USER_ID: {
+      console.log(action);
+      return {
+        ...state,
+        userId: action.userId
+      }
     }
 
     case actionTypes.UPDATE_LEADERBOARD: {
@@ -109,6 +118,13 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...state,
         activeAiId: action.id
+      }
+    }
+
+    case actionTypes.CLEAR_COMPILATION_STATUS: {
+      return {
+        ...state,
+        compilationStatus: ''
       }
     }
 

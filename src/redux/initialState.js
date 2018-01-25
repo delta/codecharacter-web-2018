@@ -1,7 +1,7 @@
 const initialState = {
   initialLogin: false,
   loginStatus: false,
-  username: '000000000',
+  userId: 0,
   loginMessage: '',
   leaderboardData: [],
   matchesData: [],

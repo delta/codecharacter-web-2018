@@ -7,6 +7,7 @@ import {
 
 const mapStateToProps = state => {
   return {
+    userId: state.userId,
     playersData: state.leaderboardData,
     loginStatus: state.loginStatus,
   };

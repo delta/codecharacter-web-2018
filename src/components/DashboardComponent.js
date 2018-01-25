@@ -26,7 +26,8 @@ export default class DashboardComponent extends React.Component {
     getAIs: PropTypes.func,
     fetchGameLog: PropTypes.func,
     changeAIid: PropTypes.func,
-    initialLogin: PropTypes.bool
+    initialLogin: PropTypes.bool,
+    clearCompilationStatus: PropTypes.func
   };
 
   static defaultProps = {
@@ -46,6 +47,7 @@ export default class DashboardComponent extends React.Component {
     getAIs: () => {},
     fetchGameLog: () => {},
     changeAIid: () => {},
+    clearCompilationStatus: () => {},
     initialLogin: false
   };
 
@@ -65,10 +67,11 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentDidMount() {
+    this.props.userAuthenticateCheck();
+    this.props.clearCompilationStatus();
     this.props.fetchCode();
-    if (this.props.shouldFetchLog) {
-      this.props.fetchGameLog(this.props.lastMatchId);
-    }
+    this.props.getAIs();
+    this.props.fetchGameLog(this.props.lastMatchId);
     this.windowResizeListener = window.addEventListener('resize',() => {
       this.setState({
         height: window.innerHeight,
@@ -82,9 +85,6 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((this.props.loginStatus !== nextProps.loginStatus)) {
-      this.props.getAIs();
-    }
     if(nextProps.code !== this.props.code) {
       this.setState({
         code: nextProps.code
@@ -92,6 +92,7 @@ export default class DashboardComponent extends React.Component {
     }
 
     if(nextProps.shouldFetchLog && !this.props.shouldFetchLog) {
+      console.log(nextProps.lastMatchId);
       this.props.fetchGameLog(nextProps.lastMatchId);
     }
 
@@ -204,7 +205,7 @@ export default class DashboardComponent extends React.Component {
                     {this.state.logFile
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
-                        logFunction={this.props.updateCompilationStatus}
+                        logFunction={console.log}
                       />)
                       : <div>LOADING .. </div>
                     }

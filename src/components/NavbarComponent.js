@@ -33,7 +33,7 @@ export default class NavbarComponent extends React.Component {
       >
         <Link
           className="navbar-brand"
-          to={"/login"}
+          to={"/"}
           style={{fontWeight: 900, color: 'hsla(0,0%,100%,.8)', fontSize: '1.25rem'}}
         >
           Code Character
@@ -53,9 +53,6 @@ export default class NavbarComponent extends React.Component {
           ? <div className="collapse navbar-collapse" id={"navbarColor02"}>
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className="nav-link" to={"/"}>Home</Link>
-              </li>
-              <li className="nav-item">
                 <Link className="nav-link" to={"/profile"}>Profile</Link>
               </li>
               <li className="nav-item">
@@ -73,7 +70,7 @@ export default class NavbarComponent extends React.Component {
               <li className="nav-item">
                 <Link className="nav-link" to={"/notifications"}>Notifications</Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" style={{cursor: 'pointer'}}>
                 <span className="nav-link" onClick={() => {this.props.onLogout();}}>Logout</span>
               </li>
             </ul>
@@ -88,9 +85,6 @@ export default class NavbarComponent extends React.Component {
           </div>
           : <div className="collapse navbar-collapse" id={"navbarColor02"}>
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to={"/"}>Home</Link>
-              </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/login"}>Login</Link>
               </li>

@@ -3,7 +3,7 @@ import MatchViewComponent                      from '../components/MatchesViewCo
 import { matchFetchAll } from '../shellFetch/matchFetch';
 import {
   fetchMatchAllData, getMatchData, fetchGameLog,
-  updateCompilationStatus
+  updateCompilationStatus, userAuthenticateCheck
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -17,6 +17,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     fetchMatchData: () => {dispatch(fetchMatchAllData());},
     getMatchData: (matchId) => {dispatch(getMatchData(matchId));},
     fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));},

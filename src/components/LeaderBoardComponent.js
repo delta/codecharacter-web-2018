@@ -2,9 +2,11 @@ import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
 import { Redirect }                               from 'react-router-dom';
 import { Table }                                  from 'react-bootstrap';
+import ReactPaginate                              from 'react-paginate';
 
 export default class LeaderBoardComponent extends React.Component {
   static propTypes = {
+    userId: PropTypes.number,
     playersData: PropTypes.array,
     loginStatus: PropTypes.bool,
     fetchLeaderboardData: PropTypes.func,
@@ -12,6 +14,7 @@ export default class LeaderBoardComponent extends React.Component {
   };
 
   static defaultProps = {
+    userId: -1,
     playersData: [],
     loginStatus: false,
     fetchLeaderboardData: () => {},
@@ -28,21 +31,31 @@ export default class LeaderBoardComponent extends React.Component {
     }
 
     let tableColumns = (this.props.playersData).map((data, index) => {
-      return (
-        <tr key={index} align='center'>
-          <td>
-            <img
-            onClick={() => this.props.startChallenge(data.id)}
-            src='http://www.pngmart.com/files/1/Cross-Sword-PNG-Clipart.png'
-            alt='Fight'
-            style={{cursor: 'pointer', width: 20, height: 20}}
-            />
-          </td>
-          <td>{data.id}</td>
-          <td>{data.name}</td>
-          <td>{data.rating}</td>
-        </tr>
-      );
+      console.log(data.id, this.props.userId);
+      if (data.id !== this.props.userId.userId) {
+        return (
+          <tr key={index} align='center'>
+            <td>
+              <img
+                onClick={() => this.props.startChallenge(data.id)}
+                src='http://www.pngmart.com/files/1/Cross-Sword-PNG-Clipart.png'
+                alt='Fight'
+                style={{
+                  cursor: 'pointer',
+                  width: 20,
+                  height: 20
+                }}
+              />
+            </td>
+            <td>{data.id}</td>
+            <td>{data.name}</td>
+            <td>{data.rating}</td>
+          </tr>
+        );
+      }
+      else {
+        return null;
+      }
     });
 
     return (
@@ -57,9 +70,28 @@ export default class LeaderBoardComponent extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {tableColumns}
+          {tableColumns}
           </tbody>
         </Table>
+        <div className="span12 center-block">
+            <ul className="pagination text-center">
+              <li className="page-item disabled">
+                <a className="page-link" href="#">&laquo;</a>
+              </li>
+              <li className="page-item active">
+                <a className="page-link" href="#">1</a>
+              </li>
+              <li className="page-item">
+                <a className="page-link" href="#">2</a>
+              </li>
+              <li className="page-item">
+                <a className="page-link" href="#">3</a>
+              </li>
+              <li className="page-item">
+                <a className="page-link" href="#">&raquo;</a>
+              </li>
+            </ul>
+        </div>
       </div>
     );
   }

@@ -1,3 +1,4 @@
+// var pako = require('pako');
 const API_BASE_URL = 'http://localhost:3001/';
 
 export const matchFetchAll = ({req , query}) => {
@@ -117,10 +118,18 @@ export const fetchGameLog = ({req,query}) => {
     },
   })
     .then((response) => {
+      console.log()
       return response.json();
     })
     .then((data) => {
-      console.log(data);
+      /*var pako = window.pako;
+      if (data.match) {
+        let x = pako.inflate((data.match.player1_dlog.data));
+        let y = '';
+        x.map(charCode => {
+          y += String.fromCharCode(charCode);
+        });
+      }*/
       return data;
     })
     .catch((error) => {

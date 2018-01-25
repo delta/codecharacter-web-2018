@@ -11,13 +11,17 @@ export default class MatchesViewComponent extends React.Component {
     matchesData: PropTypes.arrayOf(PropTypes.object),
     fetchGameLog: PropTypes.func,
     fetchMatchData: PropTypes.func,
+    updateCompilationStatus: PropTypes.func,
+    userAuthenticateCheck: PropTypes.func
   };
 
   static defaultProps = {
     matchesData: [],
     loginStatus: false,
     fetchMatchData: () => {},
-    fetchGameLog: () => {}
+    fetchGameLog: () => {},
+    updateCompilationStatus: () => {},
+    userAuthenticateCheck: () => {}
   };
 
   componentDidMount() {
@@ -27,7 +31,8 @@ export default class MatchesViewComponent extends React.Component {
   render() {
     let matchDataColumns = (this.props.matchesData).map((data,index) => {
       return (
-          <tr key={index} align='center' onClick={() => {console.log(data); this.props.fetchGameLog(data.id);}}>
+          <tr key={index} align='center'>
+            <td onClick={() => {console.log(data); this.props.fetchGameLog(data.id);}}><i className="fa fa-play" aria-hidden="true"/></td>
             <td>{data.player_id1}</td>
             <td>{data.player_id2}</td>
             <td>{data.status}</td>
@@ -39,6 +44,7 @@ export default class MatchesViewComponent extends React.Component {
       <Table striped bordered condensed hover responsive className='table-success'>
         <thead>
         <tr align='center'>
+          <th>Play</th>
           <th>Player 1</th>
           <th>Player 2</th>
           <th>Result</th>
@@ -49,6 +55,14 @@ export default class MatchesViewComponent extends React.Component {
         </tbody>
       </Table>
     );
-    return <DashboardComponent updateCompilationStatus={this.props.updateCompilationStatus} compilationStatus={this.props.compilationStatus} matchesViewTable={table} matchesView={true} loginStatus={this.props.loginStatus} gameLog={this.props.gameLog}/>
+    return <DashboardComponent
+      userAuthenticateCheck={this.props.userAuthenticateCheck}
+      updateCompilationStatus={this.props.updateCompilationStatus}
+      compilationStatus={this.props.compilationStatus}
+      matchesViewTable={table}
+      matchesView={true}
+      loginStatus={this.props.loginStatus}
+      gameLog={this.props.gameLog}
+    />
   }
 }

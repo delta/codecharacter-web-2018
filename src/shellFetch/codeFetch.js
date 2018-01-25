@@ -1,7 +1,6 @@
 const API_BASE_URL = 'http://localhost:3001/code';
 
 export const codeFetch = () => {
-  console.log("Raman");
   return fetch(API_BASE_URL + '/',{
     method: "GET",
     credentials: 'include',
@@ -14,7 +13,6 @@ export const codeFetch = () => {
       return response.json();
     })
     .then((data) => {
-      console.log(data, "Response from Code FETCH");
       return data;
     })
     .catch((error) => {

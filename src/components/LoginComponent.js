@@ -35,7 +35,7 @@ export default class LoginComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.props.authenticateCheck(this.props.username);
+    this.props.authenticateCheck();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,8 +111,9 @@ export default class LoginComponent extends React.Component {
             </Modal.Header>
 
             <Modal.Body className='loginModalBody'>
+              <p style={{paddingRight: 20, fontSize: 14}}>Already registered on <Link to="https://www.pragyan.org/18/home" target='_blank'>Pragyan</Link> or NITT Webmail? You can use the same credentials to login.</p>
               <FormGroup className={this.state.usernameStatus} style={{paddingTop: 20, paddingBottom: 10}}>
-                <input onChange={this.updateUsername} type='text' className='form-control is-invalid' placeholder='Username'/>
+                <input onChange={this.updateUsername} type='text' className='form-control is-invalid' placeholder='Email'/>
                 <div className='invalid-feedback'>{this.state.usernameMessage}</div>
               </FormGroup>
               <FormGroup className={this.state.passwordStatus} style={{paddingTop: 10, paddingBottom: 20}}>
