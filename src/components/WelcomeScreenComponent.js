@@ -53,11 +53,11 @@ export default class WelcomeScreenComponent extends React.Component {
               <div className="col-sm-12 pl-5 pr-5 pt-5 pb-4">
                 <h1>FAQ</h1>
                 <ul className="pt-4 pb-3 list-default">
-                  <li><h5>What is the game Called?</h5><p>Pata Nahi baai saab</p></li>
-                  <li><h5>What is the game Called?</h5><p>Pata Nahi baai saab</p></li>
-                  <li><h5>What is the game Called?</h5><p>Pata Nahi baai saab</p></li>
-                  <li><h5>What is the game Called?</h5><p>Pata Nahi baai saab</p></li>
-                  <li><h5>What is the game Called?</h5><p>Pata Nahi baai saab</p></li>
+                  <li><h5>What is the game Called?</h5><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p></li>
+                  <li><h5>What is the game Called?</h5><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p></li>
+                  <li><h5>What is the game Called?</h5><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p></li>
+                  <li><h5>What is the game Called?</h5><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p></li>
+                  <li><h5>What is the game Called?</h5><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p></li>
                 </ul>
               </div>
             </div>

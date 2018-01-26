@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './ApiBaseUrl';
+import { API_BASE_URL } from '../config/config';
 
 export const leaderboardGetPlayers = ({req , query}) => {
   console.log(query.start, query.size);
