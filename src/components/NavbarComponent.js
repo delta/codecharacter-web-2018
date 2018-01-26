@@ -24,6 +24,12 @@ export default class NavbarComponent extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', function (event) {
+
+    });
+  }
+
   render() {
     return (
       <nav

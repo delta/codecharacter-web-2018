@@ -37,9 +37,8 @@ export default class LeaderBoardComponent extends React.Component {
         <tr key={index}>
           <td align="center" style={{padding: 0}}>
             {(data.id !== this.props.userId)
-              ? <span className="btn btn-info" style={{borderRadius: 0, height: 49}}>
-                <img src={'assets/sword.png'} width="15" height="15"
-                     onClick={() => this.props.startChallenge(data.id)}/>
+              ? <span className="btn btn-info" style={{borderRadius: 0, height: 49}} onClick={() => {this.props.startChallenge(data.id);}}>
+                <img src={'assets/sword.png'} width="15" height="15"/>
               </span>
               : null
             }

@@ -92,6 +92,7 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_UNREAD_NOTIFICATIONS: {
+      console.log(action.notifications);
       return {
         ...state,
         notifications: action.notifications
