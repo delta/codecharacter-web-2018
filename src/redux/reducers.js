@@ -21,9 +21,10 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_LEADERBOARD: {
+      console.log(action.data);
       return {
         ...state,
-        leaderboardData: action.data.ratings
+        leaderboardData: action.data
       };
     }
 
@@ -84,7 +85,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_GAME_LOG: {
-      console.log(action.gameLog, "Updating state da... Idhukku mela theriyadhu");
       return {
         ...state,
         gameLog: action.gameLog

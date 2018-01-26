@@ -31,7 +31,7 @@ router.get('/notifications/:onlyUnread', (req, res) => {
 	}
 	models.Notification.findAll({
 		where: searchParams,
-		attributes: ['type', 'title', 'message', 'isRead', 'createdAt']
+		attributes: ['id', 'type', 'title', 'message', 'isRead', 'createdAt']
 	})
 		.then(notifications => {
 			models.Notification.update({
@@ -40,7 +40,7 @@ router.get('/notifications/:onlyUnread', (req, res) => {
 			{
 				where: {
 					user_id: req.session.userId
-				}		
+				}
 			})
 				.then(() => {
 					if(notifications && notifications.length){
@@ -124,7 +124,7 @@ router.post('/delete_notification', (req, res) => {
 		.then(success => {
 			console.log(success);
 
-			res.json({success:true, message : 'deletion successful!' })	
+			res.json({success:true, message : 'deletion successful!' })
 		})
 		.catch(err => {
 			console.log('hey');

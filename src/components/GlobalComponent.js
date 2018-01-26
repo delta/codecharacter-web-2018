@@ -10,7 +10,7 @@ export default class GlobalComponent extends React.Component {
     getLatestMatchId: PropTypes.func,
     getMatchStatus: PropTypes.func,
     fetchCode: PropTypes.func,
-    getUnreadNotifications: PropTypes.func,
+    addNotifications: PropTypes.func,
   };
 
   componentDidMount() {
@@ -35,14 +35,51 @@ export default class GlobalComponent extends React.Component {
     if (this.props.codeStatus !== nextProps.codeStatus) {
       this.startMatch(this.props.codeStatus, nextProps.codeStatus);
       this.getCompilationStatus(this.props.codeStatus, nextProps.codeStatus);
-      this.handleNotifications(this.props.codeStatus, nextProps.codeStatus);
+      this.handleCodeNotifications(this.props.codeStatus, nextProps.codeStatus);
+    }
+
+    if (this.props.matchStatus !== nextProps.matchStatus) {
+      this.handleMatchNotifications(this.props.matchStatus, nextProps.matchStatus);
     }
   };
 
-  handleNotifications = (codeStatusOld, codeStatusNew) => {
+  handleCodeNotifications = (codeStatusOld, codeStatusNew) => {
     if (codeStatusNew === 'COMPILING') {
-
+      this.props.addNotifications([{
+        type: 'INFORMATION',
+        title: 'Compiling',
+        message: 'Your code is being compiled. Hang on tight.',
+        createdAt: Date.now().toString()
+      }]);
     }
+    if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS') {
+      this.props.addNotifications([{
+        type: 'SUCCESS',
+        title: 'Successful Compilation',
+        message: 'Your code has successfully compiled.',
+        createdAt: Date.now().toString()
+      }]);
+    }
+  };
+
+  handleMatchNotifications = (matchStatusOld, matchStatusNew) => {
+      if (matchStatusNew === 'EXECUTING') {
+        this.props.addNotifications([{
+          type: 'INFORMATION',
+          title: 'Executing',
+          message: 'Your code is being executed. Hang on there.',
+          createdAt: Date.now().toString()
+        }]);
+      }
+
+      if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'SUCCESS') {
+        this.props.addNotifications([{
+          type: 'SUCCESS',
+          title: 'Successful Execution',
+          message: 'Your code has successfully executed. Check in the renderer',
+          createdAt: Date.now().toString()
+        }]);
+      }
   };
 
   getCompilationStatus = (codeStatusOld, codeStatusNew) => {
