@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './ApiBaseUrl';
+import { API_BASE_URL } from '../config/config';
 
 export const getAllNotifications = ({req , query}) => {
   return fetch(API_BASE_URL + 'user_protected/notifications/0',{

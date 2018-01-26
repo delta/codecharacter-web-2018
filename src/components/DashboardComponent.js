@@ -221,7 +221,7 @@ export default class DashboardComponent extends React.Component {
                     {this.state.logFile
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
-                        logFunction={console.log}
+                        logFunction={this.props.updateCompilationStatus}
                       />)
                       : <div className="jumbotron">
                         <p className="lead">{this.props.defaultText}</p>
