@@ -1,7 +1,7 @@
-const API_BASE_URL = 'http://localhost:3001/user_protected';
+import { API_BASE_URL } from './ApiBaseUrl';
 
 export const getAllNotifications = ({req , query}) => {
-  return fetch(API_BASE_URL + '/notifications/0',{
+  return fetch(API_BASE_URL + 'user_protected/notifications/0',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -22,7 +22,7 @@ export const getAllNotifications = ({req , query}) => {
 };
 
 export const getUnreadNotifications = ({req , query}) => {
-  return fetch(API_BASE_URL + '/notifications/1',{
+  return fetch(API_BASE_URL + 'user_protected/notifications/1',{
     method: "GET",
     credentials: 'include',
     headers: {

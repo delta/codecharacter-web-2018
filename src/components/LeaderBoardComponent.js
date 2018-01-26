@@ -2,11 +2,11 @@ import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
 import { Redirect }                               from 'react-router-dom';
 import { Table }                                  from 'react-bootstrap';
-import ReactPaginate                              from 'react-paginate';
+// import ReactPaginate                              from 'react-paginate';
 
 export default class LeaderBoardComponent extends React.Component {
   static propTypes = {
-    userId: PropTypes.number,
+    userId: PropTypes.object,
     playersData: PropTypes.array,
     loginStatus: PropTypes.bool,
     fetchLeaderboardData: PropTypes.func,
@@ -22,6 +22,7 @@ export default class LeaderBoardComponent extends React.Component {
   };
 
   componentDidMount() {
+    this.props.userAuthenticateCheck();
     this.props.fetchLeaderboardData();
   }
 
@@ -32,34 +33,95 @@ export default class LeaderBoardComponent extends React.Component {
 
     let tableColumns = (this.props.playersData).map((data, index) => {
       console.log(data.id, this.props.userId);
-      if (data.id !== this.props.userId.userId) {
-        return (
-          <tr key={index} align='center'>
-            <td>
-              <img
-                onClick={() => this.props.startChallenge(data.id)}
-                src='http://www.pngmart.com/files/1/Cross-Sword-PNG-Clipart.png'
-                alt='Fight'
-                style={{
-                  cursor: 'pointer',
-                  width: 20,
-                  height: 20
-                }}
-              />
-            </td>
-            <td>{data.id}</td>
-            <td>{data.name}</td>
-            <td>{data.rating}</td>
-          </tr>
-        );
-      }
-      else {
-        return null;
-      }
+      return (
+        <tr key={index}>
+          <td align="center">
+            {(data.id !== this.props.userId.userId)
+              ? <a className="btn btn-danger">
+                <img src={'assets/sword.png'} width="15" height="15"
+                     onClick={this.props.startChallenge(data.id)}/>
+              </a>
+              : null
+            }
+          </td>
+          <td className="hidden-xs">{data.id}</td>
+          <td>{data.name}</td>
+          <td>{data.rating}</td>
+        </tr>
+      );
     });
 
     return (
-      <div>
+      <div className="container" style={{paddingTop: 50}}>
+        <div className="row">
+          <div className="col-md-3">
+            <form action="#" method="get">
+              <div className="input-group">
+                <input className="form-control" id="system-search" name="q" placeholder="Search for" required/>
+                    <span className="input-group-btn" style={{paddingLeft: 5, paddingRight: 5}}>
+                        <button type="submit" className="btn btn-default"><i className="fa fa-search" aria-hidden="true"/></button>
+                    </span>
+              </div>
+            </form>
+          </div>
+          <div className="col-md-9">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12 col-md-offset-1">
+                  <div className="panel panel-default panel-table">
+                    <div className="panel-heading" style={{paddingBottom: 20}}>
+                      <div className="row">
+                        <div className="col col-xs-6">
+                          <h3 className="panel-title">Leaderboard</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="panel-body">
+                      <table className="table table-striped table-bordered table-list">
+                        <thead>
+                        <tr>
+                          <th></th>
+                          <th className="hidden-xs">User Id</th>
+                          <th>Username</th>
+                          <th>Rating</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {tableColumns}
+                        </tbody>
+                      </table>
+
+                    </div>
+                    <div className="panel-footer">
+                      <div className="row">
+                        <div className="col col-xs-4">Page 1 of 5
+                        </div>
+                        <div className="col col-xs-8">
+                          <ul className="pagination pull-right">
+                            <li className="page-item"><a className="nav-item" href="#">1</a></li>
+                            <li className="page-item"><a className="nav-item" href="#">2</a></li>
+                            <li className="page-item"><a className="nav-item" href="#">3</a></li>
+                            <li className="page-item"><a className="nav-item" href="#">4</a></li>
+                            <li className="page-item"><a className="nav-item" href="#">5</a></li>
+                          </ul>
+                          <ul className="pagination pull-right">
+                            <li className="page-item"><a href="#">«</a></li>
+                            <li className="page-item"><a href="#">»</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div></div></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+{/*<div>
         <Table striped bordered condensed hover responsive>
           <thead align='center'>
             <tr>
@@ -92,7 +154,4 @@ export default class LeaderBoardComponent extends React.Component {
               </li>
             </ul>
         </div>
-      </div>
-    );
-  }
-}
+      </div>*/}

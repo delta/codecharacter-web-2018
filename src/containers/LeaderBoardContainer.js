@@ -2,8 +2,8 @@ import { connect }                             from 'react-redux';
 import LeaderBoardComponent                    from '../components/LeaderBoardComponent';
 import {
   fetchLeaderboardData,
-  startChallenge
-}                                              from '../redux/actions';
+  startChallenge, userAuthenticateCheck
+} from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
@@ -15,6 +15,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     fetchLeaderboardData: () => {dispatch(fetchLeaderboardData());},
     startChallenge: (opponent) => {dispatch(startChallenge(opponent))},
   };

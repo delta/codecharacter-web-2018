@@ -1,7 +1,7 @@
-const API_BASE_URL = 'http://localhost:3001/leaderboard';
+import { API_BASE_URL } from './ApiBaseUrl';
 
 export const leaderboardGetPlayers = ({req , query}) => {
-  return fetch(API_BASE_URL + '',{
+  return fetch(API_BASE_URL + 'leaderboard',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -23,7 +23,7 @@ export const leaderboardGetPlayers = ({req , query}) => {
 
 export const startChallenge = ({req , query}) => {
   console.log(query);
-  return fetch(API_BASE_URL + 'match/compete/player',{
+  return fetch(API_BASE_URL + 'leaderboard/match/compete/player',{
     method: "POST",
     credentials: 'include',
     headers: {

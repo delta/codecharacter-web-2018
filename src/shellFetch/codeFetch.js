@@ -1,7 +1,7 @@
-const API_BASE_URL = 'http://localhost:3001/code';
+import { API_BASE_URL } from './ApiBaseUrl';
 
 export const codeFetch = () => {
-  return fetch(API_BASE_URL + '/',{
+  return fetch(API_BASE_URL + 'code/',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -23,7 +23,7 @@ export const codeFetch = () => {
 
 
 export const getCodeStatus = ({req,query}) => {
-  return fetch(API_BASE_URL + '/code_status', {
+  return fetch(API_BASE_URL + 'code/code_status', {
     method: "GET",
     credentials: 'include',
     headers: {
@@ -44,7 +44,7 @@ export const getCodeStatus = ({req,query}) => {
 };
 
 export const codeLock = ({req , query}) => {
-  return fetch(API_BASE_URL + '/lock',{
+  return fetch(API_BASE_URL + 'code/lock',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -66,7 +66,7 @@ export const codeLock = ({req , query}) => {
 };
 
 export const codeCompile = ({req, query}) => {
-  return fetch(API_BASE_URL + '/', {
+  return fetch(API_BASE_URL + 'code/', {
     method: "POST",
     credentials: 'include',
     headers: {
@@ -91,7 +91,7 @@ export const codeCompile = ({req, query}) => {
 };
 
 export const getCompilationStatus = ({req, query}) => {
-  return fetch(API_BASE_URL + '/error_status', {
+  return fetch(API_BASE_URL + 'code/error_status', {
     method: "GET",
     credentials: 'include',
     headers: {

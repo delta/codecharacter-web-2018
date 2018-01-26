@@ -1,7 +1,7 @@
-const API_BASE_URL = 'http://localhost:3001/match';
+import { API_BASE_URL } from './ApiBaseUrl';
 
 export const getAIs = ({req , query}) => {
-  return fetch(API_BASE_URL + '/get_ais',{
+  return fetch(API_BASE_URL + 'match/get_ais',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -22,7 +22,7 @@ export const getAIs = ({req , query}) => {
 };
 
 export const competeAgainstAI = ({req , query}) => {
-  return fetch(API_BASE_URL + '/compete/ai/' + query.id.toString(),{
+  return fetch(API_BASE_URL + 'match/compete/ai/' + query.id.toString(),{
     method: "GET",
     credentials: 'include',
     headers: {

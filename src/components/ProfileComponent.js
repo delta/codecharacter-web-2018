@@ -3,11 +3,13 @@ import {
   Table
 }                                                 from 'react-bootstrap';
 import PropTypes                                  from 'prop-types';
+import { Redirect }                               from 'react-router';
 
 export default class ProfileComponent extends React.Component {
   static propTypes = {
     profileData: PropTypes.object,
     getProfileData: PropTypes.func,
+    userAuthenticateCheck: PropTypes.func
   };
 
   static defaultProps = {
@@ -28,11 +30,20 @@ export default class ProfileComponent extends React.Component {
     super(props);
     this.state = {
       edit: false,
-      name: 'Venkatraman Srikanth'
+        name: 'Venkatraman Srikanth'
     };
   }
 
+  componentDidMount() {
+    this.props.userAuthenticateCheck();
+  }
+
   render() {
+
+    if(!this.props.loginStatus) {
+      return <Redirect to={'/login'} />;
+    }
+
     return (
       <div className="container">
         <div className="row">

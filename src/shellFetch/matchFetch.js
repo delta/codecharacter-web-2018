@@ -1,5 +1,4 @@
-// var pako = require('pako');
-const API_BASE_URL = 'http://localhost:3001/';
+import { API_BASE_URL } from './ApiBaseUrl';
 
 export const matchFetchAll = ({req , query}) => {
   return fetch(API_BASE_URL + 'match/get_matches',{
