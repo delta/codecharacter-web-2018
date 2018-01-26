@@ -51,7 +51,7 @@ export function codeCharacterReducer(state = initialState, action) {
     case actionTypes.UPDATE_COMPILATION_STATUS: {
       return {
         ...state,
-        compilationStatus: state.compilationStatus + action.data
+        compilationStatus: state.compilationStatus + '\n' + action.data
       };
     }
 

@@ -62,6 +62,7 @@ export default class EditorCustomizeComponent extends React.Component {
               <option>monokai</option>
               <option>github</option>
               <option>tomorrow</option>
+              <option>crimson_editor</option>
               <option>kuroir</option>
               <option>twilight</option>
               <option>xcode</option>

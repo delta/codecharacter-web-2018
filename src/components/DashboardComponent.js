@@ -17,6 +17,7 @@ export default class DashboardComponent extends React.Component {
     matchesViewTable: PropTypes.element,
     shouldFetchLog: PropTypes.bool,
     lastMatchId: PropTypes.number,
+    defaultText: PropTypes.string,
     ais: PropTypes.array,
     gameLog: PropTypes.array,
     runCode: PropTypes.func,
@@ -37,6 +38,7 @@ export default class DashboardComponent extends React.Component {
     matchesView: false,
     matchesViewTable: null,
     shouldFetchLog: false,
+    defaultText: 'RUN CODE and see it run here. Don\'t forget to SUBMIT when you\'ve finalised your code.',
     lastMatchId: -1,
     ais: [],
     gameLog: [],
@@ -60,6 +62,7 @@ export default class DashboardComponent extends React.Component {
       logFile: '',
       theme: 'monokai',
       fontSize: 14,
+      rendererHeight: 400,
       enableBasicAutocompletion: false,
       enableLiveAutocompletion: false,
       highlightActiveLine: false
@@ -196,6 +199,7 @@ export default class DashboardComponent extends React.Component {
                 split="horizontal"
                 minSize={100}
                 defaultSize={400}
+                onChange={size => this.setState({rendererHeight: size})}
               >
                 <div style={{width: "100%"}} className={'renderer'}>
                   <div
@@ -205,10 +209,10 @@ export default class DashboardComponent extends React.Component {
                     {this.state.logFile
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
-                        logFunction={console.log}
+                        logFunction={this.props.updateCompilationStatus}
                       />)
                       : <div className="jumbotron">
-                        <p className="lead">Click on a match to view the gameplay</p>
+                        <p className="lead">{this.props.defaultText}</p>
                       </div>
                     }
                   </div>
@@ -221,6 +225,7 @@ export default class DashboardComponent extends React.Component {
                     theme={'terminal'}
                     mode={'plain_text'}
                     highlightActiveLine={false}
+                    height={window.innerHeight - this.state.rendererHeight - 50}
                   />
                 </div>
               </SplitPane>

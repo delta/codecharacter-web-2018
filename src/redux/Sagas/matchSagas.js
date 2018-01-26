@@ -29,9 +29,8 @@ export function* matchFetchDataSaga(action) {
     };
     console.log(action);
     const response = yield call(matchFetchData,{req: null, query: query});
-    console.log(response, "Inga");
     yield put(updateGameLog(response.match.log.data));
-    yield put(updateCompilationStatus(response.status));
+    yield put(updateCompilationStatus(''));
   }
   catch(err) {
     console.log(err);
