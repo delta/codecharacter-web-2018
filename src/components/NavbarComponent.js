@@ -65,24 +65,30 @@ export default class NavbarComponent extends React.Component {
                 <Link className="nav-link" to={"/matches"}>Matches</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/rules"}>Rules</Link>
+                <Link className="nav-link" to={"/rules"}>Docs</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/notifications"}>Notifications</Link>
               </li>
               <li className="nav-item" style={{cursor: 'pointer'}}>
-                <span className="nav-link" onClick={() => {this.props.onLogout();}}>Logout</span>
+                <Link className="nav-link" to={"/"} onClick={() => {this.props.onLogout();}}>Logout</Link>
               </li>
             </ul>
+            {/*>*/}
             <form className="form-inline my-2 my-lg-0">
-              <div className="nav-item" style={{margin: '0 !important'}}>
-              <span className="circle" style={{paddingRight: 20, marginBottom: 3, color: 'red'}}/>
-                <span style={{color: 'white'}}>{(this.props.lastUsed===0)
-                  ? (this.props.codeStatus ? (this.props.codeStatus.toString().charAt(0).toUpperCase() + this.props.codeStatus.toString().slice(1)) : this.props.codeStatus)
-                  : (this.props.matchStatus ? ((this.props.matchStatus).toString().charAt(0).toUpperCase() + this.props.matchStatus.toString().slice(1)) : this.props.matchStatus)}</span>
-              </div>
+              <ul className="navbar-nav mr-auto ">
+                <li className="nav-item">
+                  <span
+                    className="nav-link"
+                    style={(this.props.codeStatus === 'SUCCESS')
+                    ? {color: 'green !important'}
+                    : {color: 'red !important'}
+                    }
+                  >{this.props.codeStatus}</span>
+                </li>
+              </ul>
             </form>
-          </div>
+            </div>
           : <div className="collapse navbar-collapse" id={"navbarColor02"}>
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
@@ -92,7 +98,7 @@ export default class NavbarComponent extends React.Component {
                 <Link className="nav-link" to={"/signup"}>Signup</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/rules"}>Rules</Link>
+                <Link className="nav-link" to={"/rules"}>Docs</Link>
               </li>
           </ul></div>}
       </nav>

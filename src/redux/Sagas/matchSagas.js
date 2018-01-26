@@ -12,7 +12,7 @@ import {
 export function* matchFetchAllSaga() {
   try {
     const response = yield call(matchFetchAll,{req: null, query: null});
-    console.log(response, "Hello");
+    console.log(response, "Match Details");
     yield put(updateMatchAllData(response.matches));
   }
   catch(err) {

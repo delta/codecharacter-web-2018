@@ -58,7 +58,7 @@ export default class SignUpComponent extends React.Component {
 
   render() {
     return (
-      <div className="static-modal">
+      <div className="static-modal" style={{height: window.innerHeight - 50, backgroundColor: '#01848F'}}>
         <Form>
           <Modal.Dialog style={{position: 'static'}}>
             <div className='modal-content'>

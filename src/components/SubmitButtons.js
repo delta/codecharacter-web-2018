@@ -32,7 +32,7 @@ export default class SubmitButtons extends React.Component {
       </span>
     });
     return (
-      <div style={{position: 'absolute', zIndex: 10, bottom: 0, left: 0}}>
+      <div style={{position: 'absolute', zIndex: 10, bottom: 0, left: 10}}>
         <div className="btn dropdown btn-success" style={{padding: 0, borderRadius: 0, paddingLeft: 10, paddingRight: 5, cursor: 'pointer'}}>
           <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style={{color: 'white'}} aria-expanded="true">RUN CODE</span>
           <div className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px', willChange: 'transform'}}>
