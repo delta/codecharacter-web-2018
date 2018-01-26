@@ -248,4 +248,20 @@ router.get("/logout", (req, res)=>{
 	}
 	res.redirect("/login");
 });
+router.get('/search/:name', (req, res) => {
+	let searchName = req.params.searchName;
+	models.User.findOne({
+		name: searchName
+	})
+		.then(user => {
+			if(user){
+				res.json({success: true, user});
+			}else{
+				res.json({success: false, message: "No user by that name!"});
+			}
+		})
+		.catch(err => {
+			res.json({success: true, message: "Server error!"});
+		})
+})
 module.exports = router;

@@ -60,7 +60,9 @@ setInterval(() => {
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
-
+				if(!response){
+					return;
+				}
         let results = response.body.results;
         console.log(results);
         results = results.split(' ').slice(1);
@@ -137,6 +139,9 @@ setInterval(() => {
 										})
 								}else{
 
+									if((userId === opponentId)  || isAi ){
+										return;
+									}
 									let score1 = user1.rating;
 					        let score2 = user2.rating;
 					        console.log(score1, score2);
@@ -203,7 +208,6 @@ setInterval(() => {
 														.then(success => {
 															if(success){
 																console.log('User2 score update successful');
-
 																let notification1 = models.Notification.create({
 																	type: 'SUCCESS'	,
 																	title: 'Executed successfully!',
@@ -216,7 +220,7 @@ setInterval(() => {
 																	title: 'Executed successfully!',
 																	message: `Your match with ${userId} has executed successfully and your score was ${player2Score} `,
 																	isRead: false,
-																	user_id: userId
+																	user_id: opponentId
 																})
 																let notificationsPromise = [];
 																Promise.all(notificationsPromise)
