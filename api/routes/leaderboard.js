@@ -33,14 +33,14 @@ router.get("/", (req, res)=>{
 });
 
 router.get('/chunk/:from/:strength', (req, res) => {
+  console.log(req.params.from, req.params.strength);
 	models.User.findAll({
 		where: {},
 		order: ['rating'],
-		skip: Number(req.params.from),
+		offset: Number(req.params.from),
 		limit: Number(req.params.strength)
 	})
 		.then( users => {
-			console.log(users, 'hey');
 			res.json({users});
 		})
 		.catch(err => {

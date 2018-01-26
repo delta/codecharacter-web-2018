@@ -37,8 +37,10 @@ export const updateUserLoginStatus = (response) => ({
   response: response
 });
 
-export const fetchLeaderboardData = () => ({
-  type: actionTypes.FETCH_LEADERBOARD_DATA
+export const fetchLeaderboardData = (start, size) => ({
+  type: actionTypes.FETCH_LEADERBOARD_DATA,
+  start,
+  size
 });
 
 export const updateLeaderboard = (data) => ({

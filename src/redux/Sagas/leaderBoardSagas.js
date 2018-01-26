@@ -3,11 +3,15 @@ import { call, put } from 'redux-saga/effects';
 import { leaderboardGetPlayers } from '../../shellFetch/leaderBoardFetch';
 import { challengePlayer } from '../../shellFetch/matchFetch';
 
-export function* leaderboardGetPlayersSaga() {
+export function* leaderboardGetPlayersSaga(action) {
   try {
-    const response = yield call(leaderboardGetPlayers, {req: null, query: null});
-    console.log(response);
-    yield put(updateLeaderboard(response));
+    let query = {
+      start: action.start,
+      size: action.size
+    };
+    const response = yield call(leaderboardGetPlayers, {req: null, query: query});
+    console.log(response.users);
+    yield put(updateLeaderboard(response.users));
   }
   catch(err) {
     console.log(err);
