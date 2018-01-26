@@ -178,22 +178,8 @@ setInterval(() => {
 									)
 										.then(match => {
 											console.log(match);
-											/*
-												models.Notification.create({
-													type: 'SUCCESS'	,
-													title: 'Executed successfully!',
-													message: 'Your match just successfully got executed!',
-													isRead: false,
-													user_id: userId
-												})
-													.then(notification => {
-														//idk what to do here
-													})
-													.catch(err => {
-														console.log(err);
-													})
+											
 
-											*/
 											models.User.update({
 												rating : score1
 											},
@@ -217,6 +203,26 @@ setInterval(() => {
 														.then(success => {
 															if(success){
 																console.log('User2 score update successful');
+
+																let notification1 = models.Notification.create({
+																	type: 'SUCCESS'	,
+																	title: 'Executed successfully!',
+																	message: `Your match with ${opponentId} has executed successfully and your score was ${player1Score} `,
+																	isRead: false,
+																	user_id: userId
+																})
+																let notification2 = models.Notification.create({
+																	type: 'SUCCESS'	,
+																	title: 'Executed successfully!',
+																	message: `Your match with ${userId} has executed successfully and your score was ${player2Score} `,
+																	isRead: false,
+																	user_id: userId
+																})
+																let notificationsPromise = [];
+																Promise.all(notificationsPromise)
+																	.then((values, values2) => {
+																		console.log(values, values2);
+																	})
 															}
 														})
 														.catch(err => {
