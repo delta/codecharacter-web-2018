@@ -3,9 +3,6 @@ import NotificationComponent                   from '../components/NotificationC
 import {
   changeCodeStatus,
   getCodeStatus,
-  getMatchStatus,
-  getLatestMatchId,
-  getUnreadNotifications
 }                                              from '../redux/actions';
 
 const mapStateToProps = state => {

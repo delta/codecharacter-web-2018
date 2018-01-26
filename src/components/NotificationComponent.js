@@ -52,7 +52,6 @@ export default class NotificationComponent extends React.Component {
         desktop={false}
         key={index}
       />;
-      console.log(index);
       notifyDomElements.push(notify);
       this.setState({
         index: index+1

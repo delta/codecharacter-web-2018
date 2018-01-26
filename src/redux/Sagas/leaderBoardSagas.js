@@ -10,7 +10,6 @@ export function* leaderboardGetPlayersSaga(action) {
       size: action.size
     };
     const response = yield call(leaderboardGetPlayers, {req: null, query: query});
-    console.log(response.users);
     yield put(updateLeaderboard(response.users));
   }
   catch(err) {
@@ -20,7 +19,6 @@ export function* leaderboardGetPlayersSaga(action) {
 }
 
 export function* leaderboardStartChallengeSaga(action) {
-  console.log(action);
   try {
     let query = {
       opponent: action.opponent

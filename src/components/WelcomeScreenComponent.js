@@ -22,7 +22,7 @@ export default class WelcomeScreenComponent extends React.Component {
             </div>
           </div>
           <div style={{width: '100%', height: '100%', backgroundColor: 'white', opacity: 0.5, position: 'absolute'}}/>
-          <video autoplay="autoplay" src='/home.webm' style={{width: '100%', height: '100%'}}/>
+          <video autoPlay="autoplay" src='/home.webm' style={{width: '100%', height: '100%'}}/>
         </section>
         <section className="bg-white p-0">
           <div className="container-fluid">

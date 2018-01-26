@@ -37,7 +37,6 @@ sagaMiddleware.run(codeCharacterSagas);
 const persistor = persistStore(store);
 
 const onBeforeLift = () => {
-  console.log("OnBeforeLift");
 };
 
 ReactDOM.render((

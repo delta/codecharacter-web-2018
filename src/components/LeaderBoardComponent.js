@@ -1,8 +1,6 @@
 import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
 import { Redirect }                               from 'react-router-dom';
-import { Table }                                  from 'react-bootstrap';
-import ReactPaginate                              from 'react-paginate';
 
 export default class LeaderBoardComponent extends React.Component {
   static propTypes = {
@@ -33,7 +31,6 @@ export default class LeaderBoardComponent extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    console.log("Here");
     if (this.state.pageCount !== nextState.pageCount) {
       this.props.fetchLeaderboardData((nextState.pageCount-1)*5, 5);
     }
@@ -50,7 +47,7 @@ export default class LeaderBoardComponent extends React.Component {
           <td align="center" style={{padding: 0}}>
             {(data.id !== this.props.userId)
               ? <span className="btn btn-info" style={{borderRadius: 0, height: 49}} onClick={() => {this.props.startChallenge(data.id);}}>
-                <img src={'assets/sword.png'} width="15" height="15"/>
+                <img src={'assets/sword.png'} width="15" height="15" alt="challenge"/>
               </span>
               : null
             }
@@ -66,13 +63,12 @@ export default class LeaderBoardComponent extends React.Component {
     for (let i=1;i<=5;i++) {
       let classTag = (this.state.pageCount === i) ? 'active' : '';
       listElements.push(
-        <li className={'page-item ' + classTag} >
-          <a className="page-link "
-             href="#"
+        <li className={'page-item ' + classTag} key={i}>
+          <button className="page-link "
              onClick={() => this.setState({pageCount: i})}
           >
             {i}
-            </a>
+            </button>
         </li>
       );
     }
@@ -121,9 +117,9 @@ export default class LeaderBoardComponent extends React.Component {
                         <div className="col col-xs-8">
                           <ul className="pagination pagination-sm pull-right">
                             <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== 1) ? this.state.pageCount-1 : 0})}}>
-                              <a href="#" aria-label="Previous" className="page-link">
+                              <button aria-label="Previous" className="page-link">
                                 <span aria-hidden="true">&laquo;</span>
-                              </a>
+                              </button>
                             </li>
                             {listElements}
                             <li className="page-item" onClick={() => {this.setState({pageCount: this.state.pageCount+1})}}>

@@ -1,7 +1,6 @@
 import { connect }                             from 'react-redux';
 import {
   userLogout,
-  executeCode
 }                                              from '../redux/actions';
 import NavbarComponent                         from '../components/NavbarComponent';
 
@@ -17,7 +16,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onLogout: () => {dispatch(userLogout())},
-    executeCode: () => {}
   }
 };
 

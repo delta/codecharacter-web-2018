@@ -20,7 +20,6 @@ export default class RulesComponent extends React.Component {
           markdown: marked(text)
         })
       });
-    console.log(this.state.markdown);
   }
 
   render() {

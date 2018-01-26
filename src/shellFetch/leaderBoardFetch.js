@@ -1,7 +1,6 @@
 import { API_BASE_URL } from '../config/config';
 
 export const leaderboardGetPlayers = ({req , query}) => {
-  console.log(query.start, query.size);
   return fetch(API_BASE_URL + 'leaderboard/chunk/' + query.start + '/' + query.size,{
     method: "GET",
     credentials: 'include',
@@ -14,7 +13,6 @@ export const leaderboardGetPlayers = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {

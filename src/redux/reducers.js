@@ -12,7 +12,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_USER_ID: {
-      console.log(state.userId, action.userId.userId);
       return {
         ...state,
         userId: action.userId.userId,
@@ -21,7 +20,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_LEADERBOARD: {
-      console.log(action.data);
       return {
         ...state,
         leaderboardData: action.data
@@ -99,7 +97,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_ALL_NOTIFICATIONS: {
-      console.log(action);
       return {
         ...state,
         allNotifications: action.notifications

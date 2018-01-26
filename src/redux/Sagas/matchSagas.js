@@ -12,7 +12,6 @@ import {
 export function* matchFetchAllSaga() {
   try {
     const response = yield call(matchFetchAll,{req: null, query: null});
-    console.log(response, "Match Details");
     yield put(updateMatchAllData(response.matchesModified));
   }
   catch(err) {
@@ -67,7 +66,6 @@ export function* getMatchStatusSaga(action) {
 
 export function* fetchGameLogSaga(action) {
   try {
-    console.log(action);
     let query = {
       matchId: action.matchId
     };

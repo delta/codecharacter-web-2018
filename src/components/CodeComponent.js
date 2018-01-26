@@ -69,9 +69,12 @@ export default class CodeComponent extends React.Component {
         showPrintMargin={true}
         showGutter={true}
         wrapEnabled={true}
-        keyboardHandler={this.props.keyboardHandler}
+        keyboardHandler={(this.props.keyboardHandler === 'default') ? '' : this.props.keyboardHandler}
         readOnly={this.props.readOnly}
         highlightActiveLine={this.props.highlightActiveLine}
+        editorProps={{
+          $blockScrolling: Infinity
+        }}
         setOptions={{
           enableBasicAutocompletion: this.props.enableBasicAutocompletion,
           enableLiveAutocompletion: this.props.enableLiveAutocompletion,

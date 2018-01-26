@@ -56,7 +56,6 @@ export const challengePlayer = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -172,7 +171,6 @@ export const competeSelf = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {

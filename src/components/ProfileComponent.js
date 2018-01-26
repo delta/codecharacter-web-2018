@@ -1,7 +1,4 @@
 import React                                      from 'react';
-import {
-  Table
-}                                                 from 'react-bootstrap';
 import PropTypes                                  from 'prop-types';
 import { Redirect }                               from 'react-router';
 
@@ -15,12 +12,12 @@ export default class ProfileComponent extends React.Component {
   static defaultProps = {
     profileData: {
       username: '000000000',
-      name: 'Gotha Deadpool',
+      name: 'Null',
       sex: 'Male',
       nationality: 'Indian',
-      address: 'Hare Rama Hare Krishna',
+      address: '127.0.0.1',
       city: 'Chennai',
-      contact: '6969696969',
+      contact: '1234567890  ',
       college: 'NITT'
     },
     getProfileData: () => {},

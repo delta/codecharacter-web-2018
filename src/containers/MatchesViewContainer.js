@@ -1,6 +1,5 @@
 import { connect }                             from 'react-redux';
 import MatchViewComponent                      from '../components/MatchesViewComponent';
-import { matchFetchAll } from '../shellFetch/matchFetch';
 import {
   fetchMatchAllData, getMatchData, fetchGameLog,
   updateCompilationStatus, userAuthenticateCheck

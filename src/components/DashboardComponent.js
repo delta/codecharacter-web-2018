@@ -97,7 +97,6 @@ export default class DashboardComponent extends React.Component {
     }
 
     if(nextProps.shouldFetchLog && !this.props.shouldFetchLog) {
-      console.log(nextProps.lastMatchId);
       this.props.fetchGameLog(nextProps.lastMatchId);
     }
 
@@ -286,7 +285,7 @@ export default class DashboardComponent extends React.Component {
                   <hr className="my-4"/>
                     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
                     <p className="lead">
-                      <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                      <button className="btn btn-primary btn-lg">Learn more</button>
                     </p>
                 </div>
               }

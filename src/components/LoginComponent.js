@@ -96,7 +96,6 @@ export default class LoginComponent extends React.Component {
 
   render() {
     if (this.props.loginStatus) {
-      console.log("Redirecting Here");
       return <Redirect to='/dashboard'/>
     }
     return (

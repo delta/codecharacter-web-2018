@@ -20,8 +20,7 @@ export function* codeSubmitSaga(action) {
       source: action.code,
     };
     yield put(updateCode(action.code));
-    const response = yield call(codeCompile,{req: null, query: query});
-    console.log(response);
+    yield call(codeCompile,{req: null, query: query});
     yield put(changeLastUsed(0));
   }
   catch(err) {
