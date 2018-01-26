@@ -34,8 +34,10 @@ export default class MatchesViewComponent extends React.Component {
           <tr key={index} align='center'>
             <td onClick={() => {console.log(data); this.props.fetchGameLog(data.id);}}><i className="fa fa-play" aria-hidden="true"/></td>
             <td>{data.player_id1}</td>
+            <td>{data.scorep1}</td>
             <td>{data.player_id2}</td>
-            <td>{data.status}</td>
+            <td>{data.scorep2}</td>
+            <td>{(data.scorep1 > data.scorep2) ? 'Player 1 Won' : 'Player 2 Won'}</td>
           </tr>
       );
     });
@@ -46,7 +48,9 @@ export default class MatchesViewComponent extends React.Component {
         <tr align='center'>
           <th>Play</th>
           <th>Player 1</th>
+          <th>Score 1</th>
           <th>Player 2</th>
+          <th>Score 2</th>
           <th>Result</th>
         </tr>
         </thead>

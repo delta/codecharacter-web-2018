@@ -6,7 +6,7 @@ import { Table }                                  from 'react-bootstrap';
 
 export default class LeaderBoardComponent extends React.Component {
   static propTypes = {
-    userId: PropTypes.object,
+    userId: PropTypes.number,
     playersData: PropTypes.array,
     loginStatus: PropTypes.bool,
     fetchLeaderboardData: PropTypes.func,
@@ -36,10 +36,10 @@ export default class LeaderBoardComponent extends React.Component {
       return (
         <tr key={index}>
           <td align="center">
-            {(data.id !== this.props.userId.userId)
+            {(data.id !== this.props.userId)
               ? <a className="btn btn-danger">
                 <img src={'assets/sword.png'} width="15" height="15"
-                     onClick={this.props.startChallenge(data.id)}/>
+                     onClick={() => this.props.startChallenge(data.id)}/>
               </a>
               : null
             }

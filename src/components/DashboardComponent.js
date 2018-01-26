@@ -207,7 +207,9 @@ export default class DashboardComponent extends React.Component {
                         logFile={this.state.logFile}
                         logFunction={console.log}
                       />)
-                      : <div>LOADING .. </div>
+                      : <div className="jumbotron">
+                        <p className="lead">Click on a match to view the gameplay</p>
+                      </div>
                     }
                   </div>
                 </div>
@@ -258,7 +260,15 @@ export default class DashboardComponent extends React.Component {
             <div style={{ display: 'block', width: '100%', height: 300}}>
               {this.state.logFile
                 ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
-                : <div>LOADING .. </div>
+                : <div className="jumbotron">
+                  <h1 className="display-3">Hello, world!</h1>
+                  <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                  <hr className="my-4"/>
+                    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                    <p className="lead">
+                      <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                    </p>
+                </div>
               }
             </div>
             <div style={{display: 'block'}}>

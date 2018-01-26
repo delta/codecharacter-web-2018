@@ -14,6 +14,16 @@ export default class NavbarComponent extends React.Component {
     codeStatus: 'idle'
   };
 
+  componentDidMount() {
+    const element = document.getElementsByClassName('navbar');
+    document.addEventListener('mousedown', function(event) {
+      if (!element[0].contains(event.target)) {
+        document.getElementById('navbarColor02').setAttribute('class', 'collapse navbar-collapse');
+        console.log(document.getElementById('navbarColor02'));
+      }
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.codeStatus !== nextProps.codeStatus) {
       this.checkCodeStatusChange(this.props.codeStatus, nextProps.codeStatus);
@@ -30,6 +40,7 @@ export default class NavbarComponent extends React.Component {
       <nav
         className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
         style={{paddingTop: 0, paddingBottom: 0, minHeight: 50}}
+        ref="navbar"
       >
         <Link
           className="navbar-brand"
@@ -46,6 +57,7 @@ export default class NavbarComponent extends React.Component {
           aria-controls="navbarColor02"
           aria-expanded="true"
           aria-label="Toggle navigation"
+          style={{margin: 5}}
         >
           <span className="navbar-toggler-icon"/>
         </button>

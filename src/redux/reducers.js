@@ -2,22 +2,21 @@ import actionTypes           from "./action_types";
 import initialState          from './initialState';
 
 export function codeCharacterReducer(state = initialState, action) {
-  console.log(action);
   switch(action.type) {
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
       return {
         ...state,
         username: action.response.username ? action.response.username : state.username.toString(),
         loginStatus: action.response.loginStatus,
-        initialLogin: (action.response.loginStatus) ? (state.username !== action.response.username) : state.initialLogin
       };
     }
 
     case actionTypes.UPDATE_USER_ID: {
-      console.log(action);
+      console.log(state.userId, action.userId.userId);
       return {
         ...state,
-        userId: action.userId
+        userId: action.userId.userId,
+        initialLogin: (state.userId !== action.userId.userId)
       }
     }
 
