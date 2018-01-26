@@ -25,6 +25,7 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.GET_MATCH_STATUS, matchSagas.getMatchStatusSaga);
   yield takeEvery(actionTypes.GET_ALL_NOTIFICATIONS, userProtectedSagas.getAllNotificationsSaga);
   yield takeEvery(actionTypes.GET_UNREAD_NOTIFICATIONS, userProtectedSagas.getUnreadNotificationsSaga);
+  yield takeEvery(actionTypes.DELETE_NOTIFICATION, userProtectedSagas.deleteNotificationSaga);
   yield takeEvery(actionTypes.USER_AUTHENTICATE, userSagas.userLoginSaga);
   yield takeEvery(actionTypes.USER_AUTHENTICATE_CHECK, userSagas.userLoginStatusSaga);
   yield takeEvery(actionTypes.USER_LOGOUT, userSagas.userLogoutSaga);

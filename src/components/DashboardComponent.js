@@ -66,7 +66,8 @@ export default class DashboardComponent extends React.Component {
       codeSpaceWidth: 0.4 * window.innerWidth,
       enableBasicAutocompletion: false,
       enableLiveAutocompletion: false,
-      highlightActiveLine: false
+      highlightActiveLine: false,
+      keyboardHandler: 'default'
     };
   }
 
@@ -134,6 +135,13 @@ export default class DashboardComponent extends React.Component {
     });
   };
 
+  changeKeyboardHandler = (keyboardHandler) => {
+    console.log(keyboardHandler);
+      this.setState({
+        keyboardHandler: keyboardHandler
+      });
+  };
+
   changeEnableBasicAutoCompletion = (basicAutocompletion) => {
     this.setState({
       enableBasicAutoCompletion: basicAutocompletion
@@ -179,6 +187,7 @@ export default class DashboardComponent extends React.Component {
                       changeEnableBasicAutoCompletion={this.changeEnableBasicAutoCompletion}
                       changeEnableLiveAutoCompletion={this.changeEnableLiveAutoCompletion}
                       changeHighlightActiveLine={this.changeHighlightActiveLine}
+                      changeKeyboardHandler={this.changeKeyboardHandler}
                     />
                   </div>
                   <div className="code-panel">
@@ -190,6 +199,7 @@ export default class DashboardComponent extends React.Component {
                       enableLiveAutocompletion={this.state.enableLiveAutoCompletion}
                       highlightActiveLine={this.state.highlightActiveLine}
                       onChange={(code) => this.updateCode(code)}
+                      keyboardHandler={this.state.keyboardHandler}
                     />
                   </div>
                 </div>

@@ -7,7 +7,8 @@ export default class NotificationsTableComponent extends React.Component {
     notifications: PropTypes.array,
     loginStatus: PropTypes.bool,
     getAllNotifications: PropTypes.func,
-    userAuthenticateCheck: PropTypes.func
+    userAuthenticateCheck: PropTypes.func,
+    deleteNotification: PropTypes.func
   };
 
   constructor(props) {
@@ -53,7 +54,7 @@ export default class NotificationsTableComponent extends React.Component {
             let date = new Date(data.createdAt);
             return (
               <div className={'alert alert-dismissible ' + this.getClassNameTag(data)} key={index}>
-                <button type="button" className="close" data-dismiss="alert">&times;</button>
+                <button type="button" className="close" data-dismiss="alert" onClick={() => this.props.deleteNotification(data.id)} >&times;</button>
                 <h4 className='alert-heading'>{data.title}</h4>
                   <p className='mb-0'>{data.message}</p>
                 <br/>

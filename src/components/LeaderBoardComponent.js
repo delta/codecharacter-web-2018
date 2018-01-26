@@ -80,17 +80,14 @@ export default class LeaderBoardComponent extends React.Component {
       <div className="container" style={{paddingTop: 50}}>
         <div className="row">
           <div className="col-md-3">
-            <form action="#" method="get">
               <div className="input-group">
                 <input className="form-control" id="system-search" name="q" placeholder="Search for User" required style={{height: 46}}/>
                 <span className="input-group-btn" style={{paddingLeft: 5, paddingRight: 5, paddingBottom: 10}}>
                   <button type="submit" className="btn btn-default"><i className="fa fa-search" aria-hidden="true"/></button>
                 </span>
               </div>
-            </form>
           </div>
           <div className="col-md-9">
-            <div className="container">
               <div className="row">
                 <div className="col-md-12 col-md-offset-1">
                   <div className="panel panel-default panel-table">
@@ -139,7 +136,7 @@ export default class LeaderBoardComponent extends React.Component {
                       </div>
                     </div>
                   </div>
-                </div></div></div>
+                </div></div>
           </div>
         </div>
       </div>

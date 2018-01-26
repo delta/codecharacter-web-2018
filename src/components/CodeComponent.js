@@ -16,6 +16,8 @@ import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/theme/crimson_editor';
 import 'brace/ext/language_tools';
+require('brace/keybinding/vim');
+require('brace/keybinding/emacs');
 
 export default class CodeComponent extends React.Component {
   static propTypes = {
@@ -29,7 +31,8 @@ export default class CodeComponent extends React.Component {
     enableBasicAutocompletion: PropTypes.bool,
     enableLiveAutocompletion: PropTypes.bool,
     onChange: PropTypes.func,
-    height: PropTypes.number
+    height: PropTypes.number,
+    keyboardHandler: PropTypes.string
   };
 
   static defaultProps = {
@@ -43,7 +46,8 @@ export default class CodeComponent extends React.Component {
     enableBasicAutocompletion: false,
     enableLiveAutocompletion: false,
     onChange: () => {},
-    height: window.innerHeight - 50
+    height: window.innerHeight - 50,
+    keyboardHandler: 'default'
   };
 
   componentWillReceiveProps(nextProps) {
@@ -65,6 +69,7 @@ export default class CodeComponent extends React.Component {
         showPrintMargin={true}
         showGutter={true}
         wrapEnabled={true}
+        keyboardHandler={this.props.keyboardHandler}
         readOnly={this.props.readOnly}
         highlightActiveLine={this.props.highlightActiveLine}
         setOptions={{

@@ -7,7 +7,8 @@ export default class EditorCustomizeComponent extends React.Component {
       changeFontSize: PropTypes.func,
       changeEnableBasicAutoCompletion: PropTypes.func,
       changeEnableLiveAutoCompletion: PropTypes.func,
-      changeHighlightActiveLine: PropTypes.func
+      changeHighlightActiveLine: PropTypes.func,
+      changeKeyboardHandler: PropTypes.func
   };
 
   static defaultProps = {
@@ -15,7 +16,8 @@ export default class EditorCustomizeComponent extends React.Component {
     changeFontSize: () => {},
     changeEnableBasicAutoCompletion: () => {},
     changeEnableLiveAutoCompletion: () => {},
-    changeHighlightActiveLine: () => {}
+    changeHighlightActiveLine: () => {},
+    changeKeyboardHandler: () => {}
   };
 
   constructor(props) {
@@ -92,6 +94,20 @@ export default class EditorCustomizeComponent extends React.Component {
               <option>28</option>
               <option>32</option>
               <option>40</option>
+            </select>
+          </div>
+          <div className='nav-link form-group'>
+            <p style={{
+              color: '#D2D3D5',
+              fontFamily: 'Rubik, sans serif'
+            }}>Keyboard Handler</p>
+            <select
+              className='form-control'
+              onChange={(event)=>this.props.changeKeyboardHandler(event.target.value)}
+            >
+              <option>default</option>
+              <option>vim</option>
+              <option>emacs</option>
             </select>
           </div>
           <div className='nav-link form-group'>

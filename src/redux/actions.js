@@ -141,6 +141,11 @@ export const getAllNotifications = () => ({
   type: actionTypes.GET_ALL_NOTIFICATIONS
 });
 
+export const deleteNotification = (id) => ({
+  type: actionTypes.DELETE_NOTIFICATION,
+  id
+});
+
 export const updateAllNotifications = (notifications) => ({
   type: actionTypes.UPDATE_ALL_NOTIFICATIONS,
   notifications

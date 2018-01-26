@@ -1,4 +1,4 @@
-import { getAllNotifications, getUnreadNotifications } from '../../shellFetch/userProtectedFetch';
+import { getAllNotifications, getUnreadNotifications, deleteNotification } from '../../shellFetch/userProtectedFetch';
 import { updateAllNotifications, updateUnreadNotifications } from '../actions';
 import { call, put } from 'redux-saga/effects';
 
@@ -29,6 +29,20 @@ export function* getAllNotificationsSaga() {
     else {
       yield put(updateAllNotifications([]));
     }
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export function* deleteNotificationSaga(action) {
+  try {
+    let query = {
+      nId: action.id
+    };
+    let response = yield call(deleteNotification,{req: null, query: query});
+    console.log(response);
   }
   catch (err) {
     console.log(err);
