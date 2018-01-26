@@ -6,6 +6,7 @@ export function* getUnreadNotificationsSaga() {
   try {
     let response = yield call(getUnreadNotifications,{req: null, query: null});
     if (response.notifications) {
+      console.log(response.notifications);
       yield put(updateUnreadNotifications(response.notifications));
     }
     else {

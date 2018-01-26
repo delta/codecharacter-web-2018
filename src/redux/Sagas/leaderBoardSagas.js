@@ -6,6 +6,7 @@ import { challengePlayer } from '../../shellFetch/matchFetch';
 export function* leaderboardGetPlayersSaga() {
   try {
     const response = yield call(leaderboardGetPlayers, {req: null, query: null});
+    console.log(response);
     yield put(updateLeaderboard(response));
   }
   catch(err) {

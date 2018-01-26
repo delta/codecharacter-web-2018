@@ -18,6 +18,11 @@ export const userSignup = (emailId, username, password) => ({
   password
 });
 
+export const updateUserId = (userId) => ({
+  type: actionTypes.UPDATE_USER_ID,
+  userId
+});
+
 export const userLogout = () => ({
   type: actionTypes.USER_LOGOUT
 });
@@ -175,4 +180,8 @@ export const changeAIid = (id) => ({
 
 export const getCompilationStatus = () => ({
   type: actionTypes.GET_COMPILATION_STATUS
+});
+
+export const clearCompilationStatus = () => ({
+  type: actionTypes.CLEAR_COMPILATION_STATUS
 });

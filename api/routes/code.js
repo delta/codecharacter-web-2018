@@ -87,7 +87,7 @@ router.get('/error_status', (req, res) => {
 		}
 	})
 		.then(code => {
-			if(code.status === "error"){
+			if(code.status === "ERROR"){
 				res.json({success: true, error: code.error_log});
 			}else{
 				res.json({success: false, message:'There are no error in your saved code!'});

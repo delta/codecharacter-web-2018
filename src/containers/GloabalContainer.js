@@ -6,7 +6,7 @@ import {
   getMatchStatus,
   getUnreadNotifications,
   competeAgainstAI, fetchGameLog, getCompilationStatus,
-  fetchCode
+  fetchCode, updateAllNotifications
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -29,7 +29,8 @@ const mapDispatchToProps = dispatch => {
     getUnreadNotifications: () => {dispatch(getUnreadNotifications());},
     competeAgainstAI: (id) => {dispatch(competeAgainstAI(id));},
     getCompilationStatus: () => {dispatch(getCompilationStatus());},
-    fetchCode: () => {dispatch(fetchCode());}
+    fetchCode: () => {dispatch(fetchCode());},
+    updateAllNotifications: () => {dispatch(updateAllNotifications());}
   };
 };
 

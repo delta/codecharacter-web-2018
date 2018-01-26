@@ -12,8 +12,8 @@ import {
 export function* matchFetchAllSaga() {
   try {
     const response = yield call(matchFetchAll,{req: null, query: null});
-    console.log(response, "Hello");
-    yield put(updateMatchAllData(response.matches));
+    console.log(response, "Match Details");
+    yield put(updateMatchAllData(response.matchesModified));
   }
   catch(err) {
     console.log(err);
@@ -29,9 +29,8 @@ export function* matchFetchDataSaga(action) {
     };
     console.log(action);
     const response = yield call(matchFetchData,{req: null, query: query});
-    console.log(response, "Inga");
     yield put(updateGameLog(response.match.log.data));
-    yield put(updateCompilationStatus(response.status));
+    yield put(updateCompilationStatus(''));
   }
   catch(err) {
     console.log(err);

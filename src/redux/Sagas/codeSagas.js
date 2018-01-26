@@ -23,7 +23,6 @@ export function* codeSubmitSaga(action) {
     const response = yield call(codeCompile,{req: null, query: query});
     console.log(response);
     yield put(changeLastUsed(0));
-    yield put(updateCompilationStatus(response.message));
   }
   catch(err) {
     console.log(err);
@@ -33,7 +32,6 @@ export function* codeSubmitSaga(action) {
 
 export function* codeFetchSaga() {
   try {
-    console.log("Venkat");
     const response = yield call(codeFetch,{req: null, query: null});
     yield put(updateCode(response.source));
   }
@@ -81,8 +79,14 @@ export function* executeCodeSaga() {
 export function* getCompilationStatusSaga() {
   try {
     let response = yield call(getCompilationStatus, {req: null, query: null});
-    console.log(response);
-    yield put(updateCompilationStatus(response.error));
+    let y = '';
+    let x = new Uint8Array(new Buffer(response.error));
+    x.map(charCode => {
+      y += String.fromCharCode(charCode);
+    });
+    if (response.error) {
+      yield put(updateCompilationStatus(y));
+    }
   }
   catch (err) {
     console.log(err);

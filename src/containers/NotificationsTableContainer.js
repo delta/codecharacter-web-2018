@@ -1,7 +1,7 @@
 import { connect }                             from 'react-redux';
 import {
-  getAllNotifications
-}                                              from '../redux/actions';
+  getAllNotifications, userAuthenticateCheck
+} from '../redux/actions';
 import NotificationsTableComponent             from '../components/NotificationsTableComponent';
 
 const mapStateToProps = state => {
@@ -13,6 +13,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     getAllNotifications: () => {dispatch(getAllNotifications());}
   };
 };

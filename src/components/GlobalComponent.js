@@ -26,7 +26,6 @@ export default class GlobalComponent extends React.Component {
         this.props.getCodeStatus();
         this.props.getMatchStatus(this.props.matchId);
         this.props.getLatestMatchId();
-        this.props.fetchGameLog(this.props.matchId);
         this.props.getUnreadNotifications();
       }
       , 1000);
@@ -36,6 +35,13 @@ export default class GlobalComponent extends React.Component {
     if (this.props.codeStatus !== nextProps.codeStatus) {
       this.startMatch(this.props.codeStatus, nextProps.codeStatus);
       this.getCompilationStatus(this.props.codeStatus, nextProps.codeStatus);
+      this.handleNotifications(this.props.codeStatus, nextProps.codeStatus);
+    }
+  };
+
+  handleNotifications = (codeStatusOld, codeStatusNew) => {
+    if (codeStatusNew === 'COMPILING') {
+
     }
   };
 

@@ -8,8 +8,16 @@ export function codeCharacterReducer(state = initialState, action) {
         ...state,
         username: action.response.username ? action.response.username : state.username.toString(),
         loginStatus: action.response.loginStatus,
-        initialLogin: (action.response.loginStatus) ? (state.username !== action.response.username) : state.initialLogin
       };
+    }
+
+    case actionTypes.UPDATE_USER_ID: {
+      console.log(state.userId, action.userId.userId);
+      return {
+        ...state,
+        userId: action.userId.userId,
+        initialLogin: (state.userId !== action.userId.userId)
+      }
     }
 
     case actionTypes.UPDATE_LEADERBOARD: {
@@ -43,7 +51,7 @@ export function codeCharacterReducer(state = initialState, action) {
     case actionTypes.UPDATE_COMPILATION_STATUS: {
       return {
         ...state,
-        compilationStatus: state.compilationStatus + action.data
+        compilationStatus: state.compilationStatus + '\n' + action.data
       };
     }
 
@@ -109,6 +117,13 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...state,
         activeAiId: action.id
+      }
+    }
+
+    case actionTypes.CLEAR_COMPILATION_STATUS: {
+      return {
+        ...state,
+        compilationStatus: ''
       }
     }
 

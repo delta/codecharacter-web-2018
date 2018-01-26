@@ -14,6 +14,7 @@ import 'brace/theme/textmate';
 import 'brace/theme/solarized_dark';
 import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
+import 'brace/theme/crimson_editor';
 import 'brace/ext/language_tools';
 
 export default class CodeComponent extends React.Component {
@@ -27,7 +28,8 @@ export default class CodeComponent extends React.Component {
     highlightActiveLine: PropTypes.bool,
     enableBasicAutocompletion: PropTypes.bool,
     enableLiveAutocompletion: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    height: PropTypes.number
   };
 
   static defaultProps = {
@@ -40,12 +42,20 @@ export default class CodeComponent extends React.Component {
     highlightActiveLine: false,
     enableBasicAutocompletion: false,
     enableLiveAutocompletion: false,
-    onChange: () => {}
+    onChange: () => {},
+    height: window.innerHeight - 50
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.height !== nextProps.height) {
+      this.refs.codeCharacterEditor.editor.resize();
+    }
   };
 
   render() {
     return (
       <AceEditor
+        ref='codeCharacterEditor'
         mode={this.props.mode}
         theme={this.props.theme}
         name='codeCharacterEditor'
@@ -57,9 +67,6 @@ export default class CodeComponent extends React.Component {
         wrapEnabled={true}
         readOnly={this.props.readOnly}
         highlightActiveLine={this.props.highlightActiveLine}
-        editorProps={{
-          $blockScrolling: Infinity
-        }}
         setOptions={{
           enableBasicAutocompletion: this.props.enableBasicAutocompletion,
           enableLiveAutocompletion: this.props.enableLiveAutocompletion,
@@ -69,7 +76,7 @@ export default class CodeComponent extends React.Component {
         }}
         style={{
           width: '100%',
-          height: window.innerHeight - 50
+          height: this.props.height
         }}
       />
     );

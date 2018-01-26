@@ -1,7 +1,7 @@
-const API_BASE_URL = 'http://localhost:3001';
+import { API_BASE_URL } from './ApiBaseUrl';
 
 export const userLogin = ({req , query}) => {
-  return fetch(API_BASE_URL + '/user/login',{
+  return fetch(API_BASE_URL + 'user/login',{
     method: "POST",
     credentials: 'include',
     headers: {
@@ -26,7 +26,7 @@ export const userLogin = ({req , query}) => {
 };
 
 export const userRegister = ({req, query}) => {
-  return fetch(API_BASE_URL + '/user/signup',{
+  return fetch(API_BASE_URL + 'user/signup',{
     method: "POST",
     credentials: 'include',
     headers: {
@@ -51,7 +51,7 @@ export const userRegister = ({req, query}) => {
 };
 
 export const userLoginStatus = ({req , query}) => {
-  return fetch(API_BASE_URL + '/user/login',{
+  return fetch(API_BASE_URL + 'user/login',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -71,7 +71,7 @@ export const userLoginStatus = ({req , query}) => {
 };
 
 export const userLogout = () => {
-  return fetch(API_BASE_URL + '/user/logout', {
+  return fetch(API_BASE_URL + 'user/logout', {
     method: 'GET',
     credentials: 'include',
     headers: {

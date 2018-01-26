@@ -7,7 +7,7 @@ import {
   fetchCode,
   fetchGameLog,
   getAIs,
-  changeAIid, updateCompilationStatus
+  changeAIid, updateCompilationStatus, clearCompilationStatus, userAuthenticateCheck
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -19,7 +19,7 @@ const mapStateToProps = state => {
     code: state.code,
     lastMatchId: state.lastMatchId,
     gameLog: state.gameLog,
-    shouldFetchLog: ((state.lastUsed===1)&&(state.matchStatus==="success")),
+    shouldFetchLog: ((state.lastUsed===1)&&(state.matchStatus==="SUCCESS")),
     ais: state.ais
   }
 };
@@ -33,7 +33,9 @@ const mapDispatchToProps = dispatch => {
     fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));},
     getAIs: () => {dispatch(getAIs());},
     changeAIid: (id) => {dispatch(changeAIid(id))},
-    updateCompilationStatus: (status) => {dispatch(updateCompilationStatus(status));}
+    updateCompilationStatus: (status) => {dispatch(updateCompilationStatus(status));},
+    clearCompilationStatus: () => {dispatch(clearCompilationStatus());},
+    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());}
   }
 };
 

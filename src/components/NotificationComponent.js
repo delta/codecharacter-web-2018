@@ -45,8 +45,6 @@ export default class NotificationComponent extends React.Component {
         type={notifications[i].type==="SUCCESS"?'success':(notifications[i].type==="ERROR"?'error':(notifications[i].type==="WARNING"?'notice':(notifications[i].type==="INFORMATION"?'info':'info')))}
         title={notifications[i].title}
         text= {notifications[i].message}
-        animateIn='slideInDown'
-        animateOut='slideOutUp'
         delay={4000}
         shadow={true}
         hide={true}

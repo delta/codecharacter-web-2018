@@ -1,6 +1,9 @@
 import { connect }                             from 'react-redux';
 import ProfileComponent                        from '../components/ProfileComponent';
-import { getProfileData }                      from '../redux/actions';
+import {
+  getProfileData,
+  userAuthenticateCheck
+}                                              from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
@@ -11,6 +14,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());}
     // getProfileData: (username) => {dispatch(getProfileData(username))}
   };
 };

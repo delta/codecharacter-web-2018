@@ -10,6 +10,7 @@ import GlobalContainer        from '../containers/GloabalContainer';
 import RulesComponent         from '../components/RulesComponent';
 import WelcomeScreenComponent from '../components/WelcomeScreenComponent';
 import NotificationTableContainer from '../containers/NotificationsTableContainer';
+import NotFoundComponent from '../components/NotFoundComponent';
 
 export const RouteList = () => (
   <div>
@@ -24,6 +25,7 @@ export const RouteList = () => (
       <Route exact path='/matches' component={MatchViewContainer}/>
       <Route exact path='/rules' component={RulesComponent}/>
       <Route exact path='/notifications' component={NotificationTableContainer}/>
+      <Route exact path='*' component={NotFoundComponent} />
     </Switch>
   </div>
 );

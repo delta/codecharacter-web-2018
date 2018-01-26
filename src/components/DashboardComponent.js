@@ -17,6 +17,7 @@ export default class DashboardComponent extends React.Component {
     matchesViewTable: PropTypes.element,
     shouldFetchLog: PropTypes.bool,
     lastMatchId: PropTypes.number,
+    defaultText: PropTypes.string,
     ais: PropTypes.array,
     gameLog: PropTypes.array,
     runCode: PropTypes.func,
@@ -26,7 +27,8 @@ export default class DashboardComponent extends React.Component {
     getAIs: PropTypes.func,
     fetchGameLog: PropTypes.func,
     changeAIid: PropTypes.func,
-    initialLogin: PropTypes.bool
+    initialLogin: PropTypes.bool,
+    clearCompilationStatus: PropTypes.func
   };
 
   static defaultProps = {
@@ -36,6 +38,7 @@ export default class DashboardComponent extends React.Component {
     matchesView: false,
     matchesViewTable: null,
     shouldFetchLog: false,
+    defaultText: 'RUN CODE and see it run here. Don\'t forget to SUBMIT when you\'ve finalised your code.',
     lastMatchId: -1,
     ais: [],
     gameLog: [],
@@ -46,6 +49,7 @@ export default class DashboardComponent extends React.Component {
     getAIs: () => {},
     fetchGameLog: () => {},
     changeAIid: () => {},
+    clearCompilationStatus: () => {},
     initialLogin: false
   };
 
@@ -58,6 +62,8 @@ export default class DashboardComponent extends React.Component {
       logFile: '',
       theme: 'monokai',
       fontSize: 14,
+      rendererHeight: 400,
+      codeSpaceWidth: 0.4 * window.innerWidth,
       enableBasicAutocompletion: false,
       enableLiveAutocompletion: false,
       highlightActiveLine: false
@@ -65,10 +71,11 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentDidMount() {
+    this.props.userAuthenticateCheck();
+    this.props.clearCompilationStatus();
     this.props.fetchCode();
-    if (this.props.shouldFetchLog) {
-      this.props.fetchGameLog(this.props.lastMatchId);
-    }
+    this.props.getAIs();
+    this.props.fetchGameLog(this.props.lastMatchId);
     this.windowResizeListener = window.addEventListener('resize',() => {
       this.setState({
         height: window.innerHeight,
@@ -82,9 +89,6 @@ export default class DashboardComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((this.props.loginStatus !== nextProps.loginStatus)) {
-      this.props.getAIs();
-    }
     if(nextProps.code !== this.props.code) {
       this.setState({
         code: nextProps.code
@@ -92,6 +96,7 @@ export default class DashboardComponent extends React.Component {
     }
 
     if(nextProps.shouldFetchLog && !this.props.shouldFetchLog) {
+      console.log(nextProps.lastMatchId);
       this.props.fetchGameLog(nextProps.lastMatchId);
     }
 
@@ -162,6 +167,7 @@ export default class DashboardComponent extends React.Component {
             maxSize='10%'
             defaultSize='40%'
             style={{ height: this.state.height - 50 }}
+            onChange={size => this.setState({codeSpaceWidth: size})}
           >
             <div className={'codeSplitLeft'}>
               {!this.props.matchesView
@@ -195,6 +201,7 @@ export default class DashboardComponent extends React.Component {
                 split="horizontal"
                 minSize={100}
                 defaultSize={400}
+                onChange={size => this.setState({rendererHeight: size})}
               >
                 <div style={{width: "100%"}} className={'renderer'}>
                   <div
@@ -204,9 +211,11 @@ export default class DashboardComponent extends React.Component {
                     {this.state.logFile
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
-                        logFunction={this.props.updateCompilationStatus}
+                        logFunction={console.log}
                       />)
-                      : <div>LOADING .. </div>
+                      : <div className="jumbotron">
+                        <p className="lead">{this.props.defaultText}</p>
+                      </div>
                     }
                   </div>
                 </div>
@@ -218,6 +227,7 @@ export default class DashboardComponent extends React.Component {
                     theme={'terminal'}
                     mode={'plain_text'}
                     highlightActiveLine={false}
+                    height={window.innerHeight - this.state.rendererHeight - 50}
                   />
                 </div>
               </SplitPane>
@@ -256,8 +266,19 @@ export default class DashboardComponent extends React.Component {
           <div style={{display: 'block'}}>
             <div style={{ display: 'block', width: '100%', height: 300}}>
               {this.state.logFile
-                ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
-                : <div>LOADING .. </div>
+                ?(<CodeCharacterRenderer
+                  logFile={this.state.logFile}
+                  logFunction={console.log}
+                />)
+                : <div className="jumbotron">
+                  <h1 className="display-3">Hello, world!</h1>
+                  <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                  <hr className="my-4"/>
+                    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                    <p className="lead">
+                      <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                    </p>
+                </div>
               }
             </div>
             <div style={{display: 'block'}}>

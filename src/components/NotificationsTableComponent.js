@@ -7,7 +7,7 @@ export default class NotificationsTableComponent extends React.Component {
     notifications: PropTypes.array,
     loginStatus: PropTypes.bool,
     getAllNotifications: PropTypes.func,
-
+    userAuthenticateCheck: PropTypes.func
   };
 
   constructor(props) {
@@ -18,6 +18,7 @@ export default class NotificationsTableComponent extends React.Component {
   }
 
   componentDidMount() {
+    this.props.userAuthenticateCheck();
     this.props.getAllNotifications();
   }
 
@@ -48,11 +49,15 @@ export default class NotificationsTableComponent extends React.Component {
     return (
       <div>
         {
-          this.state.notifications.map((data, index) => {
+          this.state.notifications.slice(0).reverse().map((data, index) => {
+            let date = new Date(data.createdAt);
             return (
-              <div className={'alert ' + this.getClassNameTag(data)} key={index}>
+              <div className={'alert alert-dismissible ' + this.getClassNameTag(data)} key={index}>
+                <button type="button" className="close" data-dismiss="alert">&times;</button>
                 <h4 className='alert-heading'>{data.title}</h4>
-                <p className='mb-0'>{data.message}</p>
+                  <p className='mb-0'>{data.message}</p>
+                <br/>
+                <h6 className='mb-1'>{date.toLocaleDateString()} &#9; {date.toLocaleTimeString()}</h6>
               </div>
             );
           })
