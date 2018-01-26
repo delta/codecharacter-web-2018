@@ -1,0 +1,38 @@
+version: '2'
+services:
+  web:
+    container_name: codecharacter_web
+    build: ./docker/web
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 8000:2000
+    depends_on:
+      - backend
+
+  backend:
+    container_name: codecharacter_backend
+    build: ./docker/backend
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      - db
+
+  db:
+    container_name: codecharacter_db
+    image: mysql:latest
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: codecharacter-web
+      MYSQL_ROOT_PASSWORD: pwd
+    ports:
+      - 8006:3306
+
+  phpmyadmin:
+    container_name: codecharacter_pma
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8002:80
+    depends_on:
+      - db
