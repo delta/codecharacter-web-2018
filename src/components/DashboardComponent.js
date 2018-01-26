@@ -63,6 +63,7 @@ export default class DashboardComponent extends React.Component {
       theme: 'monokai',
       fontSize: 14,
       rendererHeight: 400,
+      codeSpaceWidth: 0.4 * window.innerWidth,
       enableBasicAutocompletion: false,
       enableLiveAutocompletion: false,
       highlightActiveLine: false
@@ -166,6 +167,7 @@ export default class DashboardComponent extends React.Component {
             maxSize='10%'
             defaultSize='40%'
             style={{ height: this.state.height - 50 }}
+            onChange={size => this.setState({codeSpaceWidth: size})}
           >
             <div className={'codeSplitLeft'}>
               {!this.props.matchesView
@@ -209,7 +211,7 @@ export default class DashboardComponent extends React.Component {
                     {this.state.logFile
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
-                        logFunction={this.props.updateCompilationStatus}
+                        logFunction={console.log}
                       />)
                       : <div className="jumbotron">
                         <p className="lead">{this.props.defaultText}</p>
@@ -264,7 +266,10 @@ export default class DashboardComponent extends React.Component {
           <div style={{display: 'block'}}>
             <div style={{ display: 'block', width: '100%', height: 300}}>
               {this.state.logFile
-                ?(<CodeCharacterRenderer logFile={this.state.logFile}/>)
+                ?(<CodeCharacterRenderer
+                  logFile={this.state.logFile}
+                  logFunction={console.log}
+                />)
                 : <div className="jumbotron">
                   <h1 className="display-3">Hello, world!</h1>
                   <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>

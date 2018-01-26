@@ -24,17 +24,6 @@ export default class NavbarComponent extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.codeStatus !== nextProps.codeStatus) {
-      this.checkCodeStatusChange(this.props.codeStatus, nextProps.codeStatus);
-    }
-  }
-  checkCodeStatusChange = (codeStatusOld, codeStatusNew) => {
-    if (codeStatusOld==="compiling" && codeStatusNew==="success") {
-      this.props.executeCode();
-    }
-  };
-
   render() {
     return (
       <nav
@@ -86,17 +75,25 @@ export default class NavbarComponent extends React.Component {
                 <Link className="nav-link" to={"/"} onClick={() => {this.props.onLogout();}}>Logout</Link>
               </li>
             </ul>
-            {/*>*/}
             <form className="form-inline my-2 my-lg-0">
               <ul className="navbar-nav mr-auto ">
                 <li className="nav-item">
                   <span
                     className="nav-link"
-                    style={(this.props.codeStatus === 'SUCCESS')
-                    ? {color: 'green !important'}
-                    : {color: 'red !important'}
-                    }
-                  >{this.props.codeStatus}</span>
+                    ref={span => {
+                      let text = this.props.lastUsed===0 ? this.props.codeStatus : this.props.matchStatus;
+                      let color = (text === 'SUCCESS')
+                        ? 'lightgreen'
+                        : (text === 'ERROR')
+                          ? 'red'
+                          : (text === 'COMPILING')
+                            ? 'blue'
+                            : (text === 'EXECUTING')
+                              ? 'yellow'
+                              : 'white';
+                      if (span) span.style.setProperty('color',color,'important');
+                    }}
+                  >{this.props.lastUsed===0 ? this.props.codeStatus : this.props.matchStatus}</span>
                 </li>
               </ul>
             </form>

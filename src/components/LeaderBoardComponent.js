@@ -35,12 +35,12 @@ export default class LeaderBoardComponent extends React.Component {
       console.log(data.id, this.props.userId);
       return (
         <tr key={index}>
-          <td align="center">
+          <td align="center" style={{padding: 0}}>
             {(data.id !== this.props.userId)
-              ? <a className="btn btn-danger">
+              ? <span className="btn btn-info" style={{borderRadius: 0, height: 49}}>
                 <img src={'assets/sword.png'} width="15" height="15"
                      onClick={() => this.props.startChallenge(data.id)}/>
-              </a>
+              </span>
               : null
             }
           </td>
@@ -57,8 +57,8 @@ export default class LeaderBoardComponent extends React.Component {
           <div className="col-md-3">
             <form action="#" method="get">
               <div className="input-group">
-                <input className="form-control" id="system-search" name="q" placeholder="Search for" required/>
-                    <span className="input-group-btn" style={{paddingLeft: 5, paddingRight: 5}}>
+                <input className="form-control" id="system-search" name="q" placeholder="Search for User" required style={{height: 46}}/>
+                    <span className="input-group-btn" style={{paddingLeft: 5, paddingRight: 5, paddingBottom: 10}}>
                         <button type="submit" className="btn btn-default"><i className="fa fa-search" aria-hidden="true"/></button>
                     </span>
               </div>
@@ -80,7 +80,7 @@ export default class LeaderBoardComponent extends React.Component {
                       <table className="table table-striped table-bordered table-list">
                         <thead>
                         <tr>
-                          <th></th>
+                          <th style={{width: 50}}></th>
                           <th className="hidden-xs">User Id</th>
                           <th>Username</th>
                           <th>Rating</th>

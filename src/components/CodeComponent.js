@@ -46,9 +46,16 @@ export default class CodeComponent extends React.Component {
     height: window.innerHeight - 50
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.height !== nextProps.height) {
+      this.refs.codeCharacterEditor.editor.resize();
+    }
+  };
+
   render() {
     return (
       <AceEditor
+        ref='codeCharacterEditor'
         mode={this.props.mode}
         theme={this.props.theme}
         name='codeCharacterEditor'
@@ -60,9 +67,6 @@ export default class CodeComponent extends React.Component {
         wrapEnabled={true}
         readOnly={this.props.readOnly}
         highlightActiveLine={this.props.highlightActiveLine}
-        editorProps={{
-          $blockScrolling: Infinity
-        }}
         setOptions={{
           enableBasicAutocompletion: this.props.enableBasicAutocompletion,
           enableLiveAutocompletion: this.props.enableLiveAutocompletion,
