@@ -111,4 +111,24 @@ router.post('/create_notification', (req, res) => {
 			})
 	}
 })
+router.post('/delete_notification', (req, res) => {
+	let nId = req.body.nId;
+	if(nId < 0 || !nId ){
+		return res.json({success: false, message: 'Pass proper params'});
+	}
+	models.Notification.destroy({
+		where: {
+			id: nId
+		}
+	})
+		.then(success => {
+			console.log(success);
+
+			res.json({success:true, message : 'deletion successful!' })	
+		})
+		.catch(err => {
+			console.log('hey');
+			res.json({success:false, message : 'Deletion failed!' })	;
+		})
+});
 module.exports = router;
