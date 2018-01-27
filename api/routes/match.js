@@ -151,84 +151,107 @@ router.get('/compete/player/:againstId', (req, res) => {
     return res.json({success: false, message: "You can't compete with yourself!"})
   }
   console.log(userId, competetorId);
-  models.Code.findOne({
-    where:{
-      user_id: userId
+  models.Match.findAll({
+    where: {
+      player_id1 : userId,
+      player_id2: competetorId
     },
-    attributes: ['dll1_locked']
+    order: ['updatedAt'],
+    attributes: ['id', 'createdAt', 'updatedAt']
   })
-    .then(code1 => {
-      if(!code1){
-        return res.json({success: false, message: 'Upload a working code first!'});
-      }
-      if(code1.status === 'SUCCESS'){
-        return res.json({success: false, message: 'Upload a working code first!'});
+    .then(matches => {
+      let mostRecent = matches.pop();
+      let now = new Date();
+      if(mostRecent){
+        if((now.getTime() - mostRecent.createdAt.getTime()) < 1800000){
+          console.log();
+          return res.json({success: false, message: 'Wait for '+ String(30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000) + ' minutes more to start a match with this user', time_left: 30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000});
+        } 
       }
       models.Code.findOne({
         where:{
-          user_id: competetorId
+          user_id: userId
         },
-        attributes: ['dll2_locked']
+        attributes: ['dll1_locked']
       })
-        .then(code2 => {
-          if(!code2){
-            return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
+        .then(code1 => {
+          if(!code1){
+            return res.json({success: false, message: 'Upload a working code first!'});
           }
-          if(code2.status === 'SUCCESS'){
-            return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
+          if(code1.status === 'SUCCESS'){
+            return res.json({success: false, message: 'Upload a working code first!'});
           }
-          //execute code1.dll1, code2.dll2
-          let dll1 = code1.dll1_locked;
-          let dll2 = code2.dll2_locked;
-          if(!dll1){
-            return res.json({success: false, message: "Please lock your code and proceed!"});
-          }
-          if(!dll2){
-            return res.json({success: false, message:'Your opponent hasn\'t locked the code yet'});
-          }
-          models.Match.create({
-            player_id1: userId,
-            player_id2: competetorId,
-            dll1,
-            dll2,
-            status: 'executing'
+          models.Code.findOne({
+            where:{
+              user_id: competetorId
+            },
+            attributes: ['dll2_locked']
           })
-            .then(matchSaved => {
-              models.Notification.create({
-                type: 'INFORMATION' ,
-                title: 'Match Initiated',
-                message:`User with id ${userId} has initiated a match.`,
-                isRead: false,
-                user_id: competetorId
+            .then(code2 => {
+              if(!code2){
+                return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
+              }
+              if(code2.status === 'SUCCESS'){
+                return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
+              }
+              //execute code1.dll1, code2.dll2
+              let dll1 = code1.dll1_locked;
+              let dll2 = code2.dll2_locked;
+              if(!dll1){
+                return res.json({success: false, message: "Please lock your code and proceed!"});
+              }
+              if(!dll2){
+                return res.json({success: false, message:'Your opponent hasn\'t locked the code yet'});
+              }
+              models.Match.create({
+                player_id1: userId,
+                player_id2: competetorId,
+                dll1,
+                dll2,
+                status: 'executing'
               })
-                .then(notification => {
-                  //idk what to do here
+                .then(matchSaved => {
+                  models.Notification.create({
+                    type: 'INFORMATION' ,
+                    title: 'Match Initiated',
+                    message:`User with id ${userId} has initiated a match.`,
+                    isRead: false,
+                    user_id: competetorId
+                  })
+                    .then(notification => {
+                      //idk what to do here
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    })
+                  console.log(matchSaved.id, matchSaved.player_id1, 'test2');
+                  let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
+                  if(success){
+                    res.json({success: true, message: 'Match is executing'});
+                  }else{
+                    res.json({success: false, message: 'Try after sometime!'});
+                  }
                 })
                 .catch(err => {
                   console.log(err);
-                })
-              console.log(matchSaved.id, matchSaved.player_id1, 'test2');
-              let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
-              if(success){
-                res.json({success: true, message: 'Match is executing'});
-              }else{
-                res.json({success: false, message: 'Try after sometime!'});
-              }
+                  res.json({success: false, message: 'Try after sometime!'});
+                });
             })
             .catch(err => {
               console.log(err);
-              res.json({success: false, message: 'Try after sometime!'});
+              res.json({success: false, message: "Internal server error!"});
             });
         })
         .catch(err => {
           console.log(err);
           res.json({success: false, message: "Internal server error!"});
-        });
+        })
     })
     .catch(err => {
       console.log(err);
-      res.json({success: false, message: "Internal server error!"});
-    })
+      res.json({success: false, message: 'Internal server error'});
+    });
+
   //get 2 dlls
   //execute them and send back
 });
@@ -397,3 +420,9 @@ function getMatchHandler(req, res){
       res.json({success: false, message:'Fetch failed!'});
     });
 }
+
+/*
+
+
+
+*/

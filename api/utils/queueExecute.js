@@ -10,7 +10,7 @@ let pushToQueue = (matchId, dll1, dll2, userId, opponentId, isAi) => {
 	if(executeQueue.length === executeQueueSize){
 		return false;
 	}else{
-		console.log(userId, 'hey');
+		//console.log(userId, 'hey');
 		executeQueue.push({
 			dll1,
 			dll2,
@@ -19,7 +19,7 @@ let pushToQueue = (matchId, dll1, dll2, userId, opponentId, isAi) => {
 			opponentId,
 			isAi
 		});
-		console.log(executeQueue);
+		//console.log(executeQueue);
 		return true;
 	}
 }
@@ -48,10 +48,12 @@ setInterval(() => {
 		return;
 	}
 	if(getQueueSize()){
-		let codeToBeExecuted = executeQueue[0];
-		let userId = executeQueue[0].userId; //say this dude wins
-		let opponentId = executeQueue[0].opponentId;
-		let isAi = executeQueue[0].isAi;
+		let indexToBeProcessed = processQueue();
+		console.log(indexToBeProcessed, 'hey');
+		let codeToBeExecuted = executeQueue[indexToBeProcessed];
+		let userId = executeQueue[indexToBeProcessed].userId; //say this dude wins
+		let opponentId = executeQueue[indexToBeProcessed].opponentId;
+		let isAi = executeQueue[indexToBeProcessed].isAi;
 		requestUnderway = true;
 		request(
 			{
@@ -64,7 +66,7 @@ setInterval(() => {
 					return;
 				}
         let results = response.body.results;
-        console.log(results);
+        //console.log(results);
         results = results.split(' ').slice(1);
         let player1ExitStatus = results[1];
         let player2ExitStatus = results[3];
@@ -88,7 +90,7 @@ setInterval(() => {
 							}
 						})
 							.then(user2 => {
-								if(err) throw err;
+								if(err) console.log(err);
 								if(!body.success || runtimeErrorPresent){
 									models.Match.update({
 											status: 'error',
@@ -101,7 +103,7 @@ setInterval(() => {
 										}
 									)
 										.then(match => {
-											console.log(match);
+											//console.log(match);
 											models.Notification.create({
 												type: 'ERROR'	,
 												title: 'Execution Error',
@@ -121,31 +123,33 @@ setInterval(() => {
 														})
 															.then(notification => {
 																//idk what to do here
+																executeQueue.splice(indexToBeProcessed, 1);
+																console.log(executeQueue);
 																
 															})
 															.catch(err => {
-																console.log(err);
+																//console.log(err);
 															})
 													}
 													
 												})
 												.catch(err => {
-													console.log(err);
+													//console.log(err);
 												})
 										})
 										.catch(err => {
 											throw err;
-											console.log(err);
+											//console.log(err);
 										})
 								}else{
 
 									
 									let score1 = user1.rating;
 					        let score2 = user2.rating;
-					        console.log(score1, score2);
+					        //console.log(score1, score2);
 					        let expec1 = elo.getExpected(score1, score2);
 					        let expec2 = elo.getExpected(score2, score1);
-					        console.log(expec2, expec1);
+					        //console.log(expec2, expec1);
 					        if(player2Score > player1Score){
 					        	score1 = elo.updateRating(expec1, 0, score1);
 					          score2 = elo.updateRating(expec2, 1, score2);
@@ -156,14 +160,15 @@ setInterval(() => {
 					        	score1 = elo.updateRating(expec1, 0.5, score1);
 					          score2 = elo.updateRating(expec2, 0.5, score2);
 					        }
-					        console.log(score1, score2);
+					        //console.log(score1, score2);
 									//handle scores
 									//create appropriate notifications
 									let matchId = response.body.matchId;
 									requestUnderway = false;
-									executeQueue.shift();
-									//console.log(body);
-									console.log(userId, matchId, 'test1');
+									executeQueue.splice(indexToBeProcessed, 1);
+									console.log(executeQueue);
+									////console.log(body);
+									//console.log(userId, matchId, 'test1');
 								
 									models.Match.update({
 											status: 'success',
@@ -180,7 +185,7 @@ setInterval(() => {
 										}
 									)
 										.then(match => {
-											console.log(match);
+											//console.log(match);
 											
 
 											models.User.update({
@@ -193,7 +198,7 @@ setInterval(() => {
 											})
 												.then(success => {
 													if(success){
-														console.log('User1 score update successful');
+														//console.log('User1 score update successful');
 													}
 													models.User.update({
 														rating: score2
@@ -205,7 +210,7 @@ setInterval(() => {
 													})
 														.then(success => {
 															if(success){
-																console.log('User2 score update successful');
+																//console.log('User2 score update successful');
 																if((userId === opponentId)  || isAi ){
 
 																	models.Notification.create({
@@ -235,34 +240,46 @@ setInterval(() => {
 																let notificationsPromise = [];
 																Promise.all(notificationsPromise)
 																	.then((values, values2) => {
-																		console.log(values, values2);
+																		//console.log(values, values2);
 																	})
 															}
 														})
 														.catch(err => {
-															console.log(err);
+															//console.log(err);
 														})
 												})
 												.catch(err => {
-													console.log(err);
+													//console.log(err);
 												})
 										})
 										.catch(err => {
 											throw err;
-											console.log(err);
+											//console.log(err);
 										})
 								}
 							})
 							.catch(err => {
-								console.log(err);
+								//console.log(err);
 							})
 					})
 					.catch(err => {
-						console.log(err);
+						//console.log(err);
 					})
-				//console.log(err, body);
-				//console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
+				////console.log(err, body);
+				////console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
 			});
 		//api call and pop() when necessary
 	}
 }, 300);
+
+let processQueue = () => {
+	let priority = 0;
+	for(let i=0; i<executeQueue.length; i++){
+		if(executeQueue[i].isAi){
+			return i;
+		}else if(executeQueue[i].userId === executeQueue[i].opponentId){
+			return i;
+		}
+	}
+	return priority;
+}
