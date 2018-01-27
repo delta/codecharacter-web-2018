@@ -10,7 +10,8 @@ export default class LeaderBoardComponent extends React.Component {
     totalUsers: PropTypes.number,
     fetchLeaderboardData: PropTypes.func,
     startChallenge: PropTypes.func,
-    getUsersLength: PropTypes.func
+    getUsersLength: PropTypes.func,
+    searchUser: PropTypes.func
   };
 
   static defaultProps = {
@@ -20,13 +21,15 @@ export default class LeaderBoardComponent extends React.Component {
     totalUsers: 0,
     fetchLeaderboardData: () => {},
     startChallenge: () => {},
-    getUsersLength: () => {}
+    getUsersLength: () => {},
+    searchUser: () => {}
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      pageCount: 1
+      pageCount: 1,
+      activeSearch: false
     };
   }
 
@@ -45,6 +48,21 @@ export default class LeaderBoardComponent extends React.Component {
       this.props.fetchLeaderboardData((nextState.pageCount-1)*5, 5);
     }
   }
+
+  searchUser = (event) => {
+    if (event.target.value !== '') {
+      this.props.searchUser(event.target.value, 5);
+      this.setState({
+        activeSearch: true
+      });
+    }
+    else {
+      this.setState({
+        activeSearch: false
+      });
+      this.props.fetchLeaderboardData((this.state.pageCount-1)*5, 5);
+    }
+  };
 
   render() {
     if (!this.props.loginStatus) {
@@ -90,9 +108,8 @@ export default class LeaderBoardComponent extends React.Component {
         <div className="row">
           <div className="col-md-3">
               <div className="input-group">
-                <input className="form-control" id="system-search" name="q" placeholder="Search for User" required style={{height: 46}}/>
+                <input className="form-control" id="system-search" name="q" placeholder="Search for User" required style={{height: 46}} onChange={this.searchUser}/>
                 <span className="input-group-btn" style={{paddingLeft: 5, paddingRight: 5, paddingBottom: 10}}>
-                  <button type="submit" className="btn btn-default"><i className="fa fa-search" aria-hidden="true"/></button>
                 </span>
               </div>
           </div>
@@ -128,7 +145,8 @@ export default class LeaderBoardComponent extends React.Component {
                         <div className="col col-xs-4">Page {this.state.pageCount} of {this.maxPages}
                         </div>
                         <div className="col col-xs-8">
-                          <ul className="pagination pagination-sm pull-right">
+                          {(!this.state.activeSearch)
+                            ? <ul className="pagination pagination-sm pull-right">
                             <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== 1) ? this.state.pageCount-1 : 1})}}>
                               <button aria-label="Previous" className="page-link">
                                 <span aria-hidden="true">&laquo;</span>
@@ -141,6 +159,7 @@ export default class LeaderBoardComponent extends React.Component {
                               </span>
                             </li>
                           </ul>
+                          : null}
                         </div>
                       </div>
                     </div>

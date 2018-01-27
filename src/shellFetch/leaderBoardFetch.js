@@ -66,3 +66,23 @@ export const startChallenge = ({req , query}) => {
       throw error;
     });
 };
+
+export const searchUser = ({req, query}) => {
+  return fetch(API_BASE_URL + 'leaderboard/search/' + query.pattern + '/' + query.size,{
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};

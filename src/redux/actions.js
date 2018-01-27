@@ -201,3 +201,9 @@ export const updateUsersLength = (length) => ({
   type: actionTypes.UPDATE_USERS_LENGTH,
   length
 });
+
+export const searchUser = (pattern, size) => ({
+  type: actionTypes.SEARCH_USER,
+  pattern,
+  size
+});
