@@ -51,7 +51,7 @@ export default class NavbarComponent extends React.Component {
           aria-controls="navbarColor02"
           aria-expanded="true"
           aria-label="Toggle navigation"
-          style={{margin: 5}}
+          style={{margin: 5, cursor: 'pointer'}}
         >
           <span className="navbar-toggler-icon"/>
         </button>

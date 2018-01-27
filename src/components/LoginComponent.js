@@ -61,10 +61,18 @@ export default class LoginComponent extends React.Component {
     }
     else if (props.loginMessage === 'Logged in!') {
       this.setState({
-        usernameStatus: 'form-group has-success',
-        passwordStatus: 'form-group has-success',
+        usernameStatus: 'form-group ',
+        passwordStatus: 'form-group ',
         usernameMessage: '',
         passwordMessage: props.loginMessage
+      });
+    }
+    else if (props.loginMessage === 'Pass proper params') {
+      this.setState({
+        usernameStatus: 'form-group has-danger',
+        passwordStatus: 'form-group has-danger',
+        usernameMessage: 'Fill all Fields',
+        passwordMessage: ''
       });
     }
     else {
@@ -122,7 +130,7 @@ export default class LoginComponent extends React.Component {
             </Modal.Body>
 
             <Modal.Footer>
-              <Button className='btn-primary' bsStyle='primary' type="submit" onClick={this.handleSubmit}>
+              <Button className='btn-primary' bsStyle='primary' type="submit" style={{cursor: 'pointer'}} onClick={this.handleSubmit}>
                 LOG IN
               </Button>
             </Modal.Footer>

@@ -36,7 +36,7 @@ export default class MatchesViewComponent extends React.Component {
       return (
           <tr key={index} align='center'>
             <td onClick={() => {this.props.fetchGameLog(data.id);}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
-            <td>{date.toDateString()}  {date.toLocaleTimeString('en-US')}</td>
+            <td>{date.toLocaleDateString()}  {date.toLocaleTimeString('en-US')}</td>
             <td>{data.player_id1}</td>
             <td>{data.scorep1}</td>
             <td>{data.player_id2}</td>
@@ -47,7 +47,8 @@ export default class MatchesViewComponent extends React.Component {
     });
 
     let table = (
-      <Table striped bordered hover responsive className='table-success' style={{height: window.innerHeight - 50, overflowY: 'scroll'}}>
+      <div className='table-responsive' style={{height: (window.innerHeight - 50)}}>
+        <table className='table-success table table-striped table-bordered table-hover'>
         <thead>
         <tr align='center'>
           <th>Play</th>
@@ -62,7 +63,8 @@ export default class MatchesViewComponent extends React.Component {
         <tbody>
         {matchDataColumns}
         </tbody>
-      </Table>
+        </table>
+      </div>
     );
     return <DashboardComponent
       userAuthenticateCheck={this.props.userAuthenticateCheck}
