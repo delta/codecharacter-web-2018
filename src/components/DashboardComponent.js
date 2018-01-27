@@ -202,7 +202,9 @@ export default class DashboardComponent extends React.Component {
                     />
                   </div>
                 </div>
-                : this.props.matchesViewTable
+                : <div style={{height: window.innerHeight - 50}}>
+                  {this.props.matchesViewTable}
+                  </div>
               }
             </div>
             <div className={'splitPaneRight'}>

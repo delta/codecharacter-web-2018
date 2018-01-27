@@ -54,7 +54,7 @@ export default class NotificationsTableComponent extends React.Component {
             let date = new Date(data.createdAt);
             return (
               <div className={'alert alert-dismissible ' + this.getClassNameTag(data)} key={index}>
-                <button type="button" className="close" data-dismiss="alert" onClick={() => this.props.deleteNotification(data.id)} >&times;</button>
+                <button type="button" className="close" data-dismiss="alert" style={{cursor: 'pointer'}} onClick={() => this.props.deleteNotification(data.id)} >&times;</button>
                 <h4 className='alert-heading'>{data.title}</h4>
                   <p className='mb-0'>{data.message}</p>
                 <br/>

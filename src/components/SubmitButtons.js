@@ -51,7 +51,7 @@ export default class SubmitButtons extends React.Component {
         </div>
         <button
           className="btn btn-danger"
-          style={{borderRadius: 0, margin: 10}}
+          style={{borderRadius: 0, margin: 10, cursor: 'pointer'}}
           onClick={this.props.lockCode}
         >
           Submit Code

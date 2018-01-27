@@ -76,7 +76,7 @@ export default class LeaderBoardComponent extends React.Component {
         <tr key={index}>
           <td align="center" style={{padding: 0}}>
             {(data.id !== this.props.userId)
-              ? <span className="btn btn-info" style={{borderRadius: 0, height: 49}} onClick={() => {this.props.startChallenge(data.id);}}>
+              ? <span className="btn btn-info" style={{borderRadius: 0, height: 49, boxShadow: 'none', cursor: 'pointer'}} onClick={() => {this.props.startChallenge(data.id);}}>
                 <img src={'assets/sword.png'} width="15" height="15" alt="challenge"/>
               </span>
               : null
@@ -95,7 +95,7 @@ export default class LeaderBoardComponent extends React.Component {
       let classTag = (this.state.pageCount === i) ? 'active' : '';
       listElements.push(
         <li className={'page-item ' + classTag} key={i}>
-          <button className="page-link "
+          <button className="page-link " style={{cursor: 'pointer'}}
              onClick={() => this.setState({pageCount: i})}
           >
             {i}
@@ -142,19 +142,18 @@ export default class LeaderBoardComponent extends React.Component {
                     </div>
                     <div className="panel-footer">
                       <div className="row">
-                        <div className="col col-xs-4">Page {this.state.pageCount} of {this.maxPages}
-                        </div>
+                        {(this.state.activeSearch) ? null : <div className="col col-xs-4">Page {this.state.pageCount} of {this.maxPages}</div>}
                         <div className="col col-xs-8">
                           {(!this.state.activeSearch)
                             ? <ul className="pagination pagination-sm pull-right">
                             <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== 1) ? this.state.pageCount-1 : 1})}}>
-                              <button aria-label="Previous" className="page-link">
+                              <span aria-label="Previous" className="page-link" style={{cursor: 'pointer'}}>
                                 <span aria-hidden="true">&laquo;</span>
-                              </button>
+                              </span>
                             </li>
                             {listElements}
                             <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== this.maxPages) ? this.state.pageCount+1 : this.maxPages})}}>
-                              <span aria-label="Next" className="page-item">
+                              <span aria-label="Next" className="page-item" style={{cursor: 'pointer'}}>
                                 <span aria-hidden="true" className="page-link" >&raquo;</span>
                               </span>
                             </li>
