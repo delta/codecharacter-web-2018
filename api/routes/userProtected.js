@@ -2,6 +2,9 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+
+const bcrypt = require("bcrypt-nodejs");
+
 /* GET home page. */
 router.get("/", function(req, res) {
 	res.json({ title: "hey" });
@@ -140,6 +143,32 @@ router.get('/all', (req, res) => {
 		})
 		.catch(err => {
 			res.json({success: false, number_of_users: users.length});
+		})
+});
+router.post('/change', (req, res) => {
+	let password = bcrypt.hashSync(req.body.password);
+	let name = req.body.name;
+	let updateObject = {};
+	if(name) {
+		updateObject = { ...updateObject, name};
+	}
+	if(password) {
+		updateObject = {...updateObject, password};
+	}
+	console.log(updateObject);
+	models.User.update(
+		updateObject,
+		{
+			where: {
+				id: req.session.userId
+			}
+		}
+	)
+		.then(success => {
+			res.json({success: true, message:'Updated'})
+		})
+		.catch(err => {
+			res.json({success: false, message: 'Change failed!'})
 		})
 });
 module.exports = router;
