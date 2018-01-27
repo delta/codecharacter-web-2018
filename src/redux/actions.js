@@ -192,3 +192,12 @@ export const getCompilationStatus = () => ({
 export const clearCompilationStatus = () => ({
   type: actionTypes.CLEAR_COMPILATION_STATUS
 });
+
+export const getUsersLength = () => ({
+  type: actionTypes.GET_USERS_LENGTH
+});
+
+export const updateUsersLength = (length) => ({
+  type: actionTypes.UPDATE_USERS_LENGTH,
+  length
+});

@@ -124,9 +124,17 @@ export function codeCharacterReducer(state = initialState, action) {
       }
     }
 
+    case actionTypes.UPDATE_USERS_LENGTH: {
+      return {
+        ...state,
+        totalUsers: action.length
+      }
+    }
+
     case "persist/REHYDRATE": {
       return { ...state, ...action.payload }
     }
+
     default: {
       return state;
     }

@@ -7,16 +7,20 @@ export default class LeaderBoardComponent extends React.Component {
     userId: PropTypes.number,
     playersData: PropTypes.array,
     loginStatus: PropTypes.bool,
+    totalUsers: PropTypes.number,
     fetchLeaderboardData: PropTypes.func,
     startChallenge: PropTypes.func,
+    getUsersLength: PropTypes.func
   };
 
   static defaultProps = {
     userId: -1,
     playersData: [],
     loginStatus: false,
+    totalUsers: 0,
     fetchLeaderboardData: () => {},
     startChallenge: () => {},
+    getUsersLength: () => {}
   };
 
   constructor(props) {
@@ -25,7 +29,13 @@ export default class LeaderBoardComponent extends React.Component {
       pageCount: 1
     };
   }
+
+  componentWillMount() {
+    this.props.getUsersLength();
+  }
+
   componentDidMount() {
+    console.log(this.props.totalUsers);
     this.props.userAuthenticateCheck();
     this.props.fetchLeaderboardData(0, 5);
   }
@@ -40,6 +50,8 @@ export default class LeaderBoardComponent extends React.Component {
     if (!this.props.loginStatus) {
       return <Redirect to='/login'/>
     }
+
+    this.maxPages = Math.ceil(this.props.totalUsers/5);
 
     let tableColumns = (this.props.playersData).map((data, index) => {
       return (
@@ -60,7 +72,8 @@ export default class LeaderBoardComponent extends React.Component {
     });
 
     let listElements = [];
-    for (let i=1;i<=5;i++) {
+
+    for (let i=1;i<=this.maxPages;i++) {
       let classTag = (this.state.pageCount === i) ? 'active' : '';
       listElements.push(
         <li className={'page-item ' + classTag} key={i}>
@@ -112,17 +125,17 @@ export default class LeaderBoardComponent extends React.Component {
                     </div>
                     <div className="panel-footer">
                       <div className="row">
-                        <div className="col col-xs-4">Page 1 of 5
+                        <div className="col col-xs-4">Page {this.state.pageCount} of {this.maxPages}
                         </div>
                         <div className="col col-xs-8">
                           <ul className="pagination pagination-sm pull-right">
-                            <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== 1) ? this.state.pageCount-1 : 0})}}>
+                            <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== 1) ? this.state.pageCount-1 : 1})}}>
                               <button aria-label="Previous" className="page-link">
                                 <span aria-hidden="true">&laquo;</span>
                               </button>
                             </li>
                             {listElements}
-                            <li className="page-item" onClick={() => {this.setState({pageCount: this.state.pageCount+1})}}>
+                            <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== this.maxPages) ? this.state.pageCount+1 : this.maxPages})}}>
                               <span aria-label="Next" className="page-item">
                                 <span aria-hidden="true" className="page-link" >&raquo;</span>
                               </span>

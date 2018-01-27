@@ -66,3 +66,24 @@ export const deleteNotification = ({req , query}) => {
       throw error;
     });
 };
+
+export const getUsersLength = ({req, query}) => {
+  return fetch(API_BASE_URL + 'user_protected/all',{
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};

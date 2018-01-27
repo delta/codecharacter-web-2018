@@ -1,5 +1,8 @@
-import { getAllNotifications, getUnreadNotifications, deleteNotification } from '../../shellFetch/userProtectedFetch';
-import { updateAllNotifications, updateUnreadNotifications } from '../actions';
+import {
+  getAllNotifications, getUnreadNotifications, deleteNotification,
+  getUsersLength
+} from '../../shellFetch/userProtectedFetch';
+import { updateAllNotifications, updateUnreadNotifications, updateUsersLength } from '../actions';
 import { call, put } from 'redux-saga/effects';
 
 export function* getUnreadNotificationsSaga() {
@@ -40,6 +43,18 @@ export function* deleteNotificationSaga(action) {
       nId: action.id
     };
     yield call(deleteNotification,{req: null, query: query});
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export function* getUsersLengthSagas(action) {
+  try {
+    let response = yield call(getUsersLength, {req: null, query: null});
+    console.log(response);
+    yield put(updateUsersLength(response.number));
   }
   catch (err) {
     console.log(err);
