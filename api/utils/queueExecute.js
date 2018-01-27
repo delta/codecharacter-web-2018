@@ -49,7 +49,7 @@ setInterval(() => {
 	}
 	if(getQueueSize()){
 		let indexToBeProcessed = processQueue();
-		console.log(indexToBeProcessed, 'hey');
+		//console.log(indexToBeProcessed, 'hey');
 		let codeToBeExecuted = executeQueue[indexToBeProcessed];
 		let userId = executeQueue[indexToBeProcessed].userId; //say this dude wins
 		let opponentId = executeQueue[indexToBeProcessed].opponentId;

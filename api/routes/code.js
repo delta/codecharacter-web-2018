@@ -29,14 +29,14 @@ router.post("/", function(req, res) {
 				})
 					.then(code => {
 						let success = queueCompile.pushToQueue(req.session.userId, source);
-						console.log(success);
+						//console.log(success);
 						if(!success){
 							return res.json({success: false, message: "Please try again later!"});
 						}
 						return res.json({success:true, message:"Code saved!", userId});
 					})
 					.catch(err => {
-						console.log(err);
+						//console.log(err);
 						res.json({success: false, message: 'Please try later!'});
 					})
 			}else{
@@ -51,7 +51,7 @@ router.post("/", function(req, res) {
 				})
 					.then(code => {
 						let success = queueCompile.pushToQueue(req.session.userId, source);
-						console.log(success);
+						//console.log(success);
 						if(!success){
 							return res.json({success: false, message: "Please try again later!"});
 						}
@@ -64,13 +64,13 @@ router.post("/", function(req, res) {
 			}
 		})
 		.catch(err => {
-			console.log(err);
+			//console.log(err);
 			res.json({success: false, err: err});
 		});
 });
 /*
 let success = queueCompile.pushToQueue(req.session.userId, source);
-			console.log(success);
+			//console.log(success);
 			if(!success){
 				return res.json({success: false, message: "Please try again later!"});
 			}
@@ -133,7 +133,7 @@ router.get("/lock", (req, res) => {
 
 })
 router.get("/", (req, res)=>{
-  console.log(req.session.userId);
+  //console.log(req.session.userId);
 	models.Code.findOne({
 		where: {user_id: req.session.userId}
 	})
@@ -141,12 +141,12 @@ router.get("/", (req, res)=>{
 			if(!code){
 				return res.json({success:false, message:"Oops, this user has no code saved!"});
 			}
-			console.log(code.dataValues.status);
+			//console.log(code.dataValues.status);
 			if(code.dataValues.status === 'COMPILING'){
 				return res.json({success:true, source:code.dataValues.source, status:'COMPILING'});
 			}else if(code.dataValues.status === 'SUCCESS'){
 				//add these , dll1: code.dataValues.dll1, dll2: code.dataValues.dll2
-				//console.log({dll1: code.dataValues.dll1, dll2: code.dataValues.dll2});
+				////console.log({dll1: code.dataValues.dll1, dll2: code.dataValues.dll2});
 				return res.json({success:true, source:code.dataValues.source, status: 'SUCCESS'});
 			}else{
 				return res.json({success:true, source:code.dataValues.source, status: 'ERROR'});

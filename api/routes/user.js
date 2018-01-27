@@ -49,13 +49,13 @@ let sendEmail = (email, message, res, activationToken, subject) => {
 
   smtpTransport.sendMail(mailOptions, (error, response) => {
     if (error) {
-      console.log(error);
+      //console.log(error);
       // send message from callee
       return res.json({ "status": 200, "success": true, "message": message });
     }
 
     res.json({ "status": 200, "success": true, "message": "Thank you for registering. Please check your e-mail inbox to complete registration!" });
-    console.log(`Message sent: ${response.message}`);
+    //console.log(`Message sent: ${response.message}`);
   });
 };
 // GET handlers
@@ -127,8 +127,8 @@ router.post("/login", (req, res) => {
 	}
 	//check if user exists
 	//let usePragyan = Number(req.body.usePragyan);
-	//console.log(usePragyan);
-	console.log('using pragyan');
+	////console.log(usePragyan);
+	//console.log('using pragyan');
 	let options = {
 		user_email: emailId,
 		user_pass: password,
@@ -141,7 +141,7 @@ router.post("/login", (req, res) => {
 		json: true,
 		body: options
 	}, (err, response) => {
-		if(err) console.log(err);
+		if(err) //console.log(err);
 		switch(response.body.status_code){
 			case 400: {
 				userOfDbCheck(req, res);
@@ -166,7 +166,7 @@ router.post("/login", (req, res) => {
 			}
 			break;
 			case 200: {
-				//console.log(emailId);
+				////console.log(emailId);
 				models.User.findOne({
 					 where:{
 					 	email: emailId
@@ -176,7 +176,7 @@ router.post("/login", (req, res) => {
 						if(user){
 							req.session.isLoggedIn = true;
 							req.session.userId = user.id;
-							console.log(req.session);
+							//console.log(req.session);
 							res.json({success: true, message: 'Log In Successful!', userId: user.id});
 						}else{
 							//no user with the emailId
@@ -195,7 +195,7 @@ router.post("/login", (req, res) => {
 						}
 					})
 					.catch(err => {
-						console.log(err);
+						//console.log(err);
 						res.json({success: false, message: 'Login failed.'});
 					})
 			}
@@ -233,12 +233,12 @@ router.post('/activate', (req, res) => {
 					}
 				})
 				.catch(err => {
-					console.log(err, 1);
+					//console.log(err, 1);
 					res.json({success: false, message: 'Activation Failed!'});
 				})
 		})
 		.catch(err => {
-			console.log(err, 1);
+			//console.log(err, 1);
 			res.json({success: false, message: 'Activation Failed!'});
 		})
 })

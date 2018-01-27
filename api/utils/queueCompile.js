@@ -5,7 +5,7 @@ const request = require("request");
 let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
 let pushToQueue = (userId, code) => {
-	console.log(compileQueueSize, compileQueue.length, compileQueue);
+	//console.log(compileQueueSize, compileQueue.length, compileQueue);
 	if(compileQueue.length === compileQueueSize){
 		return false;
 	}else{
@@ -42,7 +42,7 @@ setInterval(() => {
 	}
 	if(getQueueSize()){
 		let codeToBeCompiled = compileQueue[0];
-		console.log(codeToBeCompiled);
+		//console.log(codeToBeCompiled);
 		requestUnderway = true;
 		request(
 			{
@@ -66,8 +66,8 @@ setInterval(() => {
 							}
 						)
 							.then(code => {
-								console.log(code);
-								console.log("Compilation Error!");
+								//console.log(code);
+								//console.log("Compilation Error!");
 
 								models.Notification.create({
 									type: 'ERROR'	,
@@ -80,11 +80,11 @@ setInterval(() => {
 										//idk what to do here
 									})
 									.catch(err => {
-										console.log(err);
+										//console.log(err);
 									})
 							})
 							.catch(err => {
-								console.log(err);
+								//console.log(err);
 							})
 				}
 				models.Code.update({
@@ -99,8 +99,8 @@ setInterval(() => {
 					}
 				)
 					.then(code => {
-						console.log(code);
-						console.log("successfully compiled!");
+						//console.log(code);
+						//console.log("successfully compiled!");
 						/*
 							models.Notification.create({
 								type: 'SUCCESS'	,
@@ -113,12 +113,12 @@ setInterval(() => {
 									//idk what to do here
 								})
 								.catch(err => {
-									console.log(err);
+									//console.log(err);
 								})
 						*/
 					})
 					.catch(err => {
-						console.log(err);
+						//console.log(err);
 					})
 
 			});

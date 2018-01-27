@@ -47,7 +47,7 @@ router.get("/", (req, res)=>{
 						}
 					})
 					.catch(err => {
-						console.log(err);
+						//console.log(err);
 					});
 
 				codeFetchPromises.push(x);
@@ -55,7 +55,7 @@ router.get("/", (req, res)=>{
 			let ratings = [];
 			Promise.all(codeFetchPromises)
 				.then(dataReturned => {
-					console.log(dataReturned);
+					//console.log(dataReturned);
 					usersWithLockedCode.map((user) => {
 						let retObj = Object.assign({}, {
 							name: user.dataValues.name,
@@ -75,17 +75,17 @@ router.get("/", (req, res)=>{
 					res.json({success:true, ratings});
 				})
 				.catch(err => {
-					console.log(err);
+					//console.log(err);
 				});
 		})
 		.catch((err) => {
-			console.log(err);
+			//console.log(err);
 			res.json({success:false, message:"internal server error"});
 		});
 });
 
 router.get('/chunk/:from/:strength', (req, res) => {
-  console.log(req.params.from, req.params.strength);
+  //console.log(req.params.from, req.params.strength);
 	models.User.findAll({
 		where: {},
 		order: ['rating'],
@@ -96,12 +96,12 @@ router.get('/chunk/:from/:strength', (req, res) => {
 			res.json({users});
 		})
 		.catch(err => {
-			console.log(err);
+			//console.log(err);
 			res.json(err);
 		})
 })
 router.get('/search/:pattern/:limit', (req, res) => {
-  console.log(req.params.pattern);
+  //console.log(req.params.pattern);
   models.User.findAll({
     where: {
       name: {
@@ -115,7 +115,7 @@ router.get('/search/:pattern/:limit', (req, res) => {
       res.json({users});
     })
     .catch(err => {
-      console.log(err);
+      //console.log(err);
       res.json(err);
     })
 })

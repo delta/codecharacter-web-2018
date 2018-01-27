@@ -50,22 +50,22 @@ router.get('/get_matches', (req, res) => {
         })
           .then(users => {
             let usersFetched = users.map(user => user.dataValues);
-            //console.log(usersFetched);
-            //console.log(usersFetched.map(userFetched=> userFetched.dataValues));
+            ////console.log(usersFetched);
+            ////console.log(usersFetched.map(userFetched=> userFetched.dataValues));
             match.dataValues.users = usersFetched;
-            console.log(match);
-            //console.log(match, users.map(user => {return }));
+            //console.log(match);
+            ////console.log(match, users.map(user => {return }));
             matchesModified.push(match);
-            //console.log(matchesModified);
+            ////console.log(matchesModified);
           })
           .catch(err => {
-            console.log(err);
+            //console.log(err);
             res.json({success: false})
           });
         fetchPromises.push(x);
       })
       Promise.all(fetchPromises).then(promises => {
-        console.log('hey');
+        //console.log('hey');
         res.json({matchesModified});
       })
     })
@@ -81,12 +81,12 @@ router.get('/get_match/:matchId', (req, res) => {
     attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'status','player1_dlog', 'player2_dlog', 'log']
   })
     .then(match => {
-      //console.log(match.player1_dlog);
+      ////console.log(match.player1_dlog);
       //match.player1_dlog = zlib.unzipSync(match.player1_dlog).toString('utf8');
       res.json({match});
     })
     .catch(err => {
-      console.log(err);
+      //console.log(err);
       res.json({err});
     })
 })
@@ -150,7 +150,7 @@ router.get('/compete/player/:againstId', (req, res) => {
   if(userId === competetorId){
     return res.json({success: false, message: "You can't compete with yourself!"})
   }
-  console.log(userId, competetorId);
+  //console.log(userId, competetorId);
   models.Match.findAll({
     where: {
       player_id1 : userId,
@@ -164,7 +164,7 @@ router.get('/compete/player/:againstId', (req, res) => {
       let now = new Date();
       if(mostRecent){
         if((now.getTime() - mostRecent.createdAt.getTime()) < 1800000){
-          console.log();
+          //console.log();
           return res.json({success: false, message: 'Wait for '+ String(30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000) + ' minutes more to start a match with this user', time_left: 30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000});
         } 
       }
@@ -222,9 +222,9 @@ router.get('/compete/player/:againstId', (req, res) => {
                       //idk what to do here
                     })
                     .catch(err => {
-                      console.log(err);
+                      //console.log(err);
                     })
-                  console.log(matchSaved.id, matchSaved.player_id1, 'test2');
+                  //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
                   let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
                   if(success){
                     res.json({success: true, message: 'Match is executing'});
@@ -233,22 +233,22 @@ router.get('/compete/player/:againstId', (req, res) => {
                   }
                 })
                 .catch(err => {
-                  console.log(err);
+                  //console.log(err);
                   res.json({success: false, message: 'Try after sometime!'});
                 });
             })
             .catch(err => {
-              console.log(err);
+              //console.log(err);
               res.json({success: false, message: "Internal server error!"});
             });
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
           res.json({success: false, message: "Internal server error!"});
         })
     })
     .catch(err => {
-      console.log(err);
+      //console.log(err);
       res.json({success: false, message: 'Internal server error'});
     });
 
@@ -294,7 +294,7 @@ router.get('/compete/ai/:ai_id', (req, res) => {
             status: 'executing'
           })
             .then(matchSaved => {
-              console.log(matchSaved.id, matchSaved.player_id1, 'test2');
+              //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
               let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, Number(aiId), true);
               if(success){
                 res.json({success: true, message: 'Match is executing'});
@@ -303,7 +303,7 @@ router.get('/compete/ai/:ai_id', (req, res) => {
               }
             })
             .catch(err => {
-              console.log(err);
+              //console.log(err);
               res.json({success: false, message: 'Try after sometime!'});
             });
           //res.json({success: true, message:'Dummy log1'});
@@ -311,7 +311,7 @@ router.get('/compete/ai/:ai_id', (req, res) => {
           //res.json({success: true, message:'Dummy log'});
         })
         .catch(err => {
-          console.log(err, 1);
+          //console.log(err, 1);
           res.json({success: false, message: "Internal server error!"});
         });
     })
@@ -343,7 +343,7 @@ router.get('/compete/self', (req, res) => {
           status: 'executing'
         })
           .then(matchSaved => {
-            console.log(matchSaved.id, matchSaved.player_id1, 'test2');
+            //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
             let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id1, true);
             if(success){
               res.json({success: true, message: 'Match is executing'});
@@ -352,7 +352,7 @@ router.get('/compete/self', (req, res) => {
             }
           })
           .catch(err => {
-            console.log(err);
+            //console.log(err);
             res.json({success: false, message: 'Try after sometime!'});
           });
     })

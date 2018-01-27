@@ -20,9 +20,9 @@ router.get("/profile/:id", (req, res)=>{
 		});
 });
 router.get('/notifications/:onlyUnread', (req, res) => {
-	console.log(req.params);
+	//console.log(req.params);
 	let onlyUnread = Number(req.params.onlyUnread);
-	console.log(onlyUnread);
+	//console.log(onlyUnread);
 	let searchParams = {
 		user_id: req.session.userId
 	};
@@ -55,7 +55,7 @@ router.get('/notifications/:onlyUnread', (req, res) => {
 				})
 		})
 		.catch(err => {
-			console.log(err);
+			//console.log(err);
 			res.json({success: false, message: 'Internal server error!'});
 		});
 })
@@ -65,7 +65,7 @@ router.post('/create_notification', (req, res) => {
 	let description = req.body.description;
 	let type = req.body.type;
 	let isRead = false;
-	console.log(title, description, type);
+	//console.log(title, description, type);
 	if(!(title && description && type)){
 		return res.json({success: false, message: "Pass proper params!"});
 	}
@@ -91,7 +91,7 @@ router.post('/create_notification', (req, res) => {
 					})
 					.catch(err => {
 						//throw err;
-						console.log(err);
+						//console.log(err);
 						res.json({success: false, message: 'Internal server error!'});
 					})
 			})
@@ -122,12 +122,12 @@ router.post('/delete_notification', (req, res) => {
 		}
 	})
 		.then(success => {
-			console.log(success);
+			//console.log(success);
 
 			res.json({success:true, message : 'deletion successful!' })
 		})
 		.catch(err => {
-			console.log('hey');
+			//console.log('hey');
 			res.json({success:false, message : 'Deletion failed!' })	;
 		})
 });
