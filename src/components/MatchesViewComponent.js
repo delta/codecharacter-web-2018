@@ -47,7 +47,7 @@ export default class MatchesViewComponent extends React.Component {
     });
 
     let table = (
-      <Table striped bordered hover responsive className='table-success' style={{height: window.innerHeight - 50}}>
+      <Table striped bordered hover responsive className='table-success' style={{height: window.innerHeight - 50, overflowY: 'scroll'}}>
         <thead>
         <tr align='center'>
           <th>Play</th>

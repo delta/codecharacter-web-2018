@@ -5,6 +5,8 @@ import {
 }                                                 from 'react-bootstrap';
 import { Link }                                   from 'react-router-dom';
 import Recaptcha                                  from 'react-recaptcha';
+import ReactFlagsSelect                           from 'react-flags-select';
+import 'react-flags-select/css/react-flags-select.css';
 
 export default class SignUpComponent extends React.Component {
   constructor(props) {
@@ -13,6 +15,7 @@ export default class SignUpComponent extends React.Component {
       username: "",
       name: "",
       password: "",
+      country: "IN",
       verified: false,
       captchaMessage: ''
     };
@@ -56,6 +59,12 @@ export default class SignUpComponent extends React.Component {
     }
   };
 
+  onSelectFlag = (countryCode) => {
+    this.setState({
+      country: countryCode
+    });
+  };
+
   render() {
     return (
       <div className="static-modal" style={{height: window.innerHeight - 50, backgroundColor: '#01848F'}}>
@@ -76,6 +85,9 @@ export default class SignUpComponent extends React.Component {
                 </div>
                 <div className={this.passwordStatus}>
                   <input onChange={this.updatePassword} type="password" className='form-control' placeholder="Password" id="inputDefault"/>
+                </div>
+                <div className="form-group" style={{paddingTop: 10, paddingBottom: 10}}>
+                  <ReactFlagsSelect defaultCountry="IN" searchable={true} onSelect={this.onSelectFlag}/>
                 </div>
                 <div style={{margin: '0 auto'}} className="form-group">
                   <Recaptcha verifyCallback={() => this.verifyCallback()} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>
