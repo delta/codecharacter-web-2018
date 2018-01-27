@@ -58,7 +58,7 @@ export default class NotificationsTableComponent extends React.Component {
                 <h4 className='alert-heading'>{data.title}</h4>
                   <p className='mb-0'>{data.message}</p>
                 <br/>
-                <h6 className='mb-1'>{date.toLocaleDateString()} &#9; {date.toLocaleTimeString()}</h6>
+                <h6 className='mb-1'>{date.toDateString()}  {date.toLocaleTimeString('en-US')}</h6>
               </div>
             );
           })

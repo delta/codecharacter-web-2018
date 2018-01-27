@@ -29,10 +29,14 @@ export default class MatchesViewComponent extends React.Component {
   }
 
   render() {
-    let matchDataColumns = (this.props.matchesData).map((data,index) => {
+    let matchData = (this.props.matchesData);
+    console.log(matchData);
+    let matchDataColumns = matchData.map((data,index) => {
+      let date = new Date(data.createdAt);
       return (
           <tr key={index} align='center'>
-            <td onClick={() => {console.log(data); this.props.fetchGameLog(data.id);}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
+            <td onClick={() => {this.props.fetchGameLog(data.id);}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
+            <td>{date.toDateString()}  {date.toLocaleTimeString('en-US')}</td>
             <td>{data.player_id1}</td>
             <td>{data.scorep1}</td>
             <td>{data.player_id2}</td>
@@ -43,10 +47,11 @@ export default class MatchesViewComponent extends React.Component {
     });
 
     let table = (
-      <Table striped bordered condensed hover responsive className='table-success'>
+      <Table striped bordered hover responsive className='table-success' style={{height: window.innerHeight - 50}}>
         <thead>
         <tr align='center'>
           <th>Play</th>
+          <th>Last Updated</th>
           <th>Player 1</th>
           <th>Score 1</th>
           <th>Player 2</th>

@@ -6,6 +6,7 @@ import {
 } from '../redux/actions';
 
 const mapStateToProps = state => {
+  // console.log(state.matchesData);
   return {
     matchesData: state.matchesData,
     loginStatus: state.loginStatus,
