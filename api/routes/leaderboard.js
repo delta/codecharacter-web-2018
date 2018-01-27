@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 router.get("/", (req, res)=>{
 	models.User.findAll({
@@ -97,5 +99,24 @@ router.get('/chunk/:from/:strength', (req, res) => {
 			console.log(err);
 			res.json(err);
 		})
+})
+router.get('/search/:pattern/:limit', (req, res) => {
+  console.log(req.params.pattern);
+  models.User.findAll({
+    where: {
+      name: {
+        [Op.like]: req.params.pattern + '%'
+      }
+    },
+    order: ['rating'],
+    limit: Number(req.params.limit)
+  })
+    .then( users => {
+      res.json({users});
+    })
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    })
 })
 module.exports = router;
