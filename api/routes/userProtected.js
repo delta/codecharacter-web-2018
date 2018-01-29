@@ -22,6 +22,19 @@ router.get("/profile/:id", (req, res)=>{
 			}
 		});
 });
+router.get("/name/:name", (req, res)=>{
+	models.User.findOne({
+		where:{name:req.params.name},
+		attributes:["id", "name", "email", "rating"]
+	})
+		.then((user)=>{
+			if(!user){
+				res.json({success:false, message:"No users with this name"});
+			}else{
+				res.json({success:true, user:user.dataValues});
+			}
+		});
+});
 router.get('/notifications/:onlyUnread', (req, res) => {
 	//console.log(req.params);
 	let onlyUnread = Number(req.params.onlyUnread);
