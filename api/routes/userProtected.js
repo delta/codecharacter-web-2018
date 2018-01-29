@@ -148,11 +148,15 @@ router.get('/all', (req, res) => {
 router.post('/change', (req, res) => {
 	let password = bcrypt.hashSync(req.body.password);
 	let name = req.body.name;
+	let nationality = req.body.nationality;
 	let updateObject = {};
+	if(nationality){
+		updateObject = { ...updateObject, nationality};
+	}
 	if(name) {
 		updateObject = { ...updateObject, name};
 	}
-	if(password) {
+	if(req.body.password) {
 		updateObject = {...updateObject, password};
 	}
 	console.log(updateObject);

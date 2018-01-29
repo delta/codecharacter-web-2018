@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		is_active: DataTypes.BOOLEAN,
 		activation_key: DataTypes.STRING,
-		activation_deadline: DataTypes.DATE
+		activation_deadline: DataTypes.DATE,
+		nationality: DataTypes.STRING
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {

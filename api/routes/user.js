@@ -76,8 +76,9 @@ router.post("/signup", (req, res) => {
 	const emailId = req.body.emailId;
 	const name = req.body.name;
 	const password = req.body.password;
+	const nationality = req.body.nationality;
 	// validate e-mail
-	if (!emailId || !name || !password) {
+	if (!emailId || !name || !password || !nationality) {
 		return res.json({ "status": 200, "success": false, "message": "Please fill all the required details" });
 	}
 
@@ -99,6 +100,7 @@ router.post("/signup", (req, res) => {
 	models.User.create({
 		email: emailId,
 		name: name,
+		nationality,
 		password: hashedPassword,
 		rating: 1000,
 		is_active: false,
@@ -107,7 +109,20 @@ router.post("/signup", (req, res) => {
 	})//pragyanId has to be added later
 		.then((user) => {
 			if (user) {
-				return res.json({ success: true, message: "User signedup!", activation_key: user.activation_key });
+				return res.json({ success: true, message: "User signedup!"});
+				models.Notification.create({
+					type: 'SUCCESS' ,
+          title: 'User signedup Successfully.',
+          message:`please check your email-id to confirm your account.`,
+          isRead: false,
+          user_id: user.id
+				})
+					.then(notification => {
+
+					})
+					.catch(err => {
+						console.log(err);
+					})
 			}
 		});
 });
