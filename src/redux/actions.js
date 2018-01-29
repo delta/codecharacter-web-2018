@@ -212,3 +212,8 @@ export const updateProfileData = (data) => ({
   type: actionTypes.UPDATE_PROFILE_DATA,
   data
 });
+
+export const changeProfileName = (name) => ({
+  type: actionTypes.CHANGE_PROFILE_NAME,
+  name
+});

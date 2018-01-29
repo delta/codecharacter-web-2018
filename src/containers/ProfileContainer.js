@@ -7,7 +7,7 @@ import {
 
 const mapStateToProps = state => {
   return {
-    profileData: state.profileData,
+    profileData: state.profileData ? state.profileData : {name: '', id: 0, rating: 0, email: ''},
     userId: state.userId,
     loginStatus: state.loginStatus
   };

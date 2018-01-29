@@ -1,5 +1,8 @@
 import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
+import {
+  Modal
+}                                                 from 'react-bootstrap';
 import { Redirect }                               from 'react-router';
 
 export default class ProfileComponent extends React.Component {
@@ -10,30 +13,36 @@ export default class ProfileComponent extends React.Component {
   };
 
   static defaultProps = {
-    profileData: {
-      username: '000000000',
-      name: 'Null',
-      sex: 'Male',
-      nationality: 'Indian',
-      address: '127.0.0.1',
-      city: 'Chennai',
-      contact: '1234567890',
-      college: 'NITT'
-    },
+    profileData: {name: '', rating: 0, email: ''},
     getProfileData: () => {},
   };
 
   constructor(props) {
     super(props);
+    console.log(this.props.profileData);
     this.state = {
       edit: false,
-        name: 'Venkatraman Srikanth'
+      name: this.props.profileData.name
     };
   }
 
-  componentDidMount() {
+  updateName = (event) => {
+    this.setState({
+      name: event.target.value
+    });
+  };
+
+  componentWillMount() {
     this.props.userAuthenticateCheck();
     this.props.getProfileData(this.props.userId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.profileData !== nextProps.profileData) {
+      this.setState({
+        name: nextProps.profileData.name
+      });
+    }
   }
 
   render() {
@@ -51,10 +60,10 @@ export default class ProfileComponent extends React.Component {
                 {this.state.edit
                   ? <form className="form-inline">
                     <div className="form-group">
-                      <input type="email" className="form-control" id="email" value={this.state.name}/>
+                      <input type="email" className="form-control" id="email" value={this.state.name} onChange={this.updateName}/>
                     </div>
                     <div className="form-group" style={{paddingLeft: 20}}>
-                      <button type="submit" className="btn btn-success" style={{borderRadius: 0}} onClick={() => this.setState({edit: false})}>Submit</button>
+                      <button type="submit" className="btn btn-success" style={{borderRadius: 0}} onClick={() => {this.setState({edit: false}); this.props.change}}>Submit</button>
                     </div>
                   </form>
                   : <h3 className="panel-title">{this.state.name}</h3>
@@ -67,7 +76,7 @@ export default class ProfileComponent extends React.Component {
                       <tbody>
                       <tr>
                         <td>Rating</td>
-                        <td>1000</td>
+                        <td>{this.props.profileData.rating}</td>
                       </tr>
                       <tr>
                         <td>Nationality</td>
@@ -75,7 +84,7 @@ export default class ProfileComponent extends React.Component {
                       </tr>
                       <tr>
                         <td>Email</td>
-                        <td>info@support.com</td>
+                        <td>{this.props.profileData.email}</td>
                       </tr>
                       </tbody>
                     </table>
@@ -90,6 +99,17 @@ export default class ProfileComponent extends React.Component {
             </div>
           </div>
         </div>
+        <Modal
+          aria-labelledby='modal-label'
+          show={true}
+          onHide={this.close}
+        >
+          <div className={"modal-body"} >
+            <h4 id='modal-label'>Text in a modal</h4>
+            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+            {/*<ModalExample/>*/}
+          </div>
+        </Modal>
       </div>
     );
   }

@@ -108,3 +108,29 @@ export const getUserProfile = ({req, query}) => {
       throw error;
     });
 };
+
+export const changeUserName = ({req, query}) => {
+  return fetch(API_BASE_URL + 'user_protected/change', {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: query.name,
+      password: query.password
+    })
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
