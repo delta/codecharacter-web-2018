@@ -33,10 +33,11 @@ export default class ProfileComponent extends React.Component {
 
   componentDidMount() {
     this.props.userAuthenticateCheck();
+    this.props.getProfileData(this.props.userId);
   }
 
   render() {
-
+    console.log(this.props.profileData);
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }

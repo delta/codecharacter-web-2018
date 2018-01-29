@@ -123,9 +123,9 @@ export const updateCode = (code) => ({
   code
 });
 
-export const getProfileData = (username) => ({
-  type: actionTypes.UPDATE_CODE,
-  username
+export const getProfileData = (id) => ({
+  type: actionTypes.GET_PROFILE_DATA,
+  id
 });
 
 export const updateCompilationStatus = (data) => ({
@@ -206,4 +206,9 @@ export const searchUser = (pattern, size) => ({
   type: actionTypes.SEARCH_USER,
   pattern,
   size
+});
+
+export const updateProfileData = (data) => ({
+  type: actionTypes.UPDATE_PROFILE_DATA,
+  data
 });

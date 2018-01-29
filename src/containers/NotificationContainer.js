@@ -2,8 +2,8 @@ import { connect }                             from 'react-redux';
 import NotificationComponent                   from '../components/NotificationComponent';
 import {
   changeCodeStatus,
-  getCodeStatus,
-}                                              from '../redux/actions';
+  getCodeStatus, getProfileData,
+} from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
