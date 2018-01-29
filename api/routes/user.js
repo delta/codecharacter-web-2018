@@ -141,7 +141,8 @@ router.post("/login", (req, res) => {
 		json: true,
 		body: options
 	}, (err, response) => {
-		if(err) //console.log(err);
+		console.log(response.body);
+		if(err) console.log(err);
 		switch(response.body.status_code){
 			case 400: {
 				userOfDbCheck(req, res);
