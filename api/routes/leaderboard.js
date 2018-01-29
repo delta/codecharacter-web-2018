@@ -89,12 +89,12 @@ router.get('/chunk/:from/:strength', (req, res) => {
 	models.User.findAll({
 		where: {},
 		order: ['rating'],
-		attributes:['id', 'name', 'rating'],
-		offset: Number(req.params.from),
-		limit: Number(req.params.strength)
+		attributes:['id', 'name', 'rating']
 	})
 		.then( users => {
-			res.json({users:users.reverse()});
+			let users = users.reverse();
+			let usersSelected = users.slice(req.params.from, req.params.strength);
+			res.json({usersSelected});
 		})
 		.catch(err => {
 			//console.log(err);
