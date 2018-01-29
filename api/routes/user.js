@@ -84,11 +84,16 @@ router.post("/signup", (req, res) => {
 
 	//check if user exists
 	models.User.findOne({
-		where: { email: emailId }
+		where: { 
+			$or: [
+				{email: emailId },
+				{name: name }
+			]
+		}
 	})
 		.then((user) => {
 			if (user) {
-				return res.json({ success: false, message: "This e-mail already exists!" });
+				return res.json({ success: false, message: "The email/username combination already exists!" });
 			}
 		});
 	//create user
