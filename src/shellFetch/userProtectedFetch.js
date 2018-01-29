@@ -43,7 +43,6 @@ export const getUnreadNotifications = ({req , query}) => {
 };
 
 export const deleteNotification = ({req , query}) => {
-  console.log(query);
   return fetch(API_BASE_URL + 'user_protected/delete_notification',{
     method: "POST",
     credentials: 'include',

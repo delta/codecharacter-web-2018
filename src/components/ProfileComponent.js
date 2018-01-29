@@ -17,7 +17,7 @@ export default class ProfileComponent extends React.Component {
       nationality: 'Indian',
       address: '127.0.0.1',
       city: 'Chennai',
-      contact: '1234567890  ',
+      contact: '1234567890',
       college: 'NITT'
     },
     getProfileData: () => {},
@@ -83,7 +83,7 @@ export default class ProfileComponent extends React.Component {
               </div>
               <div className="panel-footer">
                 <span className="pull-right">
-                  <a  onClick={() => this.setState({edit: !this.state.edit})} data-original-title="Edit this user" data-toggle="tooltip" type="button" className="btn btn-sm btn-warning"><i className="fa fa-pencil-square-o" aria-hidden="true"/></a>
+                  <a  onClick={() => this.setState({edit: !this.state.edit})} data-original-title="Edit this user" data-toggle="tooltip" type="button" className="btn btn-sm btn-info"><i className="fa fa-pencil-square-o" aria-hidden="true"/></a>
                 </span>
               </div>
             </div>

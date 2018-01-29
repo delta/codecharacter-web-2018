@@ -64,6 +64,8 @@ export default class NotificationComponent extends React.Component {
   };
 
   render() {
-    return <div>{this.state.notifications}</div>
+    return <div>
+      {this.state.notifications}
+    </div>
   }
 }
