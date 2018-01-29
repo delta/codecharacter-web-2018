@@ -186,6 +186,18 @@ setInterval(() => {
 									)
 										.then(match => {
 											//console.log(match);
+											if((userId === opponentId)  || isAi ){
+
+												models.Notification.create({
+													type: 'SUCCESS'	,
+													title: 'Executed successfully!',
+													message: `Your match was a success! `,
+													isRead: false,
+													user_id: userId
+												})
+
+												return;
+											}
 											
 
 											models.User.update({
@@ -211,18 +223,7 @@ setInterval(() => {
 														.then(success => {
 															if(success){
 																//console.log('User2 score update successful');
-																if((userId === opponentId)  || isAi ){
-
-																	models.Notification.create({
-																		type: 'SUCCESS'	,
-																		title: 'Executed successfully!',
-																		message: `Your match was a success! `,
-																		isRead: false,
-																		user_id: userId
-																	})
-
-																	return;
-																}
+																
 																let notification1 = models.Notification.create({
 																	type: 'SUCCESS'	,
 																	title: 'Executed successfully!',
