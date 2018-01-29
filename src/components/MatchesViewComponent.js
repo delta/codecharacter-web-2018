@@ -30,7 +30,6 @@ export default class MatchesViewComponent extends React.Component {
 
   render() {
     let matchData = (this.props.matchesData);
-    console.log(matchData);
     let matchDataColumns = matchData.map((data,index) => {
       let date = new Date(data.createdAt);
       return (
@@ -48,7 +47,7 @@ export default class MatchesViewComponent extends React.Component {
 
     let table = (
       <div className='table-responsive' style={{height: (window.innerHeight - 50)}}>
-        <table className='table-success table table-striped table-bordered table-hover'>
+        <table className='table table-striped table-bordered table-hover'>
         <thead>
         <tr align='center'>
           <th>Play</th>

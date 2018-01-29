@@ -49,8 +49,8 @@ export default class NotificationsTableComponent extends React.Component {
 
     return (
       <div>
-        {
-          this.state.notifications.slice(0).reverse().map((data, index) => {
+        { this.state.notifications.length !== 0
+          ? this.state.notifications.slice(0).reverse().map((data, index) => {
             let date = new Date(data.createdAt);
             return (
               <div className={'alert alert-dismissible ' + this.getClassNameTag(data)} key={index}>
@@ -62,6 +62,9 @@ export default class NotificationsTableComponent extends React.Component {
               </div>
             );
           })
+          : <div className="jumbotron">
+              <p className="lead">No New Notifications</p>
+            </div>
         }
       </div>
     )

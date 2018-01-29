@@ -38,7 +38,6 @@ export default class LeaderBoardComponent extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.totalUsers);
     this.props.userAuthenticateCheck();
     this.props.fetchLeaderboardData(0, 5);
   }
