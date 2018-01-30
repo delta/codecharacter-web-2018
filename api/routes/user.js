@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt-nodejs");
 const models = require("../models");
 const request = require("request");
 const nodemailer = require("nodemailer");
-
+const stubCode = require('../utils/stubCode');
 const senderEmailId = require("../config/email.js").email_id; // use const here
 const senderPassword = require("../config/email.js").password;
 /* GET home page. */
@@ -73,7 +73,7 @@ router.get("/login", (req, res) => {
 
 // signup
 router.post("/signup", (req, res) => {
-	console.log(req.body, 'hey');
+	//console.log(req.body, 'hey');
 	const emailId = req.body.emailId;
 	const name = req.body.name;
 	const password = req.body.password;
@@ -112,24 +112,30 @@ router.post("/signup", (req, res) => {
 					activation_deadline: activationTokenExpiryTime
 				})//pragyanId has to be added later
 					.then((user) => {
-					  console.log(user);
+					  //console.log(user);
 						if (user) {
-							console.log(user.dataValues);
-							models.Notification.create({
-								type: 'SUCCESS' ,
-			          title: 'User signedup Successfully.',
-			          message:`please check your email-id to confirm your account.`,
-			          isRead: false,
-			          user_id: user.dataValues.id
+							models.Code.create({
+								user_id: user.id,
+								source: stubCode
 							})
-								.then(notification => {
-									//console.log(notification)
-								})
-								.catch(err => {
-									console.log(err);
-								})
+								.then(code => {
+									//console.log(user.dataValues);
+									models.Notification.create({
+										type: 'SUCCESS' ,
+					          title: 'User signedup Successfully.',
+					          message:`please check your email-id to confirm your account.`,
+					          isRead: false,
+					          user_id: user.dataValues.id
+									})
+										.then(notification => {
+											//console.log(notification)
+										})
+										.catch(err => {
+											console.log(err);
+										})
 
-							return res.json({ success: true, message: "User signedup!"});
+									return res.json({ success: true, message: "User signedup!"});
+								})
 						}
 					});
 			}
@@ -215,9 +221,15 @@ router.post("/login", (req, res) => {
 								is_active: 1
 							})
 								.then(userCreated => {
-									req.session.isLoggedIn = true;
-									req.session.userId = userCreated.id;
-									res.json({success: true, message: 'Log In Successful!',  userId: user.id});
+									models.Code.create({
+										user_id: userCreated.id,
+										source: stubCode
+									})
+										.then(code => {
+											req.session.isLoggedIn = true;
+											req.session.userId = userCreated.id;
+											res.json({success: true, message: 'Log In Successful!',  userId: user.id});
+										})
 								})
 						}
 					})
