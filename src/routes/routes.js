@@ -19,7 +19,6 @@ export const RouteList = () => (
     <Switch>
       <Route exact path='/' component={WelcomeScreenComponent}/>
       <Route exact path='/myprofile' component={ProfileContainer}/>
-      <Route exact path='/profile/:name' component={ProfileViewContainer}/>
       <Route exact path='/dashboard' component={DashboardContainer}/>
       <Route exact path='/login' component={LoginContainer} />
       <Route exact path='/signup' component={SignUpContainer} />
@@ -27,6 +26,7 @@ export const RouteList = () => (
       <Route exact path='/matches' component={MatchViewContainer}/>
       <Route exact path='/rules' component={RulesComponent}/>
       <Route exact path='/notifications' component={NotificationTableContainer}/>
+      <Route exact path='/:name' component={ProfileViewContainer}/>
       <Route exact path='*' component={NotFoundComponent} />
     </Switch>
   </div>

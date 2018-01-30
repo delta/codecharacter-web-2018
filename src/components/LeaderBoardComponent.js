@@ -82,6 +82,7 @@ export default class LeaderBoardComponent extends React.Component {
               : null
             }
           </td>
+          <td>{(this.state.pageCount - 1)*5 + index + 1}</td>
           <td>{data.name}</td>
           <td>{data.rating}</td>
         </tr>
@@ -128,6 +129,7 @@ export default class LeaderBoardComponent extends React.Component {
                         <thead>
                         <tr>
                           <th style={{width: 50}}></th>
+                          <th>Ranking</th>
                           <th>Username</th>
                           <th>Rating</th>
                         </tr>

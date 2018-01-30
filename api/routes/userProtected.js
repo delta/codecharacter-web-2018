@@ -26,7 +26,7 @@ router.get("/name/:name", (req, res)=>{
   console.log(req.params.name);
 	models.User.findOne({
 		where:{name:req.params.name},
-		attributes:["id", "name", "email", "rating"]
+		attributes:["id", "name", "email", "rating", "nationality"]
 	})
 		.then((user)=>{
 			if(!user){

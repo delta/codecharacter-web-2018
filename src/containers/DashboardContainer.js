@@ -14,6 +14,8 @@ const mapStateToProps = state => {
   return {
     initialLogin: state.initialLogin,
     loginStatus: state.loginStatus,
+    codeStatus: state.codeStatus,
+    matchStatus: state.matchStatus,
     compilationStatus: state.compilationStatus,
     username: state.username,
     code: state.code,

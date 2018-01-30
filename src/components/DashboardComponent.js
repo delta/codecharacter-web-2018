@@ -18,6 +18,8 @@ export default class DashboardComponent extends React.Component {
     shouldFetchLog: PropTypes.bool,
     lastMatchId: PropTypes.number,
     defaultText: PropTypes.string,
+    codeStatus: PropTypes.string,
+    matchStatus: PropTypes.string,
     ais: PropTypes.array,
     gameLog: PropTypes.array,
     runCode: PropTypes.func,
@@ -40,6 +42,8 @@ export default class DashboardComponent extends React.Component {
     shouldFetchLog: false,
     defaultText: 'RUN CODE and see it run here. Don\'t forget to SUBMIT when you\'ve finalised your code.',
     lastMatchId: -1,
+    codeStatus: '',
+    matchStatus: '',
     ais: [],
     gameLog: [],
     runCode: () => {},
@@ -252,7 +256,8 @@ export default class DashboardComponent extends React.Component {
                 aiList={this.props.ais}
                 lockCode={() => this.lockCode()}
                 changeAIid={(id) => this.props.changeAIid(id)}
-                />
+                disabled={(this.props.codeStatus === "COMPILING")||(this.props.matchStatus === 'EXECUTING')}
+              />
               : null
             }
           </div>
@@ -307,6 +312,7 @@ export default class DashboardComponent extends React.Component {
               runCode={() => this.runCode()}
               lockCode={() => this.lockCode()}
               aiList={this.props.ais}
+              disabled={(this.props.codeStatus === "COMPILING")||(this.props.matchStatus === 'EXECUTING')}
             />
             : null
           }

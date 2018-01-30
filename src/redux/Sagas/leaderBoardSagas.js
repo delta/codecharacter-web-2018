@@ -43,7 +43,7 @@ export function* leaderboardStartChallengeSaga(action) {
         createdAt: Date.now().toString()
       }]));
     }
-    yield put(changeLastUsed(1));
+    yield put(changeLastUsed(0));
   }
   catch(err) {
     console.log(err);
