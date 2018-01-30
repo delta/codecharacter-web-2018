@@ -112,7 +112,6 @@ router.post("/signup", (req, res) => {
 				})//pragyanId has to be added later
 					.then((user) => {
 						if (user) {
-							return res.json({ success: true, message: "User signedup!"});
 							models.Notification.create({
 								type: 'SUCCESS' ,
 			          title: 'User signedup Successfully.',
@@ -126,6 +125,8 @@ router.post("/signup", (req, res) => {
 								.catch(err => {
 									console.log(err);
 								})
+							
+							return res.json({ success: true, message: "User signedup!"});
 						}
 					});
 			}
