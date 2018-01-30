@@ -38,6 +38,7 @@ export const userRegister = ({req, query}) => {
       emailId: query.emailId,
       name: query.username,
       password: query.password,
+      nationality: query.nationality
     })
   })
     .then((response) => {

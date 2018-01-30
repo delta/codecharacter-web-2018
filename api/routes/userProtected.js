@@ -12,7 +12,7 @@ router.get("/", function(req, res) {
 router.get("/profile/:id", (req, res)=>{
 	models.User.findOne({
 		where:{id:req.params.id},
-		attributes:["id", "name", "email", "rating"]
+		attributes:["id", "name", "email", "rating", "nationality"]
 	})
 		.then((user)=>{
 			if(!user){

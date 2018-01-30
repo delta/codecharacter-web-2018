@@ -4,6 +4,7 @@ import {
   Modal
 }                                                 from 'react-bootstrap';
 import { Redirect }                               from 'react-router';
+import { getCountryName }                         from '../utils/countryCodes';
 
 export default class ProfileComponent extends React.Component {
   static propTypes = {
@@ -80,7 +81,7 @@ export default class ProfileComponent extends React.Component {
                       </tr>
                       <tr>
                         <td>Nationality</td>
-                        <td>{this.props.profileData.nationality}</td>
+                        <td>{getCountryName(this.props.profileData.nationality)}</td>
                       </tr>
                       <tr>
                         <td>Email</td>

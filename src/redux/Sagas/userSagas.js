@@ -36,6 +36,7 @@ export function* userSignupSaga(action) {
       emailId: action.emailId,
       username: action.username,
       password: action.password,
+      nationality: action.nationality
     };
     yield call(userRegister,{req: null, query: query});
     yield put(updateUserLoginStatus({username: action.username, loginStatus: true}));

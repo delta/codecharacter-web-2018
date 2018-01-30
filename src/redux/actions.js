@@ -11,11 +11,12 @@ export const userAuthenticateCheck = (username) => ({
   username
 });
 
-export const userSignup = (emailId, username, password) => ({
+export const userSignup = (emailId, username, password, nationality) => ({
   type: actionTypes.USER_SIGNUP,
   emailId,
   username,
-  password
+  password,
+  nationality
 });
 
 export const updateUserId = (userId) => ({

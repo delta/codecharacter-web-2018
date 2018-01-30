@@ -64,6 +64,7 @@ export default class LeaderBoardComponent extends React.Component {
   };
 
   render() {
+    console.log(this.props.playersData);
     if (!this.props.loginStatus) {
       return <Redirect to='/login'/>
     }
@@ -81,7 +82,6 @@ export default class LeaderBoardComponent extends React.Component {
               : null
             }
           </td>
-          <td className="hidden-xs">{data.id}</td>
           <td>{data.name}</td>
           <td>{data.rating}</td>
         </tr>
@@ -128,7 +128,6 @@ export default class LeaderBoardComponent extends React.Component {
                         <thead>
                         <tr>
                           <th style={{width: 50}}></th>
-                          <th className="hidden-xs">User Id</th>
                           <th>Username</th>
                           <th>Rating</th>
                         </tr>
