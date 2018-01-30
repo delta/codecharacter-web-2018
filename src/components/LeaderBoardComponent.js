@@ -83,7 +83,7 @@ export default class LeaderBoardComponent extends React.Component {
             }
           </td>
           <td>{(this.state.pageCount - 1)*5 + index + 1}</td>
-          <td>{data.name}</td>
+          <td onClick={() => this.props.history.push('/' + data.name)} style={{cursor: 'pointer'}}>{data.name}</td>
           <td>{data.rating}</td>
         </tr>
       );

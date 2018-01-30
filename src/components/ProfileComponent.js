@@ -4,6 +4,8 @@ import {
   Modal
 }                                                 from 'react-bootstrap';
 import { Redirect }                               from 'react-router';
+import FlagIconFactory from 'react-flag-icon-css/lib/index';
+
 import { getCountryName }                         from '../utils/countryCodes';
 
 export default class ProfileComponent extends React.Component {
@@ -47,6 +49,8 @@ export default class ProfileComponent extends React.Component {
   }
 
   render() {
+    const FlagIcon = FlagIconFactory(React, { useCssModules: false });
+
     console.log(this.props.profileData);
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
@@ -81,7 +85,15 @@ export default class ProfileComponent extends React.Component {
                       </tr>
                       <tr>
                         <td>Nationality</td>
-                        <td>{getCountryName(this.props.profileData.nationality)}</td>
+                        <td>
+                          <span style={{marginRight: 10}}>
+                            <FlagIcon
+                              code={this.props.profileData.nationality.toLowerCase()}
+                              size={'lg'}
+                            />
+                          </span>
+                          {getCountryName(this.props.profileData.nationality)}
+                        </td>
                       </tr>
                       <tr>
                         <td>Email</td>

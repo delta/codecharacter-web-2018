@@ -7,6 +7,7 @@ import SubmitButtons                              from './SubmitButtons';
 import EditorCustomizeComponent from './EditorCustomizeComponent';
 import CodeCharacterRenderer                      from 'codecharacter-renderer';
 import DemoComponent                              from './DemoComponent';
+import FlagIconFactory                            from 'react-flag-icon-css';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -80,13 +81,13 @@ export default class DashboardComponent extends React.Component {
     this.props.clearCompilationStatus();
     this.props.fetchCode();
     this.props.getAIs();
-    this.props.fetchGameLog(this.props.lastMatchId);
     this.windowResizeListener = window.addEventListener('resize',() => {
       this.setState({
         height: window.innerHeight,
         width: window.innerWidth
       })
     });
+    this.props.fetchGameLog(this.props.lastMatchId);
   }
 
   componentWillUnmount() {
@@ -166,6 +167,8 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
+
+
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }

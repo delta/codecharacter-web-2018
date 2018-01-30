@@ -6,7 +6,7 @@ export default class WelcomeScreenComponent extends React.Component {
   render() {
     return (
       <div>
-        <section className="hero" style={{padding: 0, zIndex: 10, backgroundColor: 'black'}}>
+        <section className="hero" style={{padding: 0, zIndex: 10, backgroundColor: '#01848F', }}>
           <div className="container" style={{position: 'absolute', zIndex: 10, maxWidth: 1800}}>
             <div className="row d-md-flex brand" style={{width: '100%', paddingTop: 50}}>
               <div className="col-md-12 col-sm-12 text-white" style={{position: 'absolute', width: '100%'}}>
@@ -21,8 +21,8 @@ export default class WelcomeScreenComponent extends React.Component {
               </div>
             </div>
           </div>
-          <div style={{width: '100%', height: '100%', backgroundColor: 'white', opacity: 0.5, position: 'absolute'}}/>
-          <video autoPlay="autoplay" src='/home.webm' style={{width: '100%', height: '100%'}}/>
+          {/*<div style={{width: '100%', height: '100%', backgroundColor: 'white', opacity: 0.5, position: 'absolute'}}/>*/}
+          {/*<video autoPlay="autoplay" src='/home.webm' style={{width: '100%', height: '100%'}}/>*/}
         </section>
         <section className="bg-white p-0">
           <div className="container-fluid">
