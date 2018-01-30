@@ -113,15 +113,16 @@ router.post("/signup", (req, res) => {
 					.then((user) => {
 					  console.log(user);
 						if (user) {
+							console.log(user.dataValues);
 							models.Notification.create({
 								type: 'SUCCESS' ,
 			          title: 'User signedup Successfully.',
 			          message:`please check your email-id to confirm your account.`,
 			          isRead: false,
-			          user_id: user.id
+			          user_id: user.dataValues.id
 							})
 								.then(notification => {
-
+									//console.log(notification)
 								})
 								.catch(err => {
 									console.log(err);
@@ -177,7 +178,8 @@ router.post("/login", (req, res) => {
 			}
 			break;
 			case 412: {
-				return res.json({success: false, message: 'Please register on main website'});
+				userOfDbCheck(req, res);
+				//return res.json({success: false, message: 'Please register on main website'});
 			}
 			break;
 			case 401: {
