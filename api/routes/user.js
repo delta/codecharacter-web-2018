@@ -94,42 +94,44 @@ router.post("/signup", (req, res) => {
 		.then((user) => {
 			if (user) {
 				return res.json({ success: false, message: "The email/username combination already exists!" });
+			}else{
+				const hashedPassword = bcrypt.hashSync(password);
+				const date = new Date();
+			  const dateInMs = date.getTime();
+			  const activationToken = bcrypt.hashSync(emailId + dateInMs);
+			  const activationTokenExpiryTime = new Date(dateInMs + 86400000);
+				models.User.create({
+					email: emailId,
+					name: name,
+					nationality,
+					password: hashedPassword,
+					rating: 1000,
+					is_active: false,
+					activation_key: bcrypt.hashSync(password + Math.random()*3001),
+					activation_deadline: activationTokenExpiryTime
+				})//pragyanId has to be added later
+					.then((user) => {
+						if (user) {
+							return res.json({ success: true, message: "User signedup!"});
+							models.Notification.create({
+								type: 'SUCCESS' ,
+			          title: 'User signedup Successfully.',
+			          message:`please check your email-id to confirm your account.`,
+			          isRead: false,
+			          user_id: user.id
+							})
+								.then(notification => {
+
+								})
+								.catch(err => {
+									console.log(err);
+								})
+						}
+					});
 			}
 		});
 	//create user
-	const hashedPassword = bcrypt.hashSync(password);
-	const date = new Date();
-  const dateInMs = date.getTime();
-  const activationToken = bcrypt.hashSync(emailId + dateInMs);
-  const activationTokenExpiryTime = new Date(dateInMs + 86400000);
-	models.User.create({
-		email: emailId,
-		name: name,
-		nationality,
-		password: hashedPassword,
-		rating: 1000,
-		is_active: false,
-		activation_key: bcrypt.hashSync(password + Math.random()*3001),
-		activation_deadline: activationTokenExpiryTime
-	})//pragyanId has to be added later
-		.then((user) => {
-			if (user) {
-				return res.json({ success: true, message: "User signedup!"});
-				models.Notification.create({
-					type: 'SUCCESS' ,
-          title: 'User signedup Successfully.',
-          message:`please check your email-id to confirm your account.`,
-          isRead: false,
-          user_id: user.id
-				})
-					.then(notification => {
-
-					})
-					.catch(err => {
-						console.log(err);
-					})
-			}
-		});
+	
 });
 router.get("/signup", (req, res) => {
 	if (req.session.isLoggedIn) {
