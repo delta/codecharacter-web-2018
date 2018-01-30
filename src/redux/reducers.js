@@ -4,6 +4,7 @@ import initialState          from './initialState';
 export function codeCharacterReducer(state = initialState, action) {
   switch(action.type) {
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
+      console.log(action);
       return {
         ...state,
         username: action.response.username ? action.response.username : state.username.toString(),

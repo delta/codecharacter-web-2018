@@ -111,6 +111,7 @@ router.post("/signup", (req, res) => {
 					activation_deadline: activationTokenExpiryTime
 				})//pragyanId has to be added later
 					.then((user) => {
+					  console.log(user);
 						if (user) {
               models.Notification.create({
                 type: 'SUCCESS' ,

@@ -1,7 +1,7 @@
 import { connect }                             from 'react-redux';
 import SignUpComponent                         from '../components/SignUpComponent';
 import {
-  updateUnreadNotifications,
+  updateUnreadNotifications, updateUserLoginStatus,
   userSignup
 } from '../redux/actions';
 

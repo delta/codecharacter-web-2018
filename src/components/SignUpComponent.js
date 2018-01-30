@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Modal, OverlayTrigger, Tooltip, FormGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import Recaptcha from 'react-recaptcha';
+import { Link, Redirect } from 'react-router-dom';
+// import Recaptcha from 'react-recaptcha';
 import ReactFlagsSelect from 'react-flags-select';
 import {findDOMNode} from 'react-dom';
 import ReactTooltip from 'react-tooltip';
@@ -17,7 +17,8 @@ export default class SignUpComponent extends React.Component {
       country: "IN",
       verified: false,
       captchaMessage: '',
-      errorMessage: ''
+      errorMessage: '',
+      signedUp: false
     };
     this.usernameStatus = '';
     this.passwordStatus = '';
@@ -25,11 +26,11 @@ export default class SignUpComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("Message received");
     if (nextProps.signupMessage !== this.props.signupMessage) {
       this.setState({
         errorMessage: nextProps.signupMessage
       });
-
       this.updateStatus(nextProps.signupMessage);
     }
   }
@@ -58,6 +59,9 @@ export default class SignUpComponent extends React.Component {
         message: 'You have successfully signed up.',
         createdAt: Date.now().toString()
       }]);
+      this.setState({
+        signedUp: true
+      });
     }
   };
 
@@ -98,6 +102,11 @@ export default class SignUpComponent extends React.Component {
   };
 
   render() {
+
+    if (this.state.signedUp) {
+      return <Redirect to="/login"/>
+    }
+
     return (
       <div className="static-modal" style={{height: window.innerHeight - 50, backgroundColor: '#01848F'}}>
         <Form>
@@ -133,7 +142,7 @@ export default class SignUpComponent extends React.Component {
                   <ReactFlagsSelect defaultCountry="IN" searchable={true} onSelect={this.onSelectFlag}/>
                 </div>
                 <div style={{margin: '0 auto'}} className="form-group">
-                  <Recaptcha verifyCallback={() => console.log("Verified")} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>
+                  {/*<Recaptcha verifyCallback={() => console.log("Verified")} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>*/}
                   <div style={{color: 'red'}}>{this.state.captchaMessage}</div>
                 </div>
               </Modal.Body>

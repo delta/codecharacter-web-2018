@@ -11,6 +11,7 @@ export function* userLoginSaga (action) {
       emailId: action.username,
       password: action.password,
     };
+    console.log("Inside Saga");
     let response = yield call(userLogin,{req: null, query: query});
     yield put(updateUserId({userId: response.userId}));
     yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
@@ -42,8 +43,9 @@ export function* userSignupSaga(action) {
       nationality: action.nationality
     };
     let response = yield call(userRegister,{req: null, query: query});
+    console.log(response);
+    yield put(updateSignupMessage({success: false, message: ''}));
     yield put(updateSignupMessage(response));
-    yield put(updateUserLoginStatus({username: action.username, loginStatus: true}));
   }
   catch (err) {
     console.log(err);
