@@ -113,19 +113,20 @@ router.post("/signup", (req, res) => {
 					.then((user) => {
 					  console.log(user);
 						if (user) {
-              models.Notification.create({
-                type: 'SUCCESS' ,
-                title: 'User signedup Successfully.',
-                message:`please check your email-id to confirm your account.`,
-                isRead: false,
-                user_id: user.id
-              })
-                .then(notification => {
+							models.Notification.create({
+								type: 'SUCCESS' ,
+			          title: 'User signedup Successfully.',
+			          message:`please check your email-id to confirm your account.`,
+			          isRead: false,
+			          user_id: user.id
+							})
+								.then(notification => {
 
-                })
-                .catch(err => {
-                  console.log(err);
-                })
+								})
+								.catch(err => {
+									console.log(err);
+								})
+
 							return res.json({ success: true, message: "User signedup!"});
 						}
 					});
