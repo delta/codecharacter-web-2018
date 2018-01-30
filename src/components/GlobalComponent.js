@@ -71,15 +71,6 @@ export default class GlobalComponent extends React.Component {
           createdAt: Date.now().toString()
         }]);
       }
-
-      if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'SUCCESS') {
-        this.props.addNotifications([{
-          type: 'SUCCESS',
-          title: 'Successful Execution',
-          message: 'Your code has successfully executed. Check in the renderer',
-          createdAt: Date.now().toString()
-        }]);
-      }
   };
 
   getCompilationStatus = (codeStatusOld, codeStatusNew) => {

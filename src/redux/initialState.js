@@ -2,6 +2,7 @@ const initialState = {
   initialLogin: false,
   loginStatus: false,
   loginMessage: '',
+  signupMessage: '',
   leaderboardData: [],
   matchesData: [],
   code: '',

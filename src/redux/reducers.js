@@ -4,6 +4,7 @@ import initialState          from './initialState';
 export function codeCharacterReducer(state = initialState, action) {
   switch(action.type) {
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
+      console.log(action);
       return {
         ...state,
         username: action.response.username ? action.response.username : state.username.toString(),
@@ -12,6 +13,7 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_USER_ID: {
+      console.log(state.userId, action.userId);
       return {
         ...state,
         userId: action.userId.userId,
@@ -33,6 +35,13 @@ export function codeCharacterReducer(state = initialState, action) {
       };
     }
 
+    case actionTypes.UPDATE_SIGNUP_MESSAGE: {
+      return {
+        ...state,
+        signupMessage: action.response.message
+      };
+    }
+
     case actionTypes.UPDATE_MATCH_ALL_DATA: {
       return {
         ...state,
@@ -50,7 +59,7 @@ export function codeCharacterReducer(state = initialState, action) {
     case actionTypes.UPDATE_COMPILATION_STATUS: {
       return {
         ...state,
-        compilationStatus: state.compilationStatus + '\n' + action.data
+        compilationStatus: state.compilationStatus + '\n' + action.data.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
       };
     }
 

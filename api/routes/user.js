@@ -84,7 +84,7 @@ router.post("/signup", (req, res) => {
 
 	//check if user exists
 	models.User.findOne({
-		where: { 
+		where: {
 			$or: [
 				{email: emailId },
 				{name: name }
@@ -111,6 +111,7 @@ router.post("/signup", (req, res) => {
 					activation_deadline: activationTokenExpiryTime
 				})//pragyanId has to be added later
 					.then((user) => {
+					  console.log(user);
 						if (user) {
 							console.log(user.dataValues);
 							models.Notification.create({
@@ -133,7 +134,7 @@ router.post("/signup", (req, res) => {
 			}
 		});
 	//create user
-	
+
 });
 router.get("/signup", (req, res) => {
 	if (req.session.isLoggedIn) {

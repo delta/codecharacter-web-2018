@@ -33,6 +33,11 @@ export const updateLoginMessage = (response) => ({
   response: response
 });
 
+export const updateSignupMessage = (response) => ({
+  type: actionTypes.UPDATE_SIGNUP_MESSAGE,
+  response: response
+});
+
 export const updateUserLoginStatus = (response) => ({
   type: actionTypes.UPDATE_USER_LOGIN_STATUS,
   response: response
