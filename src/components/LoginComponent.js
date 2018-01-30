@@ -30,7 +30,9 @@ export default class LoginComponent extends React.Component {
       usernameStatus: 'form-group',
       passwordStatus: 'form-group',
       usernameMessage: '',
-      passwordMessage: ''
+      passwordMessage: '',
+      usernameError: false,
+      passwordError: false
     };
   }
 
@@ -48,7 +50,9 @@ export default class LoginComponent extends React.Component {
         usernameStatus: 'form-group has-danger',
         passwordStatus: 'form-group',
         usernameMessage: props.loginMessage,
-        passwordMessage: ''
+        passwordMessage: '',
+        usernameError: true,
+        passwordError: false
       });
     }
     else if (props.loginMessage === 'Wrong Password!') {
@@ -56,7 +60,9 @@ export default class LoginComponent extends React.Component {
         usernameStatus: 'form-group',
         passwordStatus: 'form-group has-danger',
         usernameMessage: '',
-        passwordMessage: props.loginMessage
+        passwordMessage: props.loginMessage,
+        usernameError: false,
+        passwordError: true
       });
     }
     else if (props.loginMessage === 'Logged in!') {
@@ -64,7 +70,9 @@ export default class LoginComponent extends React.Component {
         usernameStatus: 'form-group ',
         passwordStatus: 'form-group ',
         usernameMessage: '',
-        passwordMessage: props.loginMessage
+        passwordMessage: props.loginMessage,
+        usernameError: false,
+        passwordError: false
       });
     }
     else if (props.loginMessage === 'Pass proper params') {
@@ -72,7 +80,9 @@ export default class LoginComponent extends React.Component {
         usernameStatus: 'form-group has-danger',
         passwordStatus: 'form-group has-danger',
         usernameMessage: 'Fill all Fields',
-        passwordMessage: ''
+        passwordMessage: '',
+        usernameError: true,
+        passwordError: false
       });
     }
     else {
@@ -80,7 +90,9 @@ export default class LoginComponent extends React.Component {
         usernameStatus: 'form-group',
         passwordStatus: 'form-group',
         usernameMessage: '',
-        passwordMessage: ''
+        passwordMessage: props.loginMessage,
+        usernameError: false,
+        passwordError: true
       });
     }
   };
@@ -120,11 +132,11 @@ export default class LoginComponent extends React.Component {
             <Modal.Body className='loginModalBody'>
               <p style={{paddingRight: 20, fontSize: 14}}>Already registered on <Link to="https://www.pragyan.org/18/home" target='_blank'>Pragyan</Link> or NITT Webmail? You can use the same credentials to login.</p>
               <FormGroup className={this.state.usernameStatus} style={{paddingTop: 20, paddingBottom: 10}}>
-                <input onChange={this.updateUsername} type='text' className='form-control is-invalid' placeholder='Email'/>
+                <input onChange={this.updateUsername} type='text' className={(this.state.usernameError)?'form-control is-invalid':'form-control'} placeholder='Email'/>
                 <div className='invalid-feedback'>{this.state.usernameMessage}</div>
               </FormGroup>
               <FormGroup className={this.state.passwordStatus} style={{paddingTop: 10, paddingBottom: 20}}>
-                <input onChange={this.updatePassword} type='password' className='form-control is-invalid' placeholder='Password'/>
+                <input onChange={this.updatePassword} type='password' className={(this.state.passwordError)?'form-control is-invalid':'form-control'} placeholder='Password'/>
                 <div className='invalid-feedback'>{this.state.passwordMessage}</div>
               </FormGroup>
             </Modal.Body>

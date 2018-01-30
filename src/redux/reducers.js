@@ -66,14 +66,14 @@ export function codeCharacterReducer(state = initialState, action) {
     case actionTypes.CHANGE_CODE_STATUS: {
       return {
         ...state,
-        codeStatus: action.status
+        codeStatus: (action.status===200)?'Idle':action.status
       };
     }
 
     case actionTypes.CHANGE_MATCH_STATUS: {
       return {
         ...state,
-        matchStatus: action.status
+        matchStatus: (action.status===200)?'Idle':action.status
       };
     }
 

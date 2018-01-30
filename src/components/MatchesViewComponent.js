@@ -36,11 +36,11 @@ export default class MatchesViewComponent extends React.Component {
           <tr key={index} align='center'>
             <td onClick={() => {this.props.fetchGameLog(data.id);}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
             <td>{date.toLocaleDateString()}  {date.toLocaleTimeString('en-US')}</td>
-            <td>{data.player_id1}</td>
+            <td>{data.users[0].name}</td>
             <td>{data.scorep1}</td>
-            <td>{data.player_id2}</td>
+            <td>{data.users[1].name}</td>
             <td>{data.scorep2}</td>
-            <td>{(data.scorep1 > data.scorep2) ? 'Player 1 Won' : 'Player 2 Won'}</td>
+            <td>{(data.scorep1 > data.scorep2) ? 'Player 1 Won' : (data.scorep1 < data.scorep2) ? 'Player 2 Won' : 'Tie'}</td>
           </tr>
       );
     });
