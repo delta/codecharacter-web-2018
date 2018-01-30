@@ -19,11 +19,12 @@ export function* competeAgainstAISaga(action) {
     let query = {
       id: action.id
     };
+    let response;
     if (action.id === -1) {
-      yield call(competeSelf, {req: null, query: query});
+      response = yield call(competeSelf, {req: null, query: query});
     }
     else {
-      yield call(competeAgainstAI, {req: null, query: query});
+      response = yield call(competeAgainstAI, {req: null, query: query});
     }
     yield put(changeLastUsed(1));
   }

@@ -109,6 +109,27 @@ export const getUserProfile = ({req, query}) => {
     });
 };
 
+export const getUserViewProfile = ({req, query}) => {
+  return fetch(API_BASE_URL + 'user_protected/name/' + query.name, {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
+
 export const changeUserName = ({req, query}) => {
   return fetch(API_BASE_URL + 'user_protected/change', {
     method: "POST",

@@ -9,7 +9,6 @@ const bcrypt = require("bcrypt-nodejs");
 router.get("/", function(req, res) {
 	res.json({ title: "hey" });
 });
-
 router.get('/notifications/:onlyUnread', (req, res) => {
 	//console.log(req.params);
 	let onlyUnread = Number(req.params.onlyUnread);

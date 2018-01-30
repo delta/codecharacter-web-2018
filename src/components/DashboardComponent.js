@@ -7,6 +7,7 @@ import SubmitButtons                              from './SubmitButtons';
 import EditorCustomizeComponent from './EditorCustomizeComponent';
 import CodeCharacterRenderer                      from 'codecharacter-renderer';
 import DemoComponent                              from './DemoComponent';
+import FlagIconFactory                            from 'react-flag-icon-css';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -18,6 +19,8 @@ export default class DashboardComponent extends React.Component {
     shouldFetchLog: PropTypes.bool,
     lastMatchId: PropTypes.number,
     defaultText: PropTypes.string,
+    codeStatus: PropTypes.string,
+    matchStatus: PropTypes.string,
     ais: PropTypes.array,
     gameLog: PropTypes.array,
     runCode: PropTypes.func,
@@ -40,6 +43,8 @@ export default class DashboardComponent extends React.Component {
     shouldFetchLog: false,
     defaultText: 'RUN CODE and see it run here. Don\'t forget to SUBMIT when you\'ve finalised your code.',
     lastMatchId: -1,
+    codeStatus: '',
+    matchStatus: '',
     ais: [],
     gameLog: [],
     runCode: () => {},
@@ -76,13 +81,13 @@ export default class DashboardComponent extends React.Component {
     this.props.clearCompilationStatus();
     this.props.fetchCode();
     this.props.getAIs();
-    this.props.fetchGameLog(this.props.lastMatchId);
     this.windowResizeListener = window.addEventListener('resize',() => {
       this.setState({
         height: window.innerHeight,
         width: window.innerWidth
       })
     });
+    this.props.fetchGameLog(this.props.lastMatchId);
   }
 
   componentWillUnmount() {
@@ -162,6 +167,8 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
+
+
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }
@@ -252,7 +259,8 @@ export default class DashboardComponent extends React.Component {
                 aiList={this.props.ais}
                 lockCode={() => this.lockCode()}
                 changeAIid={(id) => this.props.changeAIid(id)}
-                />
+                disabled={(this.props.codeStatus === "COMPILING")||(this.props.matchStatus === 'EXECUTING')}
+              />
               : null
             }
           </div>
@@ -307,6 +315,7 @@ export default class DashboardComponent extends React.Component {
               runCode={() => this.runCode()}
               lockCode={() => this.lockCode()}
               aiList={this.props.ais}
+              disabled={(this.props.codeStatus === "COMPILING")||(this.props.matchStatus === 'EXECUTING')}
             />
             : null
           }

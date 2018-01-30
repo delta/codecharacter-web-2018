@@ -59,7 +59,7 @@ export default class NavbarComponent extends React.Component {
           ? <div className="collapse navbar-collapse" id={"navbarColor02"}>
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className="nav-link" to={"/profile"}>Profile</Link>
+                <Link className="nav-link" to={"/myprofile"}>Profile</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/dashboard"}>Dashboard</Link>

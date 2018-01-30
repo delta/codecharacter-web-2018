@@ -84,7 +84,7 @@ router.get('/chunk/:from/:strength', (req, res) => {
 	})
 		.then( users => {
 			users = users.reverse();
-			let usersSelected = users.slice(req.params.from, req.params.from + req.params.strength);
+			let usersSelected = users.slice(req.params.from, req.params.strength);
       console.log(users);
       res.json({usersSelected});
 		})

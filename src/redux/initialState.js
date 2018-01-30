@@ -1,4 +1,5 @@
 const initialState = {
+  userId: -1,
   initialLogin: false,
   loginStatus: false,
   loginMessage: '',
@@ -7,6 +8,7 @@ const initialState = {
   matchesData: [],
   code: '',
   profileData: null,
+  profileViewData: null,
   compilationStatus: '',
   notifications: [],
   allNotifications: [],

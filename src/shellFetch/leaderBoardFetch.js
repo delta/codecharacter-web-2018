@@ -1,7 +1,7 @@
 import { API_BASE_URL } from '../config/config';
 
 export const leaderboardGetPlayers = ({req , query}) => {
-  return fetch(API_BASE_URL + 'leaderboard/chunk/' + query.start + '/' + query.size,{
+  return fetch(API_BASE_URL + 'leaderboard/chunk/' + query.start + '/' + (query.start + query.size),{
     method: "GET",
     credentials: 'include',
     headers: {

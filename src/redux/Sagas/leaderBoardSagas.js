@@ -1,16 +1,27 @@
-import { changeLastUsed, updateLeaderboard } from '../actions';
+import { changeLastUsed, updateLeaderboard, updateUnreadNotifications } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import { leaderboardGetPlayers, searchUser } from '../../shellFetch/leaderBoardFetch';
 import { challengePlayer } from '../../shellFetch/matchFetch';
 
 export function* leaderboardGetPlayersSaga(action) {
+  console.log(action);
   try {
     let query = {
       start: action.start,
       size: action.size
     };
     const response = yield call(leaderboardGetPlayers, {req: null, query: query});
-    yield put(updateLeaderboard(response.usersSelected));
+    if (response.usersSelected) {
+      yield put(updateLeaderboard(response.usersSelected));
+    }
+    else if (!response.redirect) {
+      yield put(updateUnreadNotifications([{
+        type: 'ERROR',
+        title: 'Error',
+        message: response,
+        createdAt: Date.now().toString()
+      }]));
+    }
   }
   catch(err) {
     console.log(err);
@@ -24,8 +35,15 @@ export function* leaderboardStartChallengeSaga(action) {
       opponent: action.opponent
     };
     const response = yield call(challengePlayer, {req: null, query: query});
-    console.log(response);
-    yield put(changeLastUsed(1));
+    if (!response.success) {
+      yield put(updateUnreadNotifications([{
+        type: 'ERROR',
+        title: 'Error',
+        message: response.message,
+        createdAt: Date.now().toString()
+      }]));
+    }
+    yield put(changeLastUsed(0));
   }
   catch(err) {
     console.log(err);

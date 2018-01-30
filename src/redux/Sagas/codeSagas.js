@@ -2,7 +2,8 @@ import {
   changeCodeStatus,
   changeLastUsed,
   updateCode,
-  updateCompilationStatus
+  updateCompilationStatus,
+  updateUnreadNotifications
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import {
@@ -20,8 +21,18 @@ export function* codeSubmitSaga(action) {
       source: action.code,
     };
     yield put(updateCode(action.code));
-    yield call(codeCompile,{req: null, query: query});
-    yield put(changeLastUsed(0));
+    let response = yield call(codeCompile,{req: null, query: query});
+    if (response.success) {
+      yield put(changeLastUsed(0));
+    }
+    else {
+      yield put(updateUnreadNotifications([{
+        type: 'ERROR',
+        title: 'Error',
+        message: response.message,
+        createdAt: Date.now().toString()
+      }]));
+    }
   }
   catch(err) {
     console.log(err);
@@ -32,7 +43,23 @@ export function* codeSubmitSaga(action) {
 export function* codeFetchSaga() {
   try {
     const response = yield call(codeFetch,{req: null, query: null});
-    yield put(updateCode(response.source));
+    if (response.success) {
+      yield put(updateCode(response.source));
+    }
+    else {
+      if (response.message === 'Internal server error') {
+        yield put(updateUnreadNotifications([{
+          type: 'ERROR',
+          title: 'Error',
+          message: response.message,
+          createdAt: Date.now()
+            .toString()
+        }]));
+      }
+      else {
+        yield put(updateCode(''));
+      }
+    }
   }
   catch(err) {
     console.log(err);
@@ -45,7 +72,33 @@ export function* codeLockSaga(action) {
     let query = {
       source: action.code,
     };
-    yield call(codeLock,{req: null, query: query});
+    let response = yield call(codeLock,{req: null, query: query});
+    if (response.success) {
+      yield put(updateUnreadNotifications({
+        type: 'SUCCESS',
+        title: 'Code Locked',
+        message: 'Your code has been locked, you can now compete with others.',
+        createdAt: Date.now().toString()
+      }));
+    }
+    else {
+      if (response.message === 'Code locked failed!') {
+        yield put(updateUnreadNotifications([{
+          type: 'ERROR',
+          title: 'Code Lock Failed',
+          message: 'Server Error. Please Try Again later',
+          createdAt: Date.now().toString()
+        }]));
+      }
+      else {
+        yield put(updateUnreadNotifications([{
+          type: 'INFORMATION',
+          title: 'Verify Email',
+          message: 'Please verify your email to lock code. Check your inbox.',
+          createdAt: Date.now().toString()
+        }]));
+      }
+    }
   }
   catch(err) {
     console.log(err);
