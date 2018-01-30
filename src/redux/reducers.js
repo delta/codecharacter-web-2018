@@ -13,6 +13,7 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_USER_ID: {
+      console.log(state.userId, action.userId);
       return {
         ...state,
         userId: action.userId.userId,
@@ -58,7 +59,7 @@ export function codeCharacterReducer(state = initialState, action) {
     case actionTypes.UPDATE_COMPILATION_STATUS: {
       return {
         ...state,
-        compilationStatus: state.compilationStatus + '\n' + action.data
+        compilationStatus: state.compilationStatus + '\n' + action.data.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
       };
     }
 

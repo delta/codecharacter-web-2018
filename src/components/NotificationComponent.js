@@ -38,7 +38,6 @@ export default class NotificationComponent extends React.Component {
   addNotifications = (notifications) => {
 
     let notifyDomElements = [];
-
     for(let i=0;i< notifications.length;i++) {
       let index = this.state.index;
       let notify = <Notification

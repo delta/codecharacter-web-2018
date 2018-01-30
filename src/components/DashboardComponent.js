@@ -108,6 +108,7 @@ export default class DashboardComponent extends React.Component {
   }
 
   runCode = () => {
+    this.props.clearCompilationStatus();
     this.props.runCode(this.state.code);
   };
 
