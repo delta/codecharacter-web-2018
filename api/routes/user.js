@@ -84,7 +84,7 @@ router.post("/signup", (req, res) => {
 
 	//check if user exists
 	models.User.findOne({
-		where: { 
+		where: {
 			$or: [
 				{email: emailId },
 				{name: name }
@@ -112,26 +112,26 @@ router.post("/signup", (req, res) => {
 				})//pragyanId has to be added later
 					.then((user) => {
 						if (user) {
-							return res.json({ success: true, message: "User signedup!"});
-							models.Notification.create({
-								type: 'SUCCESS' ,
-			          title: 'User signedup Successfully.',
-			          message:`please check your email-id to confirm your account.`,
-			          isRead: false,
-			          user_id: user.id
-							})
-								.then(notification => {
+              models.Notification.create({
+                type: 'SUCCESS' ,
+                title: 'User signedup Successfully.',
+                message:`please check your email-id to confirm your account.`,
+                isRead: false,
+                user_id: user.id
+              })
+                .then(notification => {
 
-								})
-								.catch(err => {
-									console.log(err);
-								})
+                })
+                .catch(err => {
+                  console.log(err);
+                })
+							return res.json({ success: true, message: "User signedup!"});
 						}
 					});
 			}
 		});
 	//create user
-	
+
 });
 router.get("/signup", (req, res) => {
 	if (req.session.isLoggedIn) {

@@ -1,5 +1,8 @@
 import { userLogin, userLoginStatus, userRegister, userLogout } from '../../shellFetch/userFetch';
-import { updateLoginMessage, updateUserId, updateUserLoginStatus } from '../actions';
+import {
+  updateLoginMessage, updateSignupMessage, updateUserId,
+  updateUserLoginStatus
+} from '../actions';
 import { call, put } from 'redux-saga/effects';
 
 export function* userLoginSaga (action) {
@@ -38,7 +41,8 @@ export function* userSignupSaga(action) {
       password: action.password,
       nationality: action.nationality
     };
-    yield call(userRegister,{req: null, query: query});
+    let response = yield call(userRegister,{req: null, query: query});
+    yield put(updateSignupMessage(response));
     yield put(updateUserLoginStatus({username: action.username, loginStatus: true}));
   }
   catch (err) {

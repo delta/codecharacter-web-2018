@@ -33,6 +33,13 @@ export function codeCharacterReducer(state = initialState, action) {
       };
     }
 
+    case actionTypes.UPDATE_SIGNUP_MESSAGE: {
+      return {
+        ...state,
+        signupMessage: action.response.message
+      };
+    }
+
     case actionTypes.UPDATE_MATCH_ALL_DATA: {
       return {
         ...state,

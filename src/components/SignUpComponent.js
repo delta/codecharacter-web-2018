@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Form, Modal, OverlayTrigger, Tooltip, FormGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Recaptcha from 'react-recaptcha';
 import ReactFlagsSelect from 'react-flags-select';
@@ -16,14 +16,53 @@ export default class SignUpComponent extends React.Component {
       password: "",
       country: "IN",
       verified: false,
-      captchaMessage: ''
+      captchaMessage: '',
+      errorMessage: ''
     };
-    this.usernameStatus = 'form-group';
-    this.passwordStatus = 'form-group';
-    this.nameStatus = 'form-group';
+    this.usernameStatus = '';
+    this.passwordStatus = '';
+    this.nameStatus = '';
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.signupMessage !== this.props.signupMessage) {
+      this.setState({
+        errorMessage: nextProps.signupMessage
+      });
+
+      this.updateStatus(nextProps.signupMessage);
+    }
+  }
+
+  updateStatus = (message) => {
+    if (message === "Please fill all the required details") {
+      this.usernameStatus = "";
+      this.nameStatus = "";
+      this.passwordStatus = "is-invalid";
+      this.setState({
+        verified: false
+      });
+    }
+    else if (message === "The email/username combination already exists!") {
+      this.usernameStatus = "";
+      this.nameStatus = "is-invalid";
+      this.passwordStatus = "";
+      this.setState({
+        verified: false
+      });
+    }
+    else if (message === "User signedup!") {
+      this.props.addNotifications([{
+        type: 'SUCCESS',
+        title: 'Signed Up',
+        message: 'You have successfully signed up.',
+        createdAt: Date.now().toString()
+      }]);
+    }
+  };
+
   verifyCallback = () => {
+    console.log("Verified");
     this.setState({
       verified: true
     });
@@ -47,16 +86,10 @@ export default class SignUpComponent extends React.Component {
     });
   };
 
-  handleSubmit = () => {
-    if(this.state.verified) {
+  handleSubmit = (event) => {
+    event.preventDefault();
       this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
-    }
-    else {
-      this.setState({
-        captchaMessage: 'Verify Captcha'
-      });
-    }
-  };
+    };
 
   onSelectFlag = (countryCode) => {
     this.setState({
@@ -76,29 +109,31 @@ export default class SignUpComponent extends React.Component {
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                  <div className={this.usernameStatus}>
+                  <FormGroup className={this.usernameStatus}>
                     <p ref='foo' data-tip='Your Email will not be revealed'/>
                     <input onChange={(event) => {this.updateUsername(event); ReactTooltip.show(findDOMNode(this.refs.foo));}}
                            onBlur={() => ReactTooltip.hide(findDOMNode(this.refs.foo))}
                            type="text"
-                           className="form-control"
+                           className={"form-control " + this.usernameStatus}
                            placeholder="Email"
                            id="inputDefault"
                     />
-                    <div className="valid-feedback"/>
-                  </div>
-                <div className={this.nameStatus}>
-                  <input onChange={this.updateName} type="text" className='form-control' placeholder="Nickname" id="inputDefault"/>
-                </div>
-                <div className={this.passwordStatus}>
-                  <input onChange={this.updatePassword} type="password" className='form-control' placeholder="Password" id="inputDefault"/>
+                    <div className="invalid-feedback">{this.state.errorMessage}</div>
+                  </FormGroup>
+                <FormGroup>
+                  <input onChange={this.updateName} type="text" className={"form-control " + this.nameStatus} placeholder="Nickname" id="inputDefault"/>
+                  <div className="invalid-feedback">{this.state.errorMessage}</div>
+                </FormGroup>
+                <FormGroup>
+                  <input onChange={this.updatePassword} type="password" className={"form-control " + this.passwordStatus} placeholder="Password" id="inputDefault"/>
+                  <div className="invalid-feedback">{this.state.errorMessage}</div>
                   <ReactTooltip />
-                </div>
+                </FormGroup>
                 <div className="form-group" style={{paddingTop: 10, paddingBottom: 10}}>
                   <ReactFlagsSelect defaultCountry="IN" searchable={true} onSelect={this.onSelectFlag}/>
                 </div>
                 <div style={{margin: '0 auto'}} className="form-group">
-                  <Recaptcha verifyCallback={() => this.verifyCallback()} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>
+                  <Recaptcha verifyCallback={() => console.log("Verified")} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>
                   <div style={{color: 'red'}}>{this.state.captchaMessage}</div>
                 </div>
               </Modal.Body>
