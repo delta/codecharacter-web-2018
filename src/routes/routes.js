@@ -8,6 +8,7 @@ import MatchViewContainer     from '../containers/MatchesViewContainer';
 import ProfileContainer       from '../containers/ProfileContainer';
 import GlobalContainer        from '../containers/GloabalContainer';
 import RulesComponent         from '../components/RulesComponent';
+import ProfileViewContainer   from '../containers/ProfileViewContainer';
 import WelcomeScreenComponent from '../components/WelcomeScreenComponent';
 import NotificationTableContainer from '../containers/NotificationsTableContainer';
 import NotFoundComponent from '../components/NotFoundComponent';
@@ -17,7 +18,8 @@ export const RouteList = () => (
     <GlobalContainer/>
     <Switch>
       <Route exact path='/' component={WelcomeScreenComponent}/>
-      <Route exact path='/profile' component={ProfileContainer}/>
+      <Route exact path='/myprofile' component={ProfileContainer}/>
+      <Route exact path='/profile/:name' component={ProfileViewContainer}/>
       <Route exact path='/dashboard' component={DashboardContainer}/>
       <Route exact path='/login' component={LoginContainer} />
       <Route exact path='/signup' component={SignUpContainer} />

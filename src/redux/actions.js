@@ -223,3 +223,17 @@ export const changeProfileName = (name) => ({
   type: actionTypes.CHANGE_PROFILE_NAME,
   name
 });
+
+export const getProfileViewData = (name) => ({
+  type: actionTypes.GET_PROFILE_VIEW_DATA,
+  name
+});
+
+export const updateProfileViewData = (data) => ({
+  type: actionTypes.UPDATE_PROFILE_VIEW_DATA,
+  data
+});
+
+export const clearState = () => ({
+  type: actionTypes.CLEAR_STATE
+});

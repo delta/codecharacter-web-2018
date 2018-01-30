@@ -148,6 +148,18 @@ export function codeCharacterReducer(state = initialState, action) {
       }
     }
 
+    case actionTypes.UPDATE_PROFILE_VIEW_DATA: {
+      return {
+        ...state,
+        profileViewData: action.data
+      }
+    }
+
+    case actionTypes.CLEAR_STATE: {
+      return {
+        initialState
+      }
+    }
     case "persist/REHYDRATE": {
       return { ...state, ...action.payload }
     }

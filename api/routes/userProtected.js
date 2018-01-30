@@ -23,6 +23,7 @@ router.get("/profile/:id", (req, res)=>{
 		});
 });
 router.get("/name/:name", (req, res)=>{
+  console.log(req.params.name);
 	models.User.findOne({
 		where:{name:req.params.name},
 		attributes:["id", "name", "email", "rating"]

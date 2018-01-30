@@ -7,6 +7,7 @@ const initialState = {
   matchesData: [],
   code: '',
   profileData: null,
+  profileViewData: null,
   compilationStatus: '',
   notifications: [],
   allNotifications: [],
