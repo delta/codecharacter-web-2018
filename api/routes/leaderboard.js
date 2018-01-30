@@ -76,7 +76,7 @@ router.get("/", (req, res)=>{
 });
 
 router.get('/chunk/:from/:strength', (req, res) => {
-  //console.log(req.params.from, req.params.strength);
+  // console.log(req.params.from, req.params.strength);
 	models.User.findAll({
 		where: {},
 		order: ['rating'],
@@ -84,8 +84,9 @@ router.get('/chunk/:from/:strength', (req, res) => {
 	})
 		.then( users => {
 			users = users.reverse();
-			let usersSelected = users.slice(req.params.from, req.params.strength);
-			res.json({usersSelected});
+			let usersSelected = users.slice(req.params.from, req.params.from + req.params.strength);
+      console.log(users);
+      res.json({usersSelected});
 		})
 		.catch(err => {
 			//console.log(err);
