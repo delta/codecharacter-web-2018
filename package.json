@@ -56,8 +56,10 @@
     "request": "^2.83.0",
     "sequelize": "^4.32.1",
     "sequelize-cli": "^3.2.0",
+    "sql-injection": "0.0.6",
     "static-favicon": "~1.0.0",
-    "typeface-roboto": "0.0.45"
+    "typeface-roboto": "0.0.45",
+    "validator": "^9.4.0"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",

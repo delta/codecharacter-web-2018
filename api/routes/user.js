@@ -73,6 +73,7 @@ router.get("/login", (req, res) => {
 
 // signup
 router.post("/signup", (req, res) => {
+	console.log(req.body, 'hey');
 	const emailId = req.body.emailId;
 	const name = req.body.name;
 	const password = req.body.password;
@@ -290,4 +291,30 @@ router.get('/search/:name', (req, res) => {
 			res.json({success: true, message: "Server error!"});
 		})
 })
+router.get("/profile/:id", (req, res)=>{
+	models.User.findOne({
+		where:{id:req.params.id},
+		attributes:["id", "name", "email", "rating", "nationality"]
+	})
+		.then((user)=>{
+			if(!user){
+				res.json({success:false, message:"No users with this id"});
+			}else{
+				res.json({success:true, user:user.dataValues});
+			}
+		});
+});
+router.get("/name/:name", (req, res)=>{
+	models.User.findOne({
+		where:{name:req.params.name},
+		attributes:["id", "name", "email", "rating"]
+	})
+		.then((user)=>{
+			if(!user){
+				res.json({success:false, message:"No users with this name"});
+			}else{
+				res.json({success:true, user:user.dataValues});
+			}
+		});
+});
 module.exports = router;

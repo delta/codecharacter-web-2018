@@ -9,32 +9,7 @@ const bcrypt = require("bcrypt-nodejs");
 router.get("/", function(req, res) {
 	res.json({ title: "hey" });
 });
-router.get("/profile/:id", (req, res)=>{
-	models.User.findOne({
-		where:{id:req.params.id},
-		attributes:["id", "name", "email", "rating", "nationality"]
-	})
-		.then((user)=>{
-			if(!user){
-				res.json({success:false, message:"No users with this id"});
-			}else{
-				res.json({success:true, user:user.dataValues});
-			}
-		});
-});
-router.get("/name/:name", (req, res)=>{
-	models.User.findOne({
-		where:{name:req.params.name},
-		attributes:["id", "name", "email", "rating"]
-	})
-		.then((user)=>{
-			if(!user){
-				res.json({success:false, message:"No users with this name"});
-			}else{
-				res.json({success:true, user:user.dataValues});
-			}
-		});
-});
+
 router.get('/notifications/:onlyUnread', (req, res) => {
 	//console.log(req.params);
 	let onlyUnread = Number(req.params.onlyUnread);
