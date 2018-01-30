@@ -16,7 +16,7 @@ const initialState = {
   gameLog: [],
   ais: [],
   activeAiId: -1,
-  totalUsers: 0
+  totalUsers: 0,
 };
 
 export default initialState;

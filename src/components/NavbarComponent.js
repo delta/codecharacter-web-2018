@@ -92,7 +92,7 @@ export default class NavbarComponent extends React.Component {
                         : (text === 'ERROR')
                           ? 'red'
                           : (text === 'COMPILING')
-                            ? 'blue'
+                            ? 'lightblue'
                             : (text === 'EXECUTING')
                               ? 'yellow'
                               : 'white';

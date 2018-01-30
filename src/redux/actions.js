@@ -11,11 +11,12 @@ export const userAuthenticateCheck = (username) => ({
   username
 });
 
-export const userSignup = (emailId, username, password) => ({
+export const userSignup = (emailId, username, password, nationality) => ({
   type: actionTypes.USER_SIGNUP,
   emailId,
   username,
-  password
+  password,
+  nationality
 });
 
 export const updateUserId = (userId) => ({
@@ -123,9 +124,9 @@ export const updateCode = (code) => ({
   code
 });
 
-export const getProfileData = (username) => ({
-  type: actionTypes.UPDATE_CODE,
-  username
+export const getProfileData = (id) => ({
+  type: actionTypes.GET_PROFILE_DATA,
+  id
 });
 
 export const updateCompilationStatus = (data) => ({
@@ -206,4 +207,14 @@ export const searchUser = (pattern, size) => ({
   type: actionTypes.SEARCH_USER,
   pattern,
   size
+});
+
+export const updateProfileData = (data) => ({
+  type: actionTypes.UPDATE_PROFILE_DATA,
+  data
+});
+
+export const changeProfileName = (name) => ({
+  type: actionTypes.CHANGE_PROFILE_NAME,
+  name
 });

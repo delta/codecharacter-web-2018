@@ -10,7 +10,7 @@ export function* leaderboardGetPlayersSaga(action) {
       size: action.size
     };
     const response = yield call(leaderboardGetPlayers, {req: null, query: query});
-    yield put(updateLeaderboard(response.users));
+    yield put(updateLeaderboard(response.usersSelected));
   }
   catch(err) {
     console.log(err);

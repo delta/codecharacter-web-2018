@@ -32,6 +32,8 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.GET_UNREAD_NOTIFICATIONS, userProtectedSagas.getUnreadNotificationsSaga);
   yield takeEvery(actionTypes.DELETE_NOTIFICATION, userProtectedSagas.deleteNotificationSaga);
   yield takeEvery(actionTypes.GET_USERS_LENGTH, userProtectedSagas.getUsersLengthSagas);
+  yield takeEvery(actionTypes.GET_PROFILE_DATA, userProtectedSagas.getProfileDataSaga);
+  yield takeEvery(actionTypes.CHANGE_PROFILE_NAME, userProtectedSagas.changeProfileNameSaga);
 
   yield takeEvery(actionTypes.USER_AUTHENTICATE, userSagas.userLoginSaga);
   yield takeEvery(actionTypes.USER_AUTHENTICATE_CHECK, userSagas.userLoginStatusSaga);

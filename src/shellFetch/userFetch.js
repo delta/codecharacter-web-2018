@@ -17,6 +17,7 @@ export const userLogin = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -37,6 +38,7 @@ export const userRegister = ({req, query}) => {
       emailId: query.emailId,
       name: query.username,
       password: query.password,
+      nationality: query.nationality
     })
   })
     .then((response) => {

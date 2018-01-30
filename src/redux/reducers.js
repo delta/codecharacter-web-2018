@@ -131,6 +131,14 @@ export function codeCharacterReducer(state = initialState, action) {
       }
     }
 
+    case actionTypes.UPDATE_PROFILE_DATA: {
+      console.log(action.data);
+      return {
+        ...state,
+        profileData: action.data
+      }
+    }
+
     case "persist/REHYDRATE": {
       return { ...state, ...action.payload }
     }

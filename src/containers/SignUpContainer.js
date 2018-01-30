@@ -13,7 +13,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    userSignup: (emailId, name, password) => {dispatch(userSignup(emailId, name, password));}
+    userSignup: (emailId, name, password, nationality) => {dispatch(userSignup(emailId, name, password, nationality));}
   }
 };
 

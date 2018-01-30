@@ -86,3 +86,50 @@ export const getUsersLength = ({req, query}) => {
       throw error;
     });
 };
+
+export const getUserProfile = ({req, query}) => {
+  return fetch(API_BASE_URL + 'user_protected/profile/' + query.id.toString(), {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
+
+export const changeUserName = ({req, query}) => {
+  return fetch(API_BASE_URL + 'user_protected/change', {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: query.name
+    })
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};

@@ -49,7 +49,7 @@ export default class SignUpComponent extends React.Component {
 
   handleSubmit = () => {
     if(this.state.verified) {
-      this.props.userSignup(this.state.username, this.state.name, this.state.password);
+      this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
     }
     else {
       this.setState({
