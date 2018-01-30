@@ -17,6 +17,7 @@ export const userLogin = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((error) => {

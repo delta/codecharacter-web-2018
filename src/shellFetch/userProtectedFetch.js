@@ -118,8 +118,7 @@ export const changeUserName = ({req, query}) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name: query.name,
-      password: query.password
+      name: query.name
     })
   })
     .then((response) => {

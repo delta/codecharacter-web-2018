@@ -1,11 +1,11 @@
 import {
   getAllNotifications, getUnreadNotifications, deleteNotification,
-  getUsersLength, getUserProfile
+  getUsersLength, getUserProfile, changeUserName
 } from '../../shellFetch/userProtectedFetch';
 import {
-   updateAllNotifications, updateUnreadNotifications,
+  updateAllNotifications, updateUnreadNotifications,
   updateUsersLength,
-  updateProfileData
+  updateProfileData, changeProfileName
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
 
@@ -73,6 +73,21 @@ export function* getProfileDataSaga(action) {
     console.log(action);
     let response = yield call(getUserProfile, {req: null, query: query});
     yield put(updateProfileData(response.user));
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export function* changeProfileNameSaga(action) {
+  try {
+    let query = {
+      name: action.name
+    };
+    console.log(action);
+    let response = yield call(changeUserName, {req: null, query: query});
+    console.log(response);
   }
   catch (err) {
     console.log(err);

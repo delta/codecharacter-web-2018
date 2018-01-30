@@ -58,14 +58,14 @@ export default class ProfileComponent extends React.Component {
             <div className="panel panel-info">
               <div className="panel-heading" style={{padding: 20, paddingLeft: 0}}>
                 {this.state.edit
-                  ? <form className="form-inline">
+                  ? <div>
                     <div className="form-group">
                       <input type="email" className="form-control" id="email" value={this.state.name} onChange={this.updateName}/>
                     </div>
                     <div className="form-group" style={{paddingLeft: 20}}>
-                      <button type="submit" className="btn btn-success" style={{borderRadius: 0}} onClick={() => {this.setState({edit: false}); this.props.change}}>Submit</button>
+                      <button type="submit" className="btn btn-success" style={{borderRadius: 0}} onClick={() => {this.setState({edit: false}); this.props.changeProfileName(this.state.name)}}>Submit</button>
                     </div>
-                  </form>
+                  </div>
                   : <h3 className="panel-title">{this.state.name}</h3>
                 }
               </div>
@@ -80,7 +80,7 @@ export default class ProfileComponent extends React.Component {
                       </tr>
                       <tr>
                         <td>Nationality</td>
-                        <td>Indian</td>
+                        <td>{this.props.profileData.nationality}</td>
                       </tr>
                       <tr>
                         <td>Email</td>
@@ -99,17 +99,6 @@ export default class ProfileComponent extends React.Component {
             </div>
           </div>
         </div>
-        <Modal
-          aria-labelledby='modal-label'
-          show={true}
-          onHide={this.close}
-        >
-          <div className={"modal-body"} >
-            <h4 id='modal-label'>Text in a modal</h4>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-            {/*<ModalExample/>*/}
-          </div>
-        </Modal>
       </div>
     );
   }
