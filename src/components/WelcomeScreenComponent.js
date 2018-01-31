@@ -28,7 +28,7 @@ export default class WelcomeScreenComponent extends React.Component {
           <div className="container-fluid">
             <div className="row d-md-flex mt-5">
               <div className="col-sm-6 p-0 wow fadeInLeft">
-                <img className="img-fluid" src="../img/product2.jpg" alt="Gallery"/>
+                <img className="img-fluid" src="/assets/dashboardView.png" alt="Gallery" style={{marginTop: '10%'}}/>
               </div>
               <div className="col-sm-6 pl-5 pr-5 pt-5 pb-4 wow fadeInRight">
                 <h1>ABOUT</h1>

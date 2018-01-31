@@ -64,18 +64,13 @@ export default class LeaderBoardComponent extends React.Component {
   };
 
   render() {
-    console.log(this.props.playersData);
-    if (!this.props.loginStatus) {
-      return <Redirect to='/login'/>
-    }
-
     this.maxPages = Math.ceil(this.props.totalUsers/5);
 
     let tableColumns = (this.props.playersData).map((data, index) => {
       return (
         <tr key={index}>
           <td align="center" style={{padding: 0}}>
-            {(data.id !== this.props.userId)
+            {(data.id !== this.props.userId && this.props.loginStatus)
               ? <span className="btn btn-info" style={{borderRadius: 0, height: 49, boxShadow: 'none', cursor: 'pointer'}} onClick={() => {this.props.startChallenge(data.id);}}>
                 <img src={'assets/sword.png'} width="15" height="15" alt="challenge"/>
               </span>

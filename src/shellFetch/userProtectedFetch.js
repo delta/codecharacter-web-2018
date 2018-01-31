@@ -88,7 +88,7 @@ export const getUsersLength = ({req, query}) => {
 };
 
 export const getUserProfile = ({req, query}) => {
-  return fetch(API_BASE_URL + 'user_protected/profile/' + query.id.toString(), {
+  return fetch(API_BASE_URL + 'user/profile/' + query.id.toString(), {
     method: "GET",
     credentials: 'include',
     headers: {
@@ -110,7 +110,7 @@ export const getUserProfile = ({req, query}) => {
 };
 
 export const getUserViewProfile = ({req, query}) => {
-  return fetch(API_BASE_URL + 'user_protected/name/' + query.name, {
+  return fetch(API_BASE_URL + 'user/name/' + query.name, {
     method: "GET",
     credentials: 'include',
     headers: {

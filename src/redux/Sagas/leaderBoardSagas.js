@@ -11,8 +11,8 @@ export function* leaderboardGetPlayersSaga(action) {
       size: action.size
     };
     const response = yield call(leaderboardGetPlayers, {req: null, query: query});
-    if (response.usersSelected) {
-      yield put(updateLeaderboard(response.usersSelected));
+    if (response.ratings) {
+      yield put(updateLeaderboard(response.ratings));
     }
     else if (!response.redirect) {
       yield put(updateUnreadNotifications([{
