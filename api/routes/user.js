@@ -55,7 +55,7 @@ let sendEmail = (email, message, res, activationToken, subject) => {
       return res.json({ "status": 200, "success": true, "message": message });
     }
 
-    res.json({ "status": 200, "success": true, "message": "Thank you for registering. Please check your e-mail inbox to complete registration!" });
+    res.json({ "status": 200, "success": true, "message": "Thank you! Please check your Email to complete registration!" });
     //console.log(`Message sent: ${response.message}`);
   });
 };
@@ -161,7 +161,7 @@ router.post("/signup", (req, res) => {
 	})
 		.then((user) => {
 			if (user) {
-				return res.json({ success: false, message: "The email/username combination already exists!" });
+				return res.json({ success: false, message: "The username already exists!" });
 			}else{
 				const hashedPassword = bcrypt.hashSync(password);
 				const date = new Date();
@@ -189,8 +189,8 @@ router.post("/signup", (req, res) => {
 									//console.log(user.dataValues);
 									models.Notification.create({
 										type: 'SUCCESS' ,
-					          title: 'User signedup Successfully.',
-					          message:`please check your email-id to confirm your account.`,
+					          title: 'Signed Up!',
+					          message:`Please check your email to verify your account. You can login now.`,
 					          isRead: false,
 					          user_id: user.dataValues.id
 									})

@@ -90,7 +90,7 @@ router.get('/error_status', (req, res) => {
 			if(code.status === "ERROR"){
 				res.json({success: true, error: code.error_log});
 			}else{
-				res.json({success: false, message:'There are no error in your saved code!'});
+				res.json({success: false, message:'There are no errors in your saved code!'});
 			}
 		})
 })
@@ -102,7 +102,7 @@ router.get("/lock", (req, res) => {
 	})
 		.then(user => {
 				if(!user.is_active){
-					return res.json({success: false, message:'Please check your e-mail for activation link!'})
+					return res.json({success: false, message:'You must activate your account to submit code!'})
 				}else{
 					models.Code.findOne({
 						where: {

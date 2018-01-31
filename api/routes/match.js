@@ -165,7 +165,7 @@ router.get('/compete/player/:againstId', (req, res) => {
       if(mostRecent){
         if((now.getTime() - mostRecent.createdAt.getTime()) < 1800000){
           //console.log();
-          return res.json({success: false, message: 'Wait for '+ String(30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000) + ' minutes more to start a match with this user', time_left: 30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000});
+          return res.json({success: false, message: 'Please wait for '+ String(30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000) + ' more minutes to start a match with this user again', time_left: 30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000});
         } 
       }
       models.Code.findOne({
@@ -176,10 +176,10 @@ router.get('/compete/player/:againstId', (req, res) => {
       })
         .then(code1 => {
           if(!code1){
-            return res.json({success: false, message: 'Upload a working code first!'});
+            return res.json({success: false, message: 'You must submit code first!'});
           }
           if(code1.status === 'SUCCESS'){
-            return res.json({success: false, message: 'Upload a working code first!'});
+            return res.json({success: false, message: 'You must submit code first!'});
           }
           models.Code.findOne({
             where:{
@@ -189,19 +189,19 @@ router.get('/compete/player/:againstId', (req, res) => {
           })
             .then(code2 => {
               if(!code2){
-                return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
+				  return res.json({success: false, message: 'This player hasn\'t submitted any code yet, so you can\'t challenge them'});
               }
               if(code2.status === 'SUCCESS'){
-                return res.json({success: false, message: 'Your opponent doesn\'t have a working code yet!'});
+                return res.json({success: false, message: 'This player hasn\'t submitted any code yet, so you can\'t challenge them'});
               }
               //execute code1.dll1, code2.dll2
               let dll1 = code1.dll1_locked;
               let dll2 = code2.dll2_locked;
               if(!dll1){
-                return res.json({success: false, message: "Please lock your code and proceed!"});
+                return res.json({success: false, message: "You must submit code first."});
               }
               if(!dll2){
-                return res.json({success: false, message:'Your opponent hasn\'t locked the code yet'});
+                return res.json({success: false, message:'This player hasn\'t submitted any code yet, so you can\'t challenge them'});
               }
               models.Match.create({
                 player_id1: userId,
@@ -227,14 +227,14 @@ router.get('/compete/player/:againstId', (req, res) => {
                   //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
                   let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
                   if(success){
-                    res.json({success: true, message: 'Match is executing'});
+                    res.json({success: true, message: 'The match is running'});
                   }else{
-                    res.json({success: false, message: 'Try after sometime!'});
+                    res.json({success: false, message: 'There seems to be a server error. Please try again later!'});
                   }
                 })
                 .catch(err => {
                   //console.log(err);
-                  res.json({success: false, message: 'Try after sometime!'});
+                  res.json({success: false, message: 'There seems to be a server error. Please try again later!'});
                 });
             })
             .catch(err => {
@@ -281,7 +281,7 @@ router.get('/compete/ai/:ai_id', (req, res) => {
           let dll1 = code1.dll1;
           let dll2 = code2.dll2;
           if(!dll1){
-            return res.json({success: false, message: "Please successfully compile your code.!"});
+            return res.json({success: false, message: "Unfortunately, your code didn't compile successfully."});
           }
           if(!dll2){
             return res.json({success: false, message:'Ask administrator to add this AI!'});
@@ -297,9 +297,9 @@ router.get('/compete/ai/:ai_id', (req, res) => {
               //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
               let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, Number(aiId), true);
               if(success){
-                res.json({success: true, message: 'Match is executing'});
+                res.json({success: true, message: 'Your game is running'});
               }else{
-                res.json({success: false, message: 'Try after sometime!'});
+                res.json({success: false, message: 'Server error, please try again later :('});
               }
             })
             .catch(err => {
@@ -328,12 +328,12 @@ router.get('/compete/self', (req, res) => {
   })
     .then(code => {
       if(!code){
-        return res.json({success: false, message: 'Compile the code first.'});
+        return res.json({success: false, message: 'Unfortunately, your code didn\'t compile. Try again'});
       }
       let dll1 = code.dll1;
       let dll2 = code.dll2;
       if(!dll1 || !dll2){
-        return res.json({success: false,  message:'Upload a good code first!'});
+        return res.json({success: false,  message:'Unfortunately, your code didn\'t compile. Try again'});
       }
        models.Match.create({
           player_id1: userId,
@@ -346,7 +346,7 @@ router.get('/compete/self', (req, res) => {
             //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
             let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id1, true);
             if(success){
-              res.json({success: true, message: 'Match is executing'});
+              res.json({success: true, message: 'Your game is running'});
             }else{
               res.json({success: false, message: 'Try after sometime!'});
             }
@@ -387,7 +387,7 @@ router.get('/error_status/:match_id', (req, res) => {
       if(match.status === "ERROR"){
         res.json({success: true, error: match.error_log});
       }else{
-        res.json({success: false, message:'There are no error in your saved code!'});
+        res.json({success: false, message:'No errors to fetch'});
       }
     })
 })
@@ -420,9 +420,3 @@ function getMatchHandler(req, res){
       res.json({success: false, message:'Fetch failed!'});
     });
 }
-
-/*
-
-
-
-*/
