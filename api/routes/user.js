@@ -9,6 +9,7 @@ const nodemailer = require("nodemailer");
 const stubCode = require('../utils/stubCode');
 const senderEmailId = require("../config/email.js").email_id; // use const here
 const senderPassword = require("../config/email.js").password;
+const Op = require('sequelize').Op;
 /* GET home page. */
 // User login+signup handlers
 
@@ -70,7 +71,73 @@ router.get("/login", (req, res) => {
 	//for now
 	//res.json({ success: "true", message: "login page" });
 });
-
+router.get('/all', (req, res) => {
+	models.User.findAll({
+		where: {}
+	})
+		.then(users => {
+			users.sort( (user1, user2) => {
+				if(user1.dataValues.rating > user2.dataValues.rating){
+					return -1; 
+				}else{
+					return 1;
+				}
+			});
+			//console.log(users);
+			//users = users.reverse();
+			let codeFetchPromises = [];
+			let usersWithLockedCode = [];
+			users.map(user => {
+				let x = models.Match.findOne({
+					where: {
+						$or: [
+							{
+								player_id1: user.id,
+								player_id2: {
+									[Op.not] : user.id
+								}
+							},
+							{
+								player_id1: {
+									[Op.not] : user.id
+								},
+								player_id2: user.id
+							}
+						]
+					}
+				})
+					.then(match => {
+						//console.log(match.dataValues);
+						if(!match){
+							//return;
+						}else{
+							usersWithLockedCode.push(user);	
+						}
+						
+					})
+					.catch(err => {
+						console.log(err);
+						//throw err;
+					});
+					//console.log(new Date());
+				codeFetchPromises.push(x);
+			})
+			let ratings = [];
+			//console.log(codeFetchPromises);
+			Promise.all(codeFetchPromises)
+				.then(dataReturned => {
+					res.json({success:true, length: usersWithLockedCode.length});
+				})
+				.catch(err => {
+					console.log(err);
+					throw err;
+				});
+		})
+		.catch(err => {
+			console.log(err);
+			res.json({success: false});
+		})
+});
 // signup
 router.post("/signup", (req, res) => {
 	//console.log(req.body, 'hey');

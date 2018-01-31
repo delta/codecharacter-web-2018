@@ -12,9 +12,9 @@ router.get("/", function(req, res) {
 	res.json({ title: "Express" });
 });
 router.use("/user", user);
+router.use("/leaderboard", leaderboard);
 router.use(authenticateMiddleware.authenticate);
 router.use("/user_protected", protectedRoutes);
 router.use("/code", code);
-router.use("/leaderboard", leaderboard);
 router.use("/match", match);
 module.exports = router;

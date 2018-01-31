@@ -121,17 +121,7 @@ router.post('/delete_notification', (req, res) => {
 			res.json({success:false, message : 'Deletion failed!' })	;
 		})
 });
-router.get('/all', (req, res) => {
-	models.User.findAll({
-		where: {}
-	})
-		.then(users => {
-			res.json({number: users.length});
-		})
-		.catch(err => {
-			res.json({success: false, number_of_users: users.length});
-		})
-});
+
 router.post('/change', (req, res) => {
 	let password = bcrypt.hashSync(req.body.password);
 	let name = req.body.name;
