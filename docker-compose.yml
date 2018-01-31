@@ -2,20 +2,9 @@ version: '3'
 services:
   web:
     container_name: codecharacter_web
-    build:
-      context: .
-      dockerfile: ./Dockerfile-web
+    build: .
     ports:
-      - 8000:2000
-    depends_on:
-      - backend
-
-  backend:
-    container_name: codecharacter_backend
-    build:
-      context: .
-      dockerfile: ./Dockerfile-backend
-    ports:
+      - 8000:3000
       - 8001:3001
     depends_on:
       - db
@@ -30,8 +19,6 @@ services:
     environment:
       MYSQL_DATABASE: codecharacter-web
       MYSQL_ROOT_PASSWORD: pwd
-    ports:
-      - 8006:3306
 
   phpmyadmin:
     container_name: codecharacter_pma
