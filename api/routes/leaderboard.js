@@ -76,17 +76,78 @@ router.get("/", (req, res)=>{
 });
 
 router.get('/chunk/:from/:strength', (req, res) => {
-  // console.log(req.params.from, req.params.strength);
 	models.User.findAll({
 		where: {},
 		order: ['rating'],
 		attributes:['id', 'name', 'rating']
 	})
 		.then( users => {
-			users = users.reverse();
-			let usersSelected = users.slice(req.params.from, req.params.strength);
-      console.log(users);
-      res.json({usersSelected});
+			users.sort( (user1, user2) => {
+				if(user1.dataValues.rating > user2.dataValues.rating){
+					return -1; 
+				}else{
+					return 1;
+				}
+			});
+			//console.log(users);
+			//users = users.reverse();
+			let codeFetchPromises = [];
+			let usersWithLockedCode = [];
+			users.map(user => {
+				let x = models.Match.findOne({
+					where: {
+						$or: [
+							{
+								player_id1: user.id,
+								player_id2: {
+									[Op.not] : user.id
+								}
+							},
+							{
+								player_id1: {
+									[Op.not] : user.id
+								},
+								player_id2: user.id
+							}
+						]
+					}
+				})
+					.then(match => {
+						//console.log(match.dataValues);
+						if(!match){
+							//return;
+						}else{
+							usersWithLockedCode.push(user);	
+						}
+						
+					})
+					.catch(err => {
+						console.log(err);
+						//throw err;
+					});
+					//console.log(new Date());
+				codeFetchPromises.push(x);
+			})
+			let ratings = [];
+			//console.log(codeFetchPromises);
+			Promise.all(codeFetchPromises)
+				.then(dataReturned => {
+					//console.log(dataReturned, 'fuck every piece of shit, oh me included');
+					usersWithLockedCode.map((user) => {
+						let retObj = Object.assign({}, {
+							name: user.dataValues.name,
+							id: user.dataValues.id,
+							rating: user.dataValues.rating
+						});
+						ratings.push(retObj);
+					});
+					ratings = ratings.slice(req.params.from, req.params.strength);
+					res.json({success:true, ratings});
+				})
+				.catch(err => {
+					console.log(err);
+					throw err;
+				});
 		})
 		.catch(err => {
 			//console.log(err);

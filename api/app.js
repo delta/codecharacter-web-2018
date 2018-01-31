@@ -26,11 +26,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser(secretString));
 
-app.use(function(req, res, next){
-	let fs = require('fs');
-	console.log(req.body,req.params, req.headers);
-	next();
-})
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Credentials', true);
 	res.header('Access-Control-Allow-Origin', req.headers.origin);

@@ -51,7 +51,7 @@ setInterval(() => {
 				json: true,
 				body: {...codeToBeCompiled, secretString}
 			}, (err, response, body) =>{
-				if(err) throw err;
+				if(err) console.log(err);
 				requestUnderway = false;
 				compileQueue.shift();
 				let userId = codeToBeCompiled.userId;
