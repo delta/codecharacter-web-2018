@@ -4,6 +4,7 @@ const models = require("../models");
 const request = require("request");
 let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
+const compileBoxUrl = require("../config/serverConfig").compileBoxUrl;
 let pushToQueue = (userId, code) => {
 	//console.log(compileQueueSize, compileQueue.length, compileQueue);
 	if(compileQueue.length === compileQueueSize){
@@ -47,7 +48,7 @@ setInterval(() => {
 		request(
 			{
 				method:'POST',
-				url: 'http://localhost:3002/compile',
+				url: compileBoxUrl + '/compile',
 				json: true,
 				body: {...codeToBeCompiled, secretString}
 			}, (err, response, body) =>{

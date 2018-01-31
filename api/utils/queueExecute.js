@@ -4,6 +4,7 @@ const models = require("../models");
 const request = require("request");
 let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
+const compileBoxUrl = require("../config/serverConfig").compileBoxUrl;
 const EloRank = require('elo-rank');
 const elo = new EloRank(32);
 let pushToQueue = (matchId, dll1, dll2, userId, opponentId, isAi) => {
@@ -58,7 +59,7 @@ setInterval(() => {
 		request(
 			{
 				method:'POST',
-				url: 'http://localhost:3002/execute',
+				url: compileBoxUrl + '/compile',
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
