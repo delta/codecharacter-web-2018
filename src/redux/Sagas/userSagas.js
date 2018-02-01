@@ -1,9 +1,13 @@
 import { userLogin, userLoginStatus, userRegister, userLogout } from '../../shellFetch/userFetch';
 import {
+  updateCompilationStatus,
+  updateCompilationStatusAsync,
   updateLoginMessage, updateSignupMessage, updateUserId,
   updateUserLoginStatus
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
+
+let i = 0;
 
 export function* userLoginSaga (action) {
   try {
@@ -26,6 +30,19 @@ export function* userLoginStatusSaga (action) {
   try {
     let response = yield call(userLoginStatus,{req: null, query: null});
     yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
+  }
+  catch(err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export function* updateCompilationStatusAsyncSaga(action) {
+  try {
+    console.log("Start" + i);
+    yield put(updateCompilationStatus(action.data));
+    i++;
+    console.log("End" + i);
   }
   catch(err) {
     console.log(err);

@@ -88,7 +88,7 @@ router.get('/all', (req, res) => {
 		.then(users => {
 			users.sort( (user1, user2) => {
 				if(user1.dataValues.rating > user2.dataValues.rating){
-					return -1; 
+					return -1;
 				}else{
 					return 1;
 				}
@@ -121,9 +121,9 @@ router.get('/all', (req, res) => {
 						if(!match){
 							//return;
 						}else{
-							usersWithLockedCode.push(user);	
+							usersWithLockedCode.push(user);
 						}
-						
+
 					})
 					.catch(err => {
 						console.log(err);
@@ -253,6 +253,9 @@ router.post("/login", (req, res) => {
 		body: options
 	}, (err, response) => {
 		if(err) console.log(err);
+		if( !response || !response.body){
+		  res.json({success: false, message: 'Pragyan server error'});
+    }
 		switch(response.body.status_code){
 			case 400: {
 				userOfDbCheck(req, res);

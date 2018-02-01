@@ -17,7 +17,8 @@ export const codeFetch = () => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -39,7 +40,8 @@ export const getCodeStatus = ({req,query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -60,7 +62,8 @@ export const codeLock = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -84,7 +87,8 @@ export const codeCompile = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -106,6 +110,7 @@ export const getCompilationStatus = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };

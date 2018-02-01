@@ -72,7 +72,8 @@ export default class DashboardComponent extends React.Component {
       enableBasicAutocompletion: false,
       enableLiveAutocompletion: false,
       highlightActiveLine: false,
-      keyboardHandler: 'default'
+      keyboardHandler: 'default',
+      compilationData: ''
     };
   }
 
@@ -88,10 +89,19 @@ export default class DashboardComponent extends React.Component {
       })
     });
     this.props.fetchGameLog(this.props.lastMatchId);
+    this.changeLogInterval = setInterval(() => {
+      if (this.state.compilationData !== '') {
+        this.props.updateCompilationStatus(this.state.compilationData);
+      }
+      this.setState({
+        compilationData: ''
+      });
+    }, 5000);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.windowResizeListener);
+    clearInterval(this.changeLogInterval);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -166,6 +176,12 @@ export default class DashboardComponent extends React.Component {
     })
   };
 
+  updateCompilationData = (data) => {
+    this.setState({
+      compilationData: this.state.compilationData + data
+    });
+  };
+
   render() {
 
 
@@ -224,17 +240,20 @@ export default class DashboardComponent extends React.Component {
               >
                 <div style={{width: "100%"}} className={'renderer'}>
                   <div
-                    style={{ display: 'block', width: '100%'}}
+                    style={{ display: 'block', width: '100%', height: this.state.rendererHeight}}
                     className="renderer-panel"
                   >
                     {this.state.logFile
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
-                        logFunction={this.props.updateCompilationStatus}
+                        options={{
+                          logFunction: this.updateCompilationData,
+                          playerID: 1
+                        }}
                       />)
-                      : <div className="jumbotron">
-                        <p className="lead">{this.props.defaultText}</p>
-                      </div>
+                      : <div className="jumbotron" style={{height: '100%'}}>
+                          <p className="lead">{this.props.defaultText}</p>
+                        </div>
                     }
                   </div>
                 </div>
@@ -291,13 +310,7 @@ export default class DashboardComponent extends React.Component {
                   logFunction={console.log}
                 />)
                 : <div className="jumbotron">
-                  <h1 className="display-3">Hello, world!</h1>
-                  <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-                  <hr className="my-4"/>
-                    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-                    <p className="lead">
-                      <button className="btn btn-primary btn-lg">Learn more</button>
-                    </p>
+                  <p className="lead">{this.props.defaultText}</p>
                 </div>
               }
             </div>

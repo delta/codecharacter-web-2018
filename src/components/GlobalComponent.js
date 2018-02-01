@@ -23,10 +23,12 @@ export default class GlobalComponent extends React.Component {
 
   changePingStatus = () => {
     this.codeStatus = setInterval(() => {
-        this.props.getCodeStatus();
-        this.props.getMatchStatus(this.props.matchId);
-        this.props.getLatestMatchId();
-        this.props.getUnreadNotifications();
+        if (this.props.loginStatus) {
+          this.props.getCodeStatus();
+          this.props.getMatchStatus(this.props.matchId);
+          this.props.getLatestMatchId();
+          this.props.getUnreadNotifications();
+        }
       }
       , 1000);
   };
@@ -63,7 +65,7 @@ export default class GlobalComponent extends React.Component {
   };
 
   handleMatchNotifications = (matchStatusOld, matchStatusNew) => {
-      if (matchStatusNew === 'EXECUTING') {
+    if (matchStatusNew === 'EXECUTING') {
         this.props.addNotifications([{
           type: 'INFORMATION',
           title: 'Executing...',
@@ -71,6 +73,14 @@ export default class GlobalComponent extends React.Component {
           createdAt: Date.now().toString()
         }]);
       }
+      else if (matchStatusOld === 'EXECUTING' || matchStatusNew === 'SUCCESS') {
+        this.props.addNotifications([{
+          type: 'SUCCESS',
+          title: 'Match executed successfully',
+          message: 'Your match has successfully executed.',
+          createdAt: Date.now().toString()
+      }]);
+    }
   };
 
   getCompilationStatus = (codeStatusOld, codeStatusNew) => {

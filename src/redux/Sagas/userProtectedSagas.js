@@ -57,7 +57,7 @@ export function* deleteNotificationSaga(action) {
 export function* getUsersLengthSagas(action) {
   try {
     let response = yield call(getUsersLength, {req: null, query: null});
-    yield put(updateUsersLength(response.number));
+    yield put(updateUsersLength(response.length));
   }
   catch (err) {
     console.log(err);

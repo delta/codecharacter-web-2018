@@ -14,7 +14,7 @@ export default class ProfileViewComponent extends React.Component {
   render() {
 
     const FlagIcon = FlagIconFactory(React, { useCssModules: false });
-
+      console.log(this.props.profileViewData);
     if (this.props.profileViewData.name !== "") {
       return (
         <div className="container">

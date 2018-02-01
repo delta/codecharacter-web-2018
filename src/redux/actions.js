@@ -139,6 +139,11 @@ export const updateCompilationStatus = (data) => ({
   data
 });
 
+export const updateCompilationStatusAsync = (data) => ({
+  type: actionTypes.UPDATE_COMPILATION_STATUS_ASYNC,
+  data
+});
+
 export const getUnreadNotifications = () => ({
   type: actionTypes.GET_UNREAD_NOTIFICATIONS
 });
