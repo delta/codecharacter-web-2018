@@ -121,18 +121,9 @@ export const fetchGameLog = ({req,query}) => {
     },
   })
     .then((response) => {
-      console.log()
       return response.json();
     })
     .then((data) => {
-      /*var pako = window.pako;
-      if (data.match) {
-        let x = pako.inflate((data.match.player1_dlog.data));
-        let y = '';
-        x.map(charCode => {
-          y += String.fromCharCode(charCode);
-        });
-      }*/
       return data;
     })
     .catch((error) => {

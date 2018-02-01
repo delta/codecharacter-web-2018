@@ -90,12 +90,12 @@ export default class DashboardComponent extends React.Component {
     });
     this.props.fetchGameLog(this.props.lastMatchId);
     this.changeLogInterval = setInterval(() => {
-      /*if (this.state.compilationData !== '') {
+      if (this.state.compilationData !== '') {
         this.props.updateCompilationStatus(this.state.compilationData);
       }
       this.setState({
         compilationData: ''
-      });*/
+      });
     }, 5000);
   }
 
@@ -246,7 +246,10 @@ export default class DashboardComponent extends React.Component {
                     {this.state.logFile
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
-                        logFunction={this.updateCompilationData}
+                        options={{
+                          logFunction: this.updateCompilationData,
+                          playerID: 1
+                        }}
                       />)
                       : <div className="jumbotron" style={{height: '100%'}}>
                           <p className="lead">{this.props.defaultText}</p>

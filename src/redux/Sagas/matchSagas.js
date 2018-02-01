@@ -81,6 +81,27 @@ export function* fetchGameLogSaga(action) {
       matchId: action.matchId
     };
     let response = yield call(fetchGameLog,{req: null, query: query});
+
+    var pako = window.pako;
+
+    let player1DLog, player2DLog;
+    console.log(response);
+    /*if (response.match) {
+      let x = pako.inflate((response.match.player1_dlog));
+
+      player1DLog = '';
+      x.map(charCode => {
+        player1DLog += String.fromCharCode(charCode);
+      });
+
+      x = pako.inflate((response.match.player2_dlog));
+
+      player2DLog = '';
+      x.map(charCode => {
+        player2DLog += String.fromCharCode(charCode);
+      });
+    }
+*/
     if (response.match && response.match.log) {
       yield put(updateGameLog(response.match.log.data));
     }
