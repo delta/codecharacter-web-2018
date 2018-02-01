@@ -284,7 +284,7 @@ export default class DashboardComponent extends React.Component {
                 aiList={this.props.ais}
                 lockCode={() => this.lockCode()}
                 changeAIid={(id) => this.props.changeAIid(id)}
-                disabled={false}
+                disabled={(this.props.codeStatus === "COMPILING")||(this.props.matchStatus === 'EXECUTING')}
               />
               : null
             }
