@@ -18,7 +18,8 @@ export const leaderboardGetPlayers = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -39,7 +40,8 @@ export const leaderboardGetAllPlayers = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -64,7 +66,9 @@ export const startChallenge = ({req , query}) => {
       return data;
     })
     .catch((error) => {
-      throw error;
+      console.log(error);
+      return error;
+      // throw error;
     });
 };
 
@@ -84,6 +88,8 @@ export const searchUser = ({req, query}) => {
       return data;
     })
     .catch((error) => {
-      throw error;
+      console.log(error);
+      return error;
+      // throw error;
     });
 };

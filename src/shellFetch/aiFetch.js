@@ -17,7 +17,7 @@ export const getAIs = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      // throw error;
     });
 };
 
@@ -41,6 +41,6 @@ export const competeAgainstAI = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      // throw error;
     });
 };

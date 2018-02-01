@@ -26,7 +26,6 @@ export default class SignUpComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("Message received");
     if (nextProps.signupMessage !== this.props.signupMessage) {
       this.setState({
         errorMessage: nextProps.signupMessage

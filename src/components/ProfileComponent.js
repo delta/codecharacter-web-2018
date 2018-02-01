@@ -88,7 +88,7 @@ export default class ProfileComponent extends React.Component {
                         <td>
                           <span style={{marginRight: 10}}>
                             <FlagIcon
-                              code={this.props.profileData.nationality.toLowerCase()}
+                              code={this.props.profileData.nationality ? this.props.profileData.nationality.toLowerCase() : 'in'}
                               size={'lg'}
                             />
                           </span>

@@ -1,6 +1,7 @@
 import { API_BASE_URL } from '../config/config';
 
 export const userLogin = ({req , query}) => {
+  console.log(req);
   return fetch(API_BASE_URL + 'user/login',{
     method: "POST",
     credentials: 'include',
@@ -22,7 +23,8 @@ export const userLogin = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -49,6 +51,7 @@ export const userRegister = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
+      return error;
     });
 };
 
@@ -68,7 +71,9 @@ export const userLoginStatus = ({req , query}) => {
       return data;
     })
     .catch((error) => {
-      throw error;
+      console.log(error);
+      return error;
+      // throw error;
     });
 };
 
@@ -85,5 +90,6 @@ export const userLogout = () => {
     })
     .catch((error) => {
       console.log(error);
+      return error;
     });
 };

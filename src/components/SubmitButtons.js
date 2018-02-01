@@ -33,16 +33,12 @@ export default class SubmitButtons extends React.Component {
       </span>
     });
 
-    if (this.props.disabled) {
-      return null;
-    }
-
-    else {
-      return (
-        <div style={{position: 'absolute', zIndex: 10, bottom: 0, left: 10}}>
-          <div className="btn dropdown btn-success" style={{padding: 0, borderRadius: 0, paddingLeft: 10, paddingRight: 5, cursor: 'pointer'}}>
-            <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style={{color: 'white'}} aria-expanded="true">RUN CODE</span>
-            <div className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px', willChange: 'transform'}}>
+    return (
+      <div style={{position: 'absolute', zIndex: 10, bottom: 0, left: 10}}>
+        <div className={this.props.disabled ? "btn dropdown btn-success disabled" : "btn dropdown btn-success"}
+             style={{padding: 0, borderRadius: 0, paddingLeft: 10, paddingRight: 5, cursor: 'pointer'}}>
+          <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style={{color: 'white'}} aria-expanded="true">RUN CODE</span>
+          <div className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px', willChange: 'transform'}}>
             <span
               key={-1}
               className="dropdown-item"
@@ -54,18 +50,17 @@ export default class SubmitButtons extends React.Component {
             >
               Self
             </span>
-              {AIDropDown}
-            </div>
+            {AIDropDown}
           </div>
-          <button
-            className="btn btn-danger"
-            style={{borderRadius: 0, margin: 10, cursor: 'pointer'}}
-            onClick={this.props.lockCode}
-          >
-            Submit Code
-          </button>
         </div>
-      );
-    }
+        <button
+          className={this.props.disabled ? "btn btn-danger disabled" : "btn btn-danger"}
+          style={{borderRadius: 0, margin: 10, cursor: 'pointer'}}
+          onClick={() => {if (!this.props.disabled) this.props.lockCode();}}
+        >
+          Submit Code
+        </button>
+      </div>
+    );
   }
 }

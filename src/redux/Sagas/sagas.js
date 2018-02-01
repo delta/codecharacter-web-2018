@@ -40,4 +40,5 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.USER_AUTHENTICATE_CHECK, userSagas.userLoginStatusSaga);
   yield takeEvery(actionTypes.USER_LOGOUT, userSagas.userLogoutSaga);
   yield takeEvery(actionTypes.USER_SIGNUP, userSagas.userSignupSaga);
+  yield takeEvery(actionTypes.UPDATE_COMPILATION_STATUS_ASYNC, userSagas.updateCompilationStatusAsyncSaga);
 }

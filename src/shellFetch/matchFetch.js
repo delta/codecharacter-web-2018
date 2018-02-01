@@ -17,7 +17,8 @@ export const matchFetchAll = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -39,7 +40,8 @@ export const matchFetchData = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -60,7 +62,8 @@ export const challengePlayer = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -81,7 +84,8 @@ export const getMatchStatus = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -102,7 +106,8 @@ export const getLatestMatchId = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -132,7 +137,8 @@ export const fetchGameLog = ({req,query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -154,7 +160,8 @@ export const executeCode = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
@@ -175,6 +182,7 @@ export const competeSelf = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };

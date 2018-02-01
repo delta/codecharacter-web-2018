@@ -63,6 +63,7 @@ setInterval(() => {
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
+			  // let results, player1ExitStatus, player2ExitStatus, player1Score, player2Score, player1Dlog, player2Dlog, runtimeErrorPresent;
 				if(!response){
 					return;
 				}
@@ -90,7 +91,7 @@ setInterval(() => {
         }
         //console.log('hey');
 
-        //sort message and 
+        //sort message and
 				models.User.findOne({
 					where: {
 						id: userId
@@ -138,13 +139,13 @@ setInterval(() => {
 																//idk what to do here
 																executeQueue.splice(indexToBeProcessed, 1);
 																console.log(executeQueue);
-																
+
 															})
 															.catch(err => {
 																//console.log(err);
 															})
 													}
-													
+
 												})
 												.catch(err => {
 													//console.log(err);
@@ -155,8 +156,8 @@ setInterval(() => {
 											//console.log(err);
 										})
 								}else{
+                  console.log('three');
 
-									
 									let score1 = user1.rating;
 					        let score2 = user2.rating;
 					        //console.log(score1, score2);
@@ -182,7 +183,7 @@ setInterval(() => {
 									console.log(executeQueue);
 									////console.log(body);
 									//console.log(userId, matchId, 'test1');
-								
+
 									models.Match.update({
 											status: 'success',
 											log: body.log.data,
@@ -211,7 +212,7 @@ setInterval(() => {
 
 												return;
 											}
-											
+
 
 											models.User.update({
 												rating : score1
@@ -236,7 +237,7 @@ setInterval(() => {
 														.then(success => {
 															if(success){
 																//console.log('User2 score update successful');
-																
+
 																let notification1 = models.Notification.create({
 																	type: 'SUCCESS'	,
 																	title: 'Executed successfully!',

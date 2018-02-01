@@ -17,7 +17,7 @@ export const getAllNotifications = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
     });
 };
 
@@ -38,7 +38,7 @@ export const getUnreadNotifications = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
     });
 };
 
@@ -62,12 +62,12 @@ export const deleteNotification = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
     });
 };
 
 export const getUsersLength = ({req, query}) => {
-  return fetch(API_BASE_URL + 'user_protected/all',{
+  return fetch(API_BASE_URL + 'user/all',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -79,11 +79,12 @@ export const getUsersLength = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
     });
 };
 
@@ -105,7 +106,7 @@ export const getUserProfile = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
     });
 };
 
@@ -126,7 +127,7 @@ export const getUserViewProfile = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
     });
 };
 
@@ -151,6 +152,6 @@ export const changeUserName = ({req, query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
     });
 };

@@ -23,10 +23,12 @@ export default class GlobalComponent extends React.Component {
 
   changePingStatus = () => {
     this.codeStatus = setInterval(() => {
-        this.props.getCodeStatus();
-        this.props.getMatchStatus(this.props.matchId);
-        this.props.getLatestMatchId();
-        this.props.getUnreadNotifications();
+        if (this.props.loginStatus) {
+          this.props.getCodeStatus();
+          this.props.getMatchStatus(this.props.matchId);
+          this.props.getLatestMatchId();
+          this.props.getUnreadNotifications();
+        }
       }
       , 1000);
   };
