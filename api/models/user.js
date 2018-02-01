@@ -25,7 +25,11 @@ module.exports = (sequelize, DataTypes) => {
 		is_active: DataTypes.BOOLEAN,
 		activation_key: DataTypes.STRING,
 		activation_deadline: DataTypes.DATE,
-		nationality: DataTypes.STRING
+		nationality: DataTypes.STRING,
+		logged_in_once: {
+			type: DataTypes.BOOLEAN,
+      default: false
+		}
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {

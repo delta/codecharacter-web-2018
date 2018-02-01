@@ -28,7 +28,24 @@ let userOfDbCheck = (req, res) => {
 				if(bcrypt.compareSync(password, user.dataValues.password)){
 					req.session.isLoggedIn = true;
 					req.session.userId = user.id;
-					return res.json({success:true, message:"Logged in!", userId: user.id});
+					if(!user.logged_in_once){
+						models.User.update({
+							logged_in_once: true
+						},{
+							where: {
+								id: user.id
+							}
+						})
+							.then( () => {
+								return res.json({success:true, message:"Logged in!", userId: user.id, logged_in_once: user.logged_in_once});			
+							})
+							.catch( err => {
+								console.log(err);
+								res.json({success: false, message: "Server failed!"});
+							})
+					}else{
+						return res.json({success:true, message:"Logged in!", userId: user.id, logged_in_once: user.logged_in_once});				
+					}
 				}else{
 					return res.json({success:false, message:"Wrong Password!"});
 				}
@@ -169,10 +186,11 @@ router.post("/signup", (req, res) => {
 					rating: 1000,
 					is_active: false,
 					activation_key: bcrypt.hashSync(password + Math.random()*3001),
-					activation_deadline: activationTokenExpiryTime
+					activation_deadline: activationTokenExpiryTime,
+					logged_in_once: false
 				})//pragyanId has to be added later
 					.then((user) => {
-					  //console.log(user);
+					  console.log(user);
 						if (user) {
 							models.Code.create({
 								user_id: user.id,
@@ -279,7 +297,8 @@ router.post("/login", (req, res) => {
 								name: response.body.message.user_fullname,
 								pragyanId: response.body.message.user_id,
 								rating: 1000,
-								is_active: 1
+								is_active: 1,
+								logged_in_once: true
 							})
 								.then(userCreated => {
 									models.Code.create({
@@ -289,7 +308,7 @@ router.post("/login", (req, res) => {
 										.then(code => {
 											req.session.isLoggedIn = true;
 											req.session.userId = userCreated.id;
-											res.json({success: true, message: 'Log In Successful!',  userId: user.id});
+											res.json({success: true, message: 'Log In Successful!',  userId: user.id, logged_in_once: false});
 										})
 								})
 						}

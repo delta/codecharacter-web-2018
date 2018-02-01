@@ -77,8 +77,8 @@ setInterval(() => {
 	        player2ExitStatus = results[3];
 	        player1Score =  results[0];
 	        player2Score =  results[2];
-	        player1Dlog = response.body.player1LogCompressed.data;
-	        player2Dlog = response.body.player2LogCompressed.data; //idk if it should be .data
+	        player1Dlog = response.body.player1LogCompressed;
+	        player2Dlog = response.body.player2LogCompressed; //idk if it should be .data
 	        player2ExitStatus = player2ExitStatus.replace('\r', '');
 	        runtimeErrorPresent = player2ExitStatus === 'UNDEFINED' || player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT';
         }else{
@@ -89,6 +89,7 @@ setInterval(() => {
         	player2ExitStatus = 'UNDEFINED';
         }
         //console.log('hey');
+        //console.log(response.body);
 
         //sort message and 
 				models.User.findOne({
@@ -182,7 +183,7 @@ setInterval(() => {
 									console.log(executeQueue);
 									////console.log(body);
 									//console.log(userId, matchId, 'test1');
-								
+									//console.log(player2Dlog, player1Dlog);
 									models.Match.update({
 											status: 'success',
 											log: body.log.data,
@@ -198,8 +199,15 @@ setInterval(() => {
 										}
 									)
 										.then(match => {
-											//console.log(match);
 											if((userId === opponentId)  || isAi ){
+
+												models.Notification.create({
+													type: 'SUCCESS'	,
+													title: 'Executed successfully!',
+													message: `Your match was a success! `,
+													isRead: false,
+													user_id: userId
+												})
 
 												return;
 											}
@@ -251,25 +259,25 @@ setInterval(() => {
 															}
 														})
 														.catch(err => {
-															//console.log(err);
+															console.log(err);
 														})
 												})
 												.catch(err => {
-													//console.log(err);
+													console.log(err);
 												})
 										})
 										.catch(err => {
 											throw err;
-											//console.log(err);
+											console.log(err);
 										})
 								}
 							})
 							.catch(err => {
-								//console.log(err);
+								console.log(err);
 							})
 					})
 					.catch(err => {
-						//console.log(err);
+						console.log(err);
 					})
 				////console.log(err, body);
 				////console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
