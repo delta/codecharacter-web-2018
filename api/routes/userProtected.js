@@ -45,7 +45,7 @@ router.get('/notifications/:onlyUnread', (req, res) => {
 				})
 		})
 		.catch(err => {
-			//console.log(err);
+			console.log(err);
 			res.json({success: false, message: 'Internal server error!'});
 		});
 })
@@ -81,7 +81,7 @@ router.post('/create_notification', (req, res) => {
 					})
 					.catch(err => {
 						//throw err;
-						//console.log(err);
+						console.log(err);
 						res.json({success: false, message: 'Internal server error!'});
 					})
 			})
@@ -97,6 +97,7 @@ router.post('/create_notification', (req, res) => {
 				res.json({success: true, message: 'Notification created!'});
 			})
 			.catch(err => {
+				console.log(err);
 				res.json({success: false, message: "Internal server error"});
 			})
 	}
@@ -117,6 +118,7 @@ router.post('/delete_notification', (req, res) => {
 			res.json({success:true, message : 'deletion successful!' })
 		})
 		.catch(err => {
+			console.log(err);
 			//console.log('hey');
 			res.json({success:false, message : 'Deletion failed!' })	;
 		})
@@ -136,7 +138,6 @@ router.post('/change', (req, res) => {
 	if(req.body.password) {
 		updateObject = {...updateObject, password};
 	}
-	console.log(updateObject);
 	models.User.update(
 		updateObject,
 		{
@@ -149,6 +150,7 @@ router.post('/change', (req, res) => {
 			res.json({success: true, message:'Updated'})
 		})
 		.catch(err => {
+			console.log(err);
 			res.json({success: false, message: 'Change failed!'})
 		})
 });

@@ -38,7 +38,8 @@ router.get("/", (req, res)=>{
 						usersWithLockedCode.push(user);
 					})
 					.catch(err => {
-						//console.log(err);
+						console.log(err);
+						res.json({success: false, message: 'Please try later!'});
 					});
 
 				codeFetchPromises.push(x);
@@ -46,7 +47,6 @@ router.get("/", (req, res)=>{
 			let ratings = [];
 			Promise.all(codeFetchPromises)
 				.then(dataReturned => {
-					//console.log(dataReturned);
 					usersWithLockedCode.map((user) => {
 						let retObj = Object.assign({}, {
 							name: user.dataValues.name,
@@ -66,11 +66,12 @@ router.get("/", (req, res)=>{
 					res.json({success:true, ratings});
 				})
 				.catch(err => {
-					//console.log(err);
+					console.log(err);
+					res.json({success: false, message: 'Please try later!'});
 				});
 		})
 		.catch((err) => {
-			//console.log(err);
+			console.log(err);
 			res.json({success:false, message:"internal server error"});
 		});
 });
@@ -123,7 +124,7 @@ router.get('/chunk/:from/:strength', (req, res) => {
 					})
 					.catch(err => {
 						console.log(err);
-						//throw err;
+						res.json({success: false, message: 'Please try later!'});
 					});
 					//console.log(new Date());
 				codeFetchPromises.push(x);
@@ -146,11 +147,11 @@ router.get('/chunk/:from/:strength', (req, res) => {
 				})
 				.catch(err => {
 					console.log(err);
-					throw err;
+					res.json({success: false, message: 'Please try later!'});
 				});
 		})
 		.catch(err => {
-			//console.log(err);
+			console.log(err);
 			res.json(err);
 		})
 })
@@ -169,7 +170,7 @@ router.get('/search/:pattern/:limit', (req, res) => {
       res.json({users});
     })
     .catch(err => {
-      //console.log(err);
+      console.log(err);
       res.json(err);
     })
 })
