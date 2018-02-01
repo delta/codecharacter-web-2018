@@ -45,6 +45,7 @@ setInterval(() => {
 		let codeToBeCompiled = compileQueue[0];
 		//console.log(codeToBeCompiled);
 		requestUnderway = true;
+		console.log(compileBoxUrl +'/compile');
 		request(
 			{
 				method:'POST',
@@ -57,6 +58,7 @@ setInterval(() => {
 				compileQueue.shift();
 				let userId = codeToBeCompiled.userId;
 				if(!response.body.success){
+					//console.log(response.body);
 					return models.Code.update({ 
 								error_log: response.body.error,
 								status:'error'

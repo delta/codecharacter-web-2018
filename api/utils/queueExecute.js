@@ -59,24 +59,36 @@ setInterval(() => {
 		request(
 			{
 				method:'POST',
-				url: compileBoxUrl + '/compile',
+				url: compileBoxUrl + '/execute',
 				json: true,
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
 				if(!response){
 					return;
 				}
-        let results = response.body.results;
+				//console.log(response.body)
+				let results, player1Score, player2Score, player2ExitStatus, player1ExitStatus, player1Dlog, player2Dlog, runtimeErrorPresent;
+        results = response.body.results;
         //console.log(results);
-        results = results.split(' ').slice(1);
-        let player1ExitStatus = results[1];
-        let player2ExitStatus = results[3];
-        let player1Score =  results[0];
-        let player2Score =  results[2];
-        let player1Dlog = response.body.player1LogCompressed.data;
-        let player2Dlog = response.body.player2LogCompressed.data; //idk if it should be .data
-        player2ExitStatus = player2ExitStatus.replace('\r', '');
-        let runtimeErrorPresent = player2ExitStatus === 'UNDEFINED' || player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT';
+        if(response.body.success){
+        	//console.log(1);
+        	results = results.split(' ').slice(1);
+	        player1ExitStatus = results[1];
+	        player2ExitStatus = results[3];
+	        player1Score =  results[0];
+	        player2Score =  results[2];
+	        player1Dlog = response.body.player1LogCompressed.data;
+	        player2Dlog = response.body.player2LogCompressed.data; //idk if it should be .data
+	        player2ExitStatus = player2ExitStatus.replace('\r', '');
+	        runtimeErrorPresent = player2ExitStatus === 'UNDEFINED' || player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT';
+        }else{
+        	//console.log(2);
+        	//console.log(response.body);
+        	runtimeErrorPresent = true;
+        	player1ExitStatus = 'UNDEFINED';
+        	player2ExitStatus = 'UNDEFINED';
+        }
+        //console.log('hey');
 
         //sort message and 
 				models.User.findOne({
@@ -108,7 +120,7 @@ setInterval(() => {
 											models.Notification.create({
 												type: 'ERROR'	,
 												title: 'Execution Error',
-												message: (player2ExitStatus === 'UNDEFINED' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!'),
+												message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!'),
 												isRead: false,
 												user_id: userId
 											})
