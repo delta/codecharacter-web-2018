@@ -13,11 +13,11 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_USER_ID: {
-      console.log(state.userId, action.userId);
+      console.log(action);
       return {
         ...state,
         userId: action.userId.userId,
-        initialLogin: !action.initialLogin
+        initialLogin: !action.userId.initialLogin
       }
     }
 
