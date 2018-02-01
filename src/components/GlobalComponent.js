@@ -6,15 +6,26 @@ import PropTypes                  from 'prop-types';
 export default class GlobalComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
+    pingStatus: PropTypes.bool,
     getCodeStatus: PropTypes.func,
     getLatestMatchId: PropTypes.func,
     getMatchStatus: PropTypes.func,
     fetchCode: PropTypes.func,
     addNotifications: PropTypes.func,
+    changePingStatusActive: PropTypes.func
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      interval: 10000
+    };
+    this.minPing = 2000;
+    this.maxPing = 10000;
+  }
+
   componentDidMount() {
-    this.props.getLatestMatchId();
+    this.props.changePingStatusActive(false);
     this.changePingStatus();
   }
 
@@ -23,14 +34,17 @@ export default class GlobalComponent extends React.Component {
   }
 
   changePingStatus = () => {
-    this.codeStatus = setInterval(() => {
+    this.codeStatus = setTimeout(() => {
+        console.log(this.state.interval);
         if (this.props.loginStatus) {
+          this.props.getLatestMatchId();
           this.props.getCodeStatus();
           this.props.getMatchStatus(this.props.matchId);
           this.props.getUnreadNotifications();
         }
+        this.changePingStatus();
       }
-      , 1000);
+      , this.state.interval);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -38,10 +52,26 @@ export default class GlobalComponent extends React.Component {
       this.startMatch(this.props.codeStatus, nextProps.codeStatus);
       this.getCompilationStatus(this.props.codeStatus, nextProps.codeStatus);
       this.handleCodeNotifications(this.props.codeStatus, nextProps.codeStatus);
+      this.props.getLatestMatchId();
     }
 
     if (this.props.matchStatus !== nextProps.matchStatus) {
       this.handleMatchNotifications(this.props.matchStatus, nextProps.matchStatus);
+    }
+
+    if(this.props.pingStatus !== nextProps.pingStatus) {
+      console.log("Ping status is changing");
+      if (nextProps.pingStatus) {
+        this.setState({
+          interval: this.minPing
+        });
+      }
+      else {
+        this.setState({
+          interval: this.maxPing
+        });
+      }
+      setTimeout(this.changePingStatus, 1000);
     }
   };
 
@@ -62,9 +92,13 @@ export default class GlobalComponent extends React.Component {
         createdAt: Date.now().toString()
       }]);
     }
+    if (codeStatusOld === 'COMPILING' && codeStatusNew === 'ERROR') {
+      this.props.changePingStatusActive(false);
+    }
   };
 
   handleMatchNotifications = (matchStatusOld, matchStatusNew) => {
+    console.log(matchStatusOld, matchStatusNew);
     if (matchStatusNew === 'EXECUTING') {
         this.props.addNotifications([{
           type: 'INFORMATION',
@@ -74,6 +108,7 @@ export default class GlobalComponent extends React.Component {
         }]);
       }
       else if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'SUCCESS') {
+        this.props.changePingStatusActive(false);
         this.props.addNotifications([{
           type: 'SUCCESS',
           title: 'Match executed successfully',

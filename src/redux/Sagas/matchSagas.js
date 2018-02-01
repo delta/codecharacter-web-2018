@@ -51,6 +51,7 @@ export function* matchFetchDataSaga(action) {
 export function* getLatestMatchIdSaga() {
   try {
     let response = yield call(getLatestMatchId,{req: null, query: null});
+    console.log(response);
     yield put(changeLastMatchId(response.match ? response.match.id : -1));
   }
   catch (err) {
@@ -86,7 +87,7 @@ export function* fetchGameLogSaga(action) {
 
     let player1DLog, player2DLog;
 
-    if (response.match) {
+    if (response.match && response.match.player1_dlog && response.match.player2_dlog) {
       let x = pako.inflate((response.match.player1_dlog.data));
       player1DLog = '';
       x.map(charCode => {

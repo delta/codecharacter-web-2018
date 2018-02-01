@@ -246,6 +246,11 @@ export const updateGameDlogs = (log1, log2) => ({
   log2
 });
 
+export const changePingStatusActive = (pingStatusActive) => ({
+  type: actionTypes.CHANGE_PING_STATUS_ACTIVE,
+  pingStatusActive
+});
+
 export const clearState = () => ({
   type: actionTypes.CLEAR_STATE
 });

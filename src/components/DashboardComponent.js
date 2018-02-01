@@ -32,7 +32,8 @@ export default class DashboardComponent extends React.Component {
     fetchGameLog: PropTypes.func,
     changeAIid: PropTypes.func,
     initialLogin: PropTypes.bool,
-    clearCompilationStatus: PropTypes.func
+    clearCompilationStatus: PropTypes.func,
+    changePingStatusActive: PropTypes.func
   };
 
   static defaultProps = {
@@ -57,7 +58,8 @@ export default class DashboardComponent extends React.Component {
     fetchGameLog: () => {},
     changeAIid: () => {},
     clearCompilationStatus: () => {},
-    initialLogin: false
+    initialLogin: false,
+    changePingStatusActive: () => {}
   };
 
   constructor(props) {
@@ -115,7 +117,8 @@ export default class DashboardComponent extends React.Component {
       });
     }
 
-    if(nextProps.shouldFetchLog && !this.props.shouldFetchLog) {
+    if (nextProps.matchStatus === 'EXECUTING' && this.props.matchStatus === 'SUCCESS') {
+      this.props.getLatestMatchId();
       this.props.fetchGameLog(nextProps.lastMatchId);
     }
 
@@ -128,6 +131,7 @@ export default class DashboardComponent extends React.Component {
 
   runCode = () => {
     this.props.clearCompilationStatus();
+    this.props.changePingStatusActive(true);
     this.props.runCode(this.state.code);
   };
 
