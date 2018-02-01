@@ -61,6 +61,7 @@
     "sendgrid": "^5.2.3",
     "sequelize": "^4.32.1",
     "sequelize-cli": "^3.2.0",
+    "sha1": "^1.1.1",
     "sql-injection": "0.0.6",
     "static-favicon": "~1.0.0",
     "typeface-roboto": "0.0.45",

@@ -9,6 +9,7 @@ const nodemailer = require("nodemailer");
 const stubCode = require('../utils/stubCode');
 const API_KEY = require("../config/email.js").API_KEY;
 const Op = require('sequelize').Op;
+const sha1 = require('sha1');
 const sgMail = require('@sendgrid/mail');
 /* GET home page. */
 // User login+signup handlers
@@ -48,7 +49,7 @@ let registerUser = (req, res, emailId, response) => {
 			}
 		})
 		.catch(err => {
-			//console.log(err);
+			console.log(err);
 			res.json({success: false, message: 'Login failed.'});
 		})
 }
@@ -96,22 +97,26 @@ let userOfDbCheck = (req, res) => {
 			})
 }
 let sendEmail = (emailId, activationToken, name) => {
-	sgMail.setApiKey(API_KEY);
-	const subject = "Activate your Code Character account";
-	const html = `
-		<p>Hello ${name},</p>
-		<p>Thank you for registering for Code Character!</p>
-		<p><strong>Please click the following link to verify your account:</strong><br>
-		<a href="https://code.pragyan.org/api/activate/${activationToken}">https://code.pragyan.org/api/activate/${activationToken}</a></p>
-		<p>Happy coding :)</p>
-	`;
-	const msg = {
-	  to: emailId,
-	  from: 'no-reply@pragyan.org',
-	  subject,
-	  html
-	};
-	sgMail.send(msg);
+	try{
+		sgMail.setApiKey(API_KEY);
+		const subject = "Activate your Code Character account";
+		const html = `
+			<p>Hello ${name},</p>
+			<p>Thank you for registering for Code Character!</p>
+			<p><strong>Please click the following link to verify your account:</strong><br>
+			<a href="https://code.pragyan.org/api/user/activate/${activationToken}">https://code.pragyan.org/api/user/activate/${activationToken}</a></p>
+			<p>Happy coding :)</p>
+		`;
+		const msg = {
+		  to: emailId,
+		  from: 'no-reply@pragyan.org',
+		  subject,
+		  html
+		};
+		sgMail.send(msg);
+	}catch(err){
+		console.log(err);
+	}
 };
 // GET handlers
 router.get("/login", (req, res) => {
@@ -249,7 +254,7 @@ router.post("/signup", (req, res) => {
 						password: hashedPassword,
 						rating: 1000,
 						is_active: false,
-						activation_key: bcrypt.hashSync(password + Math.random()*3001),
+						activation_key: sha1(new Date() + emailId),
 						activation_deadline: activationTokenExpiryTime,
 						logged_in_once: false
 					})//pragyanId has to be added later
@@ -384,9 +389,7 @@ router.get('/activate/:activation_key', (req, res) => {
 			})
 				.then(success => {
 					if(success){
-						res.json({success: true, message: 'User activated!'});
-					}else{
-
+						res.redirect('/login');
 					}
 				})
 				.catch(err => {
