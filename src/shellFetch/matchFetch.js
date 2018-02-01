@@ -80,6 +80,7 @@ export const getMatchStatus = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
+      console.log("Match Status", data);
       return data;
     })
     .catch((error) => {

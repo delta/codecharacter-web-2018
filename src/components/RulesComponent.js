@@ -23,6 +23,8 @@ export default class RulesComponent extends React.Component {
   }
 
   render() {
-    return <div dangerouslySetInnerHTML={{__html: this.state.markdown}} style={{margin: 50}}/> ;
+    return <div style={{width: '100%', height: window.innerHeight - 53, position: 'absolute', overflowY: 'hidden'}}>
+      <iframe src="https://code.pragyan.org/docs/" height="100%" width="100%" title={'docs'} frameborder="0"/>
+    </div> ;
   }
 }

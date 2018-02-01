@@ -63,6 +63,7 @@ export default class MatchesViewComponent extends React.Component {
         {matchDataColumns}
         </tbody>
         </table>
+        {(!this.props.matchesData || this.props.matchesData.length===0) ? <h4 style={{textAlign: 'center'}}>No matches played</h4> : null}
       </div>
     );
     return <DashboardComponent
@@ -73,7 +74,7 @@ export default class MatchesViewComponent extends React.Component {
       matchesView={true}
       loginStatus={this.props.loginStatus}
       gameLog={this.props.gameLog}
-      defaultText={'Click on any matches to view the gameplay'}
+      defaultText={'Click a match to view the game'}
     />
   }
 }
