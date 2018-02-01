@@ -201,14 +201,6 @@ setInterval(() => {
 											//console.log(match);
 											if((userId === opponentId)  || isAi ){
 
-												models.Notification.create({
-													type: 'SUCCESS'	,
-													title: 'Executed successfully!',
-													message: `Your match was a success! `,
-													isRead: false,
-													user_id: userId
-												})
-
 												return;
 											}
 											

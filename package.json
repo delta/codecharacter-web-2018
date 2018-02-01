@@ -12,6 +12,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.0.0",
     "codecharacter-renderer": "0.0.1",
@@ -57,6 +58,7 @@
     "redux-persist": "^5.5.0",
     "redux-saga": "^0.16.0",
     "request": "^2.83.0",
+    "sendgrid": "^5.2.3",
     "sequelize": "^4.32.1",
     "sequelize-cli": "^3.2.0",
     "sql-injection": "0.0.6",

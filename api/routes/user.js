@@ -7,19 +7,12 @@ const models = require("../models");
 const request = require("request");
 const nodemailer = require("nodemailer");
 const stubCode = require('../utils/stubCode');
-const senderEmailId = require("../config/email.js").email_id; // use const here
-const senderPassword = require("../config/email.js").password;
+const API_KEY = require("../config/email.js").API_KEY;
 const Op = require('sequelize').Op;
+const sgMail = require('@sendgrid/mail');
 /* GET home page. */
 // User login+signup handlers
 
-const smtpTransport = nodemailer.createTransport({
-  "service": "Gmail",
-  "auth": {
-    "user": senderEmailId,
-    "pass": senderPassword,
-  },
-});
 
 let userOfDbCheck = (req, res) => {
 
@@ -41,23 +34,23 @@ let userOfDbCheck = (req, res) => {
 				}
 			});
 }
-let sendEmail = (email, message, res, activationToken, subject) => {
-  const mailOptions = {
-    "to": email,
-    "subject": subject,
-    "text": message,
-  };
-
-  smtpTransport.sendMail(mailOptions, (error, response) => {
-    if (error) {
-      //console.log(error);
-      // send message from callee
-      return res.json({ "status": 200, "success": true, "message": message });
-    }
-
-    res.json({ "status": 200, "success": true, "message": "Thank you! Please check your Email to complete registration!" });
-    //console.log(`Message sent: ${response.message}`);
-  });
+let sendEmail = (emailId, activationToken, name) => {
+	sgMail.setApiKey(API_KEY);
+	const subject = "Activate your Code Character account";
+	const html = `
+		<p>Hello ${name},</p>
+		<p>Thank you for registering for Code Character!</p>
+		<p><strong>Please click the following link to verify your account:</strong><br>
+		<a href="https://code.pragyan.org/api/activate/${activationToken}">https://code.pragyan.org/api/activate/${activationToken}</a></p>
+		<p>Happy coding :)</p>
+	`;
+	const msg = {
+	  to: emailId,
+	  from: 'no-reply@pragyan.org',
+	  subject,
+	  html
+	};
+	sgMail.send(msg);
 };
 // GET handlers
 router.get("/login", (req, res) => {
@@ -196,6 +189,7 @@ router.post("/signup", (req, res) => {
 									})
 										.then(notification => {
 											//console.log(notification)
+											sendEmail(user.email, user.activation_key, user.name);
 										})
 										.catch(err => {
 											console.log(err);
@@ -310,10 +304,10 @@ router.post("/login", (req, res) => {
 	})
 
 });
-router.post('/activate', (req, res) => {
+router.get('/activate/:activation_key', (req, res) => {
 	models.User.findOne({
 		where: {
-			activation_key: req.body.activation_key
+			activation_key: req.params.activation_key
 		}
 	})
 		.then(user => {

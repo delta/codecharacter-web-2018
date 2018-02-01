@@ -1,2 +1,1 @@
-module.exports.email_id = 'youremail@domain.com';
-module.exports.password = 'yourpassword';
+module.exports.API_KEY = 'API KEY here'
