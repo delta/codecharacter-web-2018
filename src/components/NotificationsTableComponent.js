@@ -49,7 +49,7 @@ export default class NotificationsTableComponent extends React.Component {
 
     return (
       <div>
-        { this.state.notifications.length !== 0
+        { this.state.notifications && this.state.notifications.length !== 0
           ? this.state.notifications.slice(0).reverse().map((data, index) => {
             let date = new Date(data.createdAt);
             return (

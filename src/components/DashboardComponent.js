@@ -22,6 +22,7 @@ export default class DashboardComponent extends React.Component {
     codeStatus: PropTypes.string,
     matchStatus: PropTypes.string,
     ais: PropTypes.array,
+    dLogs: PropTypes.arrayOf(PropTypes.string),
     gameLog: PropTypes.array,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
@@ -46,6 +47,7 @@ export default class DashboardComponent extends React.Component {
     codeStatus: '',
     matchStatus: '',
     ais: [],
+    dLogs: ['', ''],
     gameLog: [],
     runCode: () => {},
     lockCode: () => {},
@@ -89,6 +91,7 @@ export default class DashboardComponent extends React.Component {
       })
     });
     this.props.fetchGameLog(this.props.lastMatchId);
+
     this.changeLogInterval = setInterval(() => {
       if (this.state.compilationData !== '') {
         this.props.updateCompilationStatus(this.state.compilationData);
@@ -96,7 +99,8 @@ export default class DashboardComponent extends React.Component {
       this.setState({
         compilationData: ''
       });
-    }, 5000);
+    }, 1000);
+
   }
 
   componentWillUnmount() {
@@ -248,6 +252,8 @@ export default class DashboardComponent extends React.Component {
                         logFile={this.state.logFile}
                         options={{
                           logFunction: this.updateCompilationData,
+                          player1Log: this.props.dLogs[0],
+                          player2Log: this.props.dLogs[1],
                           playerID: 1
                         }}
                       />)
@@ -278,7 +284,7 @@ export default class DashboardComponent extends React.Component {
                 aiList={this.props.ais}
                 lockCode={() => this.lockCode()}
                 changeAIid={(id) => this.props.changeAIid(id)}
-                disabled={(this.props.codeStatus === "COMPILING")||(this.props.matchStatus === 'EXECUTING')}
+                disabled={false}
               />
               : null
             }

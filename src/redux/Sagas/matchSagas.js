@@ -5,7 +5,7 @@ import {
 } from '../../shellFetch/matchFetch';
 import { call, put } from 'redux-saga/effects';
 import {
-  changeLastMatchId, changeMatchStatus, updateCompilationStatus, updateGameLog,
+  changeLastMatchId, changeMatchStatus, updateCompilationStatus, updateGameDlogs, updateGameLog,
   updateMatchAllData, updateUnreadNotifications
 } from '../actions';
 
@@ -85,25 +85,24 @@ export function* fetchGameLogSaga(action) {
     var pako = window.pako;
 
     let player1DLog, player2DLog;
-    console.log(response);
-    /*if (response.match) {
-      let x = pako.inflate((response.match.player1_dlog));
 
+    if (response.match) {
+      let x = pako.inflate((response.match.player1_dlog.data));
       player1DLog = '';
       x.map(charCode => {
         player1DLog += String.fromCharCode(charCode);
       });
 
-      x = pako.inflate((response.match.player2_dlog));
-
+      x = pako.inflate((response.match.player2_dlog.data));
       player2DLog = '';
       x.map(charCode => {
         player2DLog += String.fromCharCode(charCode);
       });
     }
-*/
+
     if (response.match && response.match.log) {
       yield put(updateGameLog(response.match.log.data));
+      yield put(updateGameDlogs(player1DLog, player2DLog));
     }
   }
   catch (err) {

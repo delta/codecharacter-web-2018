@@ -18,7 +18,8 @@ export default class SignUpComponent extends React.Component {
       verified: false,
       captchaMessage: '',
       errorMessage: '',
-      signedUp: false
+      signedUp: false,
+      disabled: false
     };
     this.usernameStatus = '';
     this.passwordStatus = '';
@@ -35,6 +36,10 @@ export default class SignUpComponent extends React.Component {
   }
 
   updateStatus = (message) => {
+    this.setState({
+      disabled: false
+    });
+
     if (message === "Please fill all the required details") {
       this.usernameStatus = "";
       this.nameStatus = "";
@@ -91,8 +96,13 @@ export default class SignUpComponent extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-      this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
-    };
+
+    this.setState({
+      disabled: true
+    });
+
+    this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
+  };
 
   onSelectFlag = (countryCode) => {
     this.setState({
@@ -101,7 +111,6 @@ export default class SignUpComponent extends React.Component {
   };
 
   render() {
-
     if (this.state.signedUp) {
       return <Redirect to="/login"/>
     }
@@ -146,7 +155,9 @@ export default class SignUpComponent extends React.Component {
                 </div>
               </Modal.Body>
               <Modal.Footer>
-                <button className='btn btn-primary' type='submit' onClick={this.handleSubmit}>SIGN UP</button>
+                <button className='btn btn-primary' type='submit' onClick={this.handleSubmit}>
+                  {this.state.disabled ? <i className="fa fa-2x fa-circle-o-notch fa-spin"/>: "SIGN UP"}
+                </button>
               </Modal.Footer>
               <p style={{textAlign: 'right', paddingRight: 20}} >Existing user?<Link to={'/login'}> Login </Link></p>
             </div>

@@ -23,7 +23,8 @@ const mapStateToProps = state => {
     lastMatchId: state.lastMatchId,
     gameLog: state.gameLog,
     shouldFetchLog: ((state.lastUsed===1)&&(state.matchStatus==="SUCCESS")),
-    ais: state.ais
+    ais: state.ais,
+    dLogs: state.dLogs
   }
 };
 
@@ -38,7 +39,7 @@ const mapDispatchToProps = dispatch => {
     changeAIid: (id) => {dispatch(changeAIid(id))},
     updateCompilationStatus: (status) => {dispatch(updateCompilationStatus(status));},
     clearCompilationStatus: () => {dispatch(clearCompilationStatus());},
-    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
+    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());}
   }
 };
 

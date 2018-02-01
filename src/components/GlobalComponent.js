@@ -73,7 +73,7 @@ export default class GlobalComponent extends React.Component {
           createdAt: Date.now().toString()
         }]);
       }
-      else if (matchStatusOld === 'EXECUTING' || matchStatusNew === 'SUCCESS') {
+      else if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'SUCCESS') {
         this.props.addNotifications([{
           type: 'SUCCESS',
           title: 'Match executed successfully',
