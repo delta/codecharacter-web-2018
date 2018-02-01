@@ -7,6 +7,7 @@ const secretString = require("../config/serverConfig").cookieKey;
 const compileBoxUrl = require("../config/serverConfig").compileBoxUrl;
 const EloRank = require('elo-rank');
 const elo = new EloRank(32);
+const pako = require('pako');
 let pushToQueue = (matchId, dll1, dll2, userId, opponentId, isAi) => {
 	if(executeQueue.length === executeQueueSize){
 		return false;
@@ -64,10 +65,11 @@ setInterval(() => {
 				body: {...codeToBeExecuted, secretString}
 			}, (err, response, body) =>{
 			  // let results, player1ExitStatus, player2ExitStatus, player1Score, player2Score, player1Dlog, player2Dlog, runtimeErrorPresent;
+
 				if(!response){
 					return;
 				}
-				//console.log(response.body)
+//				console.log(response.body)
 				let results, player1Score, player2Score, player2ExitStatus, player1ExitStatus, player1Dlog, player2Dlog, runtimeErrorPresent;
         results = response.body.results;
         //console.log(results);
@@ -157,7 +159,6 @@ setInterval(() => {
 											//console.log(err);
 										})
 								}else{
-                  console.log('three');
 
 									let score1 = user1.rating;
 					        let score2 = user2.rating;
@@ -184,11 +185,12 @@ setInterval(() => {
 									console.log(executeQueue);
 									////console.log(body);
 									//console.log(userId, matchId, 'test1');
+									console.log(player1Dlog, 'hey');
 									models.Match.update({
 											status: 'success',
 											log: body.log.data,
-											player1_dlog: player1Dlog,
-											player2_dlog: player2Dlog,
+											player1_dlog: player1Dlog.data,
+											player2_dlog: player2Dlog.data,
 											scorep1:player1Score,
 											scorep2:player2Score
 										},
