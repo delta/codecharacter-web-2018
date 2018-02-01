@@ -10,7 +10,7 @@ export default class DemoComponent extends React.Component {
           steps={[
             {
               title: 'Code Panel',
-              text: 'This is where you can code',
+              text: 'You write your code here! We\'ve given you some stub code that serves as a sample for what you can do, so do read through it.',
               selector: '.code-panel',
               position: 'right',
               type: 'hover',
@@ -18,7 +18,7 @@ export default class DemoComponent extends React.Component {
             },
             {
               title: 'Editor Panel',
-              text: 'Edit your code preferences',
+              text: 'You can customize your code editor! Change your color scheme, font size, etc. here.',
               selector: 'div .editor-panel',
               position: 'right',
               type: 'hover',
@@ -26,7 +26,7 @@ export default class DemoComponent extends React.Component {
             },
             {
               title: 'Run And Compile',
-              text: 'Click Run Code to Compile and Test. \nClick Lock Code to Let others play against you',
+              text: 'Click Run Code to test your code against yourself, or an AI. \nClick Submit Code to put your code on the leaderboard and challenge others!',
               selector: '.run-compile-button div',
               position: 'top-left',
               type: 'hover',
@@ -34,7 +34,7 @@ export default class DemoComponent extends React.Component {
             },
             {
               title: 'Renderer',
-              text: 'Your Compiled Code Runs Here',
+              text: 'You can view your game after it runs here. Use the Arrow keys to Pan and the + and - keys to Zoom.',
               selector: '.renderer',
               position: 'top-left',
               type: 'hover',
