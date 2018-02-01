@@ -1,5 +1,6 @@
 import { userLogin, userLoginStatus, userRegister, userLogout } from '../../shellFetch/userFetch';
 import {
+  clearState,
   updateCompilationStatus,
   updateCompilationStatusAsync,
   updateLoginMessage, updateSignupMessage, updateUserId,
@@ -16,7 +17,8 @@ export function* userLoginSaga (action) {
       password: action.password,
     };
     let response = yield call(userLogin,{req: null, query: query});
-    yield put(updateUserId({userId: response.userId}));
+    console.log(response);
+    yield put(updateUserId({userId: response.userId, initialLogin: response.logged_in_once}));
     yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
     yield put(updateLoginMessage({loginMessage: response.message}));
   }
@@ -73,6 +75,7 @@ export function* userLogoutSaga(action) {
   try {
     yield call(userLogout);
     yield put(updateUserLoginStatus({username: action.username, loginStatus: false}));
+    yield put(clearState());
   }
   catch (err) {
     console.log(err);

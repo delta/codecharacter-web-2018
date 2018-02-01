@@ -14,6 +14,7 @@ export default class GlobalComponent extends React.Component {
   };
 
   componentDidMount() {
+    this.props.getLatestMatchId();
     this.changePingStatus();
   }
 
@@ -26,7 +27,6 @@ export default class GlobalComponent extends React.Component {
         if (this.props.loginStatus) {
           this.props.getCodeStatus();
           this.props.getMatchStatus(this.props.matchId);
-          this.props.getLatestMatchId();
           this.props.getUnreadNotifications();
         }
       }
@@ -73,7 +73,7 @@ export default class GlobalComponent extends React.Component {
           createdAt: Date.now().toString()
         }]);
       }
-      else if (matchStatusOld === 'EXECUTING' || matchStatusNew === 'SUCCESS') {
+      else if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'SUCCESS') {
         this.props.addNotifications([{
           type: 'SUCCESS',
           title: 'Match executed successfully',

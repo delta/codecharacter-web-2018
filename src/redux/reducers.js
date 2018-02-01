@@ -13,11 +13,11 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_USER_ID: {
-      console.log(state.userId, action.userId);
+      console.log(action);
       return {
         ...state,
         userId: action.userId.userId,
-        initialLogin: (state.userId !== action.userId.userId)
+        initialLogin: !action.userId.initialLogin
       }
     }
 
@@ -60,7 +60,7 @@ export function codeCharacterReducer(state = initialState, action) {
       console.log(action);
       return {
         ...state,
-        compilationStatus: state.compilationStatus + '\n' + action.data.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
+        compilationStatus: state.compilationStatus + action.data.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
       };
     }
 
@@ -161,6 +161,14 @@ export function codeCharacterReducer(state = initialState, action) {
         initialState
       }
     }
+
+    case actionTypes.UPDATE_GAME_DLOGS: {
+      return {
+        ...state,
+        dLogs: [action.log1, action.log2]
+      }
+    }
+
     case "persist/REHYDRATE": {
       return { ...state, ...action.payload }
     }

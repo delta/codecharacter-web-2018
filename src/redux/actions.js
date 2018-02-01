@@ -19,9 +19,10 @@ export const userSignup = (emailId, username, password, nationality) => ({
   nationality
 });
 
-export const updateUserId = (userId) => ({
+export const updateUserId = (userId, initialLogin) => ({
   type: actionTypes.UPDATE_USER_ID,
-  userId
+  userId,
+  initialLogin
 });
 
 export const userLogout = () => ({
@@ -237,6 +238,12 @@ export const getProfileViewData = (name) => ({
 export const updateProfileViewData = (data) => ({
   type: actionTypes.UPDATE_PROFILE_VIEW_DATA,
   data
+});
+
+export const updateGameDlogs = (log1, log2) => ({
+  type: actionTypes.UPDATE_GAME_DLOGS,
+  log1,
+  log2
 });
 
 export const clearState = () => ({

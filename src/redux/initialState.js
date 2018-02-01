@@ -20,6 +20,7 @@ const initialState = {
   ais: [],
   activeAiId: -1,
   totalUsers: 0,
+  dLogs: ['','']
 };
 
 export default initialState;

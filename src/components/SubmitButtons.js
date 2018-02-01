@@ -37,7 +37,7 @@ export default class SubmitButtons extends React.Component {
       <div style={{position: 'absolute', zIndex: 10, bottom: 0, left: 10}}>
         <div className={this.props.disabled ? "btn dropdown btn-success disabled" : "btn dropdown btn-success"}
              style={{padding: 0, borderRadius: 0, paddingLeft: 10, paddingRight: 5, cursor: 'pointer'}}>
-          <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style={{color: 'white'}} aria-expanded="true">RUN CODE</span>
+          <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style={{color: 'white', margin: '1px 0px'}} aria-expanded="true">RUN CODE</span>
           <div className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px', willChange: 'transform'}}>
             {!this.props.disabled ? <span
               key={-1}

@@ -32,7 +32,8 @@ export default class LoginComponent extends React.Component {
       usernameMessage: '',
       passwordMessage: '',
       usernameError: false,
-      passwordError: false
+      passwordError: false,
+      disabled: false
     };
   }
 
@@ -45,6 +46,10 @@ export default class LoginComponent extends React.Component {
   }
 
   updateLoginMessages = (props) => {
+    this.setState({
+      disabled: false
+    });
+
     if (props.loginMessage === 'User doesn\'t exist!') {
       this.setState({
         usernameStatus: 'form-group has-danger',
@@ -111,6 +116,11 @@ export default class LoginComponent extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    this.setState({
+      disabled: true
+    });
+
     this.props.authenticate(this.state.username, this.state.password);
   };
 
@@ -143,7 +153,7 @@ export default class LoginComponent extends React.Component {
 
             <Modal.Footer>
               <Button className='btn-primary' bsStyle='primary' type="submit" style={{cursor: 'pointer'}} onClick={this.handleSubmit}>
-                LOG IN
+                {this.state.disabled ? <i className="fa fa-2x fa-circle-o-notch fa-spin"/>: "LOG IN"}
               </Button>
             </Modal.Footer>
             <p style={{textAlign: 'right', paddingRight: 20}}>New user?<Link to={'/signup'}> Sign Up </Link></p>
