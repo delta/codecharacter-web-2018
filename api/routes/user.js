@@ -12,11 +12,51 @@ const Op = require('sequelize').Op;
 const sgMail = require('@sendgrid/mail');
 /* GET home page. */
 // User login+signup handlers
-
+let registerUser = (req, res, emailId, response) => {
+	models.User.findOne({
+		 where:{
+		 	email: emailId
+		 }
+	})
+		.then(user => {
+			if(user){
+				req.session.isLoggedIn = true;
+				req.session.userId = user.id;
+				//console.log(req.session);
+				res.json({success: true, message: 'Log In Successful!', userId: user.id});
+			}else{
+				//no user with the emailId
+				models.User.create({
+					email: emailId,
+					name: response.body.message.user_fullname,
+					pragyanId: response.body.message.user_id,
+					rating: 1000,
+					is_active: 1,
+					logged_in_once: true
+				})
+					.then(userCreated => {
+						models.Code.create({
+							user_id: userCreated.id,
+							source: stubCode
+						})
+							.then(code => {
+								req.session.isLoggedIn = true;
+								req.session.userId = userCreated.id;
+								res.json({success: true, message: 'Log In Successful!',  userId: userCreated.id, logged_in_once: false});
+							})
+					})
+			}
+		})
+		.catch(err => {
+			//console.log(err);
+			res.json({success: false, message: 'Login failed.'});
+		})
+}
 
 let userOfDbCheck = (req, res) => {
 
 	const emailId = req.body.emailId;
+	//console.log(emailId);
 	const password = req.body.password;
 	models.User.findOne({
 			where: { email: emailId }
@@ -49,7 +89,11 @@ let userOfDbCheck = (req, res) => {
 				}else{
 					return res.json({success:false, message:"Wrong Password!"});
 				}
-			});
+			})
+			.catch(err => {
+				console.log(err);
+				res.json({success: false, message: 'Email password combination isn\'t proper'});
+			})
 }
 let sendEmail = (emailId, activationToken, name) => {
 	sgMail.setApiKey(API_KEY);
@@ -151,75 +195,97 @@ router.get('/all', (req, res) => {
 // signup
 router.post("/signup", (req, res) => {
 	//console.log(req.body, 'hey');
+	
 	const emailId = req.body.emailId;
 	const name = req.body.name;
 	const password = req.body.password;
 	const nationality = req.body.nationality;
-	// validate e-mail
-	if (!emailId || !name || !password || !nationality) {
-		return res.json({ "status": 200, "success": false, "message": "Please fill all the required details" });
-	}
-
-	//check if user exists
-	models.User.findOne({
-		where: {
-			$or: [
-				{email: emailId },
-				{name: name }
-			]
+	let options = {
+		user_email: emailId,
+		user_pass: password,
+		event_id: 2,
+		event_secret: "b6557e6b07dbae3265f83f088a7fad4a7a8203b4"
+	};
+	request({
+		method:'POST',
+		url: 'https://api.pragyan.org/event/login',
+		json: true,
+		body: options
+	}, (err, response) => {
+		if(!response || !response.body){
+			res.json({success: false, message: 'Server Error!'});
 		}
-	})
-		.then((user) => {
-			if (user) {
-				return res.json({ success: false, message: "The username already exists!" });
-			}else{
-				const hashedPassword = bcrypt.hashSync(password);
-				const date = new Date();
-			  const dateInMs = date.getTime();
-			  const activationToken = bcrypt.hashSync(emailId + dateInMs);
-			  const activationTokenExpiryTime = new Date(dateInMs + 86400000);
-				models.User.create({
-					email: emailId,
-					name: name,
-					nationality,
-					password: hashedPassword,
-					rating: 1000,
-					is_active: false,
-					activation_key: bcrypt.hashSync(password + Math.random()*3001),
-					activation_deadline: activationTokenExpiryTime,
-					logged_in_once: false
-				})//pragyanId has to be added later
-					.then((user) => {
-					  console.log(user);
-						if (user) {
-							models.Code.create({
-								user_id: user.id,
-								source: stubCode
-							})
-								.then(code => {
-									//console.log(user.dataValues);
-									models.Notification.create({
-										type: 'SUCCESS' ,
-					          title: 'Signed Up!',
-					          message:`Please check your email to verify your account. You can login now.`,
-					          isRead: false,
-					          user_id: user.dataValues.id
-									})
-										.then(notification => {
-											//console.log(notification)
-											sendEmail(user.email, user.activation_key, user.name);
-										})
-										.catch(err => {
-											console.log(err);
-										})
+		console.log(response.body);
+		if(response.body.status_code == 200 || response.body.status_code == 401){
+			res.json({success: false, message: 'Please login with Pragyan credentials!'});
+		}
+		// validate e-mail
+		if (!emailId || !name || !password || !nationality) {
+			return res.json({ "status": 200, "success": false, "message": "Please fill all the required details" });
+		}
 
-									return res.json({ success: true, message: "User signedup!"});
-								})
-						}
-					});
+		//check if user exists
+		models.User.findOne({
+			where: {
+				$or: [
+					{email: emailId },
+					{name: name }
+				]
 			}
-		});
-	//create user
+		})
+			.then((user) => {
+				if (user) {
+					return res.json({ success: false, message: "The username already exists!" });
+				}else{
+					const hashedPassword = bcrypt.hashSync(password);
+					const date = new Date();
+				  const dateInMs = date.getTime();
+				  const activationToken = bcrypt.hashSync(emailId + dateInMs);
+				  const activationTokenExpiryTime = new Date(dateInMs + 86400000);
+					models.User.create({
+						email: emailId,
+						name: name,
+						nationality,
+						password: hashedPassword,
+						rating: 1000,
+						is_active: false,
+						activation_key: bcrypt.hashSync(password + Math.random()*3001),
+						activation_deadline: activationTokenExpiryTime,
+						logged_in_once: false
+					})//pragyanId has to be added later
+						.then((user) => {
+						  //console.log(user);
+							if (user) {
+								models.Code.create({
+									user_id: user.id,
+									source: stubCode
+								})
+									.then(code => {
+										//console.log(user.dataValues);
+										models.Notification.create({
+											type: 'SUCCESS' ,
+						          title: 'Signed Up!',
+						          message:`Please check your email to verify your account. You can login now.`,
+						          isRead: false,
+						          user_id: user.dataValues.id
+										})
+											.then(notification => {
+												//console.log(notification)
+												sendEmail(user.email, user.activation_key, user.name);
+											})
+											.catch(err => {
+												console.log(err);
+											})
+
+										return res.json({ success: true, message: "User signedup!"});
+									})
+							}
+						});
+				}
+			});
+		//create user
+	})
+	
 
 });
 router.get("/signup", (req, res) => {
@@ -254,8 +320,9 @@ router.post("/login", (req, res) => {
 	}, (err, response) => {
 		if(err) console.log(err);
 		if( !response || !response.body){
-		  res.json({success: false, message: 'Pragyan server error'});
+		  return res.json({success: false, message: 'Pragyan server error'});
     }
+    //console.log(response.body);
 		switch(response.body.status_code){
 			case 400: {
 				userOfDbCheck(req, res);
@@ -267,13 +334,18 @@ router.post("/login", (req, res) => {
 			}
 			break;
 			case 412: {
-				userOfDbCheck(req, res);
+				//registerUser(req, res, emailId, response);
+				userOfDbCheck(req, res);//incorrect arguments
 				//return res.json({success: false, message: 'Please register on main website'});
+				
+				
 			}
 			break;
 			case 401: {
+				//console.log('hey')
+				userOfDbCheck(req, res); 
 				//return res.json({success: false, message: 'Please enter correct emailid, password combination!'}); //POTENTIAL USER OF OUR DB
-				userOfDbCheck(req, res);
+
 			}
 			break;
 			case 406: {
@@ -282,44 +354,7 @@ router.post("/login", (req, res) => {
 			break;
 			case 200: {
 				////console.log(emailId);
-				models.User.findOne({
-					 where:{
-					 	email: emailId
-					 }
-				})
-					.then(user => {
-						if(user){
-							req.session.isLoggedIn = true;
-							req.session.userId = user.id;
-							//console.log(req.session);
-							res.json({success: true, message: 'Log In Successful!', userId: user.id});
-						}else{
-							//no user with the emailId
-							models.User.create({
-								email: emailId,
-								name: response.body.message.user_fullname,
-								pragyanId: response.body.message.user_id,
-								rating: 1000,
-								is_active: 1,
-								logged_in_once: true
-							})
-								.then(userCreated => {
-									models.Code.create({
-										user_id: userCreated.id,
-										source: stubCode
-									})
-										.then(code => {
-											req.session.isLoggedIn = true;
-											req.session.userId = userCreated.id;
-											res.json({success: true, message: 'Log In Successful!',  userId: user.id, logged_in_once: false});
-										})
-								})
-						}
-					})
-					.catch(err => {
-						//console.log(err);
-						res.json({success: false, message: 'Login failed.'});
-					})
+				registerUser(req, res, emailId, response);
 			}
 			break;
 		}
