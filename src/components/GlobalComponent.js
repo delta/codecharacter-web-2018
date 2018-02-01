@@ -47,7 +47,7 @@ export default class GlobalComponent extends React.Component {
     if (codeStatusNew === 'COMPILING') {
       this.props.addNotifications([{
         type: 'INFORMATION',
-        title: 'Compiling',
+        title: 'Compiling...',
         message: 'Your code is being compiled. Hang on tight.',
         createdAt: Date.now().toString()
       }]);
@@ -55,8 +55,8 @@ export default class GlobalComponent extends React.Component {
     if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS') {
       this.props.addNotifications([{
         type: 'SUCCESS',
-        title: 'Successful Compilation',
-        message: 'Your code has successfully compiled.',
+        title: 'Successful Compilation!',
+        message: 'Your code compiled successfully.',
         createdAt: Date.now().toString()
       }]);
     }
@@ -66,8 +66,8 @@ export default class GlobalComponent extends React.Component {
       if (matchStatusNew === 'EXECUTING') {
         this.props.addNotifications([{
           type: 'INFORMATION',
-          title: 'Executing',
-          message: 'Your code is being executed. Hang on there.',
+          title: 'Executing...',
+          message: 'Your code is running.',
           createdAt: Date.now().toString()
         }]);
       }
