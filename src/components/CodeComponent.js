@@ -81,6 +81,7 @@ export default class CodeComponent extends React.Component {
           enableSnippets: false,
           showLineNumbers: this.props.showLineNumbers,
           tabSize: 4,
+          scrollPastEnd: 0.7
         }}
         style={{
           width: '100%',

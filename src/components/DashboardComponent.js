@@ -90,13 +90,13 @@ export default class DashboardComponent extends React.Component {
     });
     this.props.fetchGameLog(this.props.lastMatchId);
     this.changeLogInterval = setInterval(() => {
-      if (this.state.compilationData !== '') {
+      /*if (this.state.compilationData !== '') {
         this.props.updateCompilationStatus(this.state.compilationData);
       }
       this.setState({
         compilationData: ''
-      });
-    }, 2000);
+      });*/
+    }, 5000);
   }
 
   componentWillUnmount() {

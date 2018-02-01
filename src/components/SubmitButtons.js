@@ -39,7 +39,7 @@ export default class SubmitButtons extends React.Component {
              style={{padding: 0, borderRadius: 0, paddingLeft: 10, paddingRight: 5, cursor: 'pointer'}}>
           <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style={{color: 'white'}} aria-expanded="true">RUN CODE</span>
           <div className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px', willChange: 'transform'}}>
-            <span
+            {!this.props.disabled ? <span
               key={-1}
               className="dropdown-item"
               onClick={() => {
@@ -49,8 +49,8 @@ export default class SubmitButtons extends React.Component {
               }
             >
               Self
-            </span>
-            {AIDropDown}
+            </span> : null}
+            {!this.props.disabled ? AIDropDown : null}
           </div>
         </div>
         <button

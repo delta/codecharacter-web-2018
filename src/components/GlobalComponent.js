@@ -65,7 +65,7 @@ export default class GlobalComponent extends React.Component {
   };
 
   handleMatchNotifications = (matchStatusOld, matchStatusNew) => {
-      if (matchStatusNew === 'EXECUTING') {
+    if (matchStatusNew === 'EXECUTING') {
         this.props.addNotifications([{
           type: 'INFORMATION',
           title: 'Executing...',
@@ -73,6 +73,14 @@ export default class GlobalComponent extends React.Component {
           createdAt: Date.now().toString()
         }]);
       }
+      else if (matchStatusOld === 'EXECUTING' || matchStatusNew === 'SUCCESS') {
+        this.props.addNotifications([{
+          type: 'SUCCESS',
+          title: 'Match executed successfully',
+          message: 'Your match has successfully executed.',
+          createdAt: Date.now().toString()
+      }]);
+    }
   };
 
   getCompilationStatus = (codeStatusOld, codeStatusNew) => {
