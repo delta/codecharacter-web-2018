@@ -82,8 +82,9 @@ export const getMatchData = (matchId) => ({
   matchId
 });
 
-export const getLatestMatchId = () => ({
-  type: actionTypes.GET_LATEST_MATCH_ID
+export const getLatestMatchId = (trigger=false) => ({
+  type: actionTypes.GET_LATEST_MATCH_ID,
+  trigger
 });
 
 export const getMatchStatus = (matchId) => ({

@@ -1,11 +1,12 @@
 import {
-  fetchGameLog,
-  getLatestMatchId, getMatchStatus, matchFetchAll,
+  fetchGameLogFetch,
+  getLatestMatchId, getMatchStatusFetch, matchFetchAll,
   matchFetchData
 } from '../../shellFetch/matchFetch';
 import { call, put } from 'redux-saga/effects';
 import {
-  changeLastMatchId, changeMatchStatus, updateCompilationStatus, updateGameDlogs, updateGameLog,
+  changeLastMatchId, changeMatchStatus, getCodeStatus, updateCompilationStatus, updateGameDlogs,
+  updateGameLog, getMatchStatus, fetchGameLog,
   updateMatchAllData, updateUnreadNotifications
 } from '../actions';
 
@@ -48,11 +49,18 @@ export function* matchFetchDataSaga(action) {
   }
 }
 
-export function* getLatestMatchIdSaga() {
+export function* getLatestMatchIdSaga(action) {
   try {
     let response = yield call(getLatestMatchId,{req: null, query: null});
     console.log(response);
     yield put(changeLastMatchId(response.match ? response.match.id : -1));
+    yield put(getCodeStatus());
+    if (response.match) {
+      yield put(getMatchStatus(response.match.id));
+      if(action.trigger) {
+        yield put(fetchGameLog(response.match.id));
+      }
+    }
   }
   catch (err) {
     console.log(err);
@@ -62,12 +70,20 @@ export function* getLatestMatchIdSaga() {
 
 export function* getMatchStatusSaga(action) {
   try {
-    let query = {
-      matchId: action.matchId
-    };
-    let response = yield call(getMatchStatus,{req: null, query: query});
-    if (response.status) {
-      yield put(changeMatchStatus(response.status));
+    if(action.matchId === -1) {
+      yield put(changeMatchStatus('IDLE'));
+    }
+    else {
+      let query = {
+        matchId: action.matchId
+      };
+      let response = yield call(getMatchStatusFetch, {
+        req: null,
+        query: query
+      });
+      if (response.status) {
+        yield put(changeMatchStatus(response.status));
+      }
     }
   }
   catch (err) {
@@ -81,7 +97,8 @@ export function* fetchGameLogSaga(action) {
     let query = {
       matchId: action.matchId
     };
-    let response = yield call(fetchGameLog,{req: null, query: query});
+    console.log(action.matchId);
+    let response = yield call(fetchGameLogFetch,{req: null, query: query});
 
     var pako = window.pako;
 

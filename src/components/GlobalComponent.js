@@ -38,8 +38,8 @@ export default class GlobalComponent extends React.Component {
         console.log(this.state.interval);
         if (this.props.loginStatus) {
           this.props.getLatestMatchId();
-          this.props.getCodeStatus();
-          this.props.getMatchStatus(this.props.matchId);
+          // this.props.getCodeStatus();
+          // this.props.getMatchStatus(this.props.matchId);
           this.props.getUnreadNotifications();
         }
         this.changePingStatus();
@@ -71,6 +71,11 @@ export default class GlobalComponent extends React.Component {
         });
       }
       setTimeout(this.changePingStatus, 1000);
+    }
+
+    if(this.props.loginStatus === false && nextProps.loginStatus === true) {
+      this.props.getLatestMatchId();
+      this.props.getUnreadNotifications();
     }
   };
 

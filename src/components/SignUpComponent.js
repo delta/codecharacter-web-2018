@@ -28,6 +28,7 @@ export default class SignUpComponent extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.signupMessage !== this.props.signupMessage) {
+      console.log(this.props.signupMessage);
       this.setState({
         errorMessage: nextProps.signupMessage
       });
@@ -111,7 +112,7 @@ export default class SignUpComponent extends React.Component {
   };
 
   render() {
-    if (this.state.signedUp) {
+    if (this.state.signedUp || this.props.loginStatus) {
       return <Redirect to="/login"/>
     }
 

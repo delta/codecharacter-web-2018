@@ -67,7 +67,7 @@ export const challengePlayer = ({req , query}) => {
     });
 };
 
-export const getMatchStatus = ({req, query}) => {
+export const getMatchStatusFetch = ({req, query}) => {
   return fetch(API_BASE_URL + 'match/match_status/' + query.matchId, {
     method: "GET",
     credentials: 'include',
@@ -112,7 +112,7 @@ export const getLatestMatchId = ({req, query}) => {
     });
 };
 
-export const fetchGameLog = ({req,query}) => {
+export const fetchGameLogFetch = ({req,query}) => {
   return fetch(API_BASE_URL + 'match/get_match/' + query.matchId, {
     method: "GET",
     credentials: 'include',

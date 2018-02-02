@@ -20,6 +20,7 @@ export function* userLoginSaga (action) {
     console.log(response);
     yield put(updateUserId({userId: response.userId, initialLogin: response.logged_in_once}));
     yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
+    yield put(updateLoginMessage({loginMessage: ''}));
     yield put(updateLoginMessage({loginMessage: response.message}));
   }
   catch (err) {

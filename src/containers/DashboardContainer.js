@@ -41,7 +41,7 @@ const mapDispatchToProps = dispatch => {
     clearCompilationStatus: () => {dispatch(clearCompilationStatus());},
     userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));},
-    getLatestMatchId: () => {dispatch(getLatestMatchId());}
+    getLatestMatchId: (trigger) => {dispatch(getLatestMatchId(trigger));}
   }
 };
 
