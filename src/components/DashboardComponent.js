@@ -113,6 +113,7 @@ export default class DashboardComponent extends React.Component {
     this.props.clearCompilationStatus();
     this.props.fetchCode();
     this.props.getAIs();
+    this.props.getLatestMatchId(true);
     this.windowResizeListener = window.addEventListener('resize',() => {
       this.setState({
         height: window.innerHeight,
@@ -120,7 +121,7 @@ export default class DashboardComponent extends React.Component {
       })
     });
     this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 500);
-    this.props.fetchGameLog(this.props.lastMatchId);
+    // this.props.fetchGameLogFetch(this.props.lastMatchId);
   }
 
   runCode = () => {

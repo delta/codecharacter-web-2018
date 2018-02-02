@@ -17,7 +17,7 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...state,
         userId: action.userId.userId,
-        initialLogin: !action.userId.initialLogin
+        initialLogin: action.userId.initialLogin ? (!action.userId.initialLogin) : false
       }
     }
 
@@ -65,9 +65,10 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.CHANGE_CODE_STATUS: {
+      console.log(action.status);
       return {
         ...state,
-        codeStatus: (action.status===200)?'Idle':action.status
+        codeStatus: (!action.status || action.status===200)?'IDLE':action.status
       };
     }
 

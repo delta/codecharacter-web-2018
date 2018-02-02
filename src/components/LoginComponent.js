@@ -117,11 +117,13 @@ export default class LoginComponent extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.setState({
-      disabled: true
-    });
+    if (!this.state.disabled) {
+      this.setState({
+        disabled: true
+      });
 
-    this.props.authenticate(this.state.username, this.state.password);
+      this.props.authenticate(this.state.username, this.state.password);
+    }
   };
 
   render() {

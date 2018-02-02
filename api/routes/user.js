@@ -76,14 +76,14 @@ let userOfDbCheck = (req, res) => {
 							}
 						})
 							.then( () => {
-								return res.json({success:true, message:"Logged in!", userId: user.id, logged_in_once: user.logged_in_once});			
+								return res.json({success:true, message:"Logged in!", userId: user.id, logged_in_once: user.logged_in_once});
 							})
 							.catch( err => {
 								console.log(err);
 								res.json({success: false, message: "Server failed!"});
 							})
 					}else{
-						return res.json({success:true, message:"Logged in!", userId: user.id, logged_in_once: user.logged_in_once});				
+						return res.json({success:true, message:"Logged in!", userId: user.id, logged_in_once: user.logged_in_once});
 					}
 				}else{
 					return res.json({success:false, message:"Wrong Password!"});
@@ -194,7 +194,7 @@ router.get('/all', (req, res) => {
 });
 // signup
 router.post("/signup", (req, res) => {
-	
+
 	const emailId = req.body.emailId;
 	const name = req.body.name;
 	const password = req.body.password;
@@ -283,7 +283,7 @@ router.post("/signup", (req, res) => {
 			});
 		//create user
 	})
-	
+
 
 });
 router.get("/signup", (req, res) => {
@@ -320,7 +320,7 @@ router.post("/login", (req, res) => {
 		if( !response || !response.body){
 		  return res.json({success: false, message: 'Pragyan server error'});
     }
-    //console.log(response.body);
+    console.log(response.body.status_code);
 		switch(response.body.status_code){
 			case 400: {
 				userOfDbCheck(req, res);
@@ -335,13 +335,13 @@ router.post("/login", (req, res) => {
 				//registerUser(req, res, emailId, response);
 				userOfDbCheck(req, res);//incorrect arguments
 				//return res.json({success: false, message: 'Please register on main website'});
-				
-				
+
+
 			}
 			break;
 			case 401: {
 				//console.log('hey')
-				userOfDbCheck(req, res); 
+				userOfDbCheck(req, res);
 				//return res.json({success: false, message: 'Please enter correct emailid, password combination!'}); //POTENTIAL USER OF OUR DB
 
 			}
