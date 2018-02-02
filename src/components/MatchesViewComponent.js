@@ -74,6 +74,7 @@ export default class MatchesViewComponent extends React.Component {
       matchesView={true}
       loginStatus={this.props.loginStatus}
       gameLog={this.props.gameLog}
+      getLatestMatchId={this.props.getLatestMatchId}
       defaultText={'Click a match to view the game'}
     />
   }

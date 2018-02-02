@@ -101,14 +101,32 @@ export default class SignUpComponent extends React.Component {
     this.setState({
       disabled: true
     });
-
-    this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
+    if(this.validateEmail(this.state.username)) {
+      // let passwordVerify = this.passwordVerify(this.state.password);
+      this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
+    }
+    else {
+      this.usernameStatus = "is-invalid";
+      this.nameStatus = "";
+      this.passwordStatus = "";
+      this.setState({
+        errorMessage: 'Enter a valid email address',
+        verified: false,
+        disabled: false
+      });
+    }
   };
 
   onSelectFlag = (countryCode) => {
     this.setState({
       country: countryCode
     });
+  };
+
+  validateEmail = (emailField) => {
+    let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+    return reg.test(emailField) !== false;
   };
 
   render() {

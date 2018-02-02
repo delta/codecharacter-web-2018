@@ -86,6 +86,7 @@ export default class DashboardComponent extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.windowResizeListener);
     clearInterval(this.updateCompildationDataInterval);
+    console.log("Component Unmounting");
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,8 +121,8 @@ export default class DashboardComponent extends React.Component {
         width: window.innerWidth
       })
     });
+    console.log("Dashboard Mounting");
     this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 500);
-    // this.props.fetchGameLogFetch(this.props.lastMatchId);
   }
 
   runCode = () => {
@@ -186,8 +187,6 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
-    console.log("Rerendering");
-
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }
@@ -250,7 +249,7 @@ export default class DashboardComponent extends React.Component {
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
                         options={{
-                          logFunction: (data) => {this.compilationData += data},
+                          logFunction: (data) => {console.log(data); this.compilationData += data;},
                           player1Log: this.props.dLogs[0],
                           player2Log: this.props.dLogs[1],
                           playerID: 1
