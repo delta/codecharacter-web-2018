@@ -382,7 +382,21 @@ router.get('/activate/:activation_key', (req, res) => {
 			})
 				.then(success => {
 					if(success){
-						res.redirect('/login');
+						models.Notification.create({
+							type: 'SUCCESS' ,
+		          title: 'Account activated!',
+		          message:`Your account has been activated, you can compete with other active users.`,
+		          isRead: false,
+		          user_id: user.id
+						})
+							.then(notification => {
+								res.redirect('/login');
+								//console.log(notification)
+								//sendEmail(user.email, user.activation_key, user.name);
+							})
+							.catch(err => {
+								console.log(err);
+							})
 					}
 				})
 				.catch(err => {
@@ -424,6 +438,7 @@ router.get("/profile/:id", (req, res)=>{
 		attributes:["id", "name", "email", "rating", "nationality"]
 	})
 		.then((user)=>{
+			console.log(user);
 			if(!user){
 				res.json({success:false, message:"No users with this id"});
 			}else{
@@ -444,4 +459,18 @@ router.get("/name/:name", (req, res)=>{
 			}
 		});
 });
+router.get("/is_active"/*id parameter*/, (req, res) => {
+	let userId = req.session.userId;
+	models.User.findOne({
+		where: {
+			id: userId
+		}
+	})
+		.then(user => {
+			res.json({success: true, active: user.is_active});
+		})
+		.catch(err => {
+			res.json({success: false, message: 'Internal server error!'})
+		})
+})
 module.exports = router;
