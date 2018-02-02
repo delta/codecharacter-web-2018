@@ -74,12 +74,12 @@ export function* codeLockSaga(action) {
     };
     let response = yield call(codeLock,{req: null, query: query});
     if (response.success) {
-      yield put(updateUnreadNotifications({
+      yield put(updateUnreadNotifications([{
         type: 'SUCCESS',
         title: 'Code Locked',
         message: 'Your code has been locked, you can now compete with others.',
         createdAt: Date.now().toString()
-      }));
+      }]));
     }
     else {
       if (response.message === 'Code locked failed!') {

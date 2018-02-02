@@ -77,32 +77,9 @@ export default class DashboardComponent extends React.Component {
       enableLiveAutocompletion: false,
       highlightActiveLine: false,
       keyboardHandler: 'default',
-      compilationData: ''
+      compilationData: '',
+      staticBool: false
     };
-  }
-
-  componentDidMount() {
-    this.props.userAuthenticateCheck();
-    this.props.clearCompilationStatus();
-    this.props.fetchCode();
-    this.props.getAIs();
-    this.windowResizeListener = window.addEventListener('resize',() => {
-      this.setState({
-        height: window.innerHeight,
-        width: window.innerWidth
-      })
-    });
-    this.props.fetchGameLog(this.props.lastMatchId);
-
-    this.changeLogInterval = setInterval(() => {
-      if (this.state.compilationData !== '') {
-        this.props.updateCompilationStatus(this.state.compilationData);
-      }
-      this.setState({
-        compilationData: ''
-      });
-    }, 1000);
-
   }
 
   componentWillUnmount() {
@@ -117,9 +94,11 @@ export default class DashboardComponent extends React.Component {
       });
     }
 
-    if (nextProps.matchStatus === 'EXECUTING' && this.props.matchStatus === 'SUCCESS') {
+    if (this.props.matchStatus === 'EXECUTING' && nextProps.matchStatus === 'SUCCESS') {
+      console.log("Here");
       this.props.getLatestMatchId();
       this.props.fetchGameLog(nextProps.lastMatchId);
+      this.forceUpdate();
     }
 
     if(nextProps.gameLog !== this.props.gameLog) {
@@ -127,6 +106,20 @@ export default class DashboardComponent extends React.Component {
         this.setState({logFile: logFile});
     }
 
+  }
+
+  componentDidMount() {
+    this.props.userAuthenticateCheck();
+    this.props.clearCompilationStatus();
+    this.props.fetchCode();
+    this.props.getAIs();
+    this.windowResizeListener = window.addEventListener('resize',() => {
+      this.setState({
+        height: window.innerHeight,
+        width: window.innerWidth
+      })
+    });
+    this.props.fetchGameLog(this.props.lastMatchId);
   }
 
   runCode = () => {
@@ -271,7 +264,7 @@ export default class DashboardComponent extends React.Component {
                   <CodeComponent
                     showLineNumbers={true}
                     readOnly={true}
-                    code={this.props.compilationStatus}
+                    code={this.state.compilationData}
                     theme={'terminal'}
                     mode={'plain_text'}
                     highlightActiveLine={false}
