@@ -1,6 +1,6 @@
 import { userLogin, userLoginStatus, userRegister, userLogout } from '../../shellFetch/userFetch';
 import {
-  clearState,
+  clearState, fetchGameLog,
   updateCompilationStatus,
   updateCompilationStatusAsync,
   updateLoginMessage, updateSignupMessage, updateUserId,

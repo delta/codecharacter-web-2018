@@ -60,7 +60,6 @@ export default class GlobalComponent extends React.Component {
     }
 
     if(this.props.pingStatus !== nextProps.pingStatus) {
-      console.log("Ping status is changing");
       if (nextProps.pingStatus) {
         this.setState({
           interval: this.minPing
@@ -106,15 +105,9 @@ export default class GlobalComponent extends React.Component {
           message: 'Your code is running.',
           createdAt: Date.now().toString()
         }]);
-      }
-      else if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'SUCCESS') {
-        this.props.changePingStatusActive(false);
-        this.props.addNotifications([{
-          type: 'SUCCESS',
-          title: 'Match executed successfully',
-          message: 'Your match has successfully executed.',
-          createdAt: Date.now().toString()
-      }]);
+    }
+    else if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'SUCCESS') {
+      this.props.changePingStatusActive(false);
     }
   };
 

@@ -77,8 +77,35 @@ export default class DashboardComponent extends React.Component {
       enableLiveAutocompletion: false,
       highlightActiveLine: false,
       keyboardHandler: 'default',
-      compilationData: ''
+      compilationData: '',
+      staticBool: false
     };
+    this.compilationData = '';
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.windowResizeListener);
+    clearInterval(this.updateCompildationDataInterval);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.code !== this.props.code) {
+      this.setState({
+        code: nextProps.code
+      });
+    }
+
+    if (this.props.matchStatus === 'EXECUTING' && nextProps.matchStatus === 'SUCCESS') {
+      console.log("Here");
+      this.props.getLatestMatchId();
+      this.props.fetchGameLog(nextProps.lastMatchId);
+    }
+
+    if(nextProps.gameLog !== this.props.gameLog) {
+        let logFile = new Uint8Array(nextProps.gameLog);
+        this.setState({logFile: logFile});
+    }
+
   }
 
   componentDidMount() {
@@ -92,41 +119,8 @@ export default class DashboardComponent extends React.Component {
         width: window.innerWidth
       })
     });
+    this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 500);
     this.props.fetchGameLog(this.props.lastMatchId);
-
-    this.changeLogInterval = setInterval(() => {
-      if (this.state.compilationData !== '') {
-        this.props.updateCompilationStatus(this.state.compilationData);
-      }
-      this.setState({
-        compilationData: ''
-      });
-    }, 1000);
-
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.windowResizeListener);
-    clearInterval(this.changeLogInterval);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.code !== this.props.code) {
-      this.setState({
-        code: nextProps.code
-      });
-    }
-
-    if (nextProps.matchStatus === 'EXECUTING' && this.props.matchStatus === 'SUCCESS') {
-      this.props.getLatestMatchId();
-      this.props.fetchGameLog(nextProps.lastMatchId);
-    }
-
-    if(nextProps.gameLog !== this.props.gameLog) {
-        let logFile = new Uint8Array(nextProps.gameLog);
-        this.setState({logFile: logFile});
-    }
-
   }
 
   runCode = () => {
@@ -186,12 +180,12 @@ export default class DashboardComponent extends React.Component {
 
   updateCompilationData = (data) => {
     this.setState({
-      compilationData: this.state.compilationData + data
+      compilationData: this.compilationData
     });
   };
 
   render() {
-
+    console.log("Rerendering");
 
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
@@ -255,7 +249,7 @@ export default class DashboardComponent extends React.Component {
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
                         options={{
-                          logFunction: this.updateCompilationData,
+                          logFunction: (data) => {this.compilationData += data},
                           player1Log: this.props.dLogs[0],
                           player2Log: this.props.dLogs[1],
                           playerID: 1
@@ -271,12 +265,13 @@ export default class DashboardComponent extends React.Component {
                   <CodeComponent
                     showLineNumbers={true}
                     readOnly={true}
-                    code={this.props.compilationStatus}
+                    code={this.state.compilationData}
                     theme={'terminal'}
                     mode={'plain_text'}
                     highlightActiveLine={false}
                     height={window.innerHeight - this.state.rendererHeight - 50}
                   />
+                  {/*<div style={{position: 'absolute'}}>{this.state.compilationData}</div>*/}
                 </div>
               </SplitPane>
             </div>
