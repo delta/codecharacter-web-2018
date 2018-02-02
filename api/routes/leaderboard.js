@@ -12,30 +12,20 @@ router.get("/", (req, res)=>{
 		.then((users)=>{
 			let codeFetchPromises = [];
 			let usersWithLockedCode = [];
+			console.log(users);
 			users.map(user => {
-				let x = models.Match.findOne({
+				let x = models.Code.findOne({
 					where: {
-						$or: [
-							{
-								player_id1: user.id,
-								player_id2: {
-									[Op.not] : user.id
-								}
-							},
-							{
-								player_id1: {
-									[Op.not] : user.id
-								},
-								player_id2: user.id
-							}
-						]
+						user_id: user.id
 					}
 				})
-					.then(match => {
-						if(!match){
+					.then(code => {
+						if(!code){
 							return;
 						}
-						usersWithLockedCode.push(user);
+						if(code.dll1_locked){
+							usersWithLockedCode.push(user);
+						}
 					})
 					.catch(err => {
 						console.log(err);
@@ -95,38 +85,24 @@ router.get('/chunk/:from/:strength', (req, res) => {
 			let codeFetchPromises = [];
 			let usersWithLockedCode = [];
 			users.map(user => {
-				let x = models.Match.findOne({
+				let x = models.Code.findOne({
 					where: {
-						$or: [
-							{
-								player_id1: user.id,
-								player_id2: {
-									[Op.not] : user.id
-								}
-							},
-							{
-								player_id1: {
-									[Op.not] : user.id
-								},
-								player_id2: user.id
-							}
-						]
+						user_id: user.id
 					}
 				})
-					.then(match => {
-						//console.log(match.dataValues);
-						if(!match){
-							//return;
-						}else{
-							usersWithLockedCode.push(user);	
+					.then(code => {
+						if(!code){
+							return;
 						}
-						
+						if(code.dll1_locked){
+							usersWithLockedCode.push(user);
+						}
 					})
 					.catch(err => {
 						console.log(err);
 						res.json({success: false, message: 'Please try later!'});
 					});
-					//console.log(new Date());
+
 				codeFetchPromises.push(x);
 			})
 			let ratings = [];
