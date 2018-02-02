@@ -39,7 +39,7 @@ router.post("/", function(req, res) {
 							res.json({success: false, message: 'Queue Error!'});
 						})
 						.catch(err => {
-							//console.log(err);
+							console.log(err);
 							res.json({success: false, message: 'Please try later!'});
 						})
 				}else{
@@ -56,6 +56,7 @@ router.post("/", function(req, res) {
 							res.json({success: false, message: 'Queue Error!'});
 						})
 						.catch(err => {
+							console.log(err);
 							res.json({success: false, message: 'Please try later!'});
 						})
 				}
@@ -71,14 +72,13 @@ router.post("/", function(req, res) {
 					})
 						.then(code => {
 							let success = queueCompile.pushToQueue(req.session.userId, source);
-							//console.log(success);
 							if(!success){
 								return res.json({success: false, message: "Please try again later!"});
 							}
 							return res.json({success:true, message:"Code saved!", userId});
 						})
 						.catch(err => {
-							//console.log(err);
+							console.log(err);
 							res.json({success: false, message: 'Please try later!'});
 						})
 				}else{
@@ -93,7 +93,6 @@ router.post("/", function(req, res) {
 					})
 						.then(code => {
 							let success = queueCompile.pushToQueue(req.session.userId, source);
-							//console.log(success);
 							if(!success){
 								return res.json({success: false, message: "Please try again later!"});
 							}
@@ -101,13 +100,14 @@ router.post("/", function(req, res) {
 							//res.json({success: true, message:'Code compiling!', user_id: userId});
 						})
 						.catch(err => {
+							console.log(err);
 							res.json({success: false, message: 'Please try later!'});
 						})
 				}
 			}
 		})
 		.catch(err => {
-			//console.log(err);
+			console.log(err);
 			res.json({success: false, err: err});
 		});
 });
@@ -168,6 +168,7 @@ router.get("/lock", (req, res) => {
 									res.json({success: true, message: 'Code locked!'})
 								})
 								.catch(err => {
+									console.log(err);
 									res.json({success: false, message: 'Code locked failed!'});
 								})
 						})
@@ -176,7 +177,6 @@ router.get("/lock", (req, res) => {
 
 })
 router.get("/", (req, res)=>{
-  //console.log(req.session.userId);
 	models.Code.findOne({
 		where: {user_id: req.session.userId}
 	})
@@ -184,18 +184,16 @@ router.get("/", (req, res)=>{
 			if(!code){
 				return res.json({success:false, message:"Oops, this user has no code saved!"});
 			}
-			//console.log(code.dataValues.status);
 			if(code.dataValues.status === 'COMPILING'){
 				return res.json({success:true, source:code.dataValues.source, status:'COMPILING'});
 			}else if(code.dataValues.status === 'SUCCESS'){
-				//add these , dll1: code.dataValues.dll1, dll2: code.dataValues.dll2
-				////console.log({dll1: code.dataValues.dll1, dll2: code.dataValues.dll2});
 				return res.json({success:true, source:code.dataValues.source, status: 'SUCCESS'});
 			}else{
 				return res.json({success:true, source:code.dataValues.source, status: 'ERROR'});
 			}
 		})
 		.catch(err => {
+			console.log(err);
 			res.json({success: false, message: 'Internal server error'});
 		})
 });
@@ -227,6 +225,7 @@ router.get('/code_status', (req, res) => {
 			res.json({success: true, status: code.dataValues.status});
 		})
 		.catch(err => {
+			console.log(err);
 			res.json({success: false, message: "Internal server error"});
 		})
 });

@@ -23,7 +23,6 @@ let registerUser = (req, res, emailId, response) => {
 			if(user){
 				req.session.isLoggedIn = true;
 				req.session.userId = user.id;
-				//console.log(req.session);
 				res.json({success: true, message: 'Log In Successful!', userId: user.id});
 			}else{
 				//no user with the emailId
@@ -57,7 +56,6 @@ let registerUser = (req, res, emailId, response) => {
 let userOfDbCheck = (req, res) => {
 
 	const emailId = req.body.emailId;
-	//console.log(emailId);
 	const password = req.body.password;
 	models.User.findOne({
 			where: { email: emailId }
@@ -142,8 +140,6 @@ router.get('/all', (req, res) => {
 					return 1;
 				}
 			});
-			//console.log(users);
-			//users = users.reverse();
 			let codeFetchPromises = [];
 			let usersWithLockedCode = [];
 			users.map(user => {
@@ -189,7 +185,6 @@ router.get('/all', (req, res) => {
 				})
 				.catch(err => {
 					console.log(err);
-					throw err;
 				});
 		})
 		.catch(err => {
@@ -199,7 +194,6 @@ router.get('/all', (req, res) => {
 });
 // signup
 router.post("/signup", (req, res) => {
-	//console.log(req.body, 'hey');
 	
 	const emailId = req.body.emailId;
 	const name = req.body.name;
@@ -220,7 +214,6 @@ router.post("/signup", (req, res) => {
 		if(!response || !response.body){
 			res.json({success: false, message: 'Server Error!'});
 		}
-		console.log(response.body);
 		if(response.body.status_code == 200 || response.body.status_code == 401){
 			res.json({success: false, message: 'Please login with Pragyan credentials!'});
 		}
@@ -393,12 +386,12 @@ router.get('/activate/:activation_key', (req, res) => {
 					}
 				})
 				.catch(err => {
-					//console.log(err, 1);
+					console.log(err, 1);
 					res.json({success: false, message: 'Activation Failed!'});
 				})
 		})
 		.catch(err => {
-			//console.log(err, 1);
+			console.log(err, 1);
 			res.json({success: false, message: 'Activation Failed!'});
 		})
 })
@@ -421,6 +414,7 @@ router.get('/search/:name', (req, res) => {
 			}
 		})
 		.catch(err => {
+			console.log(err);
 			res.json({success: true, message: "Server error!"});
 		})
 })

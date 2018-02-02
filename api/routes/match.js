@@ -50,16 +50,11 @@ router.get('/get_matches', (req, res) => {
         })
           .then(users => {
             let usersFetched = users.map(user => user.dataValues);
-            ////console.log(usersFetched);
-            ////console.log(usersFetched.map(userFetched=> userFetched.dataValues));
             match.dataValues.users = usersFetched;
-            //console.log(match);
-            ////console.log(match, users.map(user => {return }));
             matchesModified.push(match);
-            ////console.log(matchesModified);
           })
           .catch(err => {
-            //console.log(err);
+            console.log(err);
             res.json({success: false})
           });
         fetchPromises.push(x);
@@ -70,7 +65,8 @@ router.get('/get_matches', (req, res) => {
       })
     })
     .catch(err => {
-      res.json({err});
+      console.log(err);
+      res.json({success: false, message: 'Please try later!'});
     })
 });
 router.get('/get_match/:matchId', (req, res) => {
@@ -81,12 +77,10 @@ router.get('/get_match/:matchId', (req, res) => {
     attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'status','player1_dlog', 'player2_dlog', 'log']
   })
     .then(match => {
-      ////console.log(match.player1_dlog);
-      //match.player1_dlog = zlib.unzipSync(match.player1_dlog).toString('utf8');
       res.json({match});
     })
     .catch(err => {
-      //console.log(err);
+      console.log(err);
       res.json({err});
     })
 })
@@ -110,6 +104,7 @@ router.get('/get_latest_match_id', (req, res) => {
       res.json({match: matches[matches.length - 1]});
     })
     .catch(err => {
+      console.log(err);
       res.json({err});
     })
 })
@@ -122,6 +117,7 @@ router.get('/get_ais', (req, res) =>{
       res.json({ais})
     })
     .catch(err => {
+      console.log(err);
       res.json({err});
     })
 });
@@ -141,6 +137,7 @@ router.get('/match_status/:matchId', (req, res) => {
       //send logs after executing
     })
     .catch(err => {
+      console.log(err);
       res.json({success: false, message:'Fetch failed!'});
     });
 });
@@ -222,9 +219,8 @@ router.get('/compete/player/:againstId', (req, res) => {
                       //idk what to do here
                     })
                     .catch(err => {
-                      //console.log(err);
+                      console.log(err);
                     })
-                  //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
                   let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
                   if(success){
                     res.json({success: true, message: 'The match is running'});
@@ -233,22 +229,22 @@ router.get('/compete/player/:againstId', (req, res) => {
                   }
                 })
                 .catch(err => {
-                  //console.log(err);
+                  console.log(err);
                   res.json({success: false, message: 'There seems to be a server error. Please try again later!'});
                 });
             })
             .catch(err => {
-              //console.log(err);
+              console.log(err);
               res.json({success: false, message: "Internal server error!"});
             });
         })
         .catch(err => {
-          //console.log(err);
+          console.log(err);
           res.json({success: false, message: "Internal server error!"});
         })
     })
     .catch(err => {
-      //console.log(err);
+      console.log(err);
       res.json({success: false, message: 'Internal server error'});
     });
 
@@ -294,7 +290,6 @@ router.get('/compete/ai/:ai_id', (req, res) => {
             status: 'executing'
           })
             .then(matchSaved => {
-              //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
               let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, Number(aiId), true);
               if(success){
                 res.json({success: true, message: 'Your game is running'});
@@ -303,19 +298,17 @@ router.get('/compete/ai/:ai_id', (req, res) => {
               }
             })
             .catch(err => {
-              //console.log(err);
+              console.log(err);
               res.json({success: false, message: 'Try after sometime!'});
             });
-          //res.json({success: true, message:'Dummy log1'});
-          //execute code1.dll1, code2.dll2
-          //res.json({success: true, message:'Dummy log'});
         })
         .catch(err => {
-          //console.log(err, 1);
+          console.log(err, 1);
           res.json({success: false, message: "Internal server error!"});
         });
     })
     .catch(err => {
+      console.log(err);
       res.json({success: false, message: "Internal server error!"});
     })
 });
@@ -343,7 +336,6 @@ router.get('/compete/self', (req, res) => {
           status: 'executing'
         })
           .then(matchSaved => {
-            //console.log(matchSaved.id, matchSaved.player_id1, 'test2');
             let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id1, true);
             if(success){
               res.json({success: true, message: 'Your game is running'});
@@ -352,7 +344,7 @@ router.get('/compete/self', (req, res) => {
             }
           })
           .catch(err => {
-            //console.log(err);
+            console.log(err);
             res.json({success: false, message: 'Try after sometime!'});
           });
     })
@@ -417,6 +409,7 @@ function getMatchHandler(req, res){
       //send logs after executing
     })
     .catch(err => {
+      console.log(err);
       res.json({success: false, message:'Fetch failed!'});
     });
 }
