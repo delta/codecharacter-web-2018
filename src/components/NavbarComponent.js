@@ -17,7 +17,7 @@ export default class NavbarComponent extends React.Component {
   componentDidMount() {
     const element = document.getElementsByClassName('navbar');
     document.addEventListener('mousedown', function(event) {
-      if (!element[0].contains(event.target)) {
+      if (element[0] && !element[0].contains(event.target)) {
         document.getElementById('navbarColor02').setAttribute('class', 'collapse navbar-collapse');
       }
     });

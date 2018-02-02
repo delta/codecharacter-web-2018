@@ -30,7 +30,7 @@ export default class MatchesViewComponent extends React.Component {
 
   render() {
     let matchData = (this.props.matchesData);
-    let matchDataColumns = matchData.splice(0).reverse().map((data,index) => {
+    let matchDataColumns = matchData.slice().reverse().map((data,index) => {
       let date = new Date(data.createdAt);
       return (
           <tr key={index} align='center'>
