@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Modal, OverlayTrigger, Tooltip, FormGroup } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
-// import Recaptcha from 'react-recaptcha';
+import Recaptcha from 'react-recaptcha';
 import ReactFlagsSelect from 'react-flags-select';
 import {findDOMNode} from 'react-dom';
 import ReactTooltip from 'react-tooltip';
@@ -36,10 +36,15 @@ export default class SignUpComponent extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.recaptchaInstance.reset();
+  }
+
   updateStatus = (message) => {
     this.setState({
       disabled: false
     });
+    this.recaptchaInstance.reset();
 
     if (message === "Please fill all the required details") {
       this.usernameStatus = "";
@@ -106,6 +111,7 @@ export default class SignUpComponent extends React.Component {
       this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
     }
     else {
+      this.recaptchaInstance.reset();
       this.usernameStatus = "is-invalid";
       this.nameStatus = "";
       this.passwordStatus = "";
@@ -170,7 +176,12 @@ export default class SignUpComponent extends React.Component {
                   <ReactFlagsSelect defaultCountry="IN" searchable={true} onSelect={this.onSelectFlag}/>
                 </div>
                 <div style={{margin: '0 auto'}} className="form-group">
-                  {/*<Recaptcha verifyCallback={() => console.log("Verified")} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>*/}
+                  <Recaptcha
+                    render="explicit"
+                    verifyCallback={() => console.log("Verified")}
+                    sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"
+                    ref={e => this.recaptchaInstance = e}
+                  />
                   <div style={{color: 'red'}}>{this.state.captchaMessage}</div>
                 </div>
               </Modal.Body>
