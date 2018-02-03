@@ -258,14 +258,14 @@ setInterval(() => {
 																	let notification1 = models.Notification.create({
 																		type: 'SUCCESS'	,
 																		title: 'Executed successfully!',
-																		message: `Your match with ${opponentId} has executed successfully and your score was ${player1Score} `,
+																		message: `Your match with ${user2.name} has executed successfully and your score was ${player1Score} `,
 																		isRead: false,
 																		user_id: userId
 																	})
 																	let notification2 = models.Notification.create({
 																		type: 'SUCCESS'	,
 																		title: 'Executed successfully!',
-																		message: `Your match with ${userId} has executed successfully and your score was ${player2Score} `,
+																		message: `Your match with ${user1.name} has executed successfully and your score was ${player2Score} `,
 																		isRead: false,
 																		user_id: opponentId
 																	})
