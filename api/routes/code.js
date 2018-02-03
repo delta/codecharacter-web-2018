@@ -202,16 +202,32 @@ router.post("/save", (req, res)=>{
 	if(!source){
 		return res.json({success:false, message:"Pass proper params!"});
 	}
-	models.Code.create({
-		user_id: req.session.userId,
-		source: source
+	models.Code.update({
+		user_id: req.session.userId
 	})
 		.then((code)=>{
-			if(!code){
-				return res.json({success:"false", message:"Internal server error!"});
+			if(code){
+				models.Code.update({
+					source
+				},
+				{
+					where: {
+						id: code.id
+					}
+				})
+					.then(success => {
+						res.json({success: true, message: 'Code saved'});
+					})
+			}else{
+				models.Code.create({
+					source,
+					user_id: req.session.userId
+				})
+					.then(success => {
+						res.json({success: true, message: 'Code saved'});
+					})
 			}
 			//compile the code here and save the dll
-			return res.json({success:true, message:"Code saved!"});
 		});
 });
 router.get('/code_status', (req, res) => {
