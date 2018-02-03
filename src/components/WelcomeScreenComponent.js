@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import comic1 from './welcomeAssets/cc1.png';
 import comic2 from './welcomeAssets/cc2.png';
 import pragyanLogo from './welcomeAssets/pragyan-logo.png';
+import './welcomeAssets/scrollDown.css';
 
 export default class WelcomeScreenComponent extends React.Component {
   render() {
@@ -24,7 +25,8 @@ export default class WelcomeScreenComponent extends React.Component {
                   <Link to={"/signup"} className="btn btn-white mb-2 page-scroll">Sign Up</Link>
                 </p>
                 <div style={{textAlign: "center"}}><img src={comic1} style={{width: "70%", maxWidth: "360px"}}></img></div>
-                <div style={{textAlign: "center"}}><img src={comic2} style={{width: "70%", maxWidth: "360px"}}></img></div>
+				<div style={{textAlign: "center"}}><img src={comic2} style={{width: "70%", maxWidth: "360px"}}></img></div>
+				<div className="scroll-prompt" id="js_scrollPrompt"><div className="scroll-prompt-shape" /></div>
               </div>
             </div>
           </div>
