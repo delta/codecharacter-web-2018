@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import comic1 from './welcomeAssets/cc1.png';
 import comic2 from './welcomeAssets/cc2.png';
+import pragyanLogo from './welcomeAssets/pragyan-logo.png';
 
 export default class WelcomeScreenComponent extends React.Component {
   render() {
@@ -11,7 +12,10 @@ export default class WelcomeScreenComponent extends React.Component {
           <div className="container" style={{position: 'absolute', zIndex: 10, maxWidth: 1800}}>
             <div className="row d-md-flex brand" style={{width: '100%', marginTop: "50px"}}>
               <div className="col-md-12 col-sm-12 text-white" style={{position: 'absolute', width: '100%'}}>
-                <h2 className="pt-4" style={{fontSize: 45, zIndex: 100, textShadow: '6px 6px 20px #000000', textAlign: 'center'}}>CODE CHARACTER</h2>
+                <div id="header-container">
+                  <div style={{textAlign: "center", marginBottom: "-20px"}}><img src={pragyanLogo} style={{width: "100px"}}/></div>
+                  <h2 className="pt-4" style={{fontSize: 45, zIndex: 100, textShadow: '6px 6px 20px #000000', textAlign: 'center', marginTop: "2px"}}>CODE CHARACTER</h2>
+                </div>
                 <p style={{zIndex: 100, textShadow: '2px 2px 20px #000000', textAlign: 'center', marginTop: 0}}>
                   The Online AI Challenge
                 </p>
