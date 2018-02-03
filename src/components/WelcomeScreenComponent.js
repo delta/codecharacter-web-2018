@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import homeVideo from '../../public/home.webm';
+import comic1 from './welcomeAssets/cc1.png';
+import comic2 from './welcomeAssets/cc2.png';
 
 export default class WelcomeScreenComponent extends React.Component {
   render() {
@@ -8,16 +9,18 @@ export default class WelcomeScreenComponent extends React.Component {
       <div>
         <section className="hero" style={{padding: 0, zIndex: 10}}>
           <div className="container" style={{position: 'absolute', zIndex: 10, maxWidth: 1800}}>
-            <div className="row d-md-flex brand" style={{width: '100%', paddingTop: 50}}>
+            <div className="row d-md-flex brand" style={{width: '100%', marginTop: "50px"}}>
               <div className="col-md-12 col-sm-12 text-white" style={{position: 'absolute', width: '100%'}}>
                 <h2 className="pt-4" style={{fontSize: 45, zIndex: 100, textShadow: '6px 6px 20px #000000', textAlign: 'center'}}>CODE CHARACTER</h2>
-                <p className="mt-5" style={{zIndex: 100, textShadow: '2px 2px 20px #000000', textAlign: 'center'}}>
+                <p style={{zIndex: 100, textShadow: '2px 2px 20px #000000', textAlign: 'center', marginTop: 0}}>
                   The Online AI Challenge
                 </p>
-                <p className="mt-5" style={{textAlign: 'center'}}>
+                <p className="mt-5" style={{textAlign: 'center', marginBottom: "40px"}}>
                   <Link to={"/login"} className="btn btn-white mr-2 mb-2 page-scroll">Log In</Link>
                   <Link to={"/signup"} className="btn btn-white mb-2 page-scroll">Sign Up</Link>
                 </p>
+                <div style={{textAlign: "center"}}><img src={comic1} style={{width: "70%", maxWidth: "360px"}}></img></div>
+                <div style={{textAlign: "center"}}><img src={comic2} style={{width: "70%", maxWidth: "360px"}}></img></div>
               </div>
             </div>
           </div>
