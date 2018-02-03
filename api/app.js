@@ -12,12 +12,27 @@ const session = require("express-session");
 const app = express();
 const secretString = require("./config/serverConfig").cookieKey;
 const validator = require('./middlewares/validator');
+const MySQLStore = require('express-mysql-session')(session);
+const dbAuth = require("./config/config.js")[process.env.STAGE];
+var sessionStorageOptions = {
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'root',
+    database: 'session_test'
+};
+
+var sessionStore = new MySQLStore(sessionStorageOptions);
+
 app.use(session({
 	"secret": secretString,
 	"cookie": {
 	  "maxAge": 186000000,
 	},
 	"path": "/",
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false
 }));
 app.use(validator);
 app.use(favicon());

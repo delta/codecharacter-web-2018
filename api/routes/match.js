@@ -5,6 +5,18 @@ const models = require("../models");
 const zlib = require("zlib");
 const queueExecute = require('../utils/queueExecute');
 const Op = require('sequelize').Op;
+let WAIT_TIME_CHALLENGE;
+models.Constant.findOne({
+  where: {
+    key: 'WAIT_TIME_CHALLENGE'
+  }
+})
+  .then(constant => {
+    WAIT_TIME_CHALLENGE = constant.value;
+  })
+  .catch(err => {
+    WAIT_TIME_CHALLENGE = 30;
+  })
 router.get('/get_matches', (req, res) => {
   let userId = req.session.userId;
   models.Match.findAll({
@@ -59,7 +71,6 @@ router.get('/get_matches', (req, res) => {
             usersFetched[0] = player1;
             usersFetched[1] = player2;
             match.dataValues.users = usersFetched;
-            console.log(match);
             matchesModified.push(match);
           })
           .catch(err => {
@@ -169,12 +180,12 @@ router.get('/compete/player/:againstId', (req, res) => {
       let mostRecent = matches.pop();
       let now = new Date();
       if(mostRecent){
-        if((now.getTime() - mostRecent.createdAt.getTime()) < 1800000){
+        if((now.getTime() - mostRecent.createdAt.getTime()) < WAIT_TIME_CHALLENGE*60*1000){
           //console.log();
-          let timeLeft = 30 - (now.getTime() - mostRecent.updatedAt.getTime() )/60000;
+          let timeLeft = WAIT_TIME_CHALLENGE - (now.getTime() - mostRecent.updatedAt.getTime() )/60000;
           let minutes = Math.floor(timeLeft);
           let seconds = Math.floor((timeLeft - minutes) * 60);
-          return res.json({success: false, message: 'Please wait for '+ minutes + ' minutes and '+ seconds + ' seconds ' + 'to start a match with this user again', time_left: 30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000, minutes, seconds});
+          return res.json({success: false, message: 'Please wait for '+ minutes + ' minutes and '+ seconds + ' seconds ' + 'to start a match with this user again', time_left: WAIT_TIME_CHALLENGE - (now.getTime() - mostRecent.updatedAt.getTime() )/60000, minutes, seconds});
         }
       }
       models.Code.findOne({

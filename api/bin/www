@@ -1,10 +1,11 @@
 #!/usr/bin/node
 "use strict";
 let debug = require("debug")("my-application");
-let app = require("../app");
 if(!process.env.STAGE){
 	process.env.STAGE = "development";
 }
+
+let app = require("../app");
 app.set("port", process.env.PORT || 3001);
 
 let server = app.listen(app.get("port"), function() {

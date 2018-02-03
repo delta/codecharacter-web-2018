@@ -1,7 +1,18 @@
-let compileQueueSize = 100;
 let compileQueue = [];
 const models = require("../models");
 const request = require("request");
+let compileQueueSize;
+models.Constant.findOne({
+	where: {
+		key: 'MAX_QUEUED_COMPILATIONS'
+	}
+})
+	.then(constant => {
+		compileQueueSize = constant.value;
+	})
+	.catch(err => {
+		compileQueueSize = 100;
+	})
 let requestUnderway = false;
 const secretString = require("../config/serverConfig").cookieKey;
 const compileBoxUrl = require("../config/serverConfig").compileBoxUrl;

@@ -4,6 +4,18 @@ const router = express.Router();
 const models = require("../models");
 const request = require("request");
 const queueCompile = require('../utils/queueCompile');
+let COMPILE_RATE_LIMIT;
+models.Constant.findOne({
+	where: {
+		key: 'COMPILE_RATE_LIMIT'
+	}
+})
+	.then(constant => {
+		COMPILE_RATE_LIMIT = constant.value;
+	})
+	.catch(err => {
+		COMPILE_RATE_LIMIT = 5;
+	})
 /* GET home page. */
 router.post("/", function(req, res) {
 	const source = req.body.source;
@@ -25,7 +37,7 @@ router.post("/", function(req, res) {
 				}
 			})
 				.then(codesCompilingNow => {
-					if(codesCompilingNow.length >= 5){
+					if(codesCompilingNow.length >= COMPILE_RATE_LIMIT){
 
 						//do somethings and return here itself
 						if(!code)	{
