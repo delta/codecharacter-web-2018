@@ -225,7 +225,7 @@ router.get('/compete/player/:againstId', (req, res) => {
                       console.log(err);
                     })
                   let successPromise = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
-                  successPromise().then(success => {
+                  successPromise.then(success => {
                     if(success){
                       res.json({success: true, message: 'The match is running'});
                     }else{

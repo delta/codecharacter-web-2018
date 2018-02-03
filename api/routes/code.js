@@ -19,96 +19,101 @@ router.post("/", function(req, res) {
 	})
 		.then((code)=>{
 
-			let queue = queueCompile.compileQueue;
-			let count = 0;
-			queue.map(queueElement => {
-				if(queueElement.userId === userId){
-					count++;
+			models.CompileQueue.findAll({
+				where: {
+					user_id: req.session.userId
 				}
 			})
-			if(count >= 5){
-				//do somethings and return here itself
-				if(!code)	{
-					models.Code.create({
-						source,
-						user_id: userId,
-						status: 'error',
-						error_log: 'ERROR! Please try again later, you did a lot of compilations!'
-					})
-						.then(code => {
-							res.json({success: false, message: 'Queue Error!'});
-						})
-						.catch(err => {
-							console.log(err);
-							res.json({success: false, message: 'Please try later!'});
-						})
-				}else{
-					models.Code.update({
-						source,
-						status: 'error',
-						error_log: 'ERROR! Please try again later, you did a lot of compilations!'
-					},{
-						where: {
-							user_id: userId
-						}
-					})
-						.then(code => {
-							res.json({success: false, message: 'Queue Error!'});
-						})
-						.catch(err => {
-							console.log(err);
-							res.json({success: false, message: 'Please try later!'});
-						})
-				}
-			}else{
-				//here compile code and save as dlls in code
-				//just push the code and userID to the queue
-				if(!code){
-					//create
-					models.Code.create({
-						source,
-						user_id: userId,
-						status: 'compiling'
-					})
-						.then(code => {
-							let successPromise = queueCompile.pushToQueue(req.session.userId, source);
-							successPromise().then(success => {
-								if(!success){
-									return res.json({success: false, message: "Please try again later!"});
-								}
-								return res.json({success:true, message:"Code saved!", userId});
-							})
-						})
-						.catch(err => {
-							console.log(err);
-							res.json({success: false, message: 'Please try later!'});
-						})
-				}else{
-					//update
-					models.Code.update({
-						source,
-						status: 'compiling'
-					},{
-						where: {
-							user_id: userId
-						}
-					})
-						.then(code => {
-							let success = queueCompile.pushToQueue(req.session.userId, source);
-							if(!success){
+				.then(codesCompilingNow => {
+					if(codesCompilingNow.length >= 5){
 
-								console.log(success, 'why though');
-								return res.json({success: false, message: "Please try again later!"});
-							}
-							return res.json({success:true, message:"Code saved!", userId});
-							//res.json({success: true, message:'Code compiling!', user_id: userId});
-						})
-						.catch(err => {
-							console.log(err);
-							res.json({success: false, message: 'Please try later!'});
-						})
-				}
-			}
+						//do somethings and return here itself
+						if(!code)	{
+							models.Code.create({
+								source,
+								user_id: userId,
+								status: 'error',
+								error_log: 'ERROR! Please try again later, you did a lot of compilations!'
+							})
+								.then(code => {
+									res.json({success: false, message: 'Queue Error!'});
+								})
+								.catch(err => {
+									console.log(err);
+									res.json({success: false, message: 'Please try later!'});
+								})
+						}else{
+							models.Code.update({
+								source,
+								status: 'error',
+								error_log: 'ERROR! Please try again later, you did a lot of compilations!'
+							},{
+								where: {
+									user_id: userId
+								}
+							})
+								.then(code => {
+									res.json({success: false, message: 'Queue Error!'});
+								})
+								.catch(err => {
+									console.log(err);
+									res.json({success: false, message: 'Please try later!'});
+								})
+						}
+					}else{
+						//here compile code and save as dlls in code
+						//just push the code and userID to the queue
+						if(!code){
+							//create
+							models.Code.create({
+								source,
+								user_id: userId,
+								status: 'compiling'
+							})
+								.then(code => {
+									let successPromise = queueCompile.pushToQueue(req.session.userId, source);
+									successPromise.then(success => {
+										if(!success){
+											return res.json({success: false, message: "Please try again later!"});
+										}
+										return res.json({success:true, message:"Code saved!", userId});
+									})
+								})
+								.catch(err => {
+									console.log(err);
+									res.json({success: false, message: 'Please try later!'});
+								})
+						}else{
+							//update
+							models.Code.update({
+								source,
+								status: 'compiling'
+							},{
+								where: {
+									user_id: userId
+								}
+							})
+								.then(code => {
+									let success = queueCompile.pushToQueue(req.session.userId, source);
+									if(!success){
+
+										console.log(success, 'why though');
+										return res.json({success: false, message: "Please try again later!"});
+									}
+									return res.json({success:true, message:"Code saved!", userId});
+									//res.json({success: true, message:'Code compiling!', user_id: userId});
+								})
+								.catch(err => {
+									console.log(err);
+									res.json({success: false, message: 'Please try later!'});
+								})
+						}
+					}
+				})
+				.catch(err => {
+					console.log(err);
+					res.json({success: false, message: 'Internal Server Error'});
+				})
 		})
 		.catch(err => {
 			console.log(err);
