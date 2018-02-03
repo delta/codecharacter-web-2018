@@ -159,6 +159,7 @@ router.get("/lock", (req, res) => {
 						.then(code => {
 							let dll1 = code.dll1;
 							let dll2 = code.dll2;
+							//check with sai and stop from locking if dll1 is empty
 							models.Code.update({
 								dll1_locked: dll1,
 								dll2_locked: dll2

@@ -69,7 +69,6 @@ setInterval(() => {
 	}
 	getQueueSize()
 		.then(queueSize => {
-			console.log(queueSize);
 			if(queueSize){ 
 				processQueue()
 				.then(codeToBeExecuted => {
