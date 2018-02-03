@@ -31,6 +31,7 @@ export default class LeaderBoardComponent extends React.Component {
       pageCount: 1,
       activeSearch: false
     };
+    this.maxUserPerPage = 5;
   }
 
   componentWillMount() {

@@ -25,7 +25,7 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.FETCH_GAME_LOG, matchSagas.fetchGameLogSaga);
   yield takeEvery(actionTypes.FETCH_MATCH_ALL_DATA, matchSagas.matchFetchAllSaga);
   yield takeEvery(actionTypes.GET_MATCH_DATA, matchSagas.matchFetchDataSaga);
-  yield takeEvery(actionTypes.GET_LATEST_MATCH_ID, matchSagas.getLatestMatchIdSaga);
+  yield takeEvery(actionTypes.GET_GAME_STATUS, matchSagas.getGameStatusSaga);
   yield takeEvery(actionTypes.GET_MATCH_STATUS, matchSagas.getMatchStatusSaga);
 
   yield takeEvery(actionTypes.GET_ALL_NOTIFICATIONS, userProtectedSagas.getAllNotificationsSaga);

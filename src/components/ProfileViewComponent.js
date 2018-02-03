@@ -7,12 +7,10 @@ import FlagIconFactory from 'react-flag-icon-css/lib/index';
 export default class ProfileViewComponent extends React.Component {
 
   componentWillMount() {
-    console.log(this.props.match.params.name);
     this.props.getProfileViewData(this.props.match.params.name);
   }
 
   render() {
-
     const FlagIcon = FlagIconFactory(React, { useCssModules: false });
       console.log(this.props.profileViewData);
     if (this.props.profileViewData.name !== "") {

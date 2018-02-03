@@ -97,9 +97,8 @@ export default class DashboardComponent extends React.Component {
     }
 
     if (this.props.matchStatus === 'EXECUTING' && nextProps.matchStatus === 'SUCCESS') {
-      console.log("Here");
-      this.props.getLatestMatchId();
-      this.props.fetchGameLog(nextProps.lastMatchId);
+      this.props.getGameStatus(true);
+      // this.props.fetchGameLog(nextProps.lastMatchId);
     }
 
     if(nextProps.gameLog !== this.props.gameLog) {
@@ -114,20 +113,20 @@ export default class DashboardComponent extends React.Component {
     this.props.clearCompilationStatus();
     this.props.fetchCode();
     this.props.getAIs();
-    this.props.getLatestMatchId(true);
+    this.props.getGameStatus(true);
     this.windowResizeListener = window.addEventListener('resize',() => {
       this.setState({
         height: window.innerHeight,
         width: window.innerWidth
       })
     });
-    console.log("Dashboard Mounting");
     this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 500);
   }
 
   runCode = () => {
     this.props.clearCompilationStatus();
     this.props.changePingStatusActive(true);
+    console.log("Ping Status getiing Changed");
     this.props.runCode(this.state.code);
   };
 
@@ -249,7 +248,7 @@ export default class DashboardComponent extends React.Component {
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
                         options={{
-                          logFunction: (data) => {console.log(data); this.compilationData += data;},
+                          logFunction: (data) => {this.compilationData += data;},
                           player1Log: this.props.dLogs[0],
                           player2Log: this.props.dLogs[1],
                           playerID: 1

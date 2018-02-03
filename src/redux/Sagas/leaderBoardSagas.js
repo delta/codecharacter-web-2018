@@ -1,5 +1,5 @@
 import {
-  changeLastUsed, getLatestMatchId, updateLeaderboard,
+  changeLastUsed, getGameStatus, updateLeaderboard,
   updateUnreadNotifications
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
@@ -46,7 +46,7 @@ export function* leaderboardStartChallengeSaga(action) {
         createdAt: Date.now().toString()
       }]));
     }
-    yield put(getLatestMatchId());
+    yield put(getGameStatus());
     yield put(changeLastUsed(0));
   }
   catch(err) {

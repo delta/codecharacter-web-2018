@@ -26,25 +26,20 @@ export default class GlobalComponent extends React.Component {
 
   componentDidMount() {
     this.props.changePingStatusActive(false);
+    this.codeStatusInterval = setInterval(this.changePingStatus, this.state.interval);
     this.changePingStatus();
   }
 
   componentWillUnmount() {
-    clearInterval(this.codeStatus);
+    clearInterval(this.codeStatusInterval);
   }
 
   changePingStatus = () => {
-    this.codeStatus = setTimeout(() => {
-        console.log(this.state.interval);
-        if (this.props.loginStatus) {
-          this.props.getLatestMatchId();
-          // this.props.getCodeStatus();
-          // this.props.getMatchStatus(this.props.matchId);
-          this.props.getUnreadNotifications();
-        }
-        this.changePingStatus();
-      }
-      , this.state.interval);
+    // console.log('%c THE PING IS HERE!', 'color: green; font-weight: bold;');
+    if (this.props.loginStatus) {
+      this.props.getGameStatus();
+      this.props.getUnreadNotifications();
+    }
   };
 
   componentWillReceiveProps(nextProps) {
@@ -52,7 +47,6 @@ export default class GlobalComponent extends React.Component {
       this.startMatch(this.props.codeStatus, nextProps.codeStatus);
       this.getCompilationStatus(this.props.codeStatus, nextProps.codeStatus);
       this.handleCodeNotifications(this.props.codeStatus, nextProps.codeStatus);
-      this.props.getLatestMatchId();
     }
 
     if (this.props.matchStatus !== nextProps.matchStatus) {
@@ -61,32 +55,29 @@ export default class GlobalComponent extends React.Component {
 
     if(this.props.pingStatus !== nextProps.pingStatus) {
       if (nextProps.pingStatus) {
+        // console.log("Change Ping Status Interval", nextProps.pingStatus, this.state.interval);
         this.setState({
           interval: this.minPing
         });
       }
       else {
+        // console.log("Change Ping Status Interval Reverse", nextProps.pingStatus, this.state.interval);
         this.setState({
           interval: this.maxPing
         });
       }
-      setTimeout(this.changePingStatus, 1000);
-    }
-
-    if(this.props.loginStatus === false && nextProps.loginStatus === true) {
-      this.props.getLatestMatchId();
-      this.props.getUnreadNotifications();
     }
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    clearInterval(this.codeStatusInterval);
+    // console.log("Change Ping Status Interval Outside", this.state.interval);
+    this.changePingStatus();
+    this.codeStatusInterval = setInterval(this.changePingStatus, this.state.interval);
+  }
   handleCodeNotifications = (codeStatusOld, codeStatusNew) => {
     if (codeStatusNew === 'COMPILING') {
-      this.props.addNotifications([{
-        type: 'INFORMATION',
-        title: 'Compiling...',
-        message: 'Your code is being compiled. Hang on tight.',
-        createdAt: Date.now().toString()
-      }]);
+
     }
     if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS') {
       this.props.addNotifications([{
@@ -124,7 +115,6 @@ export default class GlobalComponent extends React.Component {
 
   startMatch = (codeStatusOld, codeStatusNew) => {
     if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS') {
-      this.props.getLatestMatchId();
       this.props.competeAgainstAI(this.props.aiId);
     }
   };

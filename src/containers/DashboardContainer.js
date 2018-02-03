@@ -8,7 +8,7 @@ import {
   fetchGameLog,
   getAIs,
   changeAIid, updateCompilationStatus, clearCompilationStatus, userAuthenticateCheck,
-  updateCompilationStatusAsync, changePingStatusActive, getLatestMatchId
+  updateCompilationStatusAsync, changePingStatusActive, getGameStatus
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -41,7 +41,7 @@ const mapDispatchToProps = dispatch => {
     clearCompilationStatus: () => {dispatch(clearCompilationStatus());},
     userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));},
-    getLatestMatchId: (trigger) => {dispatch(getLatestMatchId(trigger));}
+    getGameStatus: (trigger) => {dispatch(getGameStatus(trigger));}
   }
 };
 

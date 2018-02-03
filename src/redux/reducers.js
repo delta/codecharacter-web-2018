@@ -2,6 +2,7 @@ import actionTypes           from "./action_types";
 import initialState          from './initialState';
 
 export function codeCharacterReducer(state = initialState, action) {
+  // console.log(action);
   switch(action.type) {
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
       console.log(action);
@@ -171,7 +172,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.CHANGE_PING_STATUS_ACTIVE: {
-      console.log(action);
       return {
         ...state,
         pingStatusActive: action.pingStatusActive

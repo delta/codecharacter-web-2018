@@ -23,7 +23,7 @@ export const codeFetch = () => {
 };
 
 
-export const getCodeStatus = ({req,query}) => {
+export const getCodeStatusFetch = ({req,query}) => {
   return fetch(API_BASE_URL + 'code/code_status', {
     method: "GET",
     credentials: 'include',

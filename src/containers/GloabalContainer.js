@@ -2,7 +2,7 @@ import { connect }                             from 'react-redux';
 import GlobalComponent                         from '../components/GlobalComponent';
 import {
   getCodeStatus,
-  getLatestMatchId,
+  getGameStatus,
   getMatchStatus,
   getUnreadNotifications,
   competeAgainstAI, fetchGameLog, getCompilationStatus,
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getCodeStatus: () => {dispatch(getCodeStatus());},
     getMatchStatus: (id) => {dispatch(getMatchStatus(id));},
-    getLatestMatchId: () => {dispatch(getLatestMatchId());},
+    getGameStatus: () => {dispatch(getGameStatus());},
     fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));},
     getUnreadNotifications: () => {dispatch(getUnreadNotifications());},
     competeAgainstAI: (id) => {dispatch(competeAgainstAI(id));},

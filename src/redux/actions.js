@@ -82,8 +82,8 @@ export const getMatchData = (matchId) => ({
   matchId
 });
 
-export const getLatestMatchId = (trigger=false) => ({
-  type: actionTypes.GET_LATEST_MATCH_ID,
+export const getGameStatus = (trigger=false) => ({
+  type: actionTypes.GET_GAME_STATUS,
   trigger
 });
 

@@ -3,6 +3,7 @@ import {
   changeLastUsed,
   updateCode,
   updateCompilationStatus,
+  getCodeStatus,
   updateUnreadNotifications
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
@@ -10,7 +11,7 @@ import {
   codeCompile,
   codeFetch,
   codeLock,
-  getCodeStatus,
+  getCodeStatusFetch,
   getCompilationStatus
 } from '../../shellFetch/codeFetch';
 import { executeCode } from '../../shellFetch/matchFetch';
@@ -20,10 +21,19 @@ export function* codeSubmitSaga(action) {
     let query = {
       source: action.code,
     };
+
     yield put(updateCode(action.code));
+    yield put(changeLastUsed(0));
+
     let response = yield call(codeCompile,{req: null, query: query});
+
     if (response.success) {
-      yield put(changeLastUsed(0));
+      yield put(updateUnreadNotifications([{
+        type: 'INFORMATION',
+        title: 'Compiling...',
+        message: 'Your code is being compiled. Hang on tight.',
+        createdAt: Date.now().toString()
+      }]));
     }
     else {
       yield put(updateUnreadNotifications([{
@@ -33,6 +43,7 @@ export function* codeSubmitSaga(action) {
         createdAt: Date.now().toString()
       }]));
     }
+
   }
   catch(err) {
     console.log(err);
@@ -108,7 +119,7 @@ export function* codeLockSaga(action) {
 
 export function* getCodeStatusSaga(action) {
   try {
-    let response = yield call(getCodeStatus, {req: null, query: null});
+    let response = yield call(getCodeStatusFetch, {req: null, query: null});
     yield put(changeCodeStatus(response.status));
   }
   catch (err) {

@@ -75,7 +75,7 @@ router.get('/chunk/:from/:strength', (req, res) => {
 		.then( users => {
 			users.sort( (user1, user2) => {
 				if(user1.dataValues.rating > user2.dataValues.rating){
-					return -1; 
+					return -1;
 				}else{
 					return 1;
 				}
@@ -118,6 +118,14 @@ router.get('/chunk/:from/:strength', (req, res) => {
 						});
 						ratings.push(retObj);
 					});
+          ratings.sort((user1, user2) => {
+            if(user1.rating > user2.rating){
+              return -1;
+            }else if(user1.rating < user2.rating){
+              return 1;
+            }
+            return 0;
+          });
 					ratings = ratings.slice(req.params.from, req.params.strength);
 					res.json({success:true, ratings});
 				})

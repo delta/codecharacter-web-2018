@@ -49,12 +49,14 @@ export function* matchFetchDataSaga(action) {
   }
 }
 
-export function* getLatestMatchIdSaga(action) {
+export function* getGameStatusSaga(action) {
   try {
+
     let response = yield call(getLatestMatchId,{req: null, query: null});
-    console.log(response);
     yield put(changeLastMatchId(response.match ? response.match.id : -1));
+
     yield put(getCodeStatus());
+
     if (response.match) {
       yield put(getMatchStatus(response.match.id));
       if(action.trigger) {

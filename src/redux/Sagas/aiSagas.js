@@ -1,4 +1,4 @@
-import { changeLastUsed, updateAIs } from '../actions';
+import { changeLastUsed, getGameStatus, updateAIs } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import { competeAgainstAI, getAIs } from '../../shellFetch/aiFetch';
 import { competeSelf } from '../../shellFetch/matchFetch';
@@ -26,6 +26,7 @@ export function* competeAgainstAISaga(action) {
     else {
       response = yield call(competeAgainstAI, {req: null, query: query});
     }
+    yield put(getGameStatus());
     yield put(changeLastUsed(1));
   }
   catch (err) {
