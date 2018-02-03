@@ -30,10 +30,24 @@ export default class MatchesViewComponent extends React.Component {
 
   render() {
     let matchData = (this.props.matchesData);
+    let bgColors = {
+      lost: "#FFB4B4",
+      won: "#92CE92",
+      tie: "#FFF8B4"
+    };
     let matchDataColumns = matchData.slice().reverse().map((data,index) => {
+      let winnerId = (data.scorep1 > data.scorep2) ? data.users[0].id : (data.scorep1 < data.scorep2) ? data.users[1] : -1;
+      let result;
+      if (winnerId === this.props.userId) {
+        result = 'won';
+      } else if (winnerId === -1) {
+        result = 'tie';
+      } else {
+        result = 'lost';
+      }
       let date = new Date(data.createdAt);
       return (
-          <tr key={index} align='center'>
+          <tr key={index} align='center' style={{backgroundColor: bgColors[result]}}>
             <td onClick={() => {this.props.fetchGameLog(data.id);}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
             <td>{date.toLocaleDateString()}  {date.toLocaleTimeString('en-US')}</td>
             <td>{data.users[0].name}</td>
@@ -50,8 +64,8 @@ export default class MatchesViewComponent extends React.Component {
         <table className='table table-striped table-bordered table-hover'>
         <thead>
         <tr align='center'>
-          <th>Play</th>
-          <th>Last Updated</th>
+          <th>View Match</th>
+          <th>Time</th>
           <th>Player 1</th>
           <th>Score 1</th>
           <th>Player 2</th>
