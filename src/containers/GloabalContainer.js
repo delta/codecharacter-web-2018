@@ -7,7 +7,7 @@ import {
   getUnreadNotifications,
   competeAgainstAI, fetchGameLog, getCompilationStatus,
   fetchCode, updateUnreadNotifications, changePingStatusActive, codeSave, lockCode,
-  changeCodeBeingSubmitted
+  changeCodeBeingSubmitted, changeLastUsed
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -38,7 +38,8 @@ const mapDispatchToProps = dispatch => {
     changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));},
     codeSave: (code) => {dispatch(codeSave(code));},
     lockCode: (code) => {dispatch(lockCode(code));},
-    changeCodeBeingSubmitted: (status) => {dispatch(changeCodeBeingSubmitted(status));}
+    changeCodeBeingSubmitted: (status) => {dispatch(changeCodeBeingSubmitted(status))},
+    changeLastUsed: (status) => {dispatch(changeLastUsed(status));}
   };
 };
 

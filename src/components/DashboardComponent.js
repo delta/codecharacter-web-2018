@@ -185,7 +185,7 @@ export default class DashboardComponent extends React.Component {
   };
 
   updateCodeToApi = () => {
-      // this.props.updateCode(this.state.code);
+      this.props.updateCode(this.state.code);
   };
 
   updateCompilationData = () => {

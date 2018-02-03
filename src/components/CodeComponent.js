@@ -50,12 +50,6 @@ export default class CodeComponent extends React.Component {
     keyboardHandler: 'default'
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.height !== nextProps.height) {
-      this.refs.codeCharacterEditor.editor.resize();
-    }
-  };
-
   componentDidUpdate() {
     // document.getElementsByClassName('ace_scroller')[0].scrollTop = document.getElementsByClassName('ace_scroller')[0].scrollHeight;
   }

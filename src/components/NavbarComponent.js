@@ -30,6 +30,7 @@ export default class NavbarComponent extends React.Component {
   }
 
   render() {
+    // console.log(this.props.lastUsed===0 ? this.props.codeStatus : this.props.matchStatus, this.props.codeStatus, this.props.matchStatus, this.props.lastUsed);
     return (
       <nav
         className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"

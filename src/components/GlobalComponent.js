@@ -31,6 +31,7 @@ export default class GlobalComponent extends React.Component {
 
   componentDidMount() {
     this.props.changePingStatusActive(false);
+    this.props.changeLastUsed(0);
     this.codeStatusInterval = setInterval(this.changePingStatus, this.state.interval);
     this.changePingStatus();
   }
@@ -78,9 +79,6 @@ export default class GlobalComponent extends React.Component {
     this.codeStatusInterval = setInterval(this.changePingStatus, this.state.interval);
   }
   handleCodeNotifications = (codeStatusOld, codeStatusNew) => {
-    if (codeStatusNew === 'COMPILING') {
-
-    }
     if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS') {
       this.props.addNotifications([{
         type: 'SUCCESS',
@@ -116,12 +114,12 @@ export default class GlobalComponent extends React.Component {
   };
 
   startMatch = (codeStatusOld, codeStatusNew) => {
-    console.log(this.props.codeBeingSubmitted);
     if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS' && !this.props.codeBeingSubmitted) {
       this.props.competeAgainstAI(this.props.aiId);
     }
     else if(codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS' && this.props.codeBeingSubmitted) {
       this.props.changeCodeBeingSubmitted(false);
+      this.props.changePingStatusActive(false);
       this.props.lockCode();
     }
   };
