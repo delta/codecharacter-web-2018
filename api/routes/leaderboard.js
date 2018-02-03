@@ -5,11 +5,11 @@ const models = require("../models");
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-router.get("/", (req, res)=>{
+router.get("/", (req, res) => {
 	models.User.findAll({
-		attributes:["id", "name","rating"]
+		attributes: ["id", "name", "rating"]
 	})
-		.then((users)=>{
+		.then((users) => {
 			let codeFetchPromises = [];
 			let usersWithLockedCode = [];
 			console.log(users);
@@ -20,16 +20,16 @@ router.get("/", (req, res)=>{
 					}
 				})
 					.then(code => {
-						if(!code){
+						if (!code) {
 							return;
 						}
-						if(code.dll1_locked){
+						if (code.dll1_locked) {
 							usersWithLockedCode.push(user);
 						}
 					})
 					.catch(err => {
 						console.log(err);
-						res.json({success: false, message: 'Please try later!'});
+						res.json({ success: false, message: 'Please try later!' });
 					});
 
 				codeFetchPromises.push(x);
@@ -46,23 +46,23 @@ router.get("/", (req, res)=>{
 						ratings.push(retObj);
 					});
 					ratings.sort((user1, user2) => {
-						if(user1.rating > user2.rating){
+						if (user1.rating > user2.rating) {
 							return -1;
-						}else if(user1.rating < user2.rating){
+						} else if (user1.rating < user2.rating) {
 							return 1;
 						}
 						return 0;
 					});
-					res.json({success:true, ratings});
+					res.json({ success: true, ratings });
 				})
 				.catch(err => {
 					console.log(err);
-					res.json({success: false, message: 'Please try later!'});
+					res.json({ success: false, message: 'Please try later!' });
 				});
 		})
 		.catch((err) => {
 			console.log(err);
-			res.json({success:false, message:"internal server error"});
+			res.json({ success: false, message: "internal server error" });
 		});
 });
 
@@ -70,13 +70,13 @@ router.get('/chunk/:from/:strength', (req, res) => {
 	models.User.findAll({
 		where: {},
 		order: ['rating'],
-		attributes:['id', 'name', 'rating']
+		attributes: ['id', 'name', 'rating']
 	})
-		.then( users => {
-			users.sort( (user1, user2) => {
-				if(user1.dataValues.rating > user2.dataValues.rating){
+		.then(users => {
+			users.sort((user1, user2) => {
+				if (user1.dataValues.rating > user2.dataValues.rating) {
 					return -1;
-				}else{
+				} else {
 					return 1;
 				}
 			});
@@ -91,16 +91,16 @@ router.get('/chunk/:from/:strength', (req, res) => {
 					}
 				})
 					.then(code => {
-						if(!code){
+						if (!code) {
 							return;
 						}
-						if(code.dll1_locked){
+						if (code.dll1_locked) {
 							usersWithLockedCode.push(user);
 						}
 					})
 					.catch(err => {
 						console.log(err);
-						res.json({success: false, message: 'Please try later!'});
+						res.json({ success: false, message: 'Please try later!' });
 					});
 
 				codeFetchPromises.push(x);
@@ -118,20 +118,24 @@ router.get('/chunk/:from/:strength', (req, res) => {
 						});
 						ratings.push(retObj);
 					});
-          ratings.sort((user1, user2) => {
-            if(user1.rating > user2.rating){
-              return -1;
-            }else if(user1.rating < user2.rating){
-              return 1;
-            }
-            return 0;
-          });
+					ratings.sort((user1, user2) => {
+						if (user1.rating > user2.rating) {
+							return -1;
+						} else if (user1.rating < user2.rating) {
+							return 1;
+						}
+						if (user1.name > user2.name) {
+							return -1;
+						} else {
+							return 1;
+						}
+					});
 					ratings = ratings.slice(req.params.from, req.params.strength);
-					res.json({success:true, ratings});
+					res.json({ success: true, ratings });
 				})
 				.catch(err => {
 					console.log(err);
-					res.json({success: false, message: 'Please try later!'});
+					res.json({ success: false, message: 'Please try later!' });
 				});
 		})
 		.catch(err => {
@@ -140,22 +144,22 @@ router.get('/chunk/:from/:strength', (req, res) => {
 		})
 })
 router.get('/search/:pattern/:limit', (req, res) => {
-  //console.log(req.params.pattern);
-  models.User.findAll({
-    where: {
-      name: {
-        [Op.like]: req.params.pattern + '%'
-      }
-    },
-    order: ['rating'],
-    limit: Number(req.params.limit)
-  })
-    .then( users => {
-      res.json({users});
-    })
-    .catch(err => {
-      console.log(err);
-      res.json(err);
-    })
+	//console.log(req.params.pattern);
+	models.User.findAll({
+		where: {
+			name: {
+				[Op.like]: req.params.pattern + '%'
+			}
+		},
+		order: ['rating'],
+		limit: Number(req.params.limit)
+	})
+		.then(users => {
+			res.json({ users });
+		})
+		.catch(err => {
+			console.log(err);
+			res.json(err);
+		})
 })
 module.exports = router;

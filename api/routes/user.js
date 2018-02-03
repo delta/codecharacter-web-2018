@@ -143,38 +143,24 @@ router.get('/all', (req, res) => {
 			let codeFetchPromises = [];
 			let usersWithLockedCode = [];
 			users.map(user => {
-				let x = models.Match.findOne({
+				let x = models.Code.findOne({
 					where: {
-						$or: [
-							{
-								player_id1: user.id,
-								player_id2: {
-									[Op.not] : user.id
-								}
-							},
-							{
-								player_id1: {
-									[Op.not] : user.id
-								},
-								player_id2: user.id
-							}
-						]
+						user_id: user.id
 					}
 				})
-					.then(match => {
-						//console.log(match.dataValues);
-						if(!match){
-							//return;
-						}else{
+					.then(code => {
+						if(!code){
+							return;
+						}
+						if(code.dll1_locked){
 							usersWithLockedCode.push(user);
 						}
-
 					})
 					.catch(err => {
 						console.log(err);
-						//throw err;
+						res.json({success: false, message: 'Please try later!'});
 					});
-					//console.log(new Date());
+
 				codeFetchPromises.push(x);
 			})
 			let ratings = [];
