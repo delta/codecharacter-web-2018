@@ -6,7 +6,7 @@ import {
   getMatchStatus,
   getUnreadNotifications,
   competeAgainstAI, fetchGameLog, getCompilationStatus,
-  fetchCode, updateUnreadNotifications, changePingStatusActive
+  fetchCode, updateUnreadNotifications, changePingStatusActive, codeSave
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -17,7 +17,8 @@ const mapStateToProps = state => {
     lastUsed: state.lastUsed,
     aiId: state.activeAiId,
     matchId: state.lastMatchId,
-    pingStatus: state.pingStatusActive
+    pingStatus: state.pingStatusActive,
+    code: state.code
   };
 };
 
@@ -32,7 +33,8 @@ const mapDispatchToProps = dispatch => {
     getCompilationStatus: () => {dispatch(getCompilationStatus());},
     fetchCode: () => {dispatch(fetchCode());},
     addNotifications: (notifications) => {dispatch(updateUnreadNotifications(notifications));},
-    changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));}
+    changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));},
+    codeSave: (code) => {dispatch(codeSave(code));}
   };
 };
 

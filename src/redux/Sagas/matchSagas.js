@@ -7,7 +7,7 @@ import { call, put } from 'redux-saga/effects';
 import {
   changeLastMatchId, changeMatchStatus, getCodeStatus, updateCompilationStatus, updateGameDlogs,
   updateGameLog, getMatchStatus, fetchGameLog,
-  updateMatchAllData, updateUnreadNotifications
+  updateMatchAllData, updateUnreadNotifications,
 } from '../actions';
 
 export function* matchFetchAllSaga() {

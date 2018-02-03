@@ -17,6 +17,7 @@ export default function* codeCharacterSagas() {
   yield takeEvery(actionTypes.GET_CODE_STATUS, codeSagas.getCodeStatusSaga);
   yield takeEvery(actionTypes.EXECUTE_CODE, codeSagas.executeCodeSaga);
   yield takeEvery(actionTypes.GET_COMPILATION_STATUS, codeSagas.getCompilationStatusSaga);
+  yield takeEvery(actionTypes.CODE_SAVE, codeSagas.codeSaveSaga);
 
   yield takeEvery(actionTypes.FETCH_LEADERBOARD_DATA, leaderBoardSagas.leaderboardGetPlayersSaga);
   yield takeEvery(actionTypes.START_CHALLENGE, leaderBoardSagas.leaderboardStartChallengeSaga);

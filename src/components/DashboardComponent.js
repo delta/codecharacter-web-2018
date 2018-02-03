@@ -31,6 +31,7 @@ export default class DashboardComponent extends React.Component {
     getAIs: PropTypes.func,
     fetchGameLog: PropTypes.func,
     changeAIid: PropTypes.func,
+    updateCode: PropTypes.func,
     initialLogin: PropTypes.bool,
     clearCompilationStatus: PropTypes.func,
     changePingStatusActive: PropTypes.func
@@ -54,6 +55,7 @@ export default class DashboardComponent extends React.Component {
     lockCode: () => {},
     fetchCode: () => {},
     logout: () => {},
+    updateCode: () => {},
     getAIs: () => {},
     fetchGameLog: () => {},
     changeAIid: () => {},
@@ -86,6 +88,7 @@ export default class DashboardComponent extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.windowResizeListener);
     clearInterval(this.updateCompildationDataInterval);
+    clearInterval(this.updateCodeToStorageInterval);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,6 +123,7 @@ export default class DashboardComponent extends React.Component {
       })
     });
     this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 1000);
+    this.updateCodeToStorageInterval = setInterval(this.updateCodeToStorage, 10000);
   }
 
   runCode = () => {
@@ -172,6 +176,10 @@ export default class DashboardComponent extends React.Component {
     this.setState({
       highlightActiveLine: highlightActiveLine
     })
+  };
+
+  updateCodeToStorage = () => {
+      this.props.updateCode(this.state.code);
   };
 
   updateCompilationData = () => {
@@ -246,6 +254,7 @@ export default class DashboardComponent extends React.Component {
                         logFile={this.state.logFile}
                         options={{
                           logFunction: (data) => {this.compilationData += data;},
+                          logClearFunction: () => {this.props.clearCompilationStatus();},
                           player1Log: this.props.dLogs[0],
                           player2Log: this.props.dLogs[1],
                           playerID: 1

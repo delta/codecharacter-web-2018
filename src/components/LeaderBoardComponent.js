@@ -66,7 +66,6 @@ export default class LeaderBoardComponent extends React.Component {
 
   render() {
     this.maxPages = Math.ceil(this.props.totalUsers/(this.maxUserPerPage));
-
     let tableColumns = (this.props.playersData).map((data, index) => {
       return (
         <tr key={index}>

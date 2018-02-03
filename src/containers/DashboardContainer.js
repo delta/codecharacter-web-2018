@@ -7,8 +7,14 @@ import {
   fetchCode,
   fetchGameLog,
   getAIs,
-  changeAIid, updateCompilationStatus, clearCompilationStatus, userAuthenticateCheck,
-  updateCompilationStatusAsync, changePingStatusActive, getGameStatus
+  changeAIid,
+  updateCompilationStatus,
+  clearCompilationStatus,
+  userAuthenticateCheck,
+  updateCompilationStatusAsync,
+  changePingStatusActive,
+  getGameStatus,
+  updateCode
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -41,7 +47,8 @@ const mapDispatchToProps = dispatch => {
     clearCompilationStatus: () => {dispatch(clearCompilationStatus());},
     userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));},
-    getGameStatus: (trigger) => {dispatch(getGameStatus(trigger));}
+    getGameStatus: (trigger) => {dispatch(getGameStatus(trigger));},
+    updateCode: (code) => {dispatch(updateCode(code));}
   }
 };
 

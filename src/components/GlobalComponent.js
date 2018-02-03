@@ -7,10 +7,12 @@ export default class GlobalComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
     pingStatus: PropTypes.bool,
+    code: PropTypes.string,
     getCodeStatus: PropTypes.func,
     getLatestMatchId: PropTypes.func,
     getMatchStatus: PropTypes.func,
     fetchCode: PropTypes.func,
+    codeSave: PropTypes.func,
     addNotifications: PropTypes.func,
     changePingStatusActive: PropTypes.func
   };
@@ -37,6 +39,7 @@ export default class GlobalComponent extends React.Component {
   changePingStatus = () => {
     if (this.props.loginStatus) {
       this.props.getGameStatus();
+      // this.props.codeSave(this.props.code);
       this.props.getUnreadNotifications();
     }
   };

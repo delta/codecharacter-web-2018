@@ -50,6 +50,11 @@ export const fetchLeaderboardData = (start, size) => ({
   size
 });
 
+export const codeSave = (code) => ({
+  type: actionTypes.CODE_SAVE,
+  code
+});
+
 export const updateLeaderboard = (data) => ({
   type: actionTypes.UPDATE_LEADERBOARD,
   data

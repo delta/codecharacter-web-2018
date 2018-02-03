@@ -113,3 +113,29 @@ export const getCompilationStatus = ({req, query}) => {
       // throw error;
     });
 };
+
+export const codeSaveFetch = ({req, query}) => {
+  return fetch(API_BASE_URL + 'code/save', {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      source: query.code
+    })
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
+    });
+};

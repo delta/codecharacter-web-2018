@@ -4,13 +4,14 @@ import {
   updateCode,
   updateCompilationStatus,
   getCodeStatus,
-  updateUnreadNotifications, clearCompilationStatus
+  updateUnreadNotifications,
+  clearCompilationStatus
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import {
   codeCompile,
   codeFetch,
-  codeLock,
+  codeLock, codeSaveFetch,
   getCodeStatusFetch,
   getCompilationStatus
 } from '../../shellFetch/codeFetch';
@@ -47,7 +48,7 @@ export function* codeSubmitSaga(action) {
   }
   catch(err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -74,7 +75,7 @@ export function* codeFetchSaga() {
   }
   catch(err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -113,7 +114,7 @@ export function* codeLockSaga(action) {
   }
   catch(err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -124,7 +125,7 @@ export function* getCodeStatusSaga(action) {
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -142,18 +143,30 @@ export function* executeCodeSaga() {
 export function* getCompilationStatusSaga() {
   try {
     let response = yield call(getCompilationStatus, {req: null, query: null});
-    let y = '';
-    let x = new Uint8Array(new Buffer(response.error));
-    x.map(charCode => {
-      y += String.fromCharCode(charCode);
+    let responseString = '';
+    let responseBuffer = new Uint8Array(new Buffer(response.error));
+    responseBuffer.map(charCode => {
+      responseString += String.fromCharCode(charCode);
     });
     if (response.error) {
       yield put(clearCompilationStatus());
-      yield put(updateCompilationStatus(y));
+      yield put(updateCompilationStatus(responseString));
     }
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
+  }
+}
+
+export function* codeSaveSaga(action) {
+  try {
+    let query = {
+      code: action.code
+    };
+    let response = yield call(codeSaveFetch, {req: null, query: query});
+  }
+  catch (err) {
+    console.log(err);
   }
 }

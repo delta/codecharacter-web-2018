@@ -1,4 +1,4 @@
-import { changeLastUsed, getGameStatus, updateAIs } from '../actions';
+import { changeLastUsed, getGameStatus, updateAIs, updateUnreadNotifications } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import { competeAgainstAI, getAIs } from '../../shellFetch/aiFetch';
 import { competeSelf } from '../../shellFetch/matchFetch';
@@ -6,11 +6,13 @@ import { competeSelf } from '../../shellFetch/matchFetch';
 export function* getAIsSaga() {
   try  {
     let response = yield call(getAIs, {req: null, query: null});
-    yield put(updateAIs(response.ais));
+    if(response.ais) {
+      yield put(updateAIs(response.ais));
+    }
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -26,11 +28,21 @@ export function* competeAgainstAISaga(action) {
     else {
       response = yield call(competeAgainstAI, {req: null, query: query});
     }
-    yield put(getGameStatus());
-    yield put(changeLastUsed(1));
+    if (!response.success) {
+      yield put(updateUnreadNotifications([{
+        type: 'ERROR',
+        title: 'Error',
+        message: response.message,
+        createdAt: Date.now().toString()
+      }]));
+    }
+    else {
+      yield put(getGameStatus());
+      yield put(changeLastUsed(1));
+    }
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
