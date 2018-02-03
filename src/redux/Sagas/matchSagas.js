@@ -13,7 +13,6 @@ import {
 export function* matchFetchAllSaga() {
   try {
     const response = yield call(matchFetchAll,{req: null, query: null});
-    console.log(response.matchesModified);
     if (!response.matchesModified && !response.redirect) {
       yield put(updateUnreadNotifications([{
         type: 'ERROR',
@@ -38,7 +37,6 @@ export function* matchFetchDataSaga(action) {
     let query = {
       matchId: action.matchId,
     };
-    console.log(action);
     const response = yield call(matchFetchData,{req: null, query: query});
     yield put(updateGameLog(response.match.log.data));
     yield put(updateCompilationStatus(''));
@@ -99,9 +97,7 @@ export function* fetchGameLogSaga(action) {
     let query = {
       matchId: action.matchId
     };
-    console.log(action.matchId);
     let response = yield call(fetchGameLogFetch,{req: null, query: query});
-    console.log("Fetching Game Log");
     var pako = window.pako;
 
     let player1DLog, player2DLog;

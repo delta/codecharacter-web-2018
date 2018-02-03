@@ -36,7 +36,6 @@ export const getCodeStatusFetch = ({req,query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -106,7 +105,6 @@ export const getCompilationStatus = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {

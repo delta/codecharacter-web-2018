@@ -5,7 +5,6 @@ export function codeCharacterReducer(state = initialState, action) {
   // console.log(action);
   switch(action.type) {
     case actionTypes.UPDATE_USER_LOGIN_STATUS: {
-      console.log(action);
       return {
         ...state,
         username: action.response.username ? action.response.username : state.username.toString(),
@@ -14,7 +13,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_USER_ID: {
-      console.log(action);
       return {
         ...state,
         userId: action.userId.userId,
@@ -66,7 +64,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.CHANGE_CODE_STATUS: {
-      console.log(action.status);
       return {
         ...state,
         codeStatus: (!action.status || action.status===200)?'IDLE':action.status
@@ -144,7 +141,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_PROFILE_DATA: {
-      console.log(action.data);
       return {
         ...state,
         profileData: action.data

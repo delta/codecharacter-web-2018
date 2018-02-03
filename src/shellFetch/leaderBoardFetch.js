@@ -13,7 +13,6 @@ export const leaderboardGetPlayers = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -46,7 +45,6 @@ export const leaderboardGetAllPlayers = ({req , query}) => {
 };
 
 export const startChallenge = ({req , query}) => {
-  console.log(query);
   return fetch(API_BASE_URL + 'leaderboard/match/compete/player',{
     method: "POST",
     credentials: 'include',

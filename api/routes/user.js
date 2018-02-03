@@ -424,7 +424,6 @@ router.get("/profile/:id", (req, res)=>{
 		attributes:["id", "name", "email", "rating", "nationality"]
 	})
 		.then((user)=>{
-			console.log(user);
 			if(!user){
 				res.json({success:false, message:"No users with this id"});
 			}else{

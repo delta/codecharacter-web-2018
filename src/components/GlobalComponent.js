@@ -89,7 +89,6 @@ export default class GlobalComponent extends React.Component {
   };
 
   handleMatchNotifications = (matchStatusOld, matchStatusNew) => {
-    console.log(matchStatusOld, matchStatusNew);
     if (matchStatusNew === 'EXECUTING') {
         this.props.addNotifications([{
           type: 'INFORMATION',

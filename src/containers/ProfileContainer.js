@@ -17,7 +17,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     changeProfileName: (name) => {dispatch(changeProfileName(name));},
-    getProfileData: (id) => {console.log(id); dispatch(getProfileData(id))},
+    getProfileData: (id) => {dispatch(getProfileData(id))},
     userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());}
   };
 };

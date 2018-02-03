@@ -86,7 +86,6 @@ export default class DashboardComponent extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.windowResizeListener);
     clearInterval(this.updateCompildationDataInterval);
-    console.log("Component Unmounting");
   }
 
   componentWillReceiveProps(nextProps) {
@@ -146,14 +145,12 @@ export default class DashboardComponent extends React.Component {
   };
 
   changeFontSize = (fontSize) => {
-    console.log(fontSize);
     this.setState({
       fontSize: Number(fontSize)
     });
   };
 
   changeKeyboardHandler = (keyboardHandler) => {
-    console.log(keyboardHandler);
       this.setState({
         keyboardHandler: keyboardHandler
       });
@@ -166,7 +163,6 @@ export default class DashboardComponent extends React.Component {
   };
 
   changeEnableLiveAutoCompletion = (liveAutocompletion) => {
-    console.log(liveAutocompletion);
     this.setState({
       enableLiveAutoCompletion: liveAutocompletion
     })
@@ -312,7 +308,12 @@ export default class DashboardComponent extends React.Component {
               {this.state.logFile
                 ?(<CodeCharacterRenderer
                   logFile={this.state.logFile}
-                  logFunction={console.log}
+                  options={{
+                    logFunction: (data) => {this.compilationData += data;},
+                    player1Log: this.props.dLogs[0],
+                    player2Log: this.props.dLogs[1],
+                    playerID: 1
+                  }}
                 />)
                 : <div className="jumbotron">
                   <p className="lead">{this.props.defaultText}</p>

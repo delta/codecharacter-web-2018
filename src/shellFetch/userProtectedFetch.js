@@ -79,7 +79,6 @@ export const getUsersLength = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -101,7 +100,6 @@ export const getUserProfile = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -147,7 +145,6 @@ export const changeUserName = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {

@@ -70,7 +70,6 @@ export function* getProfileDataSaga(action) {
     let query = {
       id: action.id
     };
-    console.log(action);
     let response = yield call(getUserProfile, {req: null, query: query});
     yield put(updateProfileData(response.user));
   }
@@ -85,7 +84,6 @@ export function* getProfileViewDataSaga(action) {
     let query = {
       name: action.name
     };
-    console.log(action);
     let response = yield call(getUserViewProfile, {req: null, query: query});
     yield put(updateProfileViewData(response.user));
   }
@@ -100,9 +98,7 @@ export function* changeProfileNameSaga(action) {
     let query = {
       name: action.name
     };
-    console.log(action);
     let response = yield call(changeUserName, {req: null, query: query});
-    console.log(response);
   }
   catch (err) {
     console.log(err);

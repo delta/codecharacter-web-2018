@@ -22,7 +22,6 @@ export default class ProfileComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(this.props.profileData);
     this.state = {
       edit: false,
       name: this.props.profileData.name
@@ -51,7 +50,6 @@ export default class ProfileComponent extends React.Component {
   render() {
     const FlagIcon = FlagIconFactory(React, { useCssModules: false });
 
-    console.log(this.props.profileData);
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }

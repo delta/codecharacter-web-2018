@@ -1,7 +1,6 @@
 import { API_BASE_URL } from '../config/config';
 
 export const userLogin = ({req , query}) => {
-  console.log(query);
   return fetch(API_BASE_URL + 'user/login',{
     method: "POST",
     credentials: 'include',
@@ -18,7 +17,6 @@ export const userLogin = ({req , query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {

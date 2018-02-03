@@ -23,7 +23,6 @@ export const matchFetchAll = ({req , query}) => {
 };
 
 export const matchFetchData = ({req , query}) => {
-  console.log(API_BASE_URL + 'match/' + query.matchId.toString());
   return fetch(API_BASE_URL + 'match/' + query.matchId.toString(),{
     method: "GET",
     credentials: 'include',
@@ -80,7 +79,6 @@ export const getMatchStatusFetch = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log("Match Status", data);
       return data;
     })
     .catch((error) => {
@@ -147,7 +145,6 @@ export const executeCode = ({req, query}) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {

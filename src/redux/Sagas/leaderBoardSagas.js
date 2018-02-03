@@ -7,7 +7,6 @@ import { leaderboardGetPlayers, searchUser } from '../../shellFetch/leaderBoardF
 import { challengePlayer } from '../../shellFetch/matchFetch';
 
 export function* leaderboardGetPlayersSaga(action) {
-  console.log(action);
   try {
     let query = {
       start: action.start,
@@ -62,7 +61,6 @@ export function* searchUserSaga(action) {
       size: action.size
     };
     const response = yield call(searchUser, {req: null, query: query});
-    console.log(response);
     yield put(updateLeaderboard(response.users));
   }
   catch(err) {

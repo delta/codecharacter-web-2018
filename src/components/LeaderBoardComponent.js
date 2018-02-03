@@ -31,7 +31,7 @@ export default class LeaderBoardComponent extends React.Component {
       pageCount: 1,
       activeSearch: false
     };
-    this.maxUserPerPage = 10;
+    this.maxUserPerPage = 15;
   }
 
   componentWillMount() {
@@ -65,7 +65,6 @@ export default class LeaderBoardComponent extends React.Component {
   };
 
   render() {
-    console.log(this.props.totalUsers);
     this.maxPages = Math.ceil(this.props.totalUsers/(this.maxUserPerPage));
 
     let tableColumns = (this.props.playersData).map((data, index) => {
