@@ -46,36 +46,81 @@ setInterval(() => {
 		//console.log(codeToBeCompiled);
 		requestUnderway = true;
 		console.log(compileBoxUrl +'/compile');
-		request(
-			{
-				method:'POST',
-				url: compileBoxUrl + '/compile',
-				json: true,
-				body: {...codeToBeCompiled, secretString}
-			}, (err, response, body) =>{
-				if(err) console.log(err);
-				requestUnderway = false;
-				compileQueue.shift();
-				let userId = codeToBeCompiled.userId;
-				if(!response.body.success){
-					//console.log(response.body);
-					return models.Code.update({ 
-								error_log: response.body.error,
-								status:'error'
-							},{
-								where:{
-									user_id:Number(userId)
+		try{
+			request(
+				{
+					method:'POST',
+					url: compileBoxUrl + '/compile',
+					json: true,
+					body: {...codeToBeCompiled, secretString}
+				}, (err, response, body) =>{
+					if(err) console.log(err);
+					requestUnderway = false;
+					compileQueue.shift();
+					let userId = codeToBeCompiled.userId;
+					if(!response){
+						models.Notification.create({
+								type: 'ERROR'	,
+								title: 'Compilation Error',
+								message: 'Our server has taken a hit, please stay with us while we fix this!',
+								isRead: false,
+								user_id: Number(userId)
+							})
+						console.log("Please start the compilebox!");
+						return;
+					}
+					if(!response.body.success){
+						//console.log(response.body);
+						return models.Code.update({ 
+									error_log: response.body.error,
+									status:'error'
+								},{
+									where:{
+										user_id:Number(userId)
+									}
 								}
-							}
-						)
-							.then(code => {
-								//console.log(code);
-								//console.log("Compilation Error!");
+							)
+								.then(code => {
+									//console.log(code);
+									//console.log("Compilation Error!");
 
+									models.Notification.create({
+										type: 'ERROR'	,
+										title: 'Compilation Error',
+										message: 'Your code didn\'t compile, please check your code and compile again!',
+										isRead: false,
+										user_id: Number(userId)
+									})
+										.then(notification => {
+											//idk what to do here
+										})
+										.catch(err => {
+											//console.log(err);
+										})
+								})
+								.catch(err => {
+									//console.log(err);
+								})
+					}
+					models.Code.update({
+							dll1: response.body.dll1.data,
+							dll2: response.body.dll2.data,
+							error_log:'',
+							status:'success'
+						},{
+							where:{
+								user_id:Number(userId)
+							}
+						}
+					)
+						.then(code => {
+							//console.log(code);
+							//console.log("successfully compiled!");
+							/*
 								models.Notification.create({
-									type: 'ERROR'	,
-									title: 'Compilation Error',
-									message: 'Your code didn\'t compile, please check your code and compile again!',
+									type: 'SUCCESS'	,
+									title: 'Compiled successfully!',
+									message: 'Your code just compiled.',
 									isRead: false,
 									user_id: Number(userId)
 								})
@@ -85,46 +130,17 @@ setInterval(() => {
 									.catch(err => {
 										//console.log(err);
 									})
-							})
-							.catch(err => {
-								//console.log(err);
-							})
-				}
-				models.Code.update({
-						dll1: response.body.dll1.data,
-						dll2: response.body.dll2.data,
-						error_log:'',
-						status:'success'
-					},{
-						where:{
-							user_id:Number(userId)
-						}
-					}
-				)
-					.then(code => {
-						//console.log(code);
-						//console.log("successfully compiled!");
-						/*
-							models.Notification.create({
-								type: 'SUCCESS'	,
-								title: 'Compiled successfully!',
-								message: 'Your code just compiled.',
-								isRead: false,
-								user_id: Number(userId)
-							})
-								.then(notification => {
-									//idk what to do here
-								})
-								.catch(err => {
-									//console.log(err);
-								})
-						*/
-					})
-					.catch(err => {
-						//console.log(err);
-					})
+							*/
+						})
+						.catch(err => {
+							//console.log(err);
+						})
 
-			});
+				});
+		}catch(e){
+			console.log(e);
+			//for now it doesn't care about the queue, code to be pushed for that by today afternoon
+		}
 		//api call and pop() when necessary
 	}
 }, 300);
