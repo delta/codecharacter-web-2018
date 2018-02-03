@@ -53,8 +53,13 @@ router.get('/get_matches', (req, res) => {
           attributes:['id', 'name', 'rating']
         })
           .then(users => {
-            let usersFetched = users.map(user => user.dataValues);
+            let usersFetched = users.map(user => {return user.dataValues});
+            let player1 = (usersFetched[0].id === match.player_id1) ? usersFetched[0] : usersFetched[1];
+            let player2 = (usersFetched[0].id === match.player_id2) ? usersFetched[0] : usersFetched[1];
+            usersFetched[0] = player1;
+            usersFetched[1] = player2;
             match.dataValues.users = usersFetched;
+            console.log(match);
             matchesModified.push(match);
           })
           .catch(err => {
