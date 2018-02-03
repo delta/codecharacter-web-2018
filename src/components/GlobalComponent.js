@@ -102,6 +102,12 @@ export default class GlobalComponent extends React.Component {
         }]);
     }
     else if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'SUCCESS') {
+        this.props.addNotifications([{
+          type: 'SUCCESS',
+          title: 'Match Executed',
+          message: 'Your match has successfully executed.',
+          createdAt: Date.now().toString()
+        }]);
       this.props.changePingStatusActive(false);
     }
   };

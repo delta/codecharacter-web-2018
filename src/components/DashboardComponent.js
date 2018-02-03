@@ -84,7 +84,8 @@ export default class DashboardComponent extends React.Component {
       highlightActiveLine: false,
       keyboardHandler: 'default',
       compilationData: '',
-      staticBool: false
+      staticBool: false,
+      badgeDisplay: false,
     };
     this.compilationData = '';
   }
@@ -134,6 +135,7 @@ export default class DashboardComponent extends React.Component {
     this.props.clearCompilationStatus();
     this.props.changePingStatusActive(true);
     this.props.runCode(this.state.code);
+    this.compilationData = '';
   };
 
   lockCode = () => {
@@ -186,6 +188,14 @@ export default class DashboardComponent extends React.Component {
 
   updateCodeToApi = () => {
       this.props.updateCode(this.state.code);
+      this.setState({
+        badgeDisplay: true
+      });
+      setTimeout(() => {
+        this.setState({
+          badgeDisplay: false
+        });
+      }, 2500);
   };
 
   updateCompilationData = () => {
@@ -252,7 +262,7 @@ export default class DashboardComponent extends React.Component {
                     style={{ display: 'block', width: '100%', height: this.state.rendererHeight}}
                     className="renderer-panel"
                   >
-                    {this.state.logFile && !this.props.pingStatus && this.props.codeStatus !== 'ERROR'
+                    {this.state.logFile && this.state.logFile!== '' && !this.props.pingStatus && this.props.codeStatus !== 'ERROR'
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
                         options={{
@@ -296,6 +306,9 @@ export default class DashboardComponent extends React.Component {
               : null
             }
           </div>
+          {this.state.badgeDisplay
+            ? <div style={{position: 'absolute', zIndex: 100, top: 46, left: 5}}><span className="badge badge-dark">Auto Saving</span></div>
+            : null}
         </DemoComponent>
       );
     }

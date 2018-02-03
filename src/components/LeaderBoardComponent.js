@@ -45,11 +45,8 @@ export default class LeaderBoardComponent extends React.Component {
 
   searchUser = (event) => {
     if (event.target.value !== '') {
-      /*this.setState({
-        activeSearch: true
-      });*/
       let searchList = [];
-      let searchPattern = new RegExp('^' + event.target.value);
+      let searchPattern = new RegExp('^.*' + event.target.value + '.*$');
       for(let i=0;i<(this.props.playersData.length);i++) {
         if(this.props.playersData[i].name.match(searchPattern)) {
           searchList.push(this.props.playersData[i]);
@@ -64,7 +61,6 @@ export default class LeaderBoardComponent extends React.Component {
       this.setState({
         leaderboard: this.props.playersData
       });
-      // this.props.fetchLeaderboardData((this.state.pageCount-1)*(this.maxUserPerPage), (this.maxUserPerPage));
     }
   };
 

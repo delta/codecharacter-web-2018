@@ -5,7 +5,7 @@ import {
   updateCompilationStatus,
   getCodeStatus,
   updateUnreadNotifications,
-  clearCompilationStatus
+  clearCompilationStatus, updateGameLog, updateGameDlogs
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import {
@@ -84,6 +84,8 @@ export function* codeLockSaga(action) {
     let query = {
       source: action.code,
     };
+    yield put(updateGameLog([]));
+    yield put(updateGameDlogs('',''));
     let response = yield call(codeLock,{req: null, query: query});
     if (response.success) {
       yield put(updateUnreadNotifications([{
