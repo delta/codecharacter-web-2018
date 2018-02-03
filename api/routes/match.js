@@ -4,6 +4,7 @@ const router = express.Router();
 const models = require("../models");
 const zlib = require("zlib");
 const queueExecute = require('../utils/queueExecute');
+const Op = require('sequelize').Op;
 router.get('/get_matches', (req, res) => {
   let userId = req.session.userId;
   models.Match.findAll({
@@ -15,7 +16,10 @@ router.get('/get_matches', (req, res) => {
         {
           player_id2: userId
         }
-      ]
+      ],
+      status: {
+        [Op.not]: 'EXECUTING'
+      }
       /*
         ,
       ai_id: null,
@@ -25,7 +29,7 @@ router.get('/get_matches', (req, res) => {
       }
       */
     },
-    attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'scorep1', 'scorep2']
+    attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'scorep1', 'scorep2', 'status']
   })
     .then(matches => {
       //res.json({matches});
