@@ -7,15 +7,41 @@ const secretString = require("../config/serverConfig").cookieKey;
 const compileBoxUrl = require("../config/serverConfig").compileBoxUrl;
 let pushToQueue = (userId, code) => {
 	//console.log(compileQueueSize, compileQueue.length, compileQueue);
-	if(compileQueue.length === compileQueueSize){
-		return false;
-	}else{
-		compileQueue.push({
-			userId,
-			code
+	return getQueueSize()
+		.then(queueLength => {
+			console.log(queueLength);
+			if(queueLength === compileQueueSize){
+				return Promise.resolve(false);
+			}else{
+				let success;
+				let promise = models.CompileQueue.create({
+					user_id: userId,
+					code,
+					createdAt: new Date(),
+					updatedAt: new Date()
+				})
+					.then(compileQueueElement => {
+						// do something
+					})
+					.catch(err => {
+						console.log(err);
+					})
+				return true;
+			}
+
 		});
-		return true;
-	}
+
+	/*
+		if(compileQueue.length === compileQueueSize){
+			return false;
+		}else{
+			compileQueue.push({
+				userId,
+				code
+			});
+			return true;
+		}
+	*/
 }
 
 /*let popCode = (userId) => {
@@ -28,7 +54,15 @@ let pushToQueue = (userId, code) => {
 }*/
 
 let getQueueSize = () => {
-	return compileQueue.length;
+	return models.CompileQueue.findAll({
+		attributes: ['id']
+	})
+		.then(compileQueueElements => {
+			return compileQueueElements.length;
+		})
+		.catch(err => {
+			console.log(err);
+		})
 }
 module.exports = {
 	compileQueue,
@@ -41,106 +75,151 @@ setInterval(() => {
 	if(requestUnderway){
 		return; 
 	}
-	if(getQueueSize()){
-		let codeToBeCompiled = compileQueue[0];
-		//console.log(codeToBeCompiled);
-		requestUnderway = true;
-		console.log(compileBoxUrl +'/compile');
-		try{
-			request(
-				{
-					method:'POST',
-					url: compileBoxUrl + '/compile',
-					json: true,
-					body: {...codeToBeCompiled, secretString}
-				}, (err, response, body) =>{
-					if(err) console.log(err);
-					requestUnderway = false;
-					compileQueue.shift();
-					let userId = codeToBeCompiled.userId;
-					if(!response){
-						models.Notification.create({
-								type: 'ERROR'	,
-								title: 'Compilation Error',
-								message: 'Our server has taken a hit, please stay with us while we fix this!',
-								isRead: false,
-								user_id: Number(userId)
-							})
-						console.log("Please start the compilebox!");
+	getQueueSize().then(queueSize => {
+		if(queueSize){
+			models.CompileQueue.find()
+				.then(compileQueueElement => {
+					if(!compileQueueElement){
 						return;
 					}
-					if(!response.body.success){
-						//console.log(response.body);
-						return models.Code.update({ 
-									error_log: response.body.error,
-									status:'error'
-								},{
-									where:{
-										user_id:Number(userId)
-									}
+					let codeToBeCompiled = compileQueueElement.dataValues;
+					requestUnderway = true;
+					try{
+						request(
+							{
+								method:'POST',
+								url: compileBoxUrl + '/compile',
+								json: true,
+								body: {...codeToBeCompiled, secretString}
+							}, (err, response, body) =>{
+								if(err) console.log(err);
+								if(!response){
+									console.log('Please connect compilebox');
+									return;
 								}
-							)
-								.then(code => {
-									//console.log(code);
-									//console.log("Compilation Error!");
-
+								if(!response.body){
+									console.log('Please fix compilebox');
+									return;	
+								}
+								requestUnderway = false;
+								//compileQueue.shift(); //@change here
+								let userId = codeToBeCompiled.user_id;
+								if(!response){
 									models.Notification.create({
-										type: 'ERROR'	,
-										title: 'Compilation Error',
-										message: 'Your code didn\'t compile, please check your code and compile again!',
-										isRead: false,
-										user_id: Number(userId)
-									})
-										.then(notification => {
-											//idk what to do here
+											type: 'ERROR'	,
+											title: 'Compilation Error',
+											message: 'Our server has taken a hit, please stay with us while we fix this!',
+											isRead: false,
+											user_id: Number(userId)
 										})
-										.catch(err => {
-											//console.log(err);
+									console.log("Please start the compilebox!");
+									return;
+								}
+								if(!response.body.success){
+									//console.log(response.body);
+									return models.Code.update({ 
+												error_log: response.body.error,
+												status:'error'
+											},{
+												where:{
+													user_id:Number(userId)
+												}
+											}
+										)
+											.then(code => {
+
+												models.CompileQueue.destroy({
+													where: {
+														id: codeToBeCompiled.id
+													}
+												})
+													.then(alpha => {
+														console.log(alpha);
+													})
+													.catch(err => {
+														console.log(err);
+													})
+												//console.log(code);
+												//console.log("Compilation Error!");
+
+												models.Notification.create({
+													type: 'ERROR'	,
+													title: 'Compilation Error',
+													message: 'Your code didn\'t compile, please check your code and compile again!',
+													isRead: false,
+													user_id: Number(userId)
+												})
+													.then(notification => {
+														//idk what to do here
+													})
+													.catch(err => {
+														//console.log(err);
+													})
+											})
+											.catch(err => {
+												//console.log(err);
+											})
+								}
+								models.Code.update({
+										dll1: response.body.dll1.data,
+										dll2: response.body.dll2.data,
+										error_log:'',
+										status:'success'
+									},{
+										where:{
+											user_id:Number(userId)
+										}
+									}
+								)
+									.then(code => {
+										//console.log(code);
+										//console.log("successfully compiled!");
+										/*
+											models.Notification.create({
+												type: 'SUCCESS'	,
+												title: 'Compiled successfully!',
+												message: 'Your code just compiled.',
+												isRead: false,
+												user_id: Number(userId)
+											})
+												.then(notification => {
+													//idk what to do here
+												})
+												.catch(err => {
+													//console.log(err);
+												})
+										*/
+										models.CompileQueue.destroy({
+											where: {
+												id: codeToBeCompiled.id
+											}
 										})
-								})
-								.catch(err => {
-									//console.log(err);
-								})
-					}
-					models.Code.update({
-							dll1: response.body.dll1.data,
-							dll2: response.body.dll2.data,
-							error_log:'',
-							status:'success'
-						},{
-							where:{
-								user_id:Number(userId)
-							}
-						}
-					)
-						.then(code => {
-							//console.log(code);
-							//console.log("successfully compiled!");
-							/*
-								models.Notification.create({
-									type: 'SUCCESS'	,
-									title: 'Compiled successfully!',
-									message: 'Your code just compiled.',
-									isRead: false,
-									user_id: Number(userId)
-								})
-									.then(notification => {
-										//idk what to do here
+											.then(alpha => {
+												console.log(alpha);
+											})
+											.catch(err => {
+												console.log(err);
+											})
 									})
 									.catch(err => {
 										//console.log(err);
 									})
-							*/
-						})
-						.catch(err => {
-							//console.log(err);
-						})
 
-				});
-		}catch(e){
-			console.log(e);
-			//for now it doesn't care about the queue, code to be pushed for that by today afternoon
+							});
+					}catch(e){
+						console.log(e);
+						//for now it doesn't care about the queue, code to be pushed for that by today afternoon
+					}
+					//api call and pop() when necessary
+				
+				})
+				.catch(err => {
+					console.log(err);
+				})
 		}
-		//api call and pop() when necessary
-	}
+	})
+	.catch(err => {
+		console.log(err);
+	})
+	
 }, 300);

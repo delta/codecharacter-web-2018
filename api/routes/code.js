@@ -71,11 +71,13 @@ router.post("/", function(req, res) {
 						status: 'compiling'
 					})
 						.then(code => {
-							let success = queueCompile.pushToQueue(req.session.userId, source);
-							if(!success){
-								return res.json({success: false, message: "Please try again later!"});
-							}
-							return res.json({success:true, message:"Code saved!", userId});
+							let successPromise = queueCompile.pushToQueue(req.session.userId, source);
+							successPromise().then(success => {
+								if(!success){
+									return res.json({success: false, message: "Please try again later!"});
+								}
+								return res.json({success:true, message:"Code saved!", userId});
+							})
 						})
 						.catch(err => {
 							console.log(err);
@@ -94,6 +96,8 @@ router.post("/", function(req, res) {
 						.then(code => {
 							let success = queueCompile.pushToQueue(req.session.userId, source);
 							if(!success){
+
+								console.log(success, 'why though');
 								return res.json({success: false, message: "Please try again later!"});
 							}
 							return res.json({success:true, message:"Code saved!", userId});

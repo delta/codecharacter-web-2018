@@ -224,12 +224,15 @@ router.get('/compete/player/:againstId', (req, res) => {
                     .catch(err => {
                       console.log(err);
                     })
-                  let success = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
-                  if(success){
-                    res.json({success: true, message: 'The match is running'});
-                  }else{
-                    res.json({success: false, message: 'There seems to be a server error. Please try again later!'});
-                  }
+                  let successPromise = queueExecute.pushToQueue(matchSaved.id, dll1, dll2, matchSaved.player_id1, matchSaved.player_id2);
+                  successPromise().then(success => {
+                    if(success){
+                      res.json({success: true, message: 'The match is running'});
+                    }else{
+                      res.json({success: false, message: 'There seems to be a server error. Please try again later!'});
+                    }
+                  })
+
                 })
                 .catch(err => {
                   console.log(err);
