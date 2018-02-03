@@ -162,7 +162,10 @@ router.get('/compete/player/:againstId', (req, res) => {
       if(mostRecent){
         if((now.getTime() - mostRecent.createdAt.getTime()) < 1800000){
           //console.log();
-          return res.json({success: false, message: 'Please wait for '+ String(30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000) + ' more minutes to start a match with this user again', time_left: 30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000});
+          let timeLeft = 30 - (now.getTime() - mostRecent.updatedAt.getTime() )/60000;
+          let minutes = Math.floor(timeLeft);
+          let seconds = Math.floor((timeLeft - minutes) * 60);
+          return res.json({success: false, message: 'Please wait for '+ minutes + ' minutes and '+ seconds + ' seconds ' + 'to start a match with this user again', time_left: 30 - ((now.getTime() - mostRecent.updatedAt.getTime() ))/60000, minutes, seconds});
         } 
       }
       models.Code.findOne({
