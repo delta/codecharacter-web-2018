@@ -22,7 +22,7 @@ const mapDispatchToProps = dispatch => {
     getMatchData: (matchId) => {dispatch(getMatchData(matchId));},
     fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));},
     updateCompilationStatus: (status) => {dispatch(updateCompilationStatus(status));},
-    getLatestMatchId: () => {dispatch(getGameStatus());}
+    getGameStatus: () => {dispatch(getGameStatus());}
   };
 };
 

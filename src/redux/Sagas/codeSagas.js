@@ -4,7 +4,7 @@ import {
   updateCode,
   updateCompilationStatus,
   getCodeStatus,
-  updateUnreadNotifications
+  updateUnreadNotifications, clearCompilationStatus
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import {
@@ -148,6 +148,7 @@ export function* getCompilationStatusSaga() {
       y += String.fromCharCode(charCode);
     });
     if (response.error) {
+      yield put(clearCompilationStatus());
       yield put(updateCompilationStatus(y));
     }
   }

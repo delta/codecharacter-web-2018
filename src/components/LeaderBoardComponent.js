@@ -31,7 +31,7 @@ export default class LeaderBoardComponent extends React.Component {
       pageCount: 1,
       activeSearch: false
     };
-    this.maxUserPerPage = 5;
+    this.maxUserPerPage = 10;
   }
 
   componentWillMount() {
@@ -40,18 +40,18 @@ export default class LeaderBoardComponent extends React.Component {
 
   componentDidMount() {
     this.props.userAuthenticateCheck();
-    this.props.fetchLeaderboardData(0, 5);
+    this.props.fetchLeaderboardData(0, (this.maxUserPerPage));
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (this.state.pageCount !== nextState.pageCount) {
-      this.props.fetchLeaderboardData((nextState.pageCount-1)*5, 5);
+      this.props.fetchLeaderboardData((nextState.pageCount-1)*(this.maxUserPerPage), (this.maxUserPerPage));
     }
   }
 
   searchUser = (event) => {
     if (event.target.value !== '') {
-      this.props.searchUser(event.target.value, 5);
+      this.props.searchUser(event.target.value, (this.maxUserPerPage));
       this.setState({
         activeSearch: true
       });
@@ -60,13 +60,13 @@ export default class LeaderBoardComponent extends React.Component {
       this.setState({
         activeSearch: false
       });
-      this.props.fetchLeaderboardData((this.state.pageCount-1)*5, 5);
+      this.props.fetchLeaderboardData((this.state.pageCount-1)*(this.maxUserPerPage), (this.maxUserPerPage));
     }
   };
 
   render() {
     console.log(this.props.totalUsers);
-    this.maxPages = Math.ceil(this.props.totalUsers/5);
+    this.maxPages = Math.ceil(this.props.totalUsers/(this.maxUserPerPage));
 
     let tableColumns = (this.props.playersData).map((data, index) => {
       return (
@@ -79,7 +79,7 @@ export default class LeaderBoardComponent extends React.Component {
               : null
             }
           </td>
-          <td>{(this.state.pageCount - 1)*5 + index + 1}</td>
+          <td>{(this.state.pageCount - 1)*(this.maxUserPerPage) + index + 1}</td>
           <td onClick={() => this.props.history.push('/' + data.name)} style={{cursor: 'pointer'}}>{data.name}</td>
           <td>{data.rating}</td>
         </tr>

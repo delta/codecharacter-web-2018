@@ -101,7 +101,7 @@ export function* fetchGameLogSaga(action) {
     };
     console.log(action.matchId);
     let response = yield call(fetchGameLogFetch,{req: null, query: query});
-
+    console.log("Fetching Game Log");
     var pako = window.pako;
 
     let player1DLog, player2DLog;

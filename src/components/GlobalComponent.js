@@ -35,7 +35,6 @@ export default class GlobalComponent extends React.Component {
   }
 
   changePingStatus = () => {
-    // console.log('%c THE PING IS HERE!', 'color: green; font-weight: bold;');
     if (this.props.loginStatus) {
       this.props.getGameStatus();
       this.props.getUnreadNotifications();
@@ -55,13 +54,11 @@ export default class GlobalComponent extends React.Component {
 
     if(this.props.pingStatus !== nextProps.pingStatus) {
       if (nextProps.pingStatus) {
-        // console.log("Change Ping Status Interval", nextProps.pingStatus, this.state.interval);
         this.setState({
           interval: this.minPing
         });
       }
       else {
-        // console.log("Change Ping Status Interval Reverse", nextProps.pingStatus, this.state.interval);
         this.setState({
           interval: this.maxPing
         });
@@ -71,7 +68,6 @@ export default class GlobalComponent extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     clearInterval(this.codeStatusInterval);
-    // console.log("Change Ping Status Interval Outside", this.state.interval);
     this.changePingStatus();
     this.codeStatusInterval = setInterval(this.changePingStatus, this.state.interval);
   }

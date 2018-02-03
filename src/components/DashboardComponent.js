@@ -120,13 +120,12 @@ export default class DashboardComponent extends React.Component {
         width: window.innerWidth
       })
     });
-    this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 500);
+    this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 1000);
   }
 
   runCode = () => {
     this.props.clearCompilationStatus();
     this.props.changePingStatusActive(true);
-    console.log("Ping Status getiing Changed");
     this.props.runCode(this.state.code);
   };
 
@@ -179,10 +178,12 @@ export default class DashboardComponent extends React.Component {
     })
   };
 
-  updateCompilationData = (data) => {
+  updateCompilationData = () => {
     this.setState({
       compilationData: this.compilationData
     });
+    this.props.updateCompilationStatus(this.compilationData);
+    this.compilationData = '';
   };
 
   render() {
@@ -244,7 +245,7 @@ export default class DashboardComponent extends React.Component {
                     style={{ display: 'block', width: '100%', height: this.state.rendererHeight}}
                     className="renderer-panel"
                   >
-                    {this.state.logFile
+                    {this.state.logFile && this.props.codeStatus === 'SUCCESS' && this.props.matchStatus === 'SUCCESS'
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
                         options={{
@@ -264,7 +265,7 @@ export default class DashboardComponent extends React.Component {
                   <CodeComponent
                     showLineNumbers={true}
                     readOnly={true}
-                    code={this.state.compilationData}
+                    code={this.props.compilationStatus}
                     theme={'terminal'}
                     mode={'plain_text'}
                     highlightActiveLine={false}
