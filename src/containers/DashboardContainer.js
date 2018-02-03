@@ -14,7 +14,7 @@ import {
   updateCompilationStatusAsync,
   changePingStatusActive,
   getGameStatus,
-  updateCode
+  updateCode, codeSave, changeCodeBeingSubmitted
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -49,7 +49,8 @@ const mapDispatchToProps = dispatch => {
     userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));},
     getGameStatus: (trigger) => {dispatch(getGameStatus(trigger));},
-    updateCode: (code) => {dispatch(updateCode(code));}
+    updateCode: (code) => {dispatch(codeSave(code));},
+    changeCodeBeingSubmitted: (status) => {dispatch(changeCodeBeingSubmitted(status));}
   }
 };
 

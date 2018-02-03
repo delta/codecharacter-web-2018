@@ -1,5 +1,6 @@
 import actionTypes           from "./action_types";
 import initialState          from './initialState';
+import { changeCodeBeingSubmitted } from './actions';
 
 export function codeCharacterReducer(state = initialState, action) {
   // console.log(action);
@@ -164,6 +165,13 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...state,
         dLogs: [action.log1, action.log2]
+      }
+    }
+
+    case actionTypes.CHANGE_CODE_BEING_SUBMITTED: {
+      return {
+        ...state,
+        codeBeingSubmitted: action.codeBeingSubmitted
       }
     }
 

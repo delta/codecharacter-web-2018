@@ -56,10 +56,14 @@ export default class CodeComponent extends React.Component {
     }
   };
 
+  componentDidUpdate() {
+    // document.getElementsByClassName('ace_scroller')[0].scrollTop = document.getElementsByClassName('ace_scroller')[0].scrollHeight;
+  }
+
   render() {
     return (
       <AceEditor
-        ref='codeCharacterEditor'
+        ref={e => {this.codeCharacterEditor = e}}
         mode={this.props.mode}
         theme={this.props.theme}
         name='codeCharacterEditor'
@@ -81,7 +85,8 @@ export default class CodeComponent extends React.Component {
           enableSnippets: false,
           showLineNumbers: this.props.showLineNumbers,
           tabSize: 4,
-          scrollPastEnd: 0.7
+          scrollPastEnd: 0.7,
+          autoScrollEditorIntoView: true
         }}
         style={{
           width: '100%',

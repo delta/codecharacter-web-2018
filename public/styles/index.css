@@ -175,3 +175,5 @@ div .alert {
   background: linear-gradient(to right, #2a0845, #6441A5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
+
+.ace_search {position: fixed;}

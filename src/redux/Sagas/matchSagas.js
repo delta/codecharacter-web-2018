@@ -93,6 +93,7 @@ export function* getMatchStatusSaga(action) {
 
 export function* fetchGameLogSaga(action) {
   try {
+    console.log(action.matchId);
     let query = {
       matchId: action.matchId
     };
@@ -116,6 +117,7 @@ export function* fetchGameLogSaga(action) {
     }
 
     if (response.match && response.match.log) {
+      console.log(action.matchId);
       yield put(updateGameLog(response.match.log.data));
       yield put(updateGameDlogs(player1DLog, player2DLog));
     }

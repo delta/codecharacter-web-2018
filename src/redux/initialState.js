@@ -14,6 +14,7 @@ const initialState = {
   allNotifications: [],
   codeStatus: 'IDLE',
   matchStatus: 'IDLE',
+  codeBeingSubmitted: false,
   lastUsed: 0,
   lastMatchId: -1,
   gameLog: [],

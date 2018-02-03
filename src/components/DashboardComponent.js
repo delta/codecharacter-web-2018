@@ -35,7 +35,8 @@ export default class DashboardComponent extends React.Component {
     updateCode: PropTypes.func,
     initialLogin: PropTypes.bool,
     clearCompilationStatus: PropTypes.func,
-    changePingStatusActive: PropTypes.func
+    changePingStatusActive: PropTypes.func,
+    changeCodeBeingSubmitted: PropTypes.func
   };
 
   static defaultProps = {
@@ -63,7 +64,8 @@ export default class DashboardComponent extends React.Component {
     changeAIid: () => {},
     clearCompilationStatus: () => {},
     initialLogin: false,
-    changePingStatusActive: () => {}
+    changePingStatusActive: () => {},
+    changeCodeBeingSubmitted: () => {}
   };
 
   constructor(props) {
@@ -125,7 +127,7 @@ export default class DashboardComponent extends React.Component {
       })
     });
     this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 1000);
-    this.updateCodeToStorageInterval = setInterval(this.updateCodeToStorage, 10000);
+    this.updateCodeToStorageInterval = setInterval(this.updateCodeToApi, 15000);
   }
 
   runCode = () => {
@@ -135,7 +137,9 @@ export default class DashboardComponent extends React.Component {
   };
 
   lockCode = () => {
-    this.props.lockCode(this.state.code);
+    this.props.changeCodeBeingSubmitted(true);
+    this.runCode();
+    // this.props.lockCode(this.state.code);
   };
 
   updateCode = (code) => {
@@ -180,8 +184,8 @@ export default class DashboardComponent extends React.Component {
     })
   };
 
-  updateCodeToStorage = () => {
-      this.props.updateCode(this.state.code);
+  updateCodeToApi = () => {
+      // this.props.updateCode(this.state.code);
   };
 
   updateCompilationData = () => {
@@ -218,7 +222,7 @@ export default class DashboardComponent extends React.Component {
                       changeKeyboardHandler={this.changeKeyboardHandler}
                     />
                   </div>
-                  <div className="code-panel">
+                  <div className="code-panel" >
                     <CodeComponent
                       code={this.state.code}
                       theme={this.state.theme}
@@ -248,7 +252,7 @@ export default class DashboardComponent extends React.Component {
                     style={{ display: 'block', width: '100%', height: this.state.rendererHeight}}
                     className="renderer-panel"
                   >
-                    {this.state.logFile && !this.props.pingStatus
+                    {this.state.logFile && !this.props.pingStatus && this.props.codeStatus !== 'ERROR'
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
                         options={{
@@ -318,6 +322,7 @@ export default class DashboardComponent extends React.Component {
                   logFile={this.state.logFile}
                   options={{
                     logFunction: (data) => {this.compilationData += data;},
+                    logClearFunction: () => {this.props.clearCompilationStatus();},
                     player1Log: this.props.dLogs[0],
                     player2Log: this.props.dLogs[1],
                     playerID: 1

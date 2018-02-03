@@ -202,8 +202,10 @@ router.post("/save", (req, res)=>{
 	if(!source){
 		return res.json({success:false, message:"Pass proper params!"});
 	}
-	models.Code.update({
-		user_id: req.session.userId
+	models.Code.findOne({
+		where: {
+		  user_id: req.session.userId
+    }
 	})
 		.then((code)=>{
 			if(code){

@@ -8,13 +8,16 @@ export default class GlobalComponent extends React.Component {
     loginStatus: PropTypes.bool,
     pingStatus: PropTypes.bool,
     code: PropTypes.string,
+    codeBeingSubmitted: PropTypes.bool,
     getCodeStatus: PropTypes.func,
     getLatestMatchId: PropTypes.func,
     getMatchStatus: PropTypes.func,
     fetchCode: PropTypes.func,
     codeSave: PropTypes.func,
     addNotifications: PropTypes.func,
-    changePingStatusActive: PropTypes.func
+    changePingStatusActive: PropTypes.func,
+    lockCode: PropTypes.func,
+    changeCodeBeingSubmitted: PropTypes.func
   };
 
   constructor(props) {
@@ -107,13 +110,19 @@ export default class GlobalComponent extends React.Component {
 
   getCompilationStatus = (codeStatusOld, codeStatusNew) => {
     if (codeStatusOld === 'COMPILING' && codeStatusNew === 'ERROR') {
+      this.props.changeCodeBeingSubmitted(false);
       this.props.getCompilationStatus();
     }
   };
 
   startMatch = (codeStatusOld, codeStatusNew) => {
-    if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS') {
+    console.log(this.props.codeBeingSubmitted);
+    if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS' && !this.props.codeBeingSubmitted) {
       this.props.competeAgainstAI(this.props.aiId);
+    }
+    else if(codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS' && this.props.codeBeingSubmitted) {
+      this.props.changeCodeBeingSubmitted(false);
+      this.props.lockCode();
     }
   };
 

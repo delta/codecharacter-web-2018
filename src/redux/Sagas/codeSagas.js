@@ -164,7 +164,7 @@ export function* codeSaveSaga(action) {
     let query = {
       code: action.code
     };
-    let response = yield call(codeSaveFetch, {req: null, query: query});
+    yield call(codeSaveFetch, {req: null, query: query});
   }
   catch (err) {
     console.log(err);

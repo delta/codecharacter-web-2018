@@ -250,6 +250,11 @@ export const updateGameDlogs = (log1, log2) => ({
   log2
 });
 
+export const changeCodeBeingSubmitted = (codeBeingSubmitted) => ({
+  type: actionTypes.CHANGE_CODE_BEING_SUBMITTED,
+  codeBeingSubmitted
+});
+
 export const changePingStatusActive = (pingStatusActive) => ({
   type: actionTypes.CHANGE_PING_STATUS_ACTIVE,
   pingStatusActive
