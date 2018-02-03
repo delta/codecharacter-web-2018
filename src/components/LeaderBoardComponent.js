@@ -29,6 +29,7 @@ export default class LeaderBoardComponent extends React.Component {
     super(props);
     this.state = {
       pageCount: 1,
+      leaderboard: this.props.playersData,
       activeSearch: false
     };
     this.maxUserPerPage = 15;
@@ -37,28 +38,44 @@ export default class LeaderBoardComponent extends React.Component {
   componentDidMount() {
     this.props.userAuthenticateCheck();
     this.props.fetchLeaderboardData();
+    this.setState({
+      leaderboard: this.props.playersData
+    });
   }
 
   searchUser = (event) => {
     if (event.target.value !== '') {
-      this.props.searchUser(event.target.value, (this.maxUserPerPage));
-      this.setState({
+      /*this.setState({
         activeSearch: true
+      });*/
+      let searchList = [];
+      let searchPattern = new RegExp('^' + event.target.value);
+      for(let i=0;i<(this.props.playersData.length);i++) {
+        if(this.props.playersData[i].name.match(searchPattern)) {
+          searchList.push(this.props.playersData[i]);
+          console.log(this.props.playersData[i]);
+        }
+      }
+      this.setState({
+        leaderboard: searchList
       });
     }
     else {
       this.setState({
-        activeSearch: false
+        leaderboard: this.props.playersData
       });
-      this.props.fetchLeaderboardData((this.state.pageCount-1)*(this.maxUserPerPage), (this.maxUserPerPage));
+      // this.props.fetchLeaderboardData((this.state.pageCount-1)*(this.maxUserPerPage), (this.maxUserPerPage));
     }
   };
 
   render() {
-    this.pages = Math.ceil(this.props.totalUsers/(this.maxUserPerPage));
+    this.pages = Math.ceil(this.state.leaderboard.length/(this.maxUserPerPage));
+    if(this.pages === 0) {
+      this.pages = 1;
+    }
     let tableColumns = [];
     for(let i=0;i<this.maxUserPerPage;i++) {
-      let data = this.props.playersData[(this.state.pageCount - 1)*this.maxUserPerPage + i];
+      let data = this.state.leaderboard[(this.state.pageCount - 1)*this.maxUserPerPage + i];
       if(data) {
         tableColumns[i] = (
           <tr key={i}>
@@ -90,7 +107,6 @@ export default class LeaderBoardComponent extends React.Component {
     }
 
     let listElements = [];
-
     for (let i=1;i<=this.pages;i++) {
       let classTag = (this.state.pageCount === i) ? 'active' : '';
       listElements.push(
@@ -152,7 +168,7 @@ export default class LeaderBoardComponent extends React.Component {
                               </span>
                             </li>
                             {listElements}
-                            <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== this.pages) ? this.state.pageCount+1 : this.maxPages})}}>
+                            <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== this.pages) ? this.state.pageCount+1 : this.pages})}}>
                               <span aria-label="Next" className="page-item" style={{cursor: 'pointer'}}>
                                 <span aria-hidden="true" className="page-link" >&raquo;</span>
                               </span>

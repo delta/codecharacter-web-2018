@@ -2,7 +2,7 @@ import { connect }                             from 'react-redux';
 import LeaderBoardComponent                    from '../components/LeaderBoardComponent';
 import {
   fetchLeaderboardData, getUsersLength, searchUser,
-  startChallenge, userAuthenticateCheck
+  startChallenge, updateLeaderboard, userAuthenticateCheck
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -18,6 +18,7 @@ const mapDispatchToProps = dispatch => {
   return {
     userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     fetchLeaderboardData: () => {dispatch(fetchLeaderboardData());},
+    updateLeaderboard: (table) => {dispatch(updateLeaderboard(table));},
     startChallenge: (opponent) => {dispatch(startChallenge(opponent))},
     getUsersLength: () => {dispatch(getUsersLength());},
     searchUser: (pattern, size) => {dispatch(searchUser(pattern, size));}
