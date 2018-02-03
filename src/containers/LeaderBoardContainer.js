@@ -17,7 +17,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
-    fetchLeaderboardData: (start, size) => {dispatch(fetchLeaderboardData(start, size));},
+    fetchLeaderboardData: () => {dispatch(fetchLeaderboardData());},
     startChallenge: (opponent) => {dispatch(startChallenge(opponent))},
     getUsersLength: () => {dispatch(getUsersLength());},
     searchUser: (pattern, size) => {dispatch(searchUser(pattern, size));}
