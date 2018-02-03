@@ -119,7 +119,7 @@ export default class DashboardComponent extends React.Component {
     this.props.clearCompilationStatus();
     this.props.fetchCode();
     this.props.getAIs();
-    this.props.getGameStatus(true);
+    this.props.getGameStatus(false);
     this.windowResizeListener = window.addEventListener('resize',() => {
       this.setState({
         height: window.innerHeight,
