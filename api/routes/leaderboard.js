@@ -37,13 +37,17 @@ router.get("/", (req, res) => {
 			let ratings = [];
 			Promise.all(codeFetchPromises)
 				.then(dataReturned => {
+					let count = 1;
+					let latestRating = -1;
 					usersWithLockedCode.map((user) => {
+						latestRating = user.dataValues.rating;
 						let retObj = Object.assign({}, {
 							name: user.dataValues.name,
 							id: user.dataValues.id,
 							rating: user.dataValues.rating
 						});
 						ratings.push(retObj);
+						if(count)
 					});
 					ratings.sort((user1, user2) => {
 						if (user1.rating > user2.rating) {
@@ -51,7 +55,32 @@ router.get("/", (req, res) => {
 						} else if (user1.rating < user2.rating) {
 							return 1;
 						}
+						if (user1.name > user2.name) {
+							return -1;
+						} else {
+							return 1;
+						}
 						return 0;
+					});
+					let rank=1;
+					let count=1;
+					let equalrating=-1;
+					ratings.map((ratingReturn) => {
+						if(equalrating==-1){
+							equalrating=ratingReturn.rating
+							ratingReturn.rank=rank;
+						}else{
+							if(equalrating==ratingReturn.rating){
+								ratingReturn.rank=rank;
+								count++;
+							}else{
+								rank+=count;
+								ratingReturn.rank=rank;
+								equalrating=ratingReturn.rating;
+								count=1;
+							}
+						}
+						return ratingReturn;
 					});
 					res.json({ success: true, ratings });
 				})
