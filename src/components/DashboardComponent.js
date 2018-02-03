@@ -24,6 +24,7 @@ export default class DashboardComponent extends React.Component {
     ais: PropTypes.array,
     dLogs: PropTypes.arrayOf(PropTypes.string),
     gameLog: PropTypes.array,
+    pingStatus: PropTypes.bool,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
     fetchCode: PropTypes.func,
@@ -44,6 +45,7 @@ export default class DashboardComponent extends React.Component {
     matchesView: false,
     matchesViewTable: null,
     shouldFetchLog: false,
+    pingStatus: false,
     defaultText: 'RUN CODE and see it run here. Don\'t forget to SUBMIT when you\'ve finalised your code.',
     lastMatchId: -1,
     codeStatus: '',
@@ -183,9 +185,6 @@ export default class DashboardComponent extends React.Component {
   };
 
   updateCompilationData = () => {
-    this.setState({
-      compilationData: this.compilationData
-    });
     this.props.updateCompilationStatus(this.compilationData);
     this.compilationData = '';
   };
@@ -249,7 +248,7 @@ export default class DashboardComponent extends React.Component {
                     style={{ display: 'block', width: '100%', height: this.state.rendererHeight}}
                     className="renderer-panel"
                   >
-                    {this.state.logFile && this.props.codeStatus === 'SUCCESS' && this.props.matchStatus === 'SUCCESS'
+                    {this.state.logFile && !this.props.pingStatus
                       ?(<CodeCharacterRenderer
                         logFile={this.state.logFile}
                         options={{

@@ -118,6 +118,6 @@ export function* changeProfileNameSaga(action) {
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }

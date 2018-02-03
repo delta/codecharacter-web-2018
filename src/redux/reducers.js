@@ -59,7 +59,7 @@ export function codeCharacterReducer(state = initialState, action) {
       // console.log(action);
       return {
         ...state,
-        compilationStatus: state.compilationStatus + action.data.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
+        compilationStatus: state.compilationStatus + action.data
       };
     }
 
