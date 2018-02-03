@@ -73,9 +73,9 @@ export default class WelcomeScreenComponent extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12 text-center wow fadeIn">
-            <h4 className="pt-2 text-muted">
-                Made with <Link to="https://delta.nitt.edu" target="_blank">&hearts;</Link> by <Link to="https://delta.nitt.edu" target="_blank">Delta Force</Link>
-            </h4>
+            <h5 className="pt-2 text-muted">
+                Made with &hearts; by <Link to="https://delta.nitt.edu" target="_blank">Delta Force</Link>
+            </h5>
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {
 const mapStateToProps = state => {
   // console.log(state.matchesData);
   return {
+    userId: state.userId,
     matchesData: state.matchesData,
     loginStatus: state.loginStatus,
     compilationStatus: state.compilationStatus,
