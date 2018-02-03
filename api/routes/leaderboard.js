@@ -47,7 +47,6 @@ router.get("/", (req, res) => {
 							rating: user.dataValues.rating
 						});
 						ratings.push(retObj);
-						if(count)
 					});
 					ratings.sort((user1, user2) => {
 						if (user1.rating > user2.rating) {
@@ -63,7 +62,6 @@ router.get("/", (req, res) => {
 						return 0;
 					});
 					let rank=1;
-					let count=1;
 					let equalrating=-1;
 					ratings.map((ratingReturn) => {
 						if(equalrating==-1){

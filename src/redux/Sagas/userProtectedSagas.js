@@ -12,16 +12,26 @@ import { call, put } from 'redux-saga/effects';
 export function* getUnreadNotificationsSaga() {
   try {
     let response = yield call(getUnreadNotifications,{req: null, query: null});
-    if (response.notifications) {
-      yield put(updateUnreadNotifications(response.notifications));
+    if(!response.success && !response.redirect) {
+      yield put(updateUnreadNotifications([{
+        type: 'ERROR',
+        title: 'Error',
+        message: response.message,
+        createdAt: Date.now().toString()
+      }]));
     }
     else {
-      yield put(updateUnreadNotifications([]));
+      if (response.notifications) {
+        yield put(updateUnreadNotifications(response.notifications));
+      }
+      else {
+        yield put(updateUnreadNotifications([]));
+      }
     }
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -37,7 +47,7 @@ export function* getAllNotificationsSaga() {
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -50,18 +60,20 @@ export function* deleteNotificationSaga(action) {
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
 export function* getUsersLengthSagas(action) {
   try {
     let response = yield call(getUsersLength, {req: null, query: null});
-    yield put(updateUsersLength(response.length));
+    if (response.length) {
+      yield put(updateUsersLength(response.length));
+    }
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -71,11 +83,13 @@ export function* getProfileDataSaga(action) {
       id: action.id
     };
     let response = yield call(getUserProfile, {req: null, query: query});
-    yield put(updateProfileData(response.user));
+    if (response.user) {
+      yield put(updateProfileData(response.user));
+    }
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -85,11 +99,13 @@ export function* getProfileViewDataSaga(action) {
       name: action.name
     };
     let response = yield call(getUserViewProfile, {req: null, query: query});
-    yield put(updateProfileViewData(response.user));
+    if (response.user) {
+      yield put(updateProfileViewData(response.user));
+    }
   }
   catch (err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -98,7 +114,7 @@ export function* changeProfileNameSaga(action) {
     let query = {
       name: action.name
     };
-    let response = yield call(changeUserName, {req: null, query: query});
+    yield call(changeUserName, {req: null, query: query});
   }
   catch (err) {
     console.log(err);

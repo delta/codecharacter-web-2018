@@ -3,20 +3,19 @@ import {
   updateUnreadNotifications
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
-import { leaderboardGetPlayers, searchUser } from '../../shellFetch/leaderBoardFetch';
+import {
+  leaderboardGetAllPlayers, leaderboardGetPlayers,
+  searchUser
+} from '../../shellFetch/leaderBoardFetch';
 import { challengePlayer } from '../../shellFetch/matchFetch';
 
 export function* leaderboardGetPlayersSaga(action) {
   try {
-    let query = {
-      start: action.start,
-      size: action.size
-    };
-    const response = yield call(leaderboardGetPlayers, {req: null, query: query});
-    if (response.ratings) {
+    const response = yield call(leaderboardGetAllPlayers, {req: null, query: null});
+    if (response.success) {
       yield put(updateLeaderboard(response.ratings));
     }
-    else if (!response.redirect) {
+    else if(!response.redirect){
       yield put(updateUnreadNotifications([{
         type: 'ERROR',
         title: 'Error',
@@ -27,7 +26,7 @@ export function* leaderboardGetPlayersSaga(action) {
   }
   catch(err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -50,7 +49,7 @@ export function* leaderboardStartChallengeSaga(action) {
   }
   catch(err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }
 
@@ -61,10 +60,20 @@ export function* searchUserSaga(action) {
       size: action.size
     };
     const response = yield call(searchUser, {req: null, query: query});
-    yield put(updateLeaderboard(response.users));
+    if (response.users) {
+      yield put(updateLeaderboard(response.users));
+    }
+    else {
+      yield put(updateUnreadNotifications([{
+        type: 'ERROR',
+        title: 'Error',
+        message: response,
+        createdAt: Date.now().toString()
+      }]));
+    }
   }
   catch(err) {
     console.log(err);
-    throw err;
+    // throw err;
   }
 }

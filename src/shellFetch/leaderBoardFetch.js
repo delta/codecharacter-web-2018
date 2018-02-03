@@ -23,7 +23,7 @@ export const leaderboardGetPlayers = ({req , query}) => {
 };
 
 export const leaderboardGetAllPlayers = ({req , query}) => {
-  return fetch(API_BASE_URL + 'leaderboard',{
+  return fetch(API_BASE_URL + 'leaderboard/',{
     method: "GET",
     credentials: 'include',
     headers: {
