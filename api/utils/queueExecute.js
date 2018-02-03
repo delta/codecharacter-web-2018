@@ -75,7 +75,6 @@ setInterval(() => {
 								isRead: false,
 								user_id: Number(userId)
 							})
-						
 						models.Notification.create({
 								type: 'ERROR'	,
 								title: 'Compilation Error',

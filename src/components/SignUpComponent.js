@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Modal, OverlayTrigger, Tooltip, FormGroup } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
-// import Recaptcha from 'react-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
 import ReactFlagsSelect from 'react-flags-select';
 import {findDOMNode} from 'react-dom';
 import ReactTooltip from 'react-tooltip';
@@ -42,6 +42,7 @@ export default class SignUpComponent extends React.Component {
     });
 
     if (message === "Please fill all the required details") {
+      // this.recaptcha.reset();
       this.usernameStatus = "";
       this.nameStatus = "";
       this.passwordStatus = "is-invalid";
@@ -49,7 +50,8 @@ export default class SignUpComponent extends React.Component {
         verified: false
       });
     }
-    else if (message === "The email/username combination already exists!") {
+    else if (message === "The username already exists!") {
+      // this.recaptcha.reset();
       this.usernameStatus = "";
       this.nameStatus = "is-invalid";
       this.passwordStatus = "";
@@ -68,13 +70,6 @@ export default class SignUpComponent extends React.Component {
         signedUp: true
       });
     }
-  };
-
-  verifyCallback = () => {
-    console.log("Verified");
-    this.setState({
-      verified: true
-    });
   };
 
   updateUsername = (e) => {
@@ -101,14 +96,40 @@ export default class SignUpComponent extends React.Component {
     this.setState({
       disabled: true
     });
-
-    this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
+    if(this.validateEmail(this.state.username)) {
+      // let passwordVerify = this.passwordVerify(this.state.password);
+      this.props.userSignup(this.state.username, this.state.name, this.state.password, this.state.country);
+    }
+    else if(!this.state.verified) {
+      this.setState({
+        captchaMessage: 'Verify Captcha',
+        verified: false,
+        disabled: false
+      });
+    }
+    else {
+      // this.recaptcha.reset();
+      this.usernameStatus = "is-invalid";
+      this.nameStatus = "";
+      this.passwordStatus = "";
+      this.setState({
+        errorMessage: 'Enter a valid email address',
+        verified: false,
+        disabled: false
+      });
+    }
   };
 
   onSelectFlag = (countryCode) => {
     this.setState({
       country: countryCode
     });
+  };
+
+  validateEmail = (emailField) => {
+    let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+    return reg.test(emailField) !== false;
   };
 
   render() {
@@ -152,7 +173,11 @@ export default class SignUpComponent extends React.Component {
                   <ReactFlagsSelect defaultCountry="IN" searchable={true} onSelect={this.onSelectFlag}/>
                 </div>
                 <div style={{margin: '0 auto'}} className="form-group">
-                  {/*<Recaptcha verifyCallback={() => console.log("Verified")} sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"/>*/}
+                  <ReCAPTCHA
+                    ref={e => this.recaptcha = e}
+                    sitekey="6Le3mUEUAAAAALnINa5lXeoXmYUuYYsLOEA5mcTi"
+                    onChange={() => {this.setState({verified: true})}}
+                  />
                   <div style={{color: 'red'}}>{this.state.captchaMessage}</div>
                 </div>
               </Modal.Body>

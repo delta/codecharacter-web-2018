@@ -92,7 +92,7 @@ export default class ProfileComponent extends React.Component {
                               size={'lg'}
                             />
                           </span>
-                          {getCountryName(this.props.profileData.nationality)}
+                          {this.props.profileData.nationality ? getCountryName(this.props.profileData.nationality) : 'India'}
                         </td>
                       </tr>
                       <tr>

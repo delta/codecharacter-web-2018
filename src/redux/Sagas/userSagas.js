@@ -42,10 +42,7 @@ export function* userLoginStatusSaga (action) {
 
 export function* updateCompilationStatusAsyncSaga(action) {
   try {
-    console.log("Start" + i);
     yield put(updateCompilationStatus(action.data));
-    i++;
-    console.log("End" + i);
   }
   catch(err) {
     console.log(err);
