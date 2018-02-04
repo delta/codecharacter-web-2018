@@ -13,13 +13,14 @@ const app = express();
 const secretString = require("./config/serverConfig").cookieKey;
 const validator = require('./middlewares/validator');
 const MySQLStore = require('express-mysql-session')(session);
-const dbAuth = require("./config/config.js")[process.env.STAGE];
+const dbConfig = require("./config/config.js").development;
+
 var sessionStorageOptions = {
-    host: 'localhost',
+    host: dbConfig.host,
     port: 3306,
-    user: 'root',
-    password: 'root',
-    database: 'session_test'
+    user: dbConfig.username,
+    password: dbConfig.password,
+	database: dbConfig.database
 };
 
 var sessionStore = new MySQLStore(sessionStorageOptions);
