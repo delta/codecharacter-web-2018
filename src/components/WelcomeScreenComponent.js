@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import comic1 from './welcomeAssets/cc1.png';
-import comic2 from './welcomeAssets/cc2.png';
+import comic from './welcomeAssets/cc.png';
+import comicMobile from './welcomeAssets/cc_mobile.png';
 import pragyanLogo from './welcomeAssets/pragyan-logo.png';
 import './welcomeAssets/scrollDown.css';
 
@@ -20,13 +20,13 @@ export default class WelcomeScreenComponent extends React.Component {
                 <p style={{zIndex: 100, textShadow: '2px 2px 20px #000000', textAlign: 'center', marginTop: 0}}>
                   The Online AI Challenge
                 </p>
-                <p className="mt-5" style={{textAlign: 'center', marginBottom: "40px"}}>
+                <p className="mt-5" style={{textAlign: 'center', marginBottom: "4vw"}}>
                   <Link to={"/login"} className="btn btn-white mr-2 mb-2 page-scroll">Log In</Link>
                   <Link to={"/signup"} className="btn btn-white mb-2 page-scroll">Sign Up</Link>
                 </p>
-                <div style={{textAlign: "center"}}><img src={comic1} style={{width: "70%", maxWidth: "360px"}}></img></div>
-				<div style={{textAlign: "center"}}><img src={comic2} style={{width: "70%", maxWidth: "360px"}}></img></div>
-				<div className="scroll-prompt" id="js_scrollPrompt"><div className="scroll-prompt-shape" /></div>
+                <div className="d-md-none" style={{textAlign: "center"}}><img src={comicMobile} style={{width: "100%"}}></img></div>
+                <div className="d-none d-md-block" style={{textAlign: "center"}}><img src={comic} style={{width: "40%"}}></img></div>
+                <div className="scroll-prompt d-none" id="js_scrollPrompt"><div className="scroll-prompt-shape" /></div>
               </div>
             </div>
           </div>
