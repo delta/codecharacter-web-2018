@@ -14,6 +14,7 @@ export default class ProfileViewComponent extends React.Component {
 
   render() {
     const FlagIcon = FlagIconFactory(React, { useCssModules: false });
+    console.log(this.props.profileViewData.nationality);
     return (
       <div>
         { !this.props.isFetching ?
