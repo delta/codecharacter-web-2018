@@ -10,7 +10,7 @@ export default class WelcomeScreenComponent extends React.Component {
     return (
       <div>
         <section className="hero" style={{padding: 0, zIndex: 10}}>
-          <div className="container" style={{position: 'absolute', zIndex: 10, maxWidth: "none", top: "50%", transform: "translateY(-50%)", height: "auto"}}>
+          <div className="container" style={{position: 'absolute', zIndex: 10, maxWidth: "none", top: "50%", transform: "translateY(-50%)", height: "auto", maxHeight: "90%"}}>
             <div className="row d-md-flex" style={{marginTop: "50px"}}>
               <div className="col-md-12 col-sm-12 text-white" style={{width: '100%'}}>
                 <div id="header-container">
