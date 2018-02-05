@@ -31,6 +31,7 @@ export default class GlobalComponent extends React.Component {
 
   componentDidMount() {
     this.props.changePingStatusActive(false);
+    this.props.changeIsFetchingGame(false);
     this.props.changeLastUsed(0);
     this.codeStatusInterval = setInterval(this.changePingStatus, this.state.interval);
     this.changePingStatus();

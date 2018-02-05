@@ -207,6 +207,7 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
+    console.log(this.props.isGameFetching, this.props.pingStatus);
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }

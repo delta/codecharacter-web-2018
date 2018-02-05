@@ -136,7 +136,6 @@ router.get('/chunk/:from/:strength', (req, res) => {
 			//console.log(codeFetchPromises);
 			Promise.all(codeFetchPromises)
 				.then(dataReturned => {
-					//console.log(dataReturned, 'fuck every piece of shit, oh me included');
 					usersWithLockedCode.map((user) => {
 						let retObj = Object.assign({}, {
 							name: user.dataValues.name,

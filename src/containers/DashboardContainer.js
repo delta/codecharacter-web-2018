@@ -14,7 +14,7 @@ import {
   updateCompilationStatusAsync,
   changePingStatusActive,
   getGameStatus,
-  updateCode, codeSave, changeCodeBeingSubmitted
+  updateCode, codeSave, changeCodeBeingSubmitted, changeIsGameFetching
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -32,7 +32,7 @@ const mapStateToProps = state => {
     ais: state.ais,
     dLogs: state.dLogs,
     pingStatus: state.pingStatusActive,
-    isGameFetching: state.isGameFetching
+    isGameFetching: state.isGameFetching,
   }
 };
 
@@ -51,7 +51,8 @@ const mapDispatchToProps = dispatch => {
     changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));},
     getGameStatus: (trigger) => {dispatch(getGameStatus(trigger));},
     updateCode: (code) => {dispatch(codeSave(code));},
-    changeCodeBeingSubmitted: (status) => {dispatch(changeCodeBeingSubmitted(status));}
+    changeCodeBeingSubmitted: (status) => {dispatch(changeCodeBeingSubmitted(status));},
+    changeIsFetchingGame: (status) => {dispatch(changeIsGameFetching(status))}
   }
 };
 

@@ -105,7 +105,7 @@ export default class NavbarComponent extends React.Component {
             <ul className="navbar-nav mr-auto" onClick={() => {this.setState({activeLink: window.location.pathname})}} >
               {links}
               <li className="nav-item">
-                <span className="nav-link" onClick={() => this.props.onLogout()} style={{cursor: 'pointer'}}>Logout</span>
+                <span className="nav-link" onClick={() => {this.props.onLogout(); this.setState({activeLink: '/login'})}} style={{cursor: 'pointer'}}>Logout</span>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0">

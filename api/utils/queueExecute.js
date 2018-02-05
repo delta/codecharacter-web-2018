@@ -112,6 +112,7 @@ setInterval(() => {
 				        results = response.body.results;
 				        //console.log(results);
 				        if(response.body.success){
+				          console.log(results);
 				        	//console.log(1);
 				        	results = results.split(' ').slice(1);
 					        player1ExitStatus = results[1];

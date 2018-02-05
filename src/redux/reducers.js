@@ -157,7 +157,9 @@ export function codeCharacterReducer(state = initialState, action) {
 
     case actionTypes.CLEAR_STATE: {
       return {
-        initialState
+        ...initialState,
+        isFetching: state.isFetching,
+        isGameFetching: state.isGameFetching
       }
     }
 

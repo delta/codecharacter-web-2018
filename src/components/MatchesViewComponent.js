@@ -29,7 +29,6 @@ export default class MatchesViewComponent extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.match.params.matchId);
     if (this.props.match.params.matchId) {
       this.props.fetchGameLog(this.props.match.params.matchId);
     }
