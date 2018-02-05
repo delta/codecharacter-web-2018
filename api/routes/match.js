@@ -183,15 +183,14 @@ router.get('/compete/player/:againstId', (req, res) => {
   //console.log(userId, competetorId);
   models.Match.findAll({
     where: {
-      player_id1 : userId,
-      player_id2: competetorId
+      player_id1 : userId
     },
     order: ['updatedAt'],
     attributes: ['id', 'createdAt', 'updatedAt']
   })
     .then(matches => {
-      let mostRecent = matches.pop();
       let now = new Date();
+      let mostRecent = matches.pop();
       if(mostRecent){
         if((now.getTime() - mostRecent.createdAt.getTime()) < WAIT_TIME_CHALLENGE*60*1000){
           //console.log();
@@ -199,6 +198,8 @@ router.get('/compete/player/:againstId', (req, res) => {
           let minutes = Math.floor(timeLeft);
           let seconds = Math.floor((timeLeft - minutes) * 60);
           return res.json({success: false, message: 'Please wait for '+ minutes + ' minutes and '+ seconds + ' seconds ' + 'to start a match with this user again', time_left: WAIT_TIME_CHALLENGE - (now.getTime() - mostRecent.updatedAt.getTime() )/60000, minutes, seconds});
+        }else{
+          console.log(now.getTime()- mostRecent.updatedAt.getTime(), WAIT_TIME_CHALLENGE*60*1000, WAIT_TIME_CHALLENGE);
         }
       }
       models.Code.findOne({
