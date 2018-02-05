@@ -17,6 +17,7 @@ import 'brace/theme/solarized_light';
 import 'brace/theme/terminal';
 import 'brace/theme/crimson_editor';
 import 'brace/ext/language_tools';
+import 'brace/ext/searchbox';
 require('brace/keybinding/vim');
 require('brace/keybinding/emacs');
 
@@ -34,7 +35,8 @@ export default class CodeComponent extends React.Component {
     onChange: PropTypes.func,
     height: PropTypes.number,
     width: PropTypes.number,
-    keyboardHandler: PropTypes.string
+    keyboardHandler: PropTypes.string,
+    saveCode: PropTypes.func
   };
 
   static defaultProps = {
@@ -45,19 +47,14 @@ export default class CodeComponent extends React.Component {
     fontSize: 14,
     readOnly: false,
     highlightActiveLine: false,
-    enableBasicAutocompletion: false,
-    enableLiveAutocompletion: false,
-    onChange: () => {},
+    enableBasicAutocompletion: true,
+    enableLiveAutocompletion: true,
     height: window.innerHeight - 50,
     window: 0,
-    keyboardHandler: 'default'
+    keyboardHandler: 'default',
+    onChange: () => {},
+    saveCode: () => {}
   };
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.width !== this.props.width) {
-      // this.forceUpdate();
-    }
-  }
 
   render() {
     return <AceEditor
@@ -77,6 +74,11 @@ export default class CodeComponent extends React.Component {
       editorProps={{
         $blockScrolling: Infinity
       }}
+      commands={[{   // commands is array of key bindings.
+        name: 'save', //name for the key binding.
+        bindKey: {win: 'Ctrl-S', mac: 'Command-S'}, //key combination used for the command.
+        exec: () => this.props.saveCode()  // name of the command to rebind
+      }]}
       setOptions={{
         enableBasicAutocompletion: this.props.enableBasicAutocompletion,
         enableLiveAutocompletion: this.props.enableLiveAutocompletion,

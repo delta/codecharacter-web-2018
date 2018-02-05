@@ -50,6 +50,9 @@ export default class LeaderBoardComponent extends React.Component {
     this.setState({
       leaderboard: nextProps.playersData
     });
+    if (this.props.loginStatus !== nextProps.loginStatus) {
+      this.props.fetchLeaderboardData();
+    }
   }
 
   refresh = () => {

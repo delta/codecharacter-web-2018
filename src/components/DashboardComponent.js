@@ -80,9 +80,9 @@ export default class DashboardComponent extends React.Component {
       fontSize: 14,
       rendererHeight: 400,
       codeSpaceWidth: 0.4 * window.innerWidth,
-      enableBasicAutocompletion: false,
-      enableLiveAutocompletion: false,
-      highlightActiveLine: false,
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true,
+      highlightActiveLine: true,
       keyboardHandler: 'default',
       compilationData: '',
       staticBool: false,
@@ -190,6 +190,7 @@ export default class DashboardComponent extends React.Component {
   };
 
   updateCodeToApi = () => {
+    if (this.state.code !== this.props.code) {
       this.props.updateCode(this.state.code);
       this.setState({
         badgeDisplay: true
@@ -199,6 +200,7 @@ export default class DashboardComponent extends React.Component {
           badgeDisplay: false
         });
       }, 2500);
+    }
   };
 
   updateCompilationData = () => {
@@ -227,7 +229,7 @@ export default class DashboardComponent extends React.Component {
                 ? <div>
                   <div>
                     <div
-                      style={{position: 'absolute', zIndex: 100, left: 5, right: 0, borderRadius: 0, marginRight: 20, marginTop: 5, cursor: 'pointer'}}
+                      style={{position: 'absolute', zIndex: 2, left: 5, right: 0, borderRadius: 0, marginRight: 20, marginTop: 5, cursor: 'pointer'}}
                       onClick={() => this.updateCodeToApi()}
                     >
                       <span className="badge badge-secondary pull-right">
@@ -254,6 +256,7 @@ export default class DashboardComponent extends React.Component {
                       onChange={(code) => this.updateCode(code)}
                       keyboardHandler={this.state.keyboardHandler}
                       width={this.state.codeSpaceWidth}
+                      saveCode={this.updateCodeToApi}
                     />
                   </div>
                 </div>
@@ -332,7 +335,7 @@ export default class DashboardComponent extends React.Component {
             }
           </div>
           {this.state.badgeDisplay
-            ? <div style={{position: 'absolute', zIndex: 100, top: 46, left: 5}}><span className="badge badge-dark">Saving...</span></div>
+            ? <div style={{position: 'absolute', zIndex: 10, top: 46, left: 5}}><span className="badge badge-dark">Saving...</span></div>
             : null}
         </DemoComponent>
       );

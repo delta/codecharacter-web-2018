@@ -118,7 +118,7 @@ export default class EditorCustomizeComponent extends React.Component {
                   <input
                     className='form-check-input custom-checkbox'
                     type='checkbox'
-                    value=''
+                    checked='checked'
                     onChange={(event)=>this.props.changeEnableBasicAutoCompletion(event.target.checked)}
                   />
                   <p style={{color: '#D2D3D5', fontFamily: 'Rubik, sans serif'}}>Enable Basic Autocomplete</p>
@@ -129,7 +129,7 @@ export default class EditorCustomizeComponent extends React.Component {
                   <input
                     className='form-check-input'
                     type='checkbox'
-                    value=''
+                    checked='checked'
                     onChange={(event)=>this.props.changeEnableLiveAutoCompletion(event.target.checked)}
                   />
                   <p style={{color: '#D2D3D5', fontFamily: 'Rubik, sans serif'}}>Enable Live Autocomplete</p>
@@ -140,7 +140,7 @@ export default class EditorCustomizeComponent extends React.Component {
                   <input
                     className='form-check-input'
                     type='checkbox'
-                    value=''
+                    checked='checked'
                     onChange={(event)=>this.props.changeHighlightActiveLine(event.target.checked)}
                   />
                   <p style={{color: '#D2D3D5', fontFamily: 'Rubik, sans serif'}}>Highlight Active Line</p>
