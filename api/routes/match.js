@@ -81,6 +81,16 @@ router.get('/get_matches', (req, res) => {
       })
       Promise.all(fetchPromises).then(promises => {
         //console.log('hey');
+        matchesModified = matchesModified.map(match => {return match.dataValues});
+        matchesModified.sort((match1, match2) => {
+          let time1 = match1.updatedAt;
+          let time2 = match2.updatedAt;
+          if(time1.getTime() > time2.getTime()){
+            return -1;
+          }else{
+            return 1;
+          }
+        });
         res.json({matchesModified});
       })
     })
