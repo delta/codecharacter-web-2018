@@ -69,7 +69,6 @@ setInterval(() => {
 	}
 	getQueueSize()
 		.then(queueSize => {
-		  console.log(queueSize);
 			if(queueSize){
 				processQueue()
 				.then(codeToBeExecuted => {
@@ -105,8 +104,8 @@ setInterval(() => {
 											user_id: Number(opponentId)
 										})
 									console.log("Please start the compilebox", response);
+                  requestUnderway = false;
 									return;
-									requestUnderway = false;
 								}
 				//				console.log(response.body)
 								let results, player1Score, player2Score, player2ExitStatus, player1ExitStatus, player1Dlog, player2Dlog, runtimeErrorPresent;

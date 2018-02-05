@@ -102,7 +102,7 @@ export function* fetchGameLogSaga(action) {
     let response = yield call(fetchGameLogFetch,{req: null, query: query});
     var pako = window.pako;
 
-    let player1DLog, player2DLog;
+    let player1DLog, player2DLog, gameLog;
 
     if (response.match && response.match.player1_dlog && response.match.player2_dlog) {
       let x = pako.inflate((response.match.player1_dlog.data));
@@ -116,10 +116,12 @@ export function* fetchGameLogSaga(action) {
       x.map(charCode => {
         player2DLog += String.fromCharCode(charCode);
       });
+
+      gameLog = pako.inflate((response.match.log.data));
     }
 
     if (response.match && response.match.log) {
-      yield put(updateGameLog(response.match.log.data));
+      yield put(updateGameLog(gameLog));
       yield put(updateGameDlogs(player1DLog, player2DLog));
     }
     else if(response.err && !response.redirect) {
