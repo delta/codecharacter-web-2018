@@ -86,8 +86,7 @@ setInterval(() => {
 								json: true,
 								body: {...codeToBeExecuted.dataValues, secretString}
 							}, (err, response, body) =>{
-							  // let results, player1ExitStatus, player2ExitStatus, player1Score, player2Score, player1Dlog, player2Dlog, runtimeErrorPresent;
-
+								requestUnderway = false;
 								if(!response){
 									models.Notification.create({
 											type: 'ERROR'	,
@@ -104,16 +103,11 @@ setInterval(() => {
 											user_id: Number(opponentId)
 										})
 									console.log("Please start the compilebox", response);
-                  requestUnderway = false;
 									return;
 								}
-				//				console.log(response.body)
 								let results, player1Score, player2Score, player2ExitStatus, player1ExitStatus, player1Dlog, player2Dlog, runtimeErrorPresent;
 				        results = response.body.results;
-				        //console.log(results);
 				        if(response.body.success){
-				          console.log(results);
-				        	//console.log(1);
 				        	results = results.split(' ').slice(1);
 					        player1ExitStatus = results[1];
 					        player2ExitStatus = results[3];
@@ -124,16 +118,10 @@ setInterval(() => {
 					        player2ExitStatus = player2ExitStatus.replace('\r', '');
 					        runtimeErrorPresent = player2ExitStatus === 'UNDEFINED' || player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT';
 				        }else{
-				        	//console.log(2);
-				        	//console.log(response.body);
 				        	runtimeErrorPresent = true;
 				        	player1ExitStatus = 'UNDEFINED';
 				        	player2ExitStatus = 'UNDEFINED';
 				        }
-				        //console.log('hey');
-				        //console.log(response.body);
-
-				        //sort message and
 								models.User.findOne({
 									where: {
 										id: userId
@@ -185,21 +173,20 @@ setInterval(() => {
 																						id: codeToBeExecuted.id
 																					}
 																				})
-																				requestUnderway = false;
 																			})
 																			.catch(err => {
-																				//console.log(err);
+																				console.log(err);
 																			})
 																	}
 
 																})
 																.catch(err => {
-																	//console.log(err);
+																	console.log(err);
 																})
 														})
 														.catch(err => {
 															throw err;
-															//console.log(err);
+															console.log(err);
 														})
 												}else{
 
@@ -219,11 +206,7 @@ setInterval(() => {
 									        	score1 = elo.updateRating(expec1, 0.5, score1);
 									          score2 = elo.updateRating(expec2, 0.5, score2);
 									        }
-									        //console.log(score1, score2);
-													//handle scores
-													//create appropriate notifications
 													let matchId = response.body.matchId;
-													//executeQueue.splice(indexToBeProcessed, 1);
 													models.Match.update({
 															status: 'success',
 															log: body.log.data,
@@ -239,23 +222,12 @@ setInterval(() => {
 														}
 													)
 														.then(match => {
-															//requestUnderway = false; //might cause some trouble here, ser requestUnderway true here and once notifications are updated
 															models.ExecuteQueue.destroy({
 																where: {
 																	id: codeToBeExecuted.id
 																}
 															})
 															if((userId === opponentId)  || isAi ){
-
-																/*
-																models.Notification.create({
-																	type: 'SUCCESS'	,
-																	title: 'Executed successfully!',
-																	message: `Your game was a success! You'll see your result shortly.`,
-																	isRead: false,
-																	user_id: userId
-																})*/
-																requestUnderway = false;
 																return;
 															}
 
@@ -270,7 +242,6 @@ setInterval(() => {
 															})
 																.then(success => {
 																	if(success){
-																		//console.log('User1 score update successful');
 																	}
 																	models.User.update({
 																		rating: score2
@@ -282,7 +253,6 @@ setInterval(() => {
 																	})
 																		.then(success => {
 																			if(success){
-																				//console.log('User2 score update successful');
 																				if (player1Score < player2Score) {
 																					let notification1 = models.Notification.create({
 																						type: 'INFORMATION',
@@ -332,8 +302,6 @@ setInterval(() => {
 																				let notificationsPromise = [];
 																				Promise.all(notificationsPromise)
 																					.then((values, values2) => {
-																						//console.log(values, values2);
-																						requestUnderway = false;
 																					})
 																			}
 																		})
@@ -358,14 +326,11 @@ setInterval(() => {
 									.catch(err => {
 										console.log(err);
 									})
-								////console.log(err, body);
-								////console.log(Buffer.from(response.body.dll1Encoded, 'base64'));
 							});
 					}catch(e){
 						console.log(e);
 					}
 				})
-				//api call and pop() when necessary
 			}
 		})
 }, 300);

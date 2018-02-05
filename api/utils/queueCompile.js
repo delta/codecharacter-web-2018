@@ -106,19 +106,16 @@ setInterval(() => {
 								json: true,
 								body: {...codeToBeCompiled, secretString}
 							}, (err, response, body) =>{
+								requestUnderway = false;
 								if(err) console.log(err);
 								if(!response){
-									requestUnderway = false;
 									console.log('Please connect compilebox');
 									return;
 								}
 								if(!response.body){
-									requestUnderway = false;
 									console.log('Please fix compilebox');
 									return;	
 								}
-								requestUnderway = false;
-								//compileQueue.shift(); //@change here
 								let userId = codeToBeCompiled.user_id;
 								if(!response){
 									models.Notification.create({
@@ -132,7 +129,6 @@ setInterval(() => {
 									return;
 								}
 								if(!response.body.success){
-									//console.log(response.body);
 									return models.Code.update({ 
 												error_log: response.body.error,
 												status:'error'
@@ -155,9 +151,6 @@ setInterval(() => {
 													.catch(err => {
 														console.log(err);
 													})
-												//console.log(code);
-												//console.log("Compilation Error!");
-
 												models.Notification.create({
 													type: 'ERROR'	,
 													title: 'Compilation Error',
@@ -169,11 +162,11 @@ setInterval(() => {
 														//idk what to do here
 													})
 													.catch(err => {
-														//console.log(err);
+														console.log(err);
 													})
 											})
 											.catch(err => {
-												//console.log(err);
+												console.log(err);
 											})
 								}
 								models.Code.update({
@@ -188,23 +181,6 @@ setInterval(() => {
 									}
 								)
 									.then(code => {
-										//console.log(code);
-										//console.log("successfully compiled!");
-										/*
-											models.Notification.create({
-												type: 'SUCCESS'	,
-												title: 'Compiled successfully!',
-												message: 'Your code just compiled.',
-												isRead: false,
-												user_id: Number(userId)
-											})
-												.then(notification => {
-													//idk what to do here
-												})
-												.catch(err => {
-													//console.log(err);
-												})
-										*/
 										models.CompileQueue.destroy({
 											where: {
 												id: codeToBeCompiled.id
@@ -224,10 +200,7 @@ setInterval(() => {
 							});
 					}catch(e){
 						console.log(e);
-						//for now it doesn't care about the queue, code to be pushed for that by today afternoon
 					}
-					//api call and pop() when necessary
-				
 				})
 				.catch(err => {
 					console.log(err);
