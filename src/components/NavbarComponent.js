@@ -72,7 +72,7 @@ export default class NavbarComponent extends React.Component {
                 <Link className="nav-link" to={"/matches"}>Matches</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/rules"}>Docs</Link>
+                <Link className="nav-link" to={"/docs"}>Docs</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/notifications"}>Notifications</Link>
@@ -113,7 +113,10 @@ export default class NavbarComponent extends React.Component {
                 <Link className="nav-link" to={"/signup"}>Signup</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/rules"}>Docs</Link>
+                <Link className="nav-link" to={"/docs"}>Docs</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/leaderboard"}>Leaderboard</Link>
               </li>
           </ul></div>}
       </nav>

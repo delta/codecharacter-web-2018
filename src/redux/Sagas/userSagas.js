@@ -17,6 +17,7 @@ export function* userLoginSaga (action) {
       password: action.password,
     };
     let response = yield call(userLogin,{req: null, query: query});
+    console.log(response);
     yield put(updateUserId({userId: response.userId, initialLogin: response.logged_in_once}));
     yield put(updateUserLoginStatus({username: action.username, loginStatus: response.success}));
     yield put(updateLoginMessage({loginMessage: ''}));

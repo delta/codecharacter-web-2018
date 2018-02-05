@@ -24,6 +24,7 @@ const initialState = {
   activeAiId: -1,
   totalUsers: 0,
   pingStatusActive: false,
+  userAuthenticated: false,
   dLogs: ['','']
 };
 

@@ -69,7 +69,7 @@ setInterval(() => {
 	}
 	getQueueSize()
 		.then(queueSize => {
-			if(queueSize){ 
+			if(queueSize){
 				processQueue()
 				.then(codeToBeExecuted => {
 
@@ -98,14 +98,14 @@ setInterval(() => {
 										})
 									models.Notification.create({
 											type: 'ERROR'	,
-											title: 'Compilation Error',
+											title: 'Server Error',
 											message: 'Our server seems to be having some trouble, please stay with us while we fix this!',
 											isRead: false,
 											user_id: Number(opponentId)
 										})
-									console.log("Please start the compilebox");
+									console.log("Please start the compilebox", response);
+                  requestUnderway = false;
 									return;
-									requestUnderway = false;
 								}
 				//				console.log(response.body)
 								let results, player1Score, player2Score, player2ExitStatus, player1ExitStatus, player1Dlog, player2Dlog, runtimeErrorPresent;
@@ -303,20 +303,27 @@ setInterval(() => {
 																						title: 'Won Game!',
 																						message: `Your won ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
 																						isRead: false,
-																						user_id: opponentId
+																						user_id: userId
 																					});
 																					let notification2 = models.Notification.create({
 																						type: 'INFORMATION',
 																						title: 'Lost Game',
 																						message: `You lost ${player2Score}-${player1Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
 																						isRead: false,
-																						user_id: userId
+																						user_id: opponentId
 																					});
 																				} else {
 																					let notification1 = models.Notification.create({
 																						type: 'INFORMATION'	,
 																						title: 'Tied Game',
 																						message: `Your tied ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
+																						isRead: false,
+																						user_id: userId
+																					});
+																					let notification2 = models.Notification.create({
+																						type: 'INFORMATION'	,
+																						title: 'Tied Game',
+																						message: `Your tied ${player1Score}-${player2Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
 																						isRead: false,
 																						user_id: opponentId
 																					});
@@ -355,7 +362,7 @@ setInterval(() => {
 							});
 					}catch(e){
 						console.log(e);
-					}	
+					}
 				})
 				//api call and pop() when necessary
 			}

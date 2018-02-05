@@ -17,7 +17,7 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...state,
         userId: action.userId.userId,
-        initialLogin: action.userId.initialLogin ? (!action.userId.initialLogin) : false
+        initialLogin: (!action.userId.initialLogin)
       }
     }
 
@@ -79,7 +79,6 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.CHANGE_LAST_USED: {
-      console.log(action.lastUsed);
       return {
         ...state,
         lastUsed: action.lastUsed

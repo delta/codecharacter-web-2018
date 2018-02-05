@@ -1,7 +1,7 @@
 import React                                      from 'react';
 import marked                                     from 'marked';
 
-export default class RulesComponent extends React.Component {
+export default class DocsComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

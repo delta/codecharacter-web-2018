@@ -148,7 +148,7 @@ export default class SignUpComponent extends React.Component {
               <Modal.Body>
                 <p style={{paddingRight: 20, fontSize: 14}}>Already registered on <Link to="https://www.pragyan.org/18/home" target='_blank'>Pragyan</Link> or NITT Webmail? You can use the same credentials to login.</p>
                 <FormGroup className={this.usernameStatus}>
-                    <p ref='foo' data-tip='Your Email will not be revealed'/>
+                    <p ref='foo' data-tip="We don\'t display your email to other players"/>
                     <input onChange={(event) => {this.updateUsername(event); ReactTooltip.show(findDOMNode(this.refs.foo));}}
                            onBlur={() => ReactTooltip.hide(findDOMNode(this.refs.foo))}
                            type="text"

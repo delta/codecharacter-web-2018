@@ -7,7 +7,6 @@ import SubmitButtons                              from './SubmitButtons';
 import EditorCustomizeComponent from './EditorCustomizeComponent';
 import CodeCharacterRenderer                      from 'codecharacter-renderer';
 import DemoComponent                              from './DemoComponent';
-import FlagIconFactory                            from 'react-flag-icon-css';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -56,6 +55,7 @@ export default class DashboardComponent extends React.Component {
     dLogs: ['', ''],
     gameLog: [],
     isGameFetching: false,
+    initialLogin: false,
     runCode: () => {},
     lockCode: () => {},
     fetchCode: () => {},
@@ -65,7 +65,6 @@ export default class DashboardComponent extends React.Component {
     fetchGameLog: () => {},
     changeAIid: () => {},
     clearCompilationStatus: () => {},
-    initialLogin: false,
     changePingStatusActive: () => {},
     changeCodeBeingSubmitted: () => {}
   };
@@ -208,7 +207,6 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
-    console.log(this.props.pingStatus);
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }
@@ -228,6 +226,14 @@ export default class DashboardComponent extends React.Component {
               {!this.props.matchesView
                 ? <div>
                   <div>
+                    <div
+                      style={{position: 'absolute', zIndex: 100, left: 5, right: 0, borderRadius: 0, marginRight: 20, marginTop: 5, cursor: 'pointer'}}
+                      onClick={() => this.updateCodeToApi()}
+                    >
+                      <span className="badge badge-secondary pull-right">
+                        Save Code
+                      </span>
+                    </div>
                     <EditorCustomizeComponent
                       changeTheme={this.changeTheme}
                       changeFontSize={this.changeFontSize}
@@ -247,6 +253,7 @@ export default class DashboardComponent extends React.Component {
                       highlightActiveLine={this.state.highlightActiveLine}
                       onChange={(code) => this.updateCode(code)}
                       keyboardHandler={this.state.keyboardHandler}
+                      width={this.state.codeSpaceWidth}
                     />
                   </div>
                 </div>
@@ -258,8 +265,8 @@ export default class DashboardComponent extends React.Component {
             <div className={'splitPaneRight'}>
               <SplitPane
                 split="horizontal"
-                minSize={100}
-                defaultSize={400}
+                minSize={0}
+                defaultSize={this.props.matchesView ? (window.innerHeight - 50) : 400}
                 onChange={size => this.setState({rendererHeight: size})}
               >
                 <div style={{width: "100%"}} className={'renderer'}>
@@ -297,7 +304,8 @@ export default class DashboardComponent extends React.Component {
                   }
                 </div>
                 <div className="debug-panel">
-                  <CodeComponent
+                  {!this.props.matchesView
+                  ? <CodeComponent
                     showLineNumbers={true}
                     readOnly={true}
                     code={this.props.compilationStatus}
@@ -306,6 +314,7 @@ export default class DashboardComponent extends React.Component {
                     highlightActiveLine={false}
                     height={window.innerHeight - this.state.rendererHeight - 50}
                   />
+                  : null}
                 </div>
               </SplitPane>
             </div>

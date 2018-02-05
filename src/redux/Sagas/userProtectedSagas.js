@@ -107,6 +107,9 @@ export function* getProfileViewDataSaga(action) {
     if (response.user) {
       yield put(updateProfileViewData(response.user));
     }
+    else {
+      yield put(updateProfileViewData(null));
+    }
     yield put(changeIsFetching(false));
   }
   catch (err) {

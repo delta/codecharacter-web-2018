@@ -95,7 +95,7 @@ export default class ProfileComponent extends React.Component {
                             <td>Nationality</td>
                             {this.state.edit
                               ? <td>
-                                <ReactFlagsSelect defaultCountry="IN" searchable={true} onSelect={this.onSelectFlag}/>
+                                <ReactFlagsSelect defaultCountry={this.props.profileData.nationality} searchable={true} onSelect={this.onSelectFlag}/>
                               </td>
                               : <td>
                                 <span style={{marginRight: 10}}>
