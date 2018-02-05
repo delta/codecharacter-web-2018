@@ -13,6 +13,9 @@ models.Constant.findOne({
 })
   .then(constant => {
     WAIT_TIME_CHALLENGE = constant.value;
+    if(!constant){
+      WAIT_TIME_CHALLENGE = 30;
+    }
   })
   .catch(err => {
     WAIT_TIME_CHALLENGE = 30;

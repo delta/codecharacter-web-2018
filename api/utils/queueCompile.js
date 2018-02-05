@@ -9,6 +9,9 @@ models.Constant.findOne({
 })
 	.then(constant => {
 		compileQueueSize = constant.value;
+		if(!constant){
+			compileQueueSize = 100;
+		}
 	})
 	.catch(err => {
 		compileQueueSize = 100;
@@ -105,10 +108,12 @@ setInterval(() => {
 							}, (err, response, body) =>{
 								if(err) console.log(err);
 								if(!response){
+									requestUnderway = false;
 									console.log('Please connect compilebox');
 									return;
 								}
 								if(!response.body){
+									requestUnderway = false;
 									console.log('Please fix compilebox');
 									return;	
 								}

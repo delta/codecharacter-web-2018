@@ -12,6 +12,9 @@ models.Constant.findOne({
 })
 	.then(constant => {
 		COMPILE_RATE_LIMIT = constant.value;
+		if(!constant){
+			COMPILE_RATE_LIMIT = 5;
+		}
 	})
 	.catch(err => {
 		COMPILE_RATE_LIMIT = 5;
