@@ -132,26 +132,48 @@ router.post('/change', (req, res) => {
 	if(nationality){
 		updateObject = { ...updateObject, nationality};
 	}
+	let x ;
 	if(name) {
 		updateObject = { ...updateObject, name};
-	}
-	if(req.body.password) {
-		updateObject = {...updateObject, password};
-	}
-	models.User.update(
-		updateObject,
-		{
+		x = models.User.findOne({
 			where: {
-				id: req.session.userId
+				name
 			}
+		})
+			.then(user => {
+				return !!!user;
+			})
+			.catch(err => {
+				console.log(err);
+				return false;
+			})
+	}else{
+		x = Promise.resolve(true);
+	}
+	x.then(success => {
+		console.log(success);
+		if(success){
+			if(req.body.password) {
+				updateObject = {...updateObject, password};
+			}
+			models.User.update(
+				updateObject,
+				{
+					where: {
+						id: req.session.userId
+					}
+				}
+			)
+				.then(success => {
+					res.json({success: true, message:'Updated'})
+				})
+				.catch(err => {
+					console.log(err);
+					res.json({success: false, message: 'Change failed!'})
+				})
+		}else{
+			res.json({success: false, message:"User exists"});
 		}
-	)
-		.then(success => {
-			res.json({success: true, message:'Updated'})
-		})
-		.catch(err => {
-			console.log(err);
-			res.json({success: false, message: 'Change failed!'})
-		})
+	})
 });
 module.exports = router;
