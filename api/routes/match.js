@@ -89,9 +89,9 @@ router.get('/get_matches', (req, res) => {
           let time1 = match1.updatedAt;
           let time2 = match2.updatedAt;
           if(time1.getTime() > time2.getTime()){
-            return -1;
-          }else{
             return 1;
+          }else{
+            return -1;
           }
         });
         res.json({matchesModified});

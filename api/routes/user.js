@@ -305,7 +305,6 @@ router.post("/login", (req, res) => {
 		body: options
 	}, (err, response) => {
 		if(err) console.log(err);
-		console.log(response.body);
 		if( !response || !response.body){
 		  return res.json({success: false, message: 'Pragyan server error'});
     }
