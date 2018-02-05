@@ -12,12 +12,14 @@ export default class MatchesViewComponent extends React.Component {
     fetchGameLog: PropTypes.func,
     fetchMatchData: PropTypes.func,
     updateCompilationStatus: PropTypes.func,
-    userAuthenticateCheck: PropTypes.func
+    userAuthenticateCheck: PropTypes.func,
+    isFetching: PropTypes.bool
   };
 
   static defaultProps = {
     matchesData: [],
     loginStatus: false,
+    isFetching: true,
     fetchMatchData: () => {},
     fetchGameLog: () => {},
     updateCompilationStatus: () => {},
@@ -27,6 +29,10 @@ export default class MatchesViewComponent extends React.Component {
   componentDidMount() {
     this.props.fetchMatchData();
   }
+
+  refresh = () => {
+    this.props.fetchMatchData();
+  };
 
   render() {
     let matchData = (this.props.matchesData);
@@ -73,10 +79,22 @@ export default class MatchesViewComponent extends React.Component {
         </tr>
         </thead>
         <tbody>
-        {matchDataColumns}
+        {!this.props.isFetching
+          ? matchDataColumns
+          : <tr>
+            <td></td>
+            <td></td>
+            <td style={{textAlign: 'right'}}>
+              <i className="fa fa-2x fa-circle-o-notch fa-spin"/>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>}
         </tbody>
         </table>
-        {(!this.props.matchesData || this.props.matchesData.length===0) ? <h4 style={{textAlign: 'center'}}>No matches played</h4> : null}
+        {(!this.props.matchesData || this.props.matchesData.length===0 )&&(!this.props.isFetching) ? <h4 style={{textAlign: 'center'}}>No matches played</h4> : null}
+        <i className="fa fa-2x fa-refresh" style={{cursor: 'pointer', marginLeft: 10}} onClick={this.refresh}/>
       </div>
     );
     return <DashboardComponent

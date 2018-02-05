@@ -7,11 +7,12 @@ import { call, put } from 'redux-saga/effects';
 import {
   changeLastMatchId, changeMatchStatus, getCodeStatus, updateCompilationStatus, updateGameDlogs,
   updateGameLog, getMatchStatus, fetchGameLog,
-  updateMatchAllData, updateUnreadNotifications,
+  updateMatchAllData, updateUnreadNotifications, changeIsFetching,
 } from '../actions';
 
 export function* matchFetchAllSaga() {
   try {
+    yield put(changeIsFetching(true));
     const response = yield call(matchFetchAll,{req: null, query: null});
     if (!response.matchesModified && !response.redirect) {
       yield put(updateUnreadNotifications([{
@@ -24,6 +25,7 @@ export function* matchFetchAllSaga() {
     else {
       yield put(updateMatchAllData(response.matchesModified));
     }
+    yield put(changeIsFetching(false));
   }
   catch(err) {
     console.log(err);
