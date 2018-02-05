@@ -106,9 +106,9 @@ export function* codeLockSaga(action) {
       }
       else {
         yield put(updateUnreadNotifications([{
-          type: 'INFORMATION',
+          type: 'ERROR',
           title: 'Verify Email',
-          message: 'Please verify your email to lock code. Check your inbox.',
+          message: 'You cannot submit code without verifying your email, please check your inbox.',
           createdAt: Date.now().toString()
         }]));
       }
