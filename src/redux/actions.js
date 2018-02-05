@@ -229,9 +229,10 @@ export const updateProfileData = (data) => ({
   data
 });
 
-export const changeProfileName = (name) => ({
-  type: actionTypes.CHANGE_PROFILE_NAME,
-  name
+export const changeProfile = (name, nationality) => ({
+  type: actionTypes.CHANGE_PROFILE,
+  name,
+  nationality
 });
 
 export const getProfileViewData = (name) => ({
@@ -258,6 +259,11 @@ export const changeCodeBeingSubmitted = (codeBeingSubmitted) => ({
 export const changePingStatusActive = (pingStatusActive) => ({
   type: actionTypes.CHANGE_PING_STATUS_ACTIVE,
   pingStatusActive
+});
+
+export const changeIsFetching = (isFetching) => ({
+  type: actionTypes.CHANGE_IS_FETCHING,
+  isFetching
 });
 
 export const clearState = () => ({

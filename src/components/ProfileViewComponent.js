@@ -3,6 +3,8 @@ import { getCountryName } from '../utils/countryCodes';
 // import Flag from "react-flags";
 import NotFoundComponent from './NotFoundComponent';
 import FlagIconFactory from 'react-flag-icon-css/lib/index';
+import ReactFlagsSelect from 'react-flags-select';
+import 'react-flags-select/css/react-flags-select.css';
 
 export default class ProfileViewComponent extends React.Component {
 
@@ -12,7 +14,6 @@ export default class ProfileViewComponent extends React.Component {
 
   render() {
     const FlagIcon = FlagIconFactory(React, { useCssModules: false });
-      console.log(this.props.profileViewData);
     if (this.props.profileViewData.name !== "") {
       return (
         <div className="container">

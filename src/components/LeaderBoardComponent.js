@@ -8,6 +8,7 @@ export default class LeaderBoardComponent extends React.Component {
     playersData: PropTypes.array,
     loginStatus: PropTypes.bool,
     totalUsers: PropTypes.number,
+    isFetching: PropTypes.bool,
     fetchLeaderboardData: PropTypes.func,
     startChallenge: PropTypes.func,
     getUsersLength: PropTypes.func,
@@ -19,6 +20,7 @@ export default class LeaderBoardComponent extends React.Component {
     playersData: [],
     loginStatus: false,
     totalUsers: 0,
+    isFetching: false,
     fetchLeaderboardData: () => {},
     startChallenge: () => {},
     getUsersLength: () => {},
@@ -42,6 +44,16 @@ export default class LeaderBoardComponent extends React.Component {
       leaderboard: this.props.playersData
     });
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      leaderboard: nextProps.playersData
+    });
+  }
+
+  refresh = () => {
+    this.props.fetchLeaderboardData();
+  };
 
   searchUser = (event) => {
     if (event.target.value !== '') {
@@ -147,17 +159,26 @@ export default class LeaderBoardComponent extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {tableColumns}
+                        {!this.props.isFetching
+                          ? tableColumns
+                          : <tr>
+                            <td></td>
+                            <td></td>
+                            <td style={{textAlign: 'center'}}>
+                              <i className="fa fa-2x fa-circle-o-notch fa-spin"/>
+                            </td>
+                            <td></td>
+                          </tr>}
                         </tbody>
                       </table>
 
                     </div>
                     <div className="panel-footer">
                       <div className="row">
-                        {(this.state.activeSearch) ? null : <div className="col col-xs-4">Page {this.state.pageCount} of {this.pages}</div>}
+                        <div className="col col-xs-4">Page {this.state.pageCount} of {this.pages}</div>
                         <div className="col col-xs-8">
-                          {(!this.state.activeSearch)
-                            ? <ul className="pagination pagination-sm pull-right">
+                          <i className="fa fa-2x fa-refresh pull-right" style={{cursor: 'pointer'}} onClick={this.refresh}/>
+                          <ul className="pagination pagination-sm pull-right">
                             <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== 1) ? this.state.pageCount-1 : 1})}}>
                               <span aria-label="Previous" className="page-link" style={{cursor: 'pointer'}}>
                                 <span aria-hidden="true">&laquo;</span>
@@ -170,7 +191,6 @@ export default class LeaderBoardComponent extends React.Component {
                               </span>
                             </li>
                           </ul>
-                          : null}
                         </div>
                       </div>
                     </div>

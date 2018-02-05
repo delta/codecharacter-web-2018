@@ -129,7 +129,7 @@ export const getUserViewProfile = ({req, query}) => {
     });
 };
 
-export const changeUserName = ({req, query}) => {
+export const changeUserProfile = ({req, query}) => {
   return fetch(API_BASE_URL + 'user_protected/change', {
     method: "POST",
     credentials: 'include',
@@ -138,7 +138,8 @@ export const changeUserName = ({req, query}) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name: query.name
+      name: query.name,
+      nationality: query.nationality
     })
   })
     .then((response) => {

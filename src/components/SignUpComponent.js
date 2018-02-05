@@ -107,7 +107,6 @@ export default class SignUpComponent extends React.Component {
       });
     }
     else {
-      // this.recaptcha.reset();
       this.usernameStatus = "is-invalid";
       this.nameStatus = "";
       this.passwordStatus = "";

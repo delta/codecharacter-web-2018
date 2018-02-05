@@ -10,7 +10,8 @@ const mapStateToProps = state => {
     userId: state.userId,
     playersData: state.leaderboardData,
     loginStatus: state.loginStatus,
-    totalUsers: state.totalUsers
+    totalUsers: state.totalUsers,
+    isFetching: state.isFetching
   };
 };
 

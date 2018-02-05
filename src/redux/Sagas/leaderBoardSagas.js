@@ -1,4 +1,5 @@
 import {
+  changeIsFetching,
   changeLastUsed, getGameStatus, updateLeaderboard,
   updateUnreadNotifications
 } from '../actions';
@@ -11,9 +12,11 @@ import { challengePlayer } from '../../shellFetch/matchFetch';
 
 export function* leaderboardGetPlayersSaga(action) {
   try {
+    yield put(changeIsFetching(true));
     const response = yield call(leaderboardGetAllPlayers, {req: null, query: null});
     if (response.success) {
       yield put(updateLeaderboard(response.ratings));
+      yield put(changeIsFetching(false));
     }
     else if(!response.redirect){
       yield put(updateUnreadNotifications([{
@@ -23,6 +26,7 @@ export function* leaderboardGetPlayersSaga(action) {
         createdAt: Date.now().toString()
       }]));
     }
+    yield put(changeIsFetching(false));
   }
   catch(err) {
     console.log(err);
@@ -55,6 +59,7 @@ export function* leaderboardStartChallengeSaga(action) {
 
 export function* searchUserSaga(action) {
   try {
+    yield put(changeIsFetching(true));
     let query = {
       pattern: action.pattern,
       size: action.size
@@ -71,6 +76,7 @@ export function* searchUserSaga(action) {
         createdAt: Date.now().toString()
       }]));
     }
+    yield put(changeIsFetching(false));
   }
   catch(err) {
     console.log(err);

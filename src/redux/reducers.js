@@ -183,6 +183,13 @@ export function codeCharacterReducer(state = initialState, action) {
       }
     }
 
+    case actionTypes.CHANGE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching
+      }
+    }
+
     case "persist/REHYDRATE": {
       return { ...state, ...action.payload }
     }
