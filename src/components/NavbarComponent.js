@@ -14,7 +14,27 @@ export default class NavbarComponent extends React.Component {
     codeStatus: 'idle'
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeLink: '/login'
+    };
+    this.links = [
+      {name: 'Login', loginReq: false, onLogin: false},
+      {name: 'Signup', loginReq: false, onLogin: false},
+      {name: 'Profile', loginReq: true, onLogin: true},
+      {name: 'Dashboard', loginReq: true, onLogin: true},
+      {name: 'Leaderboard', loginReq: false, onLogin: true},
+      {name: 'Matches', loginReq: true, onLogin: true},
+      {name: 'Docs', loginReq: false, onLogin: true},
+      {name: 'Notifications', loginReq: true, onLogin: true},
+    ];
+  };
+
   componentDidMount() {
+    this.setState({
+      activeLink: window.location.pathname
+    });
     const element = document.getElementsByClassName('navbar');
     document.addEventListener('mousedown', function(event) {
       if (element[0] && !element[0].contains(event.target)) {
@@ -23,14 +43,38 @@ export default class NavbarComponent extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', function (event) {
-
-    });
-  }
-
   render() {
-    // console.log(this.props.lastUsed===0 ? this.props.codeStatus : this.props.matchStatus, this.props.codeStatus, this.props.matchStatus, this.props.lastUsed);
+    let links = (this.links).map((data,index) => {
+      let currentLink = false;
+      if (("/" + data.name.toLowerCase()) === this.state.activeLink) currentLink = true;
+
+      if (this.props.loginStatus) {
+        if (data.onLogin) {
+          return (
+            <li className="nav-item">
+              <Link className={currentLink ? "nav-link active" : "nav-link"} to={"/" + data.name.toLowerCase()}>{data.name}</Link>
+            </li>
+          );
+        }
+        else {
+          return null;
+        }
+      }
+
+      else {
+        if (!data.loginReq) {
+          return (
+            <li className="nav-item">
+              <Link className={currentLink ? "nav-link active" : "nav-link"} to={"/" + data.name.toLowerCase()}>{data.name}</Link>
+            </li>
+          );
+        }
+        else {
+          return null;
+        }
+      }
+    });
+
     return (
       <nav
         className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -58,27 +102,10 @@ export default class NavbarComponent extends React.Component {
         </button>
         {this.props.loginStatus
           ? <div className="collapse navbar-collapse" id={"navbarColor02"}>
-            <ul className="navbar-nav mr-auto">
+            <ul className="navbar-nav mr-auto" onClick={() => {this.setState({activeLink: window.location.pathname})}} >
+              {links}
               <li className="nav-item">
-                <Link className="nav-link" to={"/myprofile"}>Profile</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/dashboard"}>Dashboard</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/leaderboard"}>Leaderboard</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/matches"}>Matches</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/docs"}>Docs</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/notifications"}>Notifications</Link>
-              </li>
-              <li className="nav-item" style={{cursor: 'pointer'}}>
-                <Link className="nav-link" to={"/"} onClick={() => {this.props.onLogout();}}>Logout</Link>
+                <span className="nav-link" onClick={() => this.props.onLogout()} style={{cursor: 'pointer'}}>Logout</span>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0">
@@ -103,22 +130,12 @@ export default class NavbarComponent extends React.Component {
                 </li>
               </ul>
             </form>
-            </div>
+          </div>
           : <div className="collapse navbar-collapse" id={"navbarColor02"}>
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to={"/login"}>Login</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/signup"}>Signup</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/docs"}>Docs</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/leaderboard"}>Leaderboard</Link>
-              </li>
-          </ul></div>}
+            <ul className="navbar-nav mr-auto"  onClick={() => {this.setState({activeLink: window.location.pathname})}}>
+              {links}
+            </ul>
+          </div>}
       </nav>
     );
   }

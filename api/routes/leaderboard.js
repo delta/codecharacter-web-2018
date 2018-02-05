@@ -43,7 +43,8 @@ router.get("/", (req, res) => {
 						let retObj = Object.assign({}, {
 							name: user.dataValues.name,
 							id: user.dataValues.id,
-							rating: user.dataValues.rating
+							rating: user.dataValues.rating,
+              nationality: user.dataValues.nationality
 						});
 						ratings.push(retObj);
 					});

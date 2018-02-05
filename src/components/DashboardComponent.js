@@ -332,7 +332,7 @@ export default class DashboardComponent extends React.Component {
             }
           </div>
           {this.state.badgeDisplay
-            ? <div style={{position: 'absolute', zIndex: 100, top: 46, left: 5}}><span className="badge badge-dark">Auto Saving</span></div>
+            ? <div style={{position: 'absolute', zIndex: 100, top: 46, left: 5}}><span className="badge badge-dark">Saving...</span></div>
             : null}
         </DemoComponent>
       );

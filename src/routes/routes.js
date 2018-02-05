@@ -18,7 +18,7 @@ export const RouteList = () => (
     <GlobalContainer/>
     <Switch>
       <Route exact path='/' component={WelcomeScreenComponent}/>
-      <Route exact path='/myprofile' component={ProfileContainer}/>
+      <Route exact path='/profile' component={ProfileContainer}/>
       <Route exact path='/dashboard' component={DashboardContainer}/>
       <Route exact path='/login' component={LoginContainer} />
       <Route exact path='/signup' component={SignUpContainer} />
