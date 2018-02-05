@@ -226,6 +226,14 @@ export default class DashboardComponent extends React.Component {
               {!this.props.matchesView
                 ? <div>
                   <div>
+                    <div
+                      style={{position: 'absolute', zIndex: 100, left: 5, right: 0, borderRadius: 0, marginRight: 20, marginTop: 5, cursor: 'pointer'}}
+                      onClick={() => this.updateCodeToApi()}
+                    >
+                      <span className="badge badge-secondary pull-right">
+                        Save Code
+                      </span>
+                    </div>
                     <EditorCustomizeComponent
                       changeTheme={this.changeTheme}
                       changeFontSize={this.changeFontSize}
