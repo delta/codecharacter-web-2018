@@ -47,6 +47,7 @@ export default class WelcomeScreenComponent extends React.Component {
                   <li>Active discussion forum for any game related questions</li>
                   <li>Extensive tutorials and documentation</li>
                   <li>Exciting prizes!</li>
+                  <li>No arrows in knees!</li>
                 </ul>
                 <Link to={"/signup"} className="btn btn-primary mr-2 page-scroll">Get Started</Link>
               </div>
