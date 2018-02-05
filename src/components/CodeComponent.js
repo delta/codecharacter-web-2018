@@ -1,7 +1,6 @@
 import React                                      from 'react';
 import AceEditor                                  from 'react-ace';
 import PropTypes                                  from 'prop-types';
-import ace from 'brace';
 import 'brace/mode/c_cpp';
 import 'brace/mode/plain_text';
 import 'brace/theme/xcode';
