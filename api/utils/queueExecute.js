@@ -105,6 +105,7 @@ setInterval(() => {
 										})
 									console.log("Please start the compilebox");
 									return;
+									requestUnderway = false;
 								}
 				//				console.log(response.body)
 								let results, player1Score, player2Score, player2ExitStatus, player1ExitStatus, player1Dlog, player2Dlog, runtimeErrorPresent;
