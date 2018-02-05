@@ -63,7 +63,6 @@ export default class LeaderBoardComponent extends React.Component {
       for(let i=0;i<(this.props.playersData.length);i++) {
         if(this.props.playersData[i].name.match(searchPattern)) {
           searchList.push(this.props.playersData[i]);
-          console.log(this.props.playersData[i]);
         }
       }
       this.setState({
@@ -86,7 +85,6 @@ export default class LeaderBoardComponent extends React.Component {
     let tableColumns = [];
     for(let i=0;i<this.maxUserPerPage;i++) {
       let data = this.state.leaderboard[(this.state.pageCount - 1)*this.maxUserPerPage + i];
-      console.log(data);
       if(data) {
         tableColumns[i] = (
           <tr key={i}>

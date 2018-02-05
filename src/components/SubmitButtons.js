@@ -38,8 +38,9 @@ export default class SubmitButtons extends React.Component {
         <div className={this.props.disabled ? "btn dropdown btn-success disabled" : "btn dropdown btn-success"}
              style={{padding: 0, borderRadius: 0, paddingLeft: 10, paddingRight: 5, cursor: 'pointer'}}>
           <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" style={{color: 'white', margin: '1px 0px'}} aria-expanded="true">RUN CODE</span>
-          <div className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px', willChange: 'transform'}}>
-            {!this.props.disabled ? <span
+          {!this.props.disabled ?
+            <div className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px', willChange: 'transform'}}>
+            <span
               key={-1}
               className="dropdown-item"
               onClick={() => {
@@ -49,9 +50,9 @@ export default class SubmitButtons extends React.Component {
               }
             >
               Self
-            </span> : null}
-            {!this.props.disabled ? AIDropDown : null}
-          </div>
+            </span>
+              {AIDropDown}
+          </div> : null}
         </div>
         <button
           className={this.props.disabled ? "btn btn-danger disabled" : "btn btn-danger"}

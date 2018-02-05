@@ -54,7 +54,6 @@ export default class CodeComponent extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.editor);
     if(nextProps.width !== this.props.width) {
       // this.forceUpdate();
     }
