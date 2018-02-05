@@ -91,15 +91,15 @@ setInterval(() => {
 								if(!response){
 									models.Notification.create({
 											type: 'ERROR'	,
-											title: 'Compilation Error',
-											message: 'Our server has taken a hit, please stay with us while we fix this!',
+											title: 'Server Error',
+											message: 'Our server seems to be having some trouble, please stay with us while we fix this!',
 											isRead: false,
 											user_id: Number(userId)
 										})
 									models.Notification.create({
 											type: 'ERROR'	,
 											title: 'Compilation Error',
-											message: 'Our server has taken a hit, please stay with us while we fix this!',
+											message: 'Our server seems to be having some trouble, please stay with us while we fix this!',
 											isRead: false,
 											user_id: Number(opponentId)
 										})
@@ -161,7 +161,7 @@ setInterval(() => {
 															models.Notification.create({
 																type: 'ERROR'	,
 																title: 'Execution Error',
-																message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!'),
+																message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
 																isRead: false,
 																user_id: userId
 															})
@@ -171,7 +171,7 @@ setInterval(() => {
 																		models.Notification.create({
 																			type: 'ERROR'	,
 																			title: 'Execution Error',
-																			message:(player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'Simplify to a less complex code': 'Play timeout!'),
+																			message:(player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check our code.'),
 																			isRead: false,
 																			user_id: opponentId
 																		})
@@ -249,7 +249,7 @@ setInterval(() => {
 																models.Notification.create({
 																	type: 'SUCCESS'	,
 																	title: 'Executed successfully!',
-																	message: `Your match was a success! `,
+																	message: `Your game was a success! You'll see your result shortly.`,
 																	isRead: false,
 																	user_id: userId
 																})*/
@@ -281,29 +281,45 @@ setInterval(() => {
 																		.then(success => {
 																			if(success){
 																				//console.log('User2 score update successful');
-																				let winner = player1Score > player2Score ? user1.name : user2.name;
-																				let notification1 = models.Notification.create({
-																					type: 'SUCCESS'	,
-																					title: 'Executed successfully!',
-																					message: `Your match with ${user2.name} has executed successfully and your score was ${player1Score} ,
-																					 	while the opponent score was ${player2Score}. 
-																					 	${(winner === user1.name )? "You won!" : "You lost." }
-																					 	Click <a>here</a> to view the match.
-																					`,
-																					isRead: false,
-																					user_id: userId
-																				})
-																				let notification2 = models.Notification.create({
-																					type: 'INFORMATION'	,
-																					title: 'Executed successfully!',
-																					message: `Your match with ${user1.name} has executed successfully and your score was ${player2Score} 
-																						while the opponent score was ${player2Score}. 
-																					 	${(winner === user2.name )? "You won!" : "You lost." }
-																					 	Click <a>here</a> to view the match.
-																					`,
-																					isRead: false,
-																					user_id: opponentId
-																				})
+																				if (player1Score < player2Score) {
+																					let notification1 = models.Notification.create({
+																						type: 'INFORMATION',
+																						title: 'Lost Game',
+																						message: `You lost ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																						isRead: false,
+																						user_id: userId
+																					});
+																					let notification2 = models.Notification.create({
+																						type: 'SUCCESS'	,
+																						title: 'Won Game!',
+																						message: `Your won ${player2Score}-${player1Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																						isRead: false,
+																						user_id: opponentId
+																					});
+																				} else if (player1Score > player2Score) {
+																					let notification1 = models.Notification.create({
+																						type: 'SUCCESS'	,
+																						title: 'Won Game!',
+																						message: `Your won ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																						isRead: false,
+																						user_id: opponentId
+																					});
+																					let notification2 = models.Notification.create({
+																						type: 'INFORMATION',
+																						title: 'Lost Game',
+																						message: `You lost ${player2Score}-${player1Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																						isRead: false,
+																						user_id: userId
+																					});
+																				} else {
+																					let notification1 = models.Notification.create({
+																						type: 'INFORMATION'	,
+																						title: 'Tied Game',
+																						message: `Your tied ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
+																						isRead: false,
+																						user_id: opponentId
+																					});
+																				}
 																				let notificationsPromise = [];
 																				Promise.all(notificationsPromise)
 																					.then((values, values2) => {
