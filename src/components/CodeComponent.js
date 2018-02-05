@@ -56,6 +56,19 @@ export default class CodeComponent extends React.Component {
     saveCode: () => {}
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.width !== nextProps.width || this.props.height !== nextProps.height) {
+      this.editor.resize();
+    }
+  }
+
+  componentDidUpdate(prevProps, nextProps) {
+    if (this.props.code !== prevProps.code && this.props.readOnly) {
+      let n = this.editor.getSession().getValue().split("\n").length ;
+      this.editor.gotoLine(n);
+    }
+  }
+
   render() {
     return <AceEditor
       ref='editor'
@@ -91,6 +104,9 @@ export default class CodeComponent extends React.Component {
       style={{
         width: '100%',
         height: this.props.height
+      }}
+      onLoad={(editor) => {
+        this.editor = editor;
       }}
     />;
   }
