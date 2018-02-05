@@ -86,7 +86,6 @@ setInterval(() => {
 								json: true,
 								body: {...codeToBeExecuted.dataValues, secretString}
 							}, (err, response, body) =>{
-								requestUnderway = false;
 								if(!response){
 									models.Notification.create({
 											type: 'ERROR'	,
@@ -128,200 +127,306 @@ setInterval(() => {
 									}
 								})
 									.then(user1 => {
-										models.User.findOne({
-											where: {
-												id:opponentId
-											}
-										})
-											.then(user2 => {
-												if(err) console.log(err);
-												if(!body.success || runtimeErrorPresent){
-													models.Match.update({
-															status: 'error',
-															error_log: body.error
-														},
-														{
-															where:{
-																id: matchId
-															}
+										if(codeToBeExecuted.isAi){
+											if(err) console.log(err);
+											if(!body.success || runtimeErrorPresent){
+												models.Match.update({
+														status: 'error',
+														error_log: body.error
+													},
+													{
+														where:{
+															id: matchId
 														}
-													)
-														.then(match => {
-															//console.log(match);
-															models.Notification.create({
-																type: 'ERROR'	,
-																title: 'Execution Error',
-																message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
-																isRead: false,
-																user_id: userId
-															})
-																.then(notification => {
-																	//idk what to do here
-																	if( (player2ExitStatus === 'UNDEFINED' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT')){
-																		models.Notification.create({
-																			type: 'ERROR'	,
-																			title: 'Execution Error',
-																			message:(player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check our code.'),
-																			isRead: false,
-																			user_id: opponentId
+													}
+												)
+													.then(match => {
+														models.Notification.create({
+															type: 'ERROR'	,
+															title: 'Execution Error',
+															message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
+															isRead: false,
+															user_id: userId
+														})
+															.then(notification => {
+																//idk what to do here
+																if( (player2ExitStatus === 'UNDEFINED' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT')){
+																	models.ExecuteQueue.destroy({
+																		where: {
+																			id: codeToBeExecuted.id
+																		}
+																	})
+																		.then(noOfDestroyedRows => {
+																			console.log(noOfDestroyedRows); //remove this
+																			requestUnderway = false;
 																		})
-																			.then(notification => {
-																				//idk what to do here
-																				//executeQueue.splice(indexToBeProcessed, 1);
-																				models.ExecuteQueue.destroy({
-																					where: {
-																						id: codeToBeExecuted.id
-																					}
+																		.catch(err => {
+																			console.log(err);
+																			requestUnderway = false;
+																		})
+																}
+
+															})
+															.catch(err => {
+																console.log(err);
+															})
+													})
+													.catch(err => {
+														throw err;
+														console.log(err);
+													})
+											}else{
+												let matchId = response.body.matchId;
+												models.Match.update({
+														status: 'success',
+														log: body.log.data,
+														player1_dlog: player1Dlog.data,
+														player2_dlog: player2Dlog.data,
+														scorep1:player1Score,
+														scorep2:player2Score
+													},
+													{
+														where:{
+															id: matchId
+														}
+													}
+												)
+													.then(match => {
+														models.ExecuteQueue.destroy({
+															where: {
+																id: codeToBeExecuted.id
+															}
+														})
+															.then(noOfDestroyedRows => {
+																requestUnderway = false;
+															})
+															.catch(err => {
+																console.log(err);
+																requestUnderway = false;
+															})
+
+														if((userId === opponentId)  || isAi ){
+															return;
+														}
+													})
+													.catch(err => {
+														console.log(err);
+													})
+											}
+										}else{
+											models.User.findOne({
+												where: {
+													id:opponentId
+												}
+											})
+												.then(user2 => {
+													if(err) console.log(err);
+													if(!body.success || runtimeErrorPresent){
+														models.Match.update({
+																status: 'error',
+																error_log: body.error
+															},
+															{
+																where:{
+																	id: matchId
+																}
+															}
+														)
+															.then(match => {
+																//console.log(match);
+																models.Notification.create({
+																	type: 'ERROR'	,
+																	title: 'Execution Error',
+																	message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
+																	isRead: false,
+																	user_id: userId
+																})
+																	.then(notification => {
+																		//idk what to do here
+																		if( (player2ExitStatus === 'UNDEFINED' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT')){
+																			models.Notification.create({
+																				type: 'ERROR'	,
+																				title: 'Execution Error',
+																				message:(player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check our code.'),
+																				isRead: false,
+																				user_id: opponentId
+																			})
+																				.then(notification => {
+																					//idk what to do here
+																					//executeQueue.splice(indexToBeProcessed, 1);
+
+																					models.ExecuteQueue.destroy({
+																						where: {
+																							id: codeToBeExecuted.id
+																						}
+																					})
+																						.then(noOfDestroyedRows => {
+																							console.log(noOfDestroyedRows); //remove this
+																							requestUnderway = false;
+																						})
+																						.catch(err => {
+																							console.log(err);
+																							requestUnderway = false;
+																						})
 																				})
+																				.catch(err => {
+																					console.log(err);
+																				})
+																		}
+
+																	})
+																	.catch(err => {
+																		console.log(err);
+																	})
+															})
+															.catch(err => {
+																throw err;
+																console.log(err);
+															})
+													}else{
+
+														let score1 = user1.rating;
+										        let score2 = user2.rating;
+										        //console.log(score1, score2);
+										        let expec1 = elo.getExpected(score1, score2);
+										        let expec2 = elo.getExpected(score2, score1);
+										        //console.log(expec2, expec1);
+										        if(player2Score > player1Score){
+										        	score1 = elo.updateRating(expec1, 0, score1);
+										          score2 = elo.updateRating(expec2, 1, score2);
+										        }else if(player2Score < player1Score){
+										        	score1 = elo.updateRating(expec1, 1, score1);
+										          score2 = elo.updateRating(expec2, 0, score2);
+										        }else{
+										        	score1 = elo.updateRating(expec1, 0.5, score1);
+										          score2 = elo.updateRating(expec2, 0.5, score2);
+										        }
+														let matchId = response.body.matchId;
+														models.Match.update({
+																status: 'success',
+																log: body.log.data,
+																player1_dlog: player1Dlog.data,
+																player2_dlog: player2Dlog.data,
+																scorep1:player1Score,
+																scorep2:player2Score
+															},
+															{
+																where:{
+																	id: matchId
+																}
+															}
+														)
+															.then(match => {
+
+																models.ExecuteQueue.destroy({
+																	where: {
+																		id: codeToBeExecuted.id
+																	}
+																})
+																	.then(noOfDestroyedRows => {
+																		console.log(noOfDestroyedRows); //remove this
+																		requestUnderway = false;
+																	})
+																	.catch(err => {
+																		console.log(err);
+																		requestUnderway = false;
+																	})
+																if((userId === opponentId)  || isAi ){
+																	return;
+																}
+
+
+																models.User.update({
+																	rating : score1
+																},
+																{
+																	where: {
+																		id: userId
+																	}
+																})
+																	.then(success => {
+																		if(success){
+																		}
+																		models.User.update({
+																			rating: score2
+																		},
+																		{
+																			where: {
+																				id: opponentId
+																			}
+																		})
+																			.then(success => {
+																				if(success){
+																					if (player1Score < player2Score) {
+																						let notification1 = models.Notification.create({
+																							type: 'INFORMATION',
+																							title: 'Lost Game',
+																							message: `You lost ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																							isRead: false,
+																							user_id: userId
+																						});
+																						let notification2 = models.Notification.create({
+																							type: 'SUCCESS'	,
+																							title: 'Won Game!',
+																							message: `Your won ${player2Score}-${player1Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																							isRead: false,
+																							user_id: opponentId
+																						});
+																					} else if (player1Score > player2Score) {
+																						let notification1 = models.Notification.create({
+																							type: 'SUCCESS'	,
+																							title: 'Won Game!',
+																							message: `Your won ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																							isRead: false,
+																							user_id: userId
+																						});
+																						let notification2 = models.Notification.create({
+																							type: 'INFORMATION',
+																							title: 'Lost Game',
+																							message: `You lost ${player2Score}-${player1Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																							isRead: false,
+																							user_id: opponentId
+																						});
+																					} else {
+																						let notification1 = models.Notification.create({
+																							type: 'INFORMATION'	,
+																							title: 'Tied Game',
+																							message: `Your tied ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
+																							isRead: false,
+																							user_id: userId
+																						});
+																						let notification2 = models.Notification.create({
+																							type: 'INFORMATION'	,
+																							title: 'Tied Game',
+																							message: `Your tied ${player1Score}-${player2Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
+																							isRead: false,
+																							user_id: opponentId
+																						});
+																					}
+																					let notificationsPromise = [];
+																					Promise.all(notificationsPromise)
+																						.then((values, values2) => {
+																						})
+																				}
 																			})
 																			.catch(err => {
 																				console.log(err);
 																			})
-																	}
-
-																})
-																.catch(err => {
-																	console.log(err);
-																})
-														})
-														.catch(err => {
-															throw err;
-															console.log(err);
-														})
-												}else{
-
-													let score1 = user1.rating;
-									        let score2 = user2.rating;
-									        //console.log(score1, score2);
-									        let expec1 = elo.getExpected(score1, score2);
-									        let expec2 = elo.getExpected(score2, score1);
-									        //console.log(expec2, expec1);
-									        if(player2Score > player1Score){
-									        	score1 = elo.updateRating(expec1, 0, score1);
-									          score2 = elo.updateRating(expec2, 1, score2);
-									        }else if(player2Score < player1Score){
-									        	score1 = elo.updateRating(expec1, 1, score1);
-									          score2 = elo.updateRating(expec2, 0, score2);
-									        }else{
-									        	score1 = elo.updateRating(expec1, 0.5, score1);
-									          score2 = elo.updateRating(expec2, 0.5, score2);
-									        }
-													let matchId = response.body.matchId;
-													models.Match.update({
-															status: 'success',
-															log: body.log.data,
-															player1_dlog: player1Dlog.data,
-															player2_dlog: player2Dlog.data,
-															scorep1:player1Score,
-															scorep2:player2Score
-														},
-														{
-															where:{
-																id: matchId
-															}
-														}
-													)
-														.then(match => {
-															models.ExecuteQueue.destroy({
-																where: {
-																	id: codeToBeExecuted.id
-																}
-															})
-															if((userId === opponentId)  || isAi ){
-																return;
-															}
-
-
-															models.User.update({
-																rating : score1
-															},
-															{
-																where: {
-																	id: userId
-																}
-															})
-																.then(success => {
-																	if(success){
-																	}
-																	models.User.update({
-																		rating: score2
-																	},
-																	{
-																		where: {
-																			id: opponentId
-																		}
 																	})
-																		.then(success => {
-																			if(success){
-																				if (player1Score < player2Score) {
-																					let notification1 = models.Notification.create({
-																						type: 'INFORMATION',
-																						title: 'Lost Game',
-																						message: `You lost ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
-																						isRead: false,
-																						user_id: userId
-																					});
-																					let notification2 = models.Notification.create({
-																						type: 'SUCCESS'	,
-																						title: 'Won Game!',
-																						message: `Your won ${player2Score}-${player1Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
-																						isRead: false,
-																						user_id: opponentId
-																					});
-																				} else if (player1Score > player2Score) {
-																					let notification1 = models.Notification.create({
-																						type: 'SUCCESS'	,
-																						title: 'Won Game!',
-																						message: `Your won ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
-																						isRead: false,
-																						user_id: userId
-																					});
-																					let notification2 = models.Notification.create({
-																						type: 'INFORMATION',
-																						title: 'Lost Game',
-																						message: `You lost ${player2Score}-${player1Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
-																						isRead: false,
-																						user_id: opponentId
-																					});
-																				} else {
-																					let notification1 = models.Notification.create({
-																						type: 'INFORMATION'	,
-																						title: 'Tied Game',
-																						message: `Your tied ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
-																						isRead: false,
-																						user_id: userId
-																					});
-																					let notification2 = models.Notification.create({
-																						type: 'INFORMATION'	,
-																						title: 'Tied Game',
-																						message: `Your tied ${player1Score}-${player2Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
-																						isRead: false,
-																						user_id: opponentId
-																					});
-																				}
-																				let notificationsPromise = [];
-																				Promise.all(notificationsPromise)
-																					.then((values, values2) => {
-																					})
-																			}
-																		})
-																		.catch(err => {
-																			console.log(err);
-																		})
-																})
-																.catch(err => {
-																	console.log(err);
-																})
-														})
-														.catch(err => {
-															throw err;
-															console.log(err);
-														})
-												}
-											})
-											.catch(err => {
-												console.log(err);
-											})
+																	.catch(err => {
+																		console.log(err);
+																	})
+															})
+															.catch(err => {
+																throw err;
+																console.log(err);
+															})
+													}
+												})
+												.catch(err => {
+													console.log(err);
+												})
+										}
 									})
 									.catch(err => {
 										console.log(err);
@@ -336,7 +441,9 @@ setInterval(() => {
 }, 300);
 
 let processQueue = () => {
-	return models.ExecuteQueue.findAll()
+	return models.ExecuteQueue.findAll({
+		order: ['id']
+	})
 		.then(executeQueueElements => {
 			let executeQueue = executeQueueElements;
 			let priority = 0;

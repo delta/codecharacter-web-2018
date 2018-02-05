@@ -91,8 +91,11 @@ setInterval(() => {
 	}
 	getQueueSize().then(queueSize => {
 		if(queueSize){
-			models.CompileQueue.find()
-				.then(compileQueueElement => {
+			models.CompileQueue.findAll({
+				order: ['id']
+			})
+				.then(compileQueueElements => {
+					compileQueueElement = compileQueueElements[0];
 					if(!compileQueueElement){
 						return;
 					}
@@ -106,7 +109,6 @@ setInterval(() => {
 								json: true,
 								body: {...codeToBeCompiled, secretString}
 							}, (err, response, body) =>{
-								requestUnderway = false;
 								if(err) console.log(err);
 								if(!response){
 									console.log('Please connect compilebox');
@@ -147,8 +149,10 @@ setInterval(() => {
 												})
 													.then(alpha => {
 														console.log(alpha);
+														requestUnderway = false;
 													})
 													.catch(err => {
+														requestUnderway = false;
 														console.log(err);
 													})
 												models.Notification.create({
@@ -188,13 +192,15 @@ setInterval(() => {
 										})
 											.then(alpha => {
 												console.log(alpha);
+												requestUnderway = false;
 											})
 											.catch(err => {
 												console.log(err);
+												requestUnderway = false;
 											})
 									})
 									.catch(err => {
-										//console.log(err);
+										console.log(err);
 									})
 
 							});

@@ -120,14 +120,10 @@ let sendEmail = (emailId, activationToken, name) => {
 // GET handlers
 router.get("/login", (req, res) => {
   if (req.session.isLoggedIn) {
-		//return res.redirect("/");
 		return res.json({success: true});
 	}else{
 		return res.json({success: false});
 	}
-	//res.redirect("/login.html");
-	//for now
-	//res.json({ success: "true", message: "login page" });
 });
 router.get('/all', (req, res) => {
 	models.User.findAll({
@@ -435,6 +431,19 @@ router.get("/name/:name", (req, res)=>{
 	models.User.findOne({
 		where:{name:req.params.name},
 		attributes:["id", "name", "email", "rating"]
+	})
+		.then((user)=>{
+			if(!user){
+				res.json({success:false, message:"No users with this name"});
+			}else{
+				res.json({success:true, user:user.dataValues});
+			}
+		});
+});
+router.get("/user_status/:id", (req, res)=>{
+	models.User.findOne({
+		where:{id:req.params.id},
+		attributes:["id", "is_active", "logged_in_once"]
 	})
 		.then((user)=>{
 			if(!user){
