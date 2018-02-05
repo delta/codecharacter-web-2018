@@ -14,15 +14,25 @@ export default class DemoComponent extends React.Component {
               selector: '.code-panel',
               position: 'right',
               type: 'hover',
-              isFixed: true
+              isFixed: true,
+              style: {
+                arrow: {
+                  backgroundImage: 'url(data:image/svg+xml,%3Csvg%20width%3D%2218px%22%20height%3D%2236px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%2890%204%204%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E)'
+                }
+              }
             },
             {
               title: 'Editor Panel',
-              text: 'You can customize your code editor! Change your color scheme, font size, etc. here.',
-              selector: 'div .editor-panel',
+              text: 'You can customize your code editor! Move your mouse pointer all the way to the left to bring up a menu in which you can change your color scheme, font size, etc.',
+              selector: 'div.editor-panel',
               position: 'right',
               type: 'hover',
-              isFixed: true
+              isFixed: true,
+              style: {
+                arrow: {
+                  backgroundImage: 'url(data:image/svg+xml,%3Csvg%20width%3D%2218px%22%20height%3D%2236px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%2890%204%204%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E)'
+                }
+              }
             },
             {
               title: 'Run And Compile',
@@ -34,11 +44,17 @@ export default class DemoComponent extends React.Component {
             },
             {
               title: 'Renderer',
-              text: 'You can view your game after it runs here. Use the Arrow keys to Pan and the + and - keys to Zoom.',
+              text: 'You can view your game after it runs here. Use the Arrow keys to Pan, + and - to Zoom and F to toggle fullscreen.',
               selector: '.renderer',
-              position: 'top-left',
+              position: 'left',
               type: 'hover',
-              isFixed: true
+              isFixed: true,
+              style: {
+                width: '19rem',
+                arrow: {
+                  backgroundImage: 'url(data:image/svg+xml,%3Csvg%20width%3D%2218px%22%20height%3D%2236px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%28270%208%208%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E)'
+                }
+              }
             },
             {
               title: 'Debug Console',
@@ -50,7 +66,8 @@ export default class DemoComponent extends React.Component {
             }
           ]}
           showSkipButton={true}
-          stepIndex={1}
+          showStepsProgress={true}
+          toolTipOffset={10}
           keyboardNavigation={true}
           run={this.props.initialLogin} // or some other boolean for when you want to start it
           debug={false}
