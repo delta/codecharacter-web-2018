@@ -190,11 +190,11 @@ router.get("/lock", (req, res) => {
 								}
 							})
 								.then(() => {
-									res.json({success: true, message: 'Code locked!'})
+									res.json({success: true, message: 'Code submitted!'})
 								})
 								.catch(err => {
 									console.log(err);
-									res.json({success: false, message: 'Code locked failed!'});
+									res.json({success: false, message: 'Code submission failed.'});
 								})
 						})
 				}
@@ -207,7 +207,7 @@ router.get("/", (req, res)=>{
 	})
 		.then((code)=>{
 			if(!code){
-				return res.json({success:false, message:"Oops, this user has no code saved!"});
+				return res.json({success:false, message:"Oops, this user hasn\'t submitted code yet!"});
 			}
 			if(code.dataValues.status === 'COMPILING'){
 				return res.json({success:true, source:code.dataValues.source, status:'COMPILING'});

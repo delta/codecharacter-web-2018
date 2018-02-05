@@ -91,7 +91,7 @@ export function* codeLockSaga(action) {
       yield put(updateUnreadNotifications([{
         type: 'SUCCESS',
         title: 'Code Locked',
-        message: 'Your code has been locked, you can now compete with others.',
+        message: 'Your code has been submitted! You can now compete on the leaderboard',
         createdAt: Date.now().toString()
       }]));
     }
@@ -99,8 +99,8 @@ export function* codeLockSaga(action) {
       if (response.message === 'Code locked failed!') {
         yield put(updateUnreadNotifications([{
           type: 'ERROR',
-          title: 'Code Lock Failed',
-          message: 'Server Error. Please Try Again later',
+          title: 'Code Submission Failed',
+          message: 'Server Error. Please try again later :(',
           createdAt: Date.now().toString()
         }]));
       }
