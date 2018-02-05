@@ -12,7 +12,6 @@ router.get("/", (req, res) => {
 		.then((users) => {
 			let codeFetchPromises = [];
 			let usersWithLockedCode = [];
-			console.log(users);
 			users.map(user => {
 				let x = models.Code.findOne({
 					where: {

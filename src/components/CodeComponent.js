@@ -61,7 +61,6 @@ export default class CodeComponent extends React.Component {
   }
 
   render() {
-    this.editor = ace.edit(this.refEditor);
     return <AceEditor
       ref='editor'
       mode={this.props.mode}

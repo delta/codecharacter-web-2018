@@ -17,7 +17,7 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...state,
         userId: action.userId.userId,
-        initialLogin: action.userId.initialLogin ? (!action.userId.initialLogin) : false
+        initialLogin: (!action.userId.initialLogin)
       }
     }
 

@@ -55,6 +55,7 @@ export default class DashboardComponent extends React.Component {
     dLogs: ['', ''],
     gameLog: [],
     isGameFetching: false,
+    initialLogin: false,
     runCode: () => {},
     lockCode: () => {},
     fetchCode: () => {},
@@ -64,7 +65,6 @@ export default class DashboardComponent extends React.Component {
     fetchGameLog: () => {},
     changeAIid: () => {},
     clearCompilationStatus: () => {},
-    initialLogin: false,
     changePingStatusActive: () => {},
     changeCodeBeingSubmitted: () => {}
   };
@@ -257,8 +257,8 @@ export default class DashboardComponent extends React.Component {
             <div className={'splitPaneRight'}>
               <SplitPane
                 split="horizontal"
-                minSize={100}
-                defaultSize={400}
+                minSize={0}
+                defaultSize={this.props.matchesView ? (window.innerHeight - 50) : 400}
                 onChange={size => this.setState({rendererHeight: size})}
               >
                 <div style={{width: "100%"}} className={'renderer'}>
@@ -296,7 +296,8 @@ export default class DashboardComponent extends React.Component {
                   }
                 </div>
                 <div className="debug-panel">
-                  <CodeComponent
+                  {!this.props.matchesView
+                  ? <CodeComponent
                     showLineNumbers={true}
                     readOnly={true}
                     code={this.props.compilationStatus}
@@ -305,6 +306,7 @@ export default class DashboardComponent extends React.Component {
                     highlightActiveLine={false}
                     height={window.innerHeight - this.state.rendererHeight - 50}
                   />
+                  : null}
                 </div>
               </SplitPane>
             </div>

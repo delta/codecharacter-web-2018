@@ -109,7 +109,7 @@ export default class LeaderBoardComponent extends React.Component {
             <td onClick={() => this.props.history.push('/' + data.name)}
                 style={{ cursor: 'pointer' }}>
               {data.name}
-              <span style={{marginLeft: 10}}>
+              <span className={"pull-right"} style={{marginLeft: 10}}>
                 <FlagIcon
                   code={data.nationality ? data.nationality.toLowerCase() : 'in'}
                   size={'lg'}

@@ -69,6 +69,7 @@ setInterval(() => {
 	}
 	getQueueSize()
 		.then(queueSize => {
+		  console.log(queueSize);
 			if(queueSize){
 				processQueue()
 				.then(codeToBeExecuted => {
@@ -103,7 +104,7 @@ setInterval(() => {
 											isRead: false,
 											user_id: Number(opponentId)
 										})
-									console.log("Please start the compilebox");
+									console.log("Please start the compilebox", response);
 									return;
 									requestUnderway = false;
 								}
