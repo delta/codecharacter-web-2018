@@ -7,7 +7,7 @@ const Op = Sequelize.Op;
 
 router.get("/", (req, res) => {
 	models.User.findAll({
-		attributes: ["id", "name", "rating"]
+		attributes: ["id", "name", "rating", "nationality"]
 	})
 		.then((users) => {
 			let codeFetchPromises = [];
