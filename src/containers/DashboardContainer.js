@@ -31,7 +31,8 @@ const mapStateToProps = state => {
     shouldFetchLog: ((state.lastUsed===1)&&(state.matchStatus==="SUCCESS")),
     ais: state.ais,
     dLogs: state.dLogs,
-    pingStatus: state.pingStatusActive
+    pingStatus: state.pingStatusActive,
+    isGameFetching: state.isGameFetching
   }
 };
 

@@ -12,6 +12,7 @@ import { getCountryName }                         from '../utils/countryCodes';
 export default class ProfileComponent extends React.Component {
   static propTypes = {
     profileData: PropTypes.object,
+    isFetching: PropTypes.bool,
     getProfileData: PropTypes.func,
     userAuthenticateCheck: PropTypes.func,
     changeProfile: PropTypes.func
@@ -19,6 +20,7 @@ export default class ProfileComponent extends React.Component {
 
   static defaultProps = {
     profileData: {name: '', rating: 0, email: ''},
+    isFetching: true,
     getProfileData: () => {},
   };
 
@@ -65,66 +67,69 @@ export default class ProfileComponent extends React.Component {
     }
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-            <div className="panel panel-info">
-              <div className="panel-heading" style={{padding: 20, paddingLeft: 0}}>
-                {this.state.edit
-                  ? <div>
-                    <div className="form-group">
-                      <input type="email" className="form-control" id="email" value={this.state.name} onChange={this.updateName}/>
+      <div>
+        {!this.props.isFetching ? <div className="container">
+            <div className="row">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+                <div className="panel panel-info">
+                  <div className="panel-heading" style={{padding: 20, paddingLeft: 0}}>
+                    {this.state.edit
+                      ? <div>
+                        <div className="form-group">
+                          <input type="email" className="form-control" id="email" value={this.state.name} onChange={this.updateName}/>
+                        </div>
+                      </div>
+                      : <h3 className="panel-title">{this.state.name}</h3>
+                    }
+                  </div>
+                  <div className="panel-body">
+                    <div className="row">
+                      <div className=" col-md-12 col-lg-12 ">
+                        <table className="table table-user-information">
+                          <tbody>
+                          <tr>
+                            <td>Rating</td>
+                            <td>{this.props.profileData.rating}</td>
+                          </tr>
+                          <tr>
+                            <td>Nationality</td>
+                            {this.state.edit
+                              ? <td>
+                                <ReactFlagsSelect defaultCountry="IN" searchable={true} onSelect={this.onSelectFlag}/>
+                              </td>
+                              : <td>
+                                <span style={{marginRight: 10}}>
+                                  <FlagIcon
+                                    code={this.state.nationality ? this.state.nationality.toLowerCase() : 'in'}
+                                    size={'lg'}
+                                  />
+                                </span>
+                                {this.state.nationality ? getCountryName(this.state.nationality) : 'India'}
+                              </td>}
+                          </tr>
+                          <tr>
+                            <td>Email</td>
+                            <td>{this.props.profileData.email}</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
-                  : <h3 className="panel-title">{this.state.name}</h3>
-                }
-              </div>
-              <div className="panel-body">
-                <div className="row">
-                  <div className=" col-md-12 col-lg-12 ">
-                    <table className="table table-user-information">
-                      <tbody>
-                      <tr>
-                        <td>Rating</td>
-                        <td>{this.props.profileData.rating}</td>
-                      </tr>
-                      <tr>
-                        <td>Nationality</td>
-                        {this.state.edit
-                          ? <td>
-                            <ReactFlagsSelect defaultCountry="IN" searchable={true} onSelect={this.onSelectFlag}/>
-                          </td>
-                          : <td>
-                            <span style={{marginRight: 10}}>
-                              <FlagIcon
-                                code={this.state.nationality ? this.state.nationality.toLowerCase() : 'in'}
-                                size={'lg'}
-                              />
-                            </span>
-                            {this.state.nationality ? getCountryName(this.state.nationality) : 'India'}
-                          </td>}
-                      </tr>
-                      <tr>
-                        <td>Email</td>
-                        <td>{this.props.profileData.email}</td>
-                      </tr>
-                      </tbody>
-                    </table>
+                  <div className="panel-footer">
+                    {this.state.edit ?<div className="form-group" style={{paddingLeft: 20}}>
+                        <button type="submit" className="btn btn-success" style={{borderRadius: 0}} onClick={() => {this.setState({edit: false}); this.props.changeProfile(this.state.name, this.state.nationality); this.props.getProfileData(this.props.userId);}}>Submit</button>
+                      </div>
+                      : null}
+                    <span className="pull-right">
+                      <a  onClick={() => this.setState({edit: !this.state.edit})} data-original-title="Edit this user" data-toggle="tooltip" type="button" className="btn btn-sm btn-info"><i className="fa fa-pencil-square-o" aria-hidden="true"/></a>
+                    </span>
                   </div>
                 </div>
-              </div>
-              <div className="panel-footer">
-                {this.state.edit ?<div className="form-group" style={{paddingLeft: 20}}>
-                  <button type="submit" className="btn btn-success" style={{borderRadius: 0}} onClick={() => {this.setState({edit: false}); this.props.changeProfile(this.state.name, this.state.nationality)}}>Submit</button>
-                </div>
-                : null}
-                <span className="pull-right">
-                  <a  onClick={() => this.setState({edit: !this.state.edit})} data-original-title="Edit this user" data-toggle="tooltip" type="button" className="btn btn-sm btn-info"><i className="fa fa-pencil-square-o" aria-hidden="true"/></a>
-                </span>
               </div>
             </div>
           </div>
-        </div>
+          : <div style={{textAlign: 'center', padding: 30}}><i className="fa fa-3x fa-spinner fa-spin"/></div>}
       </div>
     );
   }

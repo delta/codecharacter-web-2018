@@ -13,7 +13,8 @@ const mapStateToProps = state => {
     loginStatus: state.loginStatus,
     compilationStatus: state.compilationStatus,
     gameLog: state.gameLog,
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
+    isGameFetching: state.isGameFetching
   };
 };
 

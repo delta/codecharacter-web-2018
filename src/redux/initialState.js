@@ -18,6 +18,7 @@ const initialState = {
   lastUsed: 0,
   lastMatchId: -1,
   gameLog: [],
+  isGameFetching: false,
   isFetching: false,
   ais: [],
   activeAiId: -1,

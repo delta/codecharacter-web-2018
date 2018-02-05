@@ -13,13 +13,15 @@ export default class MatchesViewComponent extends React.Component {
     fetchMatchData: PropTypes.func,
     updateCompilationStatus: PropTypes.func,
     userAuthenticateCheck: PropTypes.func,
-    isFetching: PropTypes.bool
+    isFetching: PropTypes.bool,
+    isGameFetching: PropTypes.bool
   };
 
   static defaultProps = {
     matchesData: [],
     loginStatus: false,
     isFetching: true,
+    isGameFetching: false,
     fetchMatchData: () => {},
     fetchGameLog: () => {},
     updateCompilationStatus: () => {},
@@ -109,6 +111,7 @@ export default class MatchesViewComponent extends React.Component {
       gameLog={this.props.gameLog}
       getGameStatus={this.props.getGameStatus}
       defaultText={'Click a match to view the game'}
+      isGameFetching={this.props.isGameFetching}
     />
   }
 }

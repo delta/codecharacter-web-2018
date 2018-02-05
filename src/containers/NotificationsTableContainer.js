@@ -8,7 +8,8 @@ import NotificationsTableComponent             from '../components/Notifications
 const mapStateToProps = state => {
   return {
     notifications: state.allNotifications,
-    loginStatus: state.loginStatus
+    loginStatus: state.loginStatus,
+    isFetching: state.isFetching
   };
 };
 

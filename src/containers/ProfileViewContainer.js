@@ -9,6 +9,7 @@ const mapStateToProps = state => {
     loginStatus: state.loginStatus,
     userId: state.userId,
     profileViewData: state.profileViewData ? state.profileViewData : {name: '', id: 0, rating: 0, email: '', nationality: ''},
+    isFetching: state.isFetching
   };
 };
 

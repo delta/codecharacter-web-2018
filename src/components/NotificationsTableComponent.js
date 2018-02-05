@@ -6,6 +6,7 @@ export default class NotificationsTableComponent extends React.Component {
   static propTypes = {
     notifications: PropTypes.array,
     loginStatus: PropTypes.bool,
+    isFetching: PropTypes.bool,
     getAllNotifications: PropTypes.func,
     userAuthenticateCheck: PropTypes.func,
     deleteNotification: PropTypes.func
@@ -49,7 +50,8 @@ export default class NotificationsTableComponent extends React.Component {
 
     return (
       <div>
-        { this.state.notifications && this.state.notifications.length !== 0
+        { !this.props.isFetching
+          ? (this.state.notifications && this.state.notifications.length !== 0
           ? this.state.notifications.slice(0).reverse().map((data, index) => {
             let date = new Date(data.createdAt);
             return (
@@ -64,7 +66,8 @@ export default class NotificationsTableComponent extends React.Component {
           })
           : <div className="jumbotron">
               <p className="lead">No New Notifications</p>
-            </div>
+            </div>)
+          : <div style={{textAlign: 'center', padding: 30}}><i className="fa fa-3x fa-spinner fa-spin"/></div>
         }
       </div>
     )

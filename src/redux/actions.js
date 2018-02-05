@@ -266,6 +266,11 @@ export const changeIsFetching = (isFetching) => ({
   isFetching
 });
 
+export const changeIsGameFetching = (isGameFetching) => ({
+  type: actionTypes.CHANGE_IS_GAME_FETCHING,
+  isGameFetching
+});
+
 export const clearState = () => ({
   type: actionTypes.CLEAR_STATE
 });

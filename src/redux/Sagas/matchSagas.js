@@ -7,7 +7,7 @@ import { call, put } from 'redux-saga/effects';
 import {
   changeLastMatchId, changeMatchStatus, getCodeStatus, updateCompilationStatus, updateGameDlogs,
   updateGameLog, getMatchStatus, fetchGameLog,
-  updateMatchAllData, updateUnreadNotifications, changeIsFetching,
+  updateMatchAllData, updateUnreadNotifications, changeIsFetching, changeIsGameFetching,
 } from '../actions';
 
 export function* matchFetchAllSaga() {
@@ -95,6 +95,7 @@ export function* getMatchStatusSaga(action) {
 
 export function* fetchGameLogSaga(action) {
   try {
+    yield put(changeIsGameFetching(true));
     let query = {
       matchId: action.matchId
     };
@@ -129,6 +130,7 @@ export function* fetchGameLogSaga(action) {
         createdAt: Date.now().toString()
       }]));
     }
+    yield put(changeIsGameFetching(false));
   }
   catch (err) {
     console.log(err);

@@ -190,6 +190,13 @@ export function codeCharacterReducer(state = initialState, action) {
       }
     }
 
+    case actionTypes.CHANGE_IS_GAME_FETCHING: {
+      return {
+        ...state,
+        isGameFetching: action.isGameFetching
+      }
+    }
+
     case "persist/REHYDRATE": {
       return { ...state, ...action.payload }
     }

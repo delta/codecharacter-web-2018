@@ -1,4 +1,7 @@
-import { changeLastUsed, getGameStatus, updateAIs, updateUnreadNotifications } from '../actions';
+import {
+  changeAIid, changeIsGameFetching, changeLastUsed, getGameStatus, updateAIs,
+  updateUnreadNotifications
+} from '../actions';
 import { call, put } from 'redux-saga/effects';
 import { competeAgainstAI, getAIs } from '../../shellFetch/aiFetch';
 import { competeSelf } from '../../shellFetch/matchFetch';

@@ -25,6 +25,7 @@ export default class DashboardComponent extends React.Component {
     dLogs: PropTypes.arrayOf(PropTypes.string),
     gameLog: PropTypes.array,
     pingStatus: PropTypes.bool,
+    isGameFetching: PropTypes.bool,
     runCode: PropTypes.func,
     lockCode: PropTypes.func,
     fetchCode: PropTypes.func,
@@ -54,6 +55,7 @@ export default class DashboardComponent extends React.Component {
     ais: [],
     dLogs: ['', ''],
     gameLog: [],
+    isGameFetching: false,
     runCode: () => {},
     lockCode: () => {},
     fetchCode: () => {},
@@ -128,7 +130,9 @@ export default class DashboardComponent extends React.Component {
       })
     });
     this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 1000);
-    this.updateCodeToStorageInterval = setInterval(this.updateCodeToApi, 15000);
+    if (!this.props.matchesView) {
+      this.updateCodeToStorageInterval = setInterval(this.updateCodeToApi, 15000);
+    }
   }
 
   runCode = () => {
@@ -204,6 +208,7 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
+    console.log(this.props.pingStatus);
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }
@@ -258,26 +263,38 @@ export default class DashboardComponent extends React.Component {
                 onChange={size => this.setState({rendererHeight: size})}
               >
                 <div style={{width: "100%"}} className={'renderer'}>
-                  <div
-                    style={{ display: 'block', width: '100%', height: this.state.rendererHeight}}
-                    className="renderer-panel"
-                  >
-                    {this.state.logFile && this.state.logFile!== '' && !this.props.pingStatus && this.props.codeStatus !== 'ERROR'
-                      ?(<CodeCharacterRenderer
-                        logFile={this.state.logFile}
-                        options={{
-                          logFunction: (data) => {this.compilationData += data;},
-                          logClearFunction: () => {this.props.clearCompilationStatus();},
-                          player1Log: this.props.dLogs[0],
-                          player2Log: this.props.dLogs[1],
-                          playerID: 1
-                        }}
-                      />)
-                      : <div className="jumbotron" style={{height: '100%'}}>
+                  {!(this.props.isGameFetching || this.props.pingStatus)
+                   ? (this.state.logFile && this.state.logFile!== '' && !this.props.pingStatus && this.props.codeStatus !== 'ERROR'
+                    ? <div
+                          style={{ display: 'block', width: '100%', height: this.state.rendererHeight}}
+                          className="renderer-panel"
+                        >
+                          <CodeCharacterRenderer
+                          logFile={this.state.logFile}
+                          options={{
+                            logFunction: (data) => {this.compilationData += data;},
+                            logClearFunction: () => {this.props.clearCompilationStatus();},
+                            player1Log: this.props.dLogs[0],
+                            player2Log: this.props.dLogs[1],
+                            playerID: 1
+                          }}
+                        />
+                        </div>
+                        : <div className="jumbotron" style={{height: '100%'}}>
                           <p className="lead">{this.props.defaultText}</p>
                         </div>
-                    }
-                  </div>
+                    )
+                    : <div className="h-100 row align-items-center">
+                      <div className="mx-auto" style={{textAlign: 'center'}}>
+                        <div className="la-ball-atom">
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                        </div>
+                      </div>
+                    </div>
+                  }
                 </div>
                 <div className="debug-panel">
                   <CodeComponent
@@ -289,7 +306,6 @@ export default class DashboardComponent extends React.Component {
                     highlightActiveLine={false}
                     height={window.innerHeight - this.state.rendererHeight - 50}
                   />
-                  {/*<div style={{position: 'absolute'}}>{this.state.compilationData}</div>*/}
                 </div>
               </SplitPane>
             </div>

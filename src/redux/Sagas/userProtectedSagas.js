@@ -5,7 +5,7 @@ import {
 import {
   updateAllNotifications, updateUnreadNotifications,
   updateUsersLength,
-  updateProfileData, changeProfile, updateProfileViewData
+  updateProfileData, changeProfile, updateProfileViewData, changeIsFetching
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
 
@@ -37,6 +37,7 @@ export function* getUnreadNotificationsSaga() {
 
 export function* getAllNotificationsSaga() {
   try {
+    yield put(changeIsFetching(true));
     let response = yield call(getAllNotifications,{req: null, query: null});
     if(response.notifications) {
       yield put(updateAllNotifications(response.notifications));
@@ -44,6 +45,7 @@ export function* getAllNotificationsSaga() {
     else {
       yield put(updateAllNotifications([]));
     }
+    yield put(changeIsFetching(false));
   }
   catch (err) {
     console.log(err);
@@ -79,6 +81,7 @@ export function* getUsersLengthSagas(action) {
 
 export function* getProfileDataSaga(action) {
   try {
+    yield put(changeIsFetching(true));
     let query = {
       id: action.id
     };
@@ -86,6 +89,7 @@ export function* getProfileDataSaga(action) {
     if (response.user) {
       yield put(updateProfileData(response.user));
     }
+    yield put(changeIsFetching(false));
   }
   catch (err) {
     console.log(err);
@@ -95,6 +99,7 @@ export function* getProfileDataSaga(action) {
 
 export function* getProfileViewDataSaga(action) {
   try {
+    yield put(changeIsFetching(true));
     let query = {
       name: action.name
     };
@@ -102,6 +107,7 @@ export function* getProfileViewDataSaga(action) {
     if (response.user) {
       yield put(updateProfileViewData(response.user));
     }
+    yield put(changeIsFetching(false));
   }
   catch (err) {
     console.log(err);
