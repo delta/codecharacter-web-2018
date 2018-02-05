@@ -24,10 +24,11 @@ export const RouteList = () => (
       <Route exact path='/signup' component={SignUpContainer} />
       <Route exact path='/leaderboard' component={LeaderBoardContainer} />
       <Route exact path='/matches' component={MatchViewContainer}/>
+      <Route exact path='/matches/:matchId' component={MatchViewContainer}/>
       <Route exact path='/rules' component={RulesComponent}/>
       <Route exact path='/notifications' component={NotificationTableContainer}/>
       <Route exact path='/:name' component={ProfileViewContainer}/>
-      <Route exact path='*' component={NotFoundComponent} />
+      <Route component={NotFoundComponent} />
     </Switch>
   </div>
 );

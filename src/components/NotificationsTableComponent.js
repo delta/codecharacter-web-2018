@@ -58,7 +58,7 @@ export default class NotificationsTableComponent extends React.Component {
               <div className={'alert alert-dismissible ' + this.getClassNameTag(data)} key={index}>
                 <button type="button" className="close" data-dismiss="alert" style={{cursor: 'pointer'}} onClick={() => this.props.deleteNotification(data.id)} >&times;</button>
                 <h4 className='alert-heading'>{data.title}</h4>
-                  <p className='mb-0'>{data.message}</p>
+                  <p className='mb-0' dangerouslySetInnerHTML={{__html: data.message}}></p>
                 <br/>
                 <h6 className='mb-1'>{date.toDateString()}  {date.toLocaleTimeString('en-US')}</h6>
               </div>

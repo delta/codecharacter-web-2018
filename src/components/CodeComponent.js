@@ -1,6 +1,7 @@
 import React                                      from 'react';
 import AceEditor                                  from 'react-ace';
 import PropTypes                                  from 'prop-types';
+import ace from 'brace';
 import 'brace/mode/c_cpp';
 import 'brace/mode/plain_text';
 import 'brace/theme/xcode';
@@ -32,6 +33,7 @@ export default class CodeComponent extends React.Component {
     enableLiveAutocompletion: PropTypes.bool,
     onChange: PropTypes.func,
     height: PropTypes.number,
+    width: PropTypes.number,
     keyboardHandler: PropTypes.string
   };
 
@@ -47,46 +49,49 @@ export default class CodeComponent extends React.Component {
     enableLiveAutocompletion: false,
     onChange: () => {},
     height: window.innerHeight - 50,
+    window: 0,
     keyboardHandler: 'default'
   };
 
-  componentDidUpdate() {
-    // document.getElementsByClassName('ace_scroller')[0].scrollTop = document.getElementsByClassName('ace_scroller')[0].scrollHeight;
+  componentWillReceiveProps(nextProps) {
+    console.log(this.editor);
+    if(nextProps.width !== this.props.width) {
+      // this.forceUpdate();
+    }
   }
 
   render() {
-    return (
-      <AceEditor
-        ref={e => {this.codeCharacterEditor = e}}
-        mode={this.props.mode}
-        theme={this.props.theme}
-        name='codeCharacterEditor'
-        onChange={(data) => this.props.onChange(data)}
-        value={this.props.code}
-        fontSize={this.props.fontSize}
-        showPrintMargin={true}
-        showGutter={true}
-        wrapEnabled={true}
-        keyboardHandler={(this.props.keyboardHandler === 'default') ? '' : this.props.keyboardHandler}
-        readOnly={this.props.readOnly}
-        highlightActiveLine={this.props.highlightActiveLine}
-        editorProps={{
-          $blockScrolling: Infinity
-        }}
-        setOptions={{
-          enableBasicAutocompletion: this.props.enableBasicAutocompletion,
-          enableLiveAutocompletion: this.props.enableLiveAutocompletion,
-          enableSnippets: false,
-          showLineNumbers: this.props.showLineNumbers,
-          tabSize: 4,
-          scrollPastEnd: 0.7,
-          autoScrollEditorIntoView: true
-        }}
-        style={{
-          width: '100%',
-          height: this.props.height
-        }}
-      />
-    );
+    this.editor = ace.edit(this.refEditor);
+    return <AceEditor
+      ref='editor'
+      mode={this.props.mode}
+      theme={this.props.theme}
+      name='codeCharacterEditor'
+      onChange={(data) => this.props.onChange(data)}
+      value={this.props.code}
+      fontSize={this.props.fontSize}
+      showPrintMargin={true}
+      showGutter={true}
+      wrapEnabled={true}
+      keyboardHandler={(this.props.keyboardHandler === 'default') ? '' : this.props.keyboardHandler}
+      readOnly={this.props.readOnly}
+      highlightActiveLine={this.props.highlightActiveLine}
+      editorProps={{
+        $blockScrolling: Infinity
+      }}
+      setOptions={{
+        enableBasicAutocompletion: this.props.enableBasicAutocompletion,
+        enableLiveAutocompletion: this.props.enableLiveAutocompletion,
+        enableSnippets: false,
+        showLineNumbers: this.props.showLineNumbers,
+        tabSize: 4,
+        scrollPastEnd: 0.7,
+        autoScrollEditorIntoView: true
+      }}
+      style={{
+        width: '100%',
+        height: this.props.height
+      }}
+    />;
   }
 }

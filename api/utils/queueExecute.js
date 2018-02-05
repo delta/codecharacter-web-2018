@@ -69,7 +69,7 @@ setInterval(() => {
 	}
 	getQueueSize()
 		.then(queueSize => {
-			if(queueSize){ 
+			if(queueSize){
 				processQueue()
 				.then(codeToBeExecuted => {
 
@@ -98,7 +98,7 @@ setInterval(() => {
 										})
 									models.Notification.create({
 											type: 'ERROR'	,
-											title: 'Compilation Error',
+											title: 'Server Error',
 											message: 'Our server seems to be having some trouble, please stay with us while we fix this!',
 											isRead: false,
 											user_id: Number(opponentId)
@@ -355,7 +355,7 @@ setInterval(() => {
 							});
 					}catch(e){
 						console.log(e);
-					}	
+					}
 				})
 				//api call and pop() when necessary
 			}

@@ -1,6 +1,7 @@
 import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
 import { Redirect }                               from 'react-router-dom';
+import FlagIconFactory from 'react-flag-icon-css/lib/index';
 
 export default class LeaderBoardComponent extends React.Component {
   static propTypes = {
@@ -77,6 +78,7 @@ export default class LeaderBoardComponent extends React.Component {
   };
 
   render() {
+    const FlagIcon = FlagIconFactory(React, { useCssModules: false });
     this.pages = Math.ceil(this.state.leaderboard.length/(this.maxUserPerPage));
     if(this.pages === 0) {
       this.pages = 1;
@@ -84,6 +86,7 @@ export default class LeaderBoardComponent extends React.Component {
     let tableColumns = [];
     for(let i=0;i<this.maxUserPerPage;i++) {
       let data = this.state.leaderboard[(this.state.pageCount - 1)*this.maxUserPerPage + i];
+      console.log(data);
       if(data) {
         tableColumns[i] = (
           <tr key={i}>
@@ -104,7 +107,15 @@ export default class LeaderBoardComponent extends React.Component {
             </td>
             <td>{data.rank}</td>
             <td onClick={() => this.props.history.push('/' + data.name)}
-                style={{ cursor: 'pointer' }}>{data.name}</td>
+                style={{ cursor: 'pointer' }}>
+              {data.name}
+              <span style={{marginLeft: 10}}>
+                <FlagIcon
+                  code={data.nationality ? data.nationality.toLowerCase() : 'in'}
+                  size={'lg'}
+                />
+              </span>
+            </td>
             <td>{data.rating}</td>
           </tr>
         );

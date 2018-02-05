@@ -7,7 +7,6 @@ import SubmitButtons                              from './SubmitButtons';
 import EditorCustomizeComponent from './EditorCustomizeComponent';
 import CodeCharacterRenderer                      from 'codecharacter-renderer';
 import DemoComponent                              from './DemoComponent';
-import FlagIconFactory                            from 'react-flag-icon-css';
 
 export default class DashboardComponent extends React.Component {
   static propTypes = {
@@ -208,7 +207,6 @@ export default class DashboardComponent extends React.Component {
   };
 
   render() {
-    console.log(this.props.pingStatus);
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }
@@ -247,6 +245,7 @@ export default class DashboardComponent extends React.Component {
                       highlightActiveLine={this.state.highlightActiveLine}
                       onChange={(code) => this.updateCode(code)}
                       keyboardHandler={this.state.keyboardHandler}
+                      width={this.state.codeSpaceWidth}
                     />
                   </div>
                 </div>

@@ -29,6 +29,10 @@ export default class MatchesViewComponent extends React.Component {
   };
 
   componentDidMount() {
+    console.log(this.props.match.params.matchId);
+    if (this.props.match.params.matchId) {
+      this.props.fetchGameLog(this.props.match.params.matchId);
+    }
     this.props.fetchMatchData();
   }
 
@@ -44,7 +48,6 @@ export default class MatchesViewComponent extends React.Component {
       tie: "#FFF8B4"
     };
     let matchDataColumns = matchData.slice().reverse().map((data,index) => {
-      console.log(data);
       let winnerId = (data.scorep1 > data.scorep2) ? data.users[0].id : (data.scorep1 < data.scorep2) ? data.users[1] : -1;
       let result;
       if (winnerId === this.props.userId) {
