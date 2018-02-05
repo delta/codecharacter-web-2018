@@ -245,13 +245,14 @@ setInterval(() => {
 															})
 															if((userId === opponentId)  || isAi ){
 
+																/*
 																models.Notification.create({
 																	type: 'SUCCESS'	,
 																	title: 'Executed successfully!',
 																	message: `Your match was a success! `,
 																	isRead: false,
 																	user_id: userId
-																})
+																})*/
 																requestUnderway = false;
 																return;
 															}
@@ -280,18 +281,26 @@ setInterval(() => {
 																		.then(success => {
 																			if(success){
 																				//console.log('User2 score update successful');
-
+																				let winner = player1Score > player2Score ? user1.name : user2.name;
 																				let notification1 = models.Notification.create({
 																					type: 'SUCCESS'	,
 																					title: 'Executed successfully!',
-																					message: `Your match with ${user2.name} has executed successfully and your score was ${player1Score} `,
+																					message: `Your match with ${user2.name} has executed successfully and your score was ${player1Score} ,
+																					 	while the opponent score was ${player2Score}. 
+																					 	${(winner === user1.name )? "You won!" : "You lost." }
+																					 	Click <a>here</a> to view the match.
+																					`,
 																					isRead: false,
 																					user_id: userId
 																				})
 																				let notification2 = models.Notification.create({
-																					type: 'SUCCESS'	,
+																					type: 'INFORMATION'	,
 																					title: 'Executed successfully!',
-																					message: `Your match with ${user1.name} has executed successfully and your score was ${player2Score} `,
+																					message: `Your match with ${user1.name} has executed successfully and your score was ${player2Score} 
+																						while the opponent score was ${player2Score}. 
+																					 	${(winner === user2.name )? "You won!" : "You lost." }
+																					 	Click <a>here</a> to view the match.
+																					`,
 																					isRead: false,
 																					user_id: opponentId
 																				})
