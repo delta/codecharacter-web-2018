@@ -10,9 +10,9 @@ export default class WelcomeScreenComponent extends React.Component {
     return (
       <div>
         <section className="hero" style={{padding: 0, zIndex: 10}}>
-          <div className="container" style={{position: 'absolute', zIndex: 10, maxWidth: 1800}}>
-            <div className="row d-md-flex brand" style={{width: '100%', marginTop: "50px"}}>
-              <div className="col-md-12 col-sm-12 text-white" style={{position: 'absolute', width: '100%'}}>
+          <div className="container" style={{position: 'absolute', zIndex: 10, maxWidth: "none", top: "50%", transform: "translateY(-50%)", height: "auto"}}>
+            <div className="row d-md-flex" style={{marginTop: "50px"}}>
+              <div className="col-md-12 col-sm-12 text-white" style={{width: '100%'}}>
                 <div id="header-container">
                   <div style={{textAlign: "center", marginBottom: "-20px"}}><img src={pragyanLogo} style={{width: "100px"}}/></div>
                   <h2 className="pt-4" style={{fontSize: 45, zIndex: 100, textShadow: '6px 6px 20px #000000', textAlign: 'center', marginTop: "2px"}}>CODE CHARACTER</h2>
@@ -24,8 +24,8 @@ export default class WelcomeScreenComponent extends React.Component {
                   <Link to={"/login"} className="btn btn-white mr-2 mb-2 page-scroll">Log In</Link>
                   <Link to={"/signup"} className="btn btn-white mb-2 page-scroll">Sign Up</Link>
                 </p>
-                <div className="d-md-none" style={{textAlign: "center"}}><img src={comicMobile} style={{width: "100%"}}></img></div>
-                <div className="d-none d-md-block" style={{textAlign: "center"}}><img src={comic} style={{width: "40%"}}></img></div>
+                <div className="d-sm-none" style={{textAlign: "center"}}><img src={comicMobile} style={{width: "100%"}}></img></div>
+                <div className="d-none d-sm-block" style={{textAlign: "center"}}><img src={comic} style={{width: "40%"}}></img></div>
                 <div className="scroll-prompt d-none" id="js_scrollPrompt"><div className="scroll-prompt-shape" /></div>
               </div>
             </div>
