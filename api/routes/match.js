@@ -184,7 +184,7 @@ router.get('/compete/player/:againstId', (req, res) => {
   models.Match.findAll({
     where: {
       player_id1 : userId,
-      isAi: 0,
+      ai_id: null,
       player_id2 : { $ne: userId }
     },
     order: ['updatedAt'],
