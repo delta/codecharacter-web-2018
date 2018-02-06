@@ -368,7 +368,7 @@ setInterval(() => {
 																						let notification2 = models.Notification.create({
 																							type: 'SUCCESS'	,
 																							title: 'Won Game!',
-																							message: `Your won ${player2Score}-${player1Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																							message: `You won ${player2Score}-${player1Score} against ${user1.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
 																							isRead: false,
 																							user_id: opponentId
 																						});
@@ -376,7 +376,7 @@ setInterval(() => {
 																						let notification1 = models.Notification.create({
 																							type: 'SUCCESS'	,
 																							title: 'Won Game!',
-																							message: `Your won ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
+																							message: `You won ${player1Score}-${player2Score} against ${user2.name}. View your match <a href="/matches/${matchId}">here</a>, or from the matches tab.`,
 																							isRead: false,
 																							user_id: userId
 																						});
@@ -391,14 +391,14 @@ setInterval(() => {
 																						let notification1 = models.Notification.create({
 																							type: 'INFORMATION'	,
 																							title: 'Tied Game',
-																							message: `Your tied ${player1Score}-${player2Score} to ${user2.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
+																							message: `You tied ${player1Score}-${player2Score} with ${user2.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
 																							isRead: false,
 																							user_id: userId
 																						});
 																						let notification2 = models.Notification.create({
 																							type: 'INFORMATION'	,
 																							title: 'Tied Game',
-																							message: `Your tied ${player1Score}-${player2Score} to ${user1.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
+																							message: `You tied ${player1Score}-${player2Score} with ${user1.name}. View your match <a href="/matches/${matchId}">here,</a> or from the matches tab.`,
 																							isRead: false,
 																							user_id: opponentId
 																						});
