@@ -5,21 +5,6 @@ const models = require("../models");
 const zlib = require("zlib");
 const queueExecute = require('../utils/queueExecute');
 const Op = require('sequelize').Op;
-let WAIT_TIME_CHALLENGE;
-models.Constant.findOne({
-  where: {
-    key: 'WAIT_TIME_CHALLENGE'
-  }
-})
-  .then(constant => {
-    WAIT_TIME_CHALLENGE = constant.value;
-    if(!constant){
-      WAIT_TIME_CHALLENGE = 30;
-    }
-  })
-  .catch(err => {
-    WAIT_TIME_CHALLENGE = 30;
-  })
 router.get('/get_matches', (req, res) => {
   let userId = req.session.userId;
   models.Match.findAll({
@@ -177,13 +162,30 @@ router.get('/match_status/:matchId', (req, res) => {
 router.get('/compete/player/:againstId', (req, res) => {
   let userId = req.session.userId;
   let competetorId = Number(req.params.againstId);
+  let WAIT_TIME_CHALLENGE;
+  models.Constant.findOne({
+    where: {
+      key: 'WAIT_TIME_CHALLENGE'
+    }
+  })
+    .then(constant => {
+      WAIT_TIME_CHALLENGE = constant.value;
+      if(!constant){
+        WAIT_TIME_CHALLENGE = 30;
+      }
+    })
+    .catch(err => {
+      WAIT_TIME_CHALLENGE = 30;
+    })
   if(userId === competetorId){
     return res.json({success: false, message: "You can't compete with yourself!"})
   }
   //console.log(userId, competetorId);
   models.Match.findAll({
     where: {
-      player_id1 : userId
+      player_id1 : userId,
+      isAi: 0,
+      player_id2 : { $ne: userId }
     },
     order: ['updatedAt'],
     attributes: ['id', 'createdAt', 'updatedAt']
