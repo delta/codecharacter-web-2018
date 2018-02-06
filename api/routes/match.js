@@ -239,18 +239,22 @@ router.get('/compete/player/:againstId', (req, res) => {
               if(!dll2){
                 return res.json({success: false, message:'This player hasn\'t submitted any code yet, so you can\'t challenge them'});
               }
-              models.Match.create({
+
+              let competitorName = "";
+              models.User.findOne({ where: {id: competetorId }})
+              .then(user => { competitorName = user.name; })
+              .then(() => models.Match.create({
                 player_id1: userId,
                 player_id2: competetorId,
                 dll1,
                 dll2,
                 status: 'executing'
-              })
+              }))
                 .then(matchSaved => {
                   models.Notification.create({
                     type: 'INFORMATION' ,
                     title: 'Match Initiated',
-                    message:`User with id ${userId} has initiated a match.`,
+                    message:`Player ${competitorName} has initiated a match.`,
                     isRead: false,
                     user_id: competetorId
                   })
