@@ -88,6 +88,7 @@ export default class MatchesViewComponent extends React.Component {
 
     let table = (
       <div className='table-responsive' style={{height: (window.innerHeight - 50)}}>
+        <i className="fa fa-2x fa-refresh" style={{cursor: 'pointer', margin: '10px 0px 10px 20px'}} onClick={this.refresh}/>
         <table className='table table-striped table-bordered table-hover'>
         <thead>
         <tr align='center'>
@@ -115,7 +116,6 @@ export default class MatchesViewComponent extends React.Component {
         </tbody>
         </table>
         {(!this.props.matchesData || this.props.matchesData.length===0 )&&(!this.props.isFetching) ? <h4 style={{textAlign: 'center'}}>No matches played</h4> : null}
-        <i className="fa fa-2x fa-refresh" style={{cursor: 'pointer', marginLeft: 10}} onClick={this.refresh}/>
       </div>
     );
     return <DashboardComponent

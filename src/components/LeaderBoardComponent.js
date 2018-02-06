@@ -156,7 +156,8 @@ export default class LeaderBoardComponent extends React.Component {
                     <div className="panel-heading" style={{paddingBottom: 20}}>
                       <div className="row">
                         <div className="col col-xs-6">
-                          <h3 className="panel-title">Leaderboard</h3>
+                          <h3 className="panel-title pull-left">Leaderboard</h3>
+                          <i className="fa fa-2x fa-refresh pull-right" style={{cursor: 'pointer'}} onClick={this.refresh}/>
                         </div>
                       </div>
                     </div>
@@ -189,7 +190,6 @@ export default class LeaderBoardComponent extends React.Component {
                       <div className="row">
                         <div className="col col-xs-4">Page {this.state.pageCount} of {this.pages}</div>
                         <div className="col col-xs-8">
-                          <i className="fa fa-2x fa-refresh pull-right" style={{cursor: 'pointer'}} onClick={this.refresh}/>
                           <ul className="pagination pagination-sm pull-right">
                             <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== 1) ? this.state.pageCount-1 : 1})}}>
                               <span aria-label="Previous" className="page-link" style={{cursor: 'pointer'}}>
