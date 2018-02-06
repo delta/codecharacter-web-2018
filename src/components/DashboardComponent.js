@@ -11,6 +11,7 @@ import DemoComponent                              from './DemoComponent';
 export default class DashboardComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
+    firstMount: PropTypes.bool,
     compilationStatus: PropTypes.string,
     code: PropTypes.string,
     matchesView: PropTypes.bool,
@@ -36,11 +37,13 @@ export default class DashboardComponent extends React.Component {
     initialLogin: PropTypes.bool,
     clearCompilationStatus: PropTypes.func,
     changePingStatusActive: PropTypes.func,
-    changeCodeBeingSubmitted: PropTypes.func
+    changeCodeBeingSubmitted: PropTypes.func,
+    changeFirstMount: PropTypes.func
   };
 
   static defaultProps = {
     loginStatus: false,
+    firstMount: true,
     compilationStatus: '>> Compilation Status Goes Here',
     code: '#include <iostream> \nusing namespace std; \n\nint main() \n// Enter code here (C or C++)',
     matchesView: false,
@@ -66,7 +69,8 @@ export default class DashboardComponent extends React.Component {
     changeAIid: () => {},
     clearCompilationStatus: () => {},
     changePingStatusActive: () => {},
-    changeCodeBeingSubmitted: () => {}
+    changeCodeBeingSubmitted: () => {},
+    changeFirstMount: () => {}
   };
 
   constructor(props) {
@@ -87,6 +91,7 @@ export default class DashboardComponent extends React.Component {
       compilationData: '',
       staticBool: false,
       badgeDisplay: false,
+      disabled: true,
     };
     this.compilationData = '';
   }
@@ -113,7 +118,6 @@ export default class DashboardComponent extends React.Component {
         let logFile = new Uint8Array(nextProps.gameLog);
         this.setState({logFile: logFile});
     }
-
   }
 
   componentDidMount() {
@@ -131,6 +135,18 @@ export default class DashboardComponent extends React.Component {
     this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 1000);
     if (!this.props.matchesView) {
       this.updateCodeToStorageInterval = setInterval(this.updateCodeToApi, 15000);
+    }
+    console.log(this.props.initialLogin, this.props.firstMount);
+    if (this.props.initialLogin && this.props.firstMount) {
+      this.props.changeFirstMount(false);
+      this.setState({
+        disabled: false
+      });
+    }
+    else {
+      this.setState({
+        disabled: true
+      });
     }
   }
 
@@ -215,7 +231,7 @@ export default class DashboardComponent extends React.Component {
 
     if (this.state.width >= 600) {
       return (
-        <DemoComponent initialLogin={this.props.initialLogin}>
+        <DemoComponent initialLogin={!this.state.disabled}>
           <SplitPane
             split="vertical"
             minSize={50}

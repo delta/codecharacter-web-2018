@@ -2,6 +2,7 @@ const initialState = {
   userId: -1,
   initialLogin: false,
   loginStatus: false,
+  firstMount: true,
   loginMessage: '',
   signupMessage: '',
   leaderboardData: [],

@@ -271,6 +271,11 @@ export const changeIsGameFetching = (isGameFetching) => ({
   isGameFetching
 });
 
+export const changeFirstMount = (firstMount) => ({
+  type: actionTypes.CHANGE_FIRST_MOUNT,
+  firstMount
+});
+
 export const clearState = () => ({
   type: actionTypes.CLEAR_STATE
 });

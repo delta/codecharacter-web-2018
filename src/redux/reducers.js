@@ -198,6 +198,13 @@ export function codeCharacterReducer(state = initialState, action) {
       }
     }
 
+    case actionTypes.CHANGE_FIRST_MOUNT: {
+      return {
+        ...state,
+        firstMount: action.firstMount
+      }
+    }
+
     case "persist/REHYDRATE": {
       return { ...state, ...action.payload }
     }
