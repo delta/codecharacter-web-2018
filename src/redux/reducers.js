@@ -100,9 +100,23 @@ export function codeCharacterReducer(state = initialState, action) {
     }
 
     case actionTypes.UPDATE_UNREAD_NOTIFICATIONS: {
+      let notifications = action.notifications;
+      for(let i=0; i < notifications.length; i++) {
+        if(notifications[i].message === 'TypeError: Failed to fetch'
+          || notifications[i].message === 'Failed to fetch') {
+          notifications[i].type = 'Network Error';
+          notifications[i].message = 'Please check your network connection';
+        }
+        else if (notifications[i].message.toLowerCase().indexOf('unexpected token') !== -1) {
+          notifications[i].type = 'Server Error';
+          notifications[i].message = 'The server is under maintenance, please ' +
+            'cooperate with us meanwhile. All your pending matches will be executed after the server' +
+            ' is live';
+        }
+      }
       return {
         ...state,
-        notifications: action.notifications
+        notifications: notifications
       }
     }
 

@@ -49,7 +49,6 @@ export default class MatchesViewComponent extends React.Component {
     // console.log(matchData, this.props.userId);
     let matchDataColumns = matchData.slice().reverse().map((data,index) => {
       let winnerId = (parseInt(data.scorep1) > parseInt(data.scorep2)) ? data.users[0].id : (parseInt(data.scorep1) < parseInt(data.scorep2)) ? data.users[1].id : -1;
-      console.log(winnerId);
       let result;
       if (winnerId === this.props.userId) {
         result = 'won';

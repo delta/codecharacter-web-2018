@@ -136,7 +136,6 @@ export default class DashboardComponent extends React.Component {
     if (!this.props.matchesView) {
       this.updateCodeToStorageInterval = setInterval(this.updateCodeToApi, 15000);
     }
-    console.log(this.props.initialLogin, this.props.firstMount);
     if (this.props.initialLogin && this.props.firstMount) {
       this.props.changeFirstMount(false);
       this.setState({
