@@ -245,9 +245,9 @@ export default class DashboardComponent extends React.Component {
                 ? <div>
                   <div>
                     <div
-                      style={{position: 'absolute', zIndex: 2, left: 5, right: 0, borderRadius: 0, marginRight: 20, marginTop: 5, cursor: 'text'}}
+                      style={{position: 'absolute', zIndex: 2, right: 0, borderRadius: 0, marginRight: 20, marginTop: 5}}
                     >
-                      <span className="badge badge-secondary pull-right" onClick={() => this.updateCodeToApi()} style={{cursor: 'pointer'}}>
+                      <span className="badge badge-secondary pull-right" onClick={() => this.updateCodeToApi()} style={{cursor: 'pointer', position: 'relative'}}>
                         Save Code
                       </span>
                     </div>
