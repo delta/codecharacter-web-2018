@@ -24,6 +24,7 @@ export default class DashboardComponent extends React.Component {
     ais: PropTypes.array,
     dLogs: PropTypes.arrayOf(PropTypes.string),
     gameLog: PropTypes.array,
+    pointOfView: PropTypes.number,
     pingStatus: PropTypes.bool,
     isGameFetching: PropTypes.bool,
     runCode: PropTypes.func,
@@ -59,6 +60,7 @@ export default class DashboardComponent extends React.Component {
     gameLog: [],
     isGameFetching: false,
     initialLogin: false,
+    pointOfView: 1,
     runCode: () => {},
     lockCode: () => {},
     fetchCode: () => {},
@@ -227,7 +229,6 @@ export default class DashboardComponent extends React.Component {
     if(!this.props.loginStatus) {
       return <Redirect to={'/login'} />;
     }
-
     if (this.state.width >= 600) {
       return (
         <DemoComponent initialLogin={!this.state.disabled}>
@@ -300,7 +301,7 @@ export default class DashboardComponent extends React.Component {
                             logClearFunction: () => {this.props.clearCompilationStatus();},
                             player1Log: this.props.dLogs[0],
                             player2Log: this.props.dLogs[1],
-                            playerID: 1
+                            playerID: this.props.pointOfView
                           }}
                         />
                         </div>

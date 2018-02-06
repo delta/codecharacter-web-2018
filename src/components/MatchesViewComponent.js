@@ -28,11 +28,27 @@ export default class MatchesViewComponent extends React.Component {
     userAuthenticateCheck: () => {}
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      pointOfView: 1
+    };
+  }
+
   componentDidMount() {
+    this.props.fetchMatchData();
     if (this.props.match.params.matchId) {
       this.props.fetchGameLog(this.props.match.params.matchId);
+      let matchData = this.props.matchesData;
+      for(let i=0; i<matchData.length; i++) {
+        if (matchData[i].id === this.props.match.params.matchId) {
+          let pov = (this.props.userId === matchData[i].users[0].id) ? 1 : 2;
+          this.setState({
+            pointOfView: pov
+          });
+        }
+      }
     }
-    this.props.fetchMatchData();
   }
 
   refresh = () => {
@@ -46,7 +62,6 @@ export default class MatchesViewComponent extends React.Component {
       won: "#B2DEB5",
       tie: "#FFF8B4"
     };
-    // console.log(matchData, this.props.userId);
     let matchDataColumns = matchData.slice().reverse().map((data,index) => {
       let winnerId = (parseInt(data.scorep1) > parseInt(data.scorep2)) ? data.users[0].id : (parseInt(data.scorep1) < parseInt(data.scorep2)) ? data.users[1].id : -1;
       let result;
@@ -58,9 +73,10 @@ export default class MatchesViewComponent extends React.Component {
         result = 'lost';
       }
       let date = new Date(data.createdAt);
+      let pov = (this.props.userId === data.users[0].id) ? 1 : 2;
       return (
           <tr key={index} align='center' style={{backgroundColor: bgColors[result]}}>
-            <td onClick={() => {this.props.fetchGameLog(data.id);}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
+            <td onClick={() => {this.props.fetchGameLog(data.id); this.setState({pointOfView: pov});}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
             <td>{date.toLocaleDateString()}  {date.toLocaleTimeString('en-US')}</td>
             <td>{data.users[0].name}</td>
             <td>{data.scorep1}</td>
@@ -115,6 +131,7 @@ export default class MatchesViewComponent extends React.Component {
       getGameStatus={this.props.getGameStatus}
       defaultText={'Click a match to view the game'}
       isGameFetching={this.props.isGameFetching}
+      pointOfView={this.state.pointOfView}
     />
   }
 }
