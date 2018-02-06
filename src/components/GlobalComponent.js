@@ -111,6 +111,9 @@ export default class GlobalComponent extends React.Component {
         }]);
       this.props.changePingStatusActive(false);
     }
+    else if (matchStatusOld === 'EXECUTING' && matchStatusNew === 'ERROR') {
+      this.props.changePingStatusActive(false);
+    }
   };
 
   getCompilationStatus = (codeStatusOld, codeStatusNew) => {

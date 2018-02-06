@@ -5,7 +5,7 @@ import {
   updateCompilationStatus,
   getCodeStatus,
   updateUnreadNotifications,
-  clearCompilationStatus, updateGameLog, updateGameDlogs
+  clearCompilationStatus, updateGameLog, updateGameDlogs, changeMatchStatus
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
 import {
@@ -25,7 +25,7 @@ export function* codeSubmitSaga(action) {
 
     yield put(updateCode(action.code));
     yield put(changeLastUsed(0));
-
+    yield put(changeMatchStatus('IDLE'));
     let response = yield call(codeCompile,{req: null, query: query});
 
     if (response.success) {
