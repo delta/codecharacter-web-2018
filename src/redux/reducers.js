@@ -173,7 +173,8 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...initialState,
         isFetching: state.isFetching,
-        isGameFetching: state.isGameFetching
+        isGameFetching: state.isGameFetching,
+        // codePreferences: state.codePreferences
       }
     }
 
@@ -216,6 +217,13 @@ export function codeCharacterReducer(state = initialState, action) {
       return {
         ...state,
         firstMount: action.firstMount
+      }
+    }
+
+    case actionTypes.CHANGE_CODE_PREFERENCES: {
+      return {
+        ...state,
+        codePreferences: action.preferences
       }
     }
 

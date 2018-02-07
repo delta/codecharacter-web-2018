@@ -276,6 +276,10 @@ export const changeFirstMount = (firstMount) => ({
   firstMount
 });
 
+export const changeCodePreferences = (preferences) => ({
+  type: actionTypes.CHANGE_CODE_PREFERENCES,
+  preferences
+});
 export const clearState = () => ({
   type: actionTypes.CLEAR_STATE
 });

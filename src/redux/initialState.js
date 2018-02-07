@@ -26,7 +26,15 @@ const initialState = {
   totalUsers: 0,
   pingStatusActive: false,
   userAuthenticated: false,
-  dLogs: ['','']
+  dLogs: ['',''],
+  codePreferences: {
+    theme: 'monokai',
+    fontSize: 14,
+    keyboardHandler: 'default',
+    enableBasicAutoCompletion: true,
+    enableLiveAutoCompletion: true,
+    highlightActiveLine: true
+  }
 };
 
 export default initialState;

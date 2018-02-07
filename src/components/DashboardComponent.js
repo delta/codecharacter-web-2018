@@ -39,7 +39,8 @@ export default class DashboardComponent extends React.Component {
     clearCompilationStatus: PropTypes.func,
     changePingStatusActive: PropTypes.func,
     changeCodeBeingSubmitted: PropTypes.func,
-    changeFirstMount: PropTypes.func
+    changeFirstMount: PropTypes.func,
+    changeCodePreferences: PropTypes.func
   };
 
   static defaultProps = {
@@ -72,7 +73,8 @@ export default class DashboardComponent extends React.Component {
     clearCompilationStatus: () => {},
     changePingStatusActive: () => {},
     changeCodeBeingSubmitted: () => {},
-    changeFirstMount: () => {}
+    changeFirstMount: () => {},
+    changeCodePreferences: () => {}
   };
 
   constructor(props) {
@@ -82,18 +84,13 @@ export default class DashboardComponent extends React.Component {
       height: window.innerHeight,
       width: window.innerWidth,
       logFile: '',
-      theme: 'monokai',
-      fontSize: 14,
       rendererHeight: 400,
       codeSpaceWidth: 0.4 * window.innerWidth,
-      enableBasicAutocompletion: true,
-      enableLiveAutocompletion: true,
-      highlightActiveLine: true,
-      keyboardHandler: 'default',
       compilationData: '',
       staticBool: false,
       badgeDisplay: false,
       disabled: true,
+      codePreferences: this.props.codePreferences
     };
     this.compilationData = '';
   }
@@ -119,6 +116,12 @@ export default class DashboardComponent extends React.Component {
     if(nextProps.gameLog !== this.props.gameLog) {
         let logFile = new Uint8Array(nextProps.gameLog);
         this.setState({logFile: logFile});
+    }
+
+    if (this.props.codePreferences !== nextProps.codePreferences) {
+      this.setState({
+        codePreferences: nextProps.codePreferences
+      });
     }
   }
 
@@ -171,39 +174,45 @@ export default class DashboardComponent extends React.Component {
   };
 
   changeTheme = (theme) => {
-    this.setState({
-      theme: theme
+    this.props.changeCodePreferences({
+      ...this.props.codePreferences,
+      theme
     });
   };
 
   changeFontSize = (fontSize) => {
-    this.setState({
-      fontSize: Number(fontSize)
+    this.props.changeCodePreferences({
+      ...this.props.codePreferences,
+      fontSize
     });
   };
 
   changeKeyboardHandler = (keyboardHandler) => {
-      this.setState({
-        keyboardHandler: keyboardHandler
-      });
+    this.props.changeCodePreferences({
+      ...this.props.codePreferences,
+      keyboardHandler
+    });
   };
 
-  changeEnableBasicAutoCompletion = (basicAutocompletion) => {
-    this.setState({
-      enableBasicAutoCompletion: basicAutocompletion
-    })
+  changeEnableBasicAutoCompletion = (enableBasicAutoCompletion) => {
+    this.props.changeCodePreferences({
+      ...this.props.codePreferences,
+      enableBasicAutoCompletion
+    });
   };
 
-  changeEnableLiveAutoCompletion = (liveAutocompletion) => {
-    this.setState({
-      enableLiveAutoCompletion: liveAutocompletion
-    })
+  changeEnableLiveAutoCompletion = (enableLiveAutoCompletion) => {
+    this.props.changeCodePreferences({
+      ...this.props.codePreferences,
+      enableLiveAutoCompletion
+    });
   };
 
   changeHighlightActiveLine = (highlightActiveLine) => {
-    this.setState({
-      highlightActiveLine: highlightActiveLine
-    })
+    this.props.changeCodePreferences({
+      ...this.props.codePreferences,
+      highlightActiveLine
+    });
   };
 
   updateCodeToApi = () => {
@@ -258,18 +267,19 @@ export default class DashboardComponent extends React.Component {
                       changeEnableLiveAutoCompletion={this.changeEnableLiveAutoCompletion}
                       changeHighlightActiveLine={this.changeHighlightActiveLine}
                       changeKeyboardHandler={this.changeKeyboardHandler}
+                      codePreferences={this.state.codePreferences}
                     />
                   </div>
                   <div className="code-panel" >
                     <CodeComponent
                       code={this.state.code}
-                      theme={this.state.theme}
-                      fontSize={this.state.fontSize}
-                      enableBasicAutocompletion={this.state.enableBasicAutoCompletion}
-                      enableLiveAutocompletion={this.state.enableLiveAutoCompletion}
-                      highlightActiveLine={this.state.highlightActiveLine}
+                      theme={this.state.codePreferences.theme}
+                      fontSize={this.state.codePreferences.fontSize}
+                      enableBasicAutocompletion={this.state.codePreferences.enableBasicAutoCompletion}
+                      enableLiveAutocompletion={this.state.codePreferences.enableLiveAutoCompletion}
+                      highlightActiveLine={this.state.codePreferences.highlightActiveLine}
                       onChange={(code) => this.updateCode(code)}
-                      keyboardHandler={this.state.keyboardHandler}
+                      keyboardHandler={this.state.codePreferences.keyboardHandler}
                       width={this.state.codeSpaceWidth}
                       saveCode={this.updateCodeToApi}
                     />

@@ -31,7 +31,8 @@ export default class MatchesViewComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pointOfView: 1
+      pointOfView: 1,
+      activeMatchId: 1
     };
   }
 
@@ -44,7 +45,8 @@ export default class MatchesViewComponent extends React.Component {
         if (matchData[i].id === this.props.match.params.matchId) {
           let pov = (this.props.userId === matchData[i].users[0].id) ? 1 : 2;
           this.setState({
-            pointOfView: pov
+            pointOfView: pov,
+            activeMatchId: this.props.match.params.matchId
           });
         }
       }
@@ -75,8 +77,8 @@ export default class MatchesViewComponent extends React.Component {
       let date = new Date(data.createdAt);
       let pov = (this.props.userId === data.users[0].id) ? 1 : 2;
       return (
-          <tr key={index} align='center' style={{backgroundColor: bgColors[result]}}>
-            <td onClick={() => {this.props.fetchGameLog(data.id); this.setState({pointOfView: pov});}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
+          <tr key={index} align='center' style={{backgroundColor: bgColors[result], borderColor: 'red'}}>
+            <td onClick={() => {this.props.fetchGameLog(data.id); this.setState({pointOfView: pov, activeMatchId: data.id});}}><i className="fa fa-play" aria-hidden="true" style={{cursor: 'pointer'}}/></td>
             <td>{date.toLocaleDateString()}  {date.toLocaleTimeString('en-US')}</td>
             <td>{data.users[0].name}</td>
             <td>{data.scorep1}</td>

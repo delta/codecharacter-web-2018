@@ -76,7 +76,7 @@ export default class CodeComponent extends React.Component {
       name='codeCharacterEditor'
       onChange={(data) => this.props.onChange(data)}
       value={this.props.code}
-      fontSize={this.props.fontSize}
+      fontSize={parseInt(this.props.fontSize)}
       showPrintMargin={true}
       showGutter={true}
       wrapEnabled={true}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class EditorCustomizeComponent extends React.Component {
   static propTypes = {
+      codePreferences: PropTypes.object,
       changeTheme: PropTypes.func,
       changeFontSize: PropTypes.func,
       changeEnableBasicAutoCompletion: PropTypes.func,
@@ -12,6 +13,14 @@ export default class EditorCustomizeComponent extends React.Component {
   };
 
   static defaultProps = {
+    codePreferences: {
+      theme: 'monokai',
+      fontSize: 14,
+      keyboardHandler: 'default',
+      enableBasicAutoCompletion: true,
+      enableLiveAutoCompletion: true,
+      highlightActiveLine: true
+    },
     changeTheme: () => {},
     changeFontSize: () => {},
     changeEnableBasicAutoCompletion: () => {},
@@ -60,6 +69,7 @@ export default class EditorCustomizeComponent extends React.Component {
             <select
               className='form-control'
               onChange={(event)=>this.props.changeTheme(event.target.value)}
+              defaultValue={this.props.codePreferences.theme}
             >
               <option>monokai</option>
               <option>github</option>
@@ -81,9 +91,9 @@ export default class EditorCustomizeComponent extends React.Component {
             }}>Font Size</p>
             <select
               className='form-control'
-              onChange={(event)=>this.props.changeFontSize(event.target.value)}
-              defaultValue={'14'}
-            >
+              onChange={(event)=>{this.props.changeFontSize(event.target.value);}}
+              defaultValue={this.props.codePreferences.fontSize}
+              >
               <option>8</option>
               <option>10</option>
               <option>12</option>
@@ -105,6 +115,7 @@ export default class EditorCustomizeComponent extends React.Component {
             <select
               className='form-control'
               onChange={(event)=>this.props.changeKeyboardHandler(event.target.value)}
+              defaultValue={this.props.codePreferences.keyboardHandler}
             >
               <option>default</option>
               <option>vim</option>
@@ -118,7 +129,7 @@ export default class EditorCustomizeComponent extends React.Component {
                   <input
                     className='form-check-input custom-checkbox'
                     type='checkbox'
-                    checked='checked'
+                    defaultChecked={this.props.codePreferences.enableBasicAutoCompletion ? "checked" : ""}
                     onChange={(event)=>this.props.changeEnableBasicAutoCompletion(event.target.checked)}
                   />
                   <p style={{color: '#D2D3D5', fontFamily: 'Rubik, sans serif'}}>Enable Basic Autocomplete</p>
@@ -129,7 +140,7 @@ export default class EditorCustomizeComponent extends React.Component {
                   <input
                     className='form-check-input'
                     type='checkbox'
-                    checked='checked'
+                    defaultChecked={this.props.codePreferences.enableLiveAutoCompletion ? "checked" : ""}
                     onChange={(event)=>this.props.changeEnableLiveAutoCompletion(event.target.checked)}
                   />
                   <p style={{color: '#D2D3D5', fontFamily: 'Rubik, sans serif'}}>Enable Live Autocomplete</p>
@@ -140,7 +151,7 @@ export default class EditorCustomizeComponent extends React.Component {
                   <input
                     className='form-check-input'
                     type='checkbox'
-                    checked='checked'
+                    defaultChecked={this.props.codePreferences.highlightActiveLine ? "checked" : ""}
                     onChange={(event)=>this.props.changeHighlightActiveLine(event.target.checked)}
                   />
                   <p style={{color: '#D2D3D5', fontFamily: 'Rubik, sans serif'}}>Highlight Active Line</p>
