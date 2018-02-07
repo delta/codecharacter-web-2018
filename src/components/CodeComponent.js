@@ -59,6 +59,7 @@ export default class CodeComponent extends React.Component {
     if (this.props.width !== nextProps.width || this.props.height !== nextProps.height) {
       this.editor.resize();
     }
+
   }
 
   componentDidUpdate(prevProps, nextProps) {

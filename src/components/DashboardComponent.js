@@ -249,7 +249,7 @@ export default class DashboardComponent extends React.Component {
             style={{ height: this.state.height - 50 }}
             onChange={size => this.setState({codeSpaceWidth: size})}
           >
-            <div className={'codeSplitLeft'}>
+            <div className={'codeSplitLeft'} >
               {!this.props.matchesView
                 ? <div>
                   <div>
@@ -270,7 +270,7 @@ export default class DashboardComponent extends React.Component {
                       codePreferences={this.state.codePreferences}
                     />
                   </div>
-                  <div className="code-panel" >
+                  <div className="code-panel">
                     <CodeComponent
                       code={this.state.code}
                       theme={this.state.codePreferences.theme}
@@ -282,6 +282,7 @@ export default class DashboardComponent extends React.Component {
                       keyboardHandler={this.state.codePreferences.keyboardHandler}
                       width={this.state.codeSpaceWidth}
                       saveCode={this.updateCodeToApi}
+                      height={this.state.height - 50}
                     />
                   </div>
                 </div>
