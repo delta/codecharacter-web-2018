@@ -70,6 +70,16 @@ export default class WelcomeScreenComponent extends React.Component {
           </div>
         </section>
 
+        <section className="bg-white p-0">
+          <div className="container-fluid">
+            <div className="row d-md-flex mt-5">
+              <div className="col-sm-12 pl-5 pr-5 pt-5 pb-5" style={{textAlign: "center"}}>
+				<h3>Contact : codecharacter@pragyan.org</h3>
+              </div>
+            </div>
+          </div>
+        </section>
+
     <section className="bg-footer" id="connect" style={{padding: 20}}>
       <div className="container">
         <div className="row">
