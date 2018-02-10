@@ -42,7 +42,7 @@ export default class MatchesViewComponent extends React.Component {
       this.props.fetchGameLog(this.props.match.params.matchId);
       let matchData = this.props.matchesData;
       for(let i=0; i<matchData.length; i++) {
-        if (matchData[i].id === this.props.match.params.matchId) {
+        if (matchData[i].id === parseInt(this.props.match.params.matchId)) {
           let pov = (this.props.userId === matchData[i].users[0].id) ? 1 : 2;
           this.setState({
             pointOfView: pov,
