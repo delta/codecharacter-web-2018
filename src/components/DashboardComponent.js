@@ -84,7 +84,7 @@ export default class DashboardComponent extends React.Component {
       height: window.innerHeight,
       width: window.innerWidth,
       logFile: '',
-      rendererHeight: 400,
+      rendererHeight: props.matchesView ? window.innerHeight - 50 : 400,
       codeSpaceWidth: 0.4 * window.innerWidth,
       compilationData: '',
       staticBool: false,
