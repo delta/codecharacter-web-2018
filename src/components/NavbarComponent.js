@@ -73,7 +73,8 @@ export default class NavbarComponent extends React.Component {
           return null;
         }
       }
-    });
+	});
+	links.push(<li className="nav-item"><a className="nav-link" href="https://www.allanswered.com/community/s/code-character/">Forum</a></li>);
 
     return (
       <nav
