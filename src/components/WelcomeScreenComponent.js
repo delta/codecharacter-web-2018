@@ -39,7 +39,7 @@ export default class WelcomeScreenComponent extends React.Component {
               </div>
               <div className="col-sm-6 pl-5 pr-5 pt-5 pb-4 wow fadeInRight">
                 <h1>ABOUT</h1>
-                <p className="lead pt-4">Code Character is an online AI prgramming competition, where you write C++ code for a real time strategy game. </p><p className="lead pt-4"> Test your code against yourself, against the computer, and then against everyone else! Challenge others to improve your rating as you climb up the leaderboard!</p>
+                <p className="lead pt-4">Code Character is an online AI programming competition, where you write C++ code for a real time strategy game. </p><p className="lead pt-4"> Test your code against yourself, against the computer, and then against everyone else! Challenge others to improve your rating as you climb up the leaderboard!</p>
                 <ul className="pt-4 pb-3 list-default">
                   <li>Integrated code editor and development environment</li>
                   <li>View your AI playing itself!</li>
