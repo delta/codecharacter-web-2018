@@ -151,7 +151,6 @@ router.post('/change', (req, res) => {
 		x = Promise.resolve(true);
 	}
 	x.then(success => {
-		console.log(success);
 		if(success){
 			if(req.body.password) {
 				updateObject = {...updateObject, password};
@@ -172,7 +171,22 @@ router.post('/change', (req, res) => {
 					res.json({success: false, message: 'Change failed!'})
 				})
 		}else{
-			res.json({success: false, message:"User exists"});
+			console.log(updateObject);
+			models.User.update(
+				updateObject,
+				{
+					where: {
+						id: req.session.userId
+					}
+				}
+			)
+				.then(success => {
+					res.json({success: false, message:"Name exists"});
+				})
+				.catch(err => {
+					console.log(err);
+					res.json({success: false, message: 'Change failed!'})
+				})
 		}
 	})
 });
