@@ -247,7 +247,7 @@ setInterval(() => {
 																			models.Notification.create({
 																				type: 'ERROR'	,
 																				title: 'Execution Error',
-																				message:(player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check our code.'),
+																				message:(player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
 																				isRead: false,
 																				user_id: opponentId
 																			})
