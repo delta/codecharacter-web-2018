@@ -40,7 +40,7 @@ export default class SubmitButtons extends React.Component {
           <button className="nav-link dropdown-toggle btn"
                   disabled={this.props.disabled ? "disabled" : ""}
                   data-toggle="dropdown" type="button"
-                  style={{margin: '1px 0px', backgroundColor: 'transparent', border: 'none', boxShadow: 'none', color: 'white', fontFamily: 'Rubik'}}>
+                  style={{margin: '1px 0px', backgroundColor: 'transparent', cursor: 'pointer', border: 'none', boxShadow: 'none', color: 'white', fontFamily: 'Rubik'}}>
             RUN CODE<span className="caret"/></button>
           <ul className="dropdown-menu" style={{position: 'absolute', transform: 'translate3d(0px, 35px, 0px)', top: '0px'}}>
                 <div>
