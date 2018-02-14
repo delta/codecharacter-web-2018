@@ -74,7 +74,7 @@ export default class NavbarComponent extends React.Component {
         }
       }
 	});
-	links.push(<li className="nav-item"><a className="nav-link" href="https://www.allanswered.com/community/s/code-character/">Forum</a></li>);
+	links.push(<li className="nav-item"><Link className="nav-link" to="https://www.allanswered.com/community/s/code-character/" target="_blank">Forum</Link></li>);
 
     return (
       <nav

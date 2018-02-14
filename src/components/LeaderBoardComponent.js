@@ -32,7 +32,7 @@ export default class LeaderBoardComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageCount: 1,
+      pageCount: Number(this.props.match.params.page),
       leaderboard: this.props.playersData,
       activeSearch: false
     };
@@ -47,12 +47,23 @@ export default class LeaderBoardComponent extends React.Component {
     });
   }
 
+  componentWillMount() {
+    if (!this.props.match.params.page || isNaN(this.props.match.params.page)) {
+      return this.props.history.push('/leaderboard/1');
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       leaderboard: nextProps.playersData
     });
     if (this.props.loginStatus !== nextProps.loginStatus) {
       this.props.fetchLeaderboardData();
+    }
+    if (this.props.match.params !== nextProps.match.params) {
+      this.setState({
+        pageCount: Number(nextProps.match.params.page)
+      });
     }
   }
 
@@ -102,7 +113,7 @@ export default class LeaderBoardComponent extends React.Component {
                 }} onClick={() => {
                   this.props.startChallenge(data.id);
                 }}>
-                <img src={'assets/sword.png'} width="15" height="15" alt="challenge"/>
+                <img src={'/assets/sword.png'} width="15" height="15" alt="challenge"/>
               </span>
                 : null
               }
@@ -133,7 +144,7 @@ export default class LeaderBoardComponent extends React.Component {
       listElements.push(
         <li className={'page-item ' + classTag} key={i}>
           <button className="page-link " style={{cursor: 'pointer'}}
-             onClick={() => this.setState({pageCount: i})}
+                  onClick={() => {this.props.history.push('/leaderboard/' + String(i));}}
           >
             {i}
             </button>
@@ -192,13 +203,13 @@ export default class LeaderBoardComponent extends React.Component {
                         <div className="col col-xs-4">Page {this.state.pageCount} of {this.pages}</div>
                         <div className="col col-xs-8">
                           <ul className="pagination pagination-sm pull-right">
-                            <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== 1) ? this.state.pageCount-1 : 1})}}>
+                            <li className="page-item" onClick={() => {this.props.history.push('/leaderboard/' + String(this.state.pageCount !== 1 ? this.state.pageCount-1 : 1));}}>
                               <span aria-label="Previous" className="page-link" style={{cursor: 'pointer'}}>
                                 <span aria-hidden="true">&laquo;</span>
                               </span>
                             </li>
                             {listElements}
-                            <li className="page-item" onClick={() => {this.setState({pageCount: (this.state.pageCount !== this.pages) ? this.state.pageCount+1 : this.pages})}}>
+                            <li className="page-item" onClick={() => {this.props.history.push('/leaderboard/' + String(this.state.pageCount !== this.pages ? this.state.pageCount+1 : this.pages));}}>
                               <span aria-label="Next" className="page-item" style={{cursor: 'pointer'}}>
                                 <span aria-hidden="true" className="page-link" >&raquo;</span>
                               </span>

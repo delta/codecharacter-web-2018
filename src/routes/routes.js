@@ -23,6 +23,7 @@ export const RouteList = () => (
       <Route exact path='/login' component={LoginContainer} />
       <Route exact path='/signup' component={SignUpContainer} />
       <Route exact path='/leaderboard' component={LeaderBoardContainer} />
+      <Route exact path='/leaderboard/:page' component={LeaderBoardContainer} />
       <Route exact path='/matches' component={MatchViewContainer}/>
       <Route exact path='/matches/:matchId' component={MatchViewContainer}/>
       <Route exact path='/docs' component={DocsComponent}/>
