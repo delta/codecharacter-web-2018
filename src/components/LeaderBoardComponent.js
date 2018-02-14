@@ -2,6 +2,7 @@ import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
 import { Redirect }                               from 'react-router-dom';
 import FlagIconFactory from 'react-flag-icon-css/lib/index';
+import { getCountryName } from '../utils/countryCodes';
 
 export default class LeaderBoardComponent extends React.Component {
   static propTypes = {
@@ -110,7 +111,7 @@ export default class LeaderBoardComponent extends React.Component {
             <td onClick={() => this.props.history.push('/' + data.name)}
                 style={{ cursor: 'pointer' }}>
               {data.name}
-              <span className={"pull-right"} style={{marginLeft: 10}}>
+              <span className={"pull-right"} style={{marginLeft: 10}} title={getCountryName(data.nationality)}>
                 <FlagIcon
                   code={data.nationality ? data.nationality.toLowerCase() : 'in'}
                   size={'lg'}
