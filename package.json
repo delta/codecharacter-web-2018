@@ -39,6 +39,7 @@
     "react-ace": "^5.9.0",
     "react-async-script": "^0.9.1",
     "react-bootstrap": "^0.31.5",
+    "react-countdown-clock": "^2.1.0",
     "react-dom": "^16.2.0",
     "react-flag-icon-css": "^1.0.23",
     "react-flags": "^0.1.12",
