@@ -1,6 +1,8 @@
 import { connect }                             from 'react-redux';
 import ProfileComponent                        from '../components/ProfileComponent';
 import {
+  changeIsFetching,
+  changeIsGameFetching,
   changeProfile,
   getProfileData,
   userAuthenticateCheck
@@ -17,9 +19,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeProfile: (name, nationality) => {dispatch(changeProfile(name, nationality));},
+    changeProfile: (name, nationality, id) => {dispatch(changeProfile(name, nationality, id));},
     getProfileData: (id) => {dispatch(getProfileData(id))},
-    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());}
+    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
+    changeIsFetching: (status) => {dispatch(changeIsFetching(status))}
   };
 };
 

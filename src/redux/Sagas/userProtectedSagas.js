@@ -5,7 +5,7 @@ import {
 import {
   updateAllNotifications, updateUnreadNotifications,
   updateUsersLength,
-  updateProfileData, changeProfile, updateProfileViewData, changeIsFetching
+  updateProfileData, changeProfile, updateProfileViewData, changeIsFetching, getProfileData
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
 
@@ -125,6 +125,7 @@ export function* changeProfileSaga(action) {
       nationality: action.nationality
     };
     yield call(changeUserProfile, {req: null, query: query});
+    yield put(getProfileData(action.id));
   }
   catch (err) {
     console.log(err);

@@ -229,10 +229,11 @@ export const updateProfileData = (data) => ({
   data
 });
 
-export const changeProfile = (name, nationality) => ({
+export const changeProfile = (name, nationality, id) => ({
   type: actionTypes.CHANGE_PROFILE,
   name,
-  nationality
+  nationality,
+  id
 });
 
 export const getProfileViewData = (name) => ({

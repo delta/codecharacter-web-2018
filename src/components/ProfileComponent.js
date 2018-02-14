@@ -15,13 +15,15 @@ export default class ProfileComponent extends React.Component {
     isFetching: PropTypes.bool,
     getProfileData: PropTypes.func,
     userAuthenticateCheck: PropTypes.func,
-    changeProfile: PropTypes.func
+    changeProfile: PropTypes.func,
+    changeIsFetching: PropTypes.func
   };
 
   static defaultProps = {
     profileData: {name: '', rating: 0, email: ''},
     isFetching: true,
     getProfileData: () => {},
+    changeIsFetching: () => {}
   };
 
   constructor(props) {
@@ -118,7 +120,11 @@ export default class ProfileComponent extends React.Component {
                   </div>
                   <div className="panel-footer">
                     {this.state.edit ?<div className="form-group" style={{paddingLeft: 20}}>
-                        <button type="submit" className="btn btn-success" style={{borderRadius: 0}} onClick={() => {this.setState({edit: false}); this.props.changeProfile(this.state.name, this.state.nationality); this.props.getProfileData(this.props.userId);}}>Submit</button>
+                        <button type="submit" className="btn btn-success" style={{borderRadius: 0}}
+                                onClick={() => {this.setState({edit: false});
+                                                this.props.changeProfile(this.state.name, this.state.nationality, this.props.userId);
+                                                this.props.changeIsFetching(true);
+                                }}>Submit</button>
                       </div>
                       : null}
                     <span className="pull-right">
