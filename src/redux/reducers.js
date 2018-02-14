@@ -227,6 +227,13 @@ export function codeCharacterReducer(state = initialState, action) {
       }
     }
 
+    case actionTypes.CHANGE_TIME_LEFT: {
+      return {
+        ...state,
+        timeLeft: action.timeLeft
+      }
+    }
+
     case "persist/REHYDRATE": {
       return { ...state, ...action.payload }
     }

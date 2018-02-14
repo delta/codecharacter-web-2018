@@ -9,6 +9,7 @@ export default class GlobalComponent extends React.Component {
     pingStatus: PropTypes.bool,
     code: PropTypes.string,
     codeBeingSubmitted: PropTypes.bool,
+    timeLeft: PropTypes.number,
     getCodeStatus: PropTypes.func,
     getLatestMatchId: PropTypes.func,
     getMatchStatus: PropTypes.func,
@@ -17,7 +18,8 @@ export default class GlobalComponent extends React.Component {
     addNotifications: PropTypes.func,
     changePingStatusActive: PropTypes.func,
     lockCode: PropTypes.func,
-    changeCodeBeingSubmitted: PropTypes.func
+    changeCodeBeingSubmitted: PropTypes.func,
+    changeTimeLeft: PropTypes.func
   };
 
   constructor(props) {
@@ -27,6 +29,7 @@ export default class GlobalComponent extends React.Component {
     };
     this.minPing = 2000;
     this.maxPing = 10000;
+    this.timeLimit = 59;
   }
 
   componentDidMount() {
@@ -72,6 +75,11 @@ export default class GlobalComponent extends React.Component {
         });
       }
     }
+
+    if(nextProps.timeLeft === 60) {
+      console.log("Here");
+      this.startTimer();
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -79,6 +87,7 @@ export default class GlobalComponent extends React.Component {
     this.changePingStatus();
     this.codeStatusInterval = setInterval(this.changePingStatus, this.state.interval);
   }
+
   handleCodeNotifications = (codeStatusOld, codeStatusNew) => {
     if (codeStatusOld === 'COMPILING' && codeStatusNew === 'SUCCESS') {
       this.props.addNotifications([{
@@ -91,6 +100,19 @@ export default class GlobalComponent extends React.Component {
     if (codeStatusOld === 'COMPILING' && codeStatusNew === 'ERROR') {
       this.props.changePingStatusActive(false);
     }
+  };
+
+  startTimer = () => {
+    let timer = this.timeLimit;
+    this.startTimerLoop = setInterval(() => {
+      if (timer === 0) {
+        clearInterval(this.startTimerLoop);
+      }
+      else {
+        this.props.changeTimeLeft(timer);
+        timer--;
+      }
+    }, 1000);
   };
 
   handleMatchNotifications = (matchStatusOld, matchStatusNew) => {

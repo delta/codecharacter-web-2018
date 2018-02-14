@@ -281,6 +281,12 @@ export const changeCodePreferences = (preferences) => ({
   type: actionTypes.CHANGE_CODE_PREFERENCES,
   preferences
 });
+
+export const changeTimeLeft = (timeLeft) => ({
+  type: actionTypes.CHANGE_TIME_LEFT,
+  timeLeft
+});
+
 export const clearState = () => ({
   type: actionTypes.CLEAR_STATE
 });

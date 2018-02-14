@@ -27,6 +27,7 @@ const initialState = {
   pingStatusActive: false,
   userAuthenticated: false,
   dLogs: ['',''],
+  timeLeft: 0,
   codePreferences: {
     theme: 'monokai',
     fontSize: 14,

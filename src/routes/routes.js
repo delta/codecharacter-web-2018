@@ -1,5 +1,5 @@
 import React                  from 'react';
-import { Switch, Route }      from 'react-router-dom';
+import { Switch, Route, Redirect }      from 'react-router-dom';
 import LoginContainer         from '../containers/LoginContainer';
 import SignUpContainer        from '../containers/SignUpContainer';
 import DashboardContainer     from '../containers/DashboardContainer';
@@ -22,7 +22,7 @@ export const RouteList = () => (
       <Route exact path='/dashboard' component={DashboardContainer}/>
       <Route exact path='/login' component={LoginContainer} />
       <Route exact path='/signup' component={SignUpContainer} />
-      <Route exact path='/leaderboard' component={LeaderBoardContainer} />
+      <Route exact path='/leaderboard' render={() => (<Redirect to="/leaderboard/1"/>)}/>
       <Route exact path='/leaderboard/:page' component={LeaderBoardContainer} />
       <Route exact path='/matches' component={MatchViewContainer}/>
       <Route exact path='/matches/:matchId' component={MatchViewContainer}/>

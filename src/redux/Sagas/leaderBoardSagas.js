@@ -1,6 +1,6 @@
 import {
   changeIsFetching,
-  changeLastUsed, getGameStatus, updateLeaderboard,
+  changeLastUsed, changeTimeLeft, getGameStatus, updateLeaderboard,
   updateUnreadNotifications
 } from '../actions';
 import { call, put } from 'redux-saga/effects';
@@ -47,6 +47,9 @@ export function* leaderboardStartChallengeSaga(action) {
         message: response.message,
         createdAt: Date.now().toString()
       }]));
+    }
+    else {
+      yield put(changeTimeLeft(60));
     }
     yield put(getGameStatus());
     yield put(changeLastUsed(0));

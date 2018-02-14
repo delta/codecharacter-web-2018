@@ -11,7 +11,8 @@ const mapStateToProps = state => {
     playersData: state.leaderboardData,
     loginStatus: state.loginStatus,
     totalUsers: state.totalUsers,
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
+    timeLeft: state.timeLeft
   };
 };
 

@@ -7,7 +7,7 @@ import {
   getUnreadNotifications,
   competeAgainstAI, fetchGameLog, getCompilationStatus,
   fetchCode, updateUnreadNotifications, changePingStatusActive, codeSave, lockCode,
-  changeCodeBeingSubmitted, changeLastUsed, changeIsGameFetching
+  changeCodeBeingSubmitted, changeLastUsed, changeIsGameFetching, changeTimeLeft
 } from '../redux/actions';
 
 const mapStateToProps = state => {
@@ -20,7 +20,8 @@ const mapStateToProps = state => {
     matchId: state.lastMatchId,
     pingStatus: state.pingStatusActive,
     code: state.code,
-    codeBeingSubmitted: state.codeBeingSubmitted
+    codeBeingSubmitted: state.codeBeingSubmitted,
+    timeLeft: state.timeLeft
   };
 };
 
@@ -40,7 +41,8 @@ const mapDispatchToProps = dispatch => {
     lockCode: (code) => {dispatch(lockCode(code));},
     changeCodeBeingSubmitted: (status) => {dispatch(changeCodeBeingSubmitted(status))},
     changeLastUsed: (status) => {dispatch(changeLastUsed(status));},
-    changeIsFetchingGame: (status) => {dispatch(changeIsGameFetching(status))}
+    changeIsFetchingGame: (status) => {dispatch(changeIsGameFetching(status))},
+    changeTimeLeft: (timeLeft) => {dispatch(changeTimeLeft(timeLeft))}
   };
 };
 

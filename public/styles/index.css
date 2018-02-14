@@ -177,3 +177,8 @@ div .alert {
 }
 
 .ace_search {position: fixed;}
+
+.react-countdown-clock {
+  margin: 0 auto;
+  margin-top: 20px;
+}

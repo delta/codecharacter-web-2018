@@ -1,6 +1,7 @@
 import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
 import { Redirect }                               from 'react-router-dom';
+import ReactCountdownClock                        from 'react-countdown-clock';
 import FlagIconFactory from 'react-flag-icon-css/lib/index';
 import { getCountryName } from '../utils/countryCodes';
 
@@ -159,6 +160,13 @@ export default class LeaderBoardComponent extends React.Component {
                 <input className="form-control" id="system-search" name="q" placeholder="Search for User" required style={{height: 46}} onChange={this.searchUser}/>
                 <span className="input-group-btn" style={{paddingLeft: 5, paddingRight: 5, paddingBottom: 10}}>
                 </span>
+              </div>
+              <div>
+                {/*<ReactCountdownClock seconds={this.props.timeLeft===60 ? 60 : 0}
+                                     color="#000"
+                                     alpha={0.9}
+                                     size={150}
+                />*/}
               </div>
           </div>
           <div className="col-md-9">
