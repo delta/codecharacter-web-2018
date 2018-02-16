@@ -115,7 +115,12 @@ setInterval(() => {
 					        player1Dlog = response.body.player1LogCompressed;
 					        player2Dlog = response.body.player2LogCompressed; //idk if it should be .data
 					        player2ExitStatus = player2ExitStatus.replace('\r', '');
-					        runtimeErrorPresent = player2ExitStatus === 'UNDEFINED' || player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT';
+							runtimeErrorPresent = player1ExitStatus === 'UNDEFINED'
+								|| player2ExitStatus === 'UNDEFINED'
+								|| player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT'
+								|| player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT'
+								|| player1ExitStatus === 'RUNTIME_ERROR'
+								|| player2ExitStatus === 'RUNTIME_ERROR';
 				        }else{
 				        	runtimeErrorPresent = true;
 				        	player1ExitStatus = 'UNDEFINED';
@@ -144,7 +149,7 @@ setInterval(() => {
 														models.Notification.create({
 															type: 'ERROR'	,
 															title: 'Execution Error',
-															message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
+															message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'RUNTIME_ERROR' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
 															isRead: false,
 															user_id: userId
 														})
@@ -237,13 +242,13 @@ setInterval(() => {
 																models.Notification.create({
 																	type: 'ERROR'	,
 																	title: 'Execution Error',
-																	message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
+																	message: (player1ExitStatus === 'UNDEFINED' || player1ExitStatus === 'RUNTIME_ERROR' || player1ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT') ? (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.') : (player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' ? 'You have exceeded your instruction limit, so your code is taking too long to execute! Read the docs for more information.': 'Runtime error! Please check your code.'),
 																	isRead: false,
 																	user_id: userId
 																})
 																	.then(notification => {
 																		//idk what to do here
-																		if( (player2ExitStatus === 'UNDEFINED' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT')){
+																		if( (player2ExitStatus === 'UNDEFINED' || player2ExitStatus === 'EXCEEDED_INSTRUCTION_LIMIT' || player2ExitStatus === 'RUNTIME_ERROR')){
 																			models.Notification.create({
 																				type: 'ERROR'	,
 																				title: 'Execution Error',
