@@ -137,8 +137,8 @@ export default class DashboardComponent extends React.Component {
         width: window.innerWidth
       })
     });
-    this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 1000);
     if (!this.props.matchesView) {
+      this.updateCompildationDataInterval = setInterval(() => this.updateCompilationData(), 1000);
       this.updateCodeToStorageInterval = setInterval(this.updateCodeToApi, 15000);
     }
     if (this.props.initialLogin && this.props.firstMount) {
