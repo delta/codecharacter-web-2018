@@ -358,6 +358,54 @@ router.get('/compete/ai/:ai_id', (req, res) => {
       res.json({success: false, message: "Internal server error!"});
     })
 });
+router.get('/match_details/remaining_time', (req, res) => {
+  let WAIT_TIME_CHALLENGE;
+  models.Constant.findOne({
+    where: {
+      key: 'WAIT_TIME_CHALLENGE'
+    }
+  })
+    .then(constant => {
+      WAIT_TIME_CHALLENGE = constant.value;
+      if(!constant){
+        WAIT_TIME_CHALLENGE = 30;
+      }
+    })
+    .catch(err => {
+      WAIT_TIME_CHALLENGE = 30;
+    })
+  let userId = req.session.userId;
+  models.Match.findAll({
+    where: {
+      player_id1 : userId,
+      ai_id: null,
+      player_id2 : { $ne: userId }
+    },
+    order: ['updatedAt'],
+    attributes: ['id', 'createdAt', 'updatedAt']
+  })
+    .then(matches => {
+      let now = new Date();
+      let mostRecent = matches.pop();
+      if(mostRecent){
+        if((now.getTime() - mostRecent.createdAt.getTime()) < WAIT_TIME_CHALLENGE*60*1000){
+          //console.log();
+          let timeLeft = WAIT_TIME_CHALLENGE - (now.getTime() - mostRecent.updatedAt.getTime() )/60000;
+          let minutes = Math.floor(timeLeft);
+          let seconds = Math.floor((timeLeft - minutes) * 60);
+          res.json({success: true, message: 'Please wait for '+ minutes + ' minutes and '+ seconds + ' seconds ' + 'to start a match with this user again', time_left: WAIT_TIME_CHALLENGE - (now.getTime() - mostRecent.updatedAt.getTime() )/60000, minutes, seconds});
+        }else{
+          res.json({success: true, time_left: 0});
+        }
+      }else{
+        res.json({success: true, time_left: 0});
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.json({success: false, message: 'Internal Server Error'});
+    })
+});
 router.get('/compete/self', (req, res) => {
   let userId = req.session.userId;
   models.Code.find({
