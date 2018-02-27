@@ -270,10 +270,10 @@ setInterval(() => {
 																				console.log(noOfDestroyedRows); //remove this
 
 																				models.User.update({
-																					rating: score2
+																					rating: score1
 																				}, {
 																					where: {
-																						id: opponentId
+																						id: userId
 																					}
 																				})
 																				.then(success => {
@@ -327,10 +327,10 @@ setInterval(() => {
 																			.then(noOfDestroyedRows => {
 																				console.log(noOfDestroyedRows); //remove this
 																				models.User.update({
-																					rating: score1
+																					rating: score2
 																				}, {
 																					where: {
-																						id: userId
+																						id: opponentId
 																					}
 																				})
 																				.then(success => {
