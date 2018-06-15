@@ -18,7 +18,10 @@ router.get('/get_matches', (req, res) => {
         }
       ],
       status: {
-        [Op.not]: 'EXECUTING'
+        $and:[
+          {[Op.not]: 'EXECUTING'},
+          {[Op.not]: 'ERROR'}
+        ]
       }
       /*
         ,
@@ -28,7 +31,7 @@ router.get('/get_matches', (req, res) => {
         player_id2: userId
       }
       */
-    },
+    }, 
     attributes: ['id', 'player_id1', 'player_id2', 'ai_id', 'createdAt', 'updatedAt', 'scorep1', 'scorep2', 'status']
   })
     .then(matches => {
