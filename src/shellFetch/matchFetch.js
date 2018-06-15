@@ -1,16 +1,13 @@
-const API_BASE_URL = 'http://localhost:3000';
+import { API_BASE_URL } from '../config/config';
 
 export const matchFetchAll = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/match/all',{
+  return fetch(API_BASE_URL + 'match/get_matches',{
     method: 'GET',
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: query.username,
-    })
+    }
   })
     .then((response) => {
       return response.json();
@@ -20,22 +17,41 @@ export const matchFetchAll = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
-export const matchFetchDetails = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/match',{
+export const matchFetchData = ({req , query}) => {
+  return fetch(API_BASE_URL + 'match/' + query.matchId.toString(),{
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
+    });
+};
+
+export const challengePlayer = ({req , query}) => {
+  return fetch(API_BASE_URL + 'match/compete/player/' + query.opponent, {
     method: "GET",
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      username: query.username,
-      matchId: query.matchId,
-    })
   })
     .then((response) => {
       return response.json();
@@ -45,21 +61,19 @@ export const matchFetchDetails = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
-export const matchFetchLastActiveStatus = ({req , query}) => {
-  return fetch(API_BASE_URL + 'api/match/status',{
+export const getMatchStatusFetch = ({req, query}) => {
+  return fetch(API_BASE_URL + 'match/match_status/' + query.matchId, {
     method: "GET",
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      username: query.username,
-    })
   })
     .then((response) => {
       return response.json();
@@ -69,6 +83,95 @@ export const matchFetchLastActiveStatus = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
+    });
+};
+
+export const getLatestMatchId = ({req, query}) => {
+  return fetch(API_BASE_URL + 'match/get_latest_match_id', {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
+    });
+};
+
+export const fetchGameLogFetch = ({req,query}) => {
+  return fetch(API_BASE_URL + 'match/get_match/' + query.matchId, {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
+    });
+};
+
+export const executeCode = ({req, query}) => {
+  return fetch(API_BASE_URL + 'match/compete/player/2', {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
+    });
+};
+
+export const competeSelf = ({req, query}) => {
+  return fetch(API_BASE_URL + 'match/compete/self', {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
     });
 };

@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
 	let User = sequelize.define("User", {
 		id: {
 			type:DataTypes.INTEGER, 
-			primaryKey:true
+			primaryKey:true,
+			autoIncrement: true
 		},
 		name: {
 			type:DataTypes.STRING
@@ -20,8 +21,15 @@ module.exports = (sequelize, DataTypes) => {
 		rating:{
 			allowNull: false,
 			type: DataTypes.INTEGER
+		},
+		is_active: DataTypes.BOOLEAN,
+		activation_key: DataTypes.STRING,
+		activation_deadline: DataTypes.DATE,
+		nationality: DataTypes.STRING,
+		logged_in_once: {
+			type: DataTypes.BOOLEAN,
+      default: false
 		}
-    
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {

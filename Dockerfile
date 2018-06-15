@@ -1,19 +1,20 @@
-FROM node:carbon
+FROM node
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+RUN npm install -g serve
+RUN npm install -g forever
 
+EXPOSE 3000
+EXPOSE 3001
+
+COPY package.json package.json
 RUN npm install
-# If you are building your code for production
-# RUN npm install --only=production
 
-# Bundle app source
 COPY . .
 
-EXPOSE 8080
-CMD [ "npm", "run", "dev" ]
+RUN npm run build --production
+
+WORKDIR /
+
+CMD ["bash", "/usr/src/app/start.sh"]

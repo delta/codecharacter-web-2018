@@ -1,31 +1,7 @@
-const API_BASE_URL = 'http://localhost:3001/code';
+import { API_BASE_URL } from '../config/config';
 
-export const codeSubmit = ({req , query}) => {
-  return fetch(API_BASE_URL + '',{
-    method: "POST",
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      source: query.source
-    })
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      throw error;
-    });
-};
-
-export const codeFetch = ({req , query}) => {
-  return fetch(API_BASE_URL + '',{
+export const codeFetch = () => {
+  return fetch(API_BASE_URL + 'code/',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -41,12 +17,58 @@ export const codeFetch = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
+    });
+};
+
+
+export const getCodeStatusFetch = ({req,query}) => {
+  return fetch(API_BASE_URL + 'code/code_status', {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
     });
 };
 
 export const codeLock = ({req , query}) => {
-  return fetch(API_BASE_URL + '/save',{
+  return fetch(API_BASE_URL + 'code/lock',{
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
+    });
+};
+
+export const codeCompile = ({req, query}) => {
+  return fetch(API_BASE_URL + 'code/', {
     method: "POST",
     credentials: 'include',
     headers: {
@@ -65,7 +87,54 @@ export const codeLock = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
     });
 };
 
+export const getCompilationStatus = ({req, query}) => {
+  return fetch(API_BASE_URL + 'code/error_status', {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
+    });
+};
+
+export const codeSaveFetch = ({req, query}) => {
+  return fetch(API_BASE_URL + 'code/save', {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      source: query.code
+    })
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+      // throw error;
+    });
+};

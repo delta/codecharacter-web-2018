@@ -1,13 +1,7 @@
-const API_BASE_URL = 'http://localhost:3001';
-
-/**
- * Promise based function to send a POST request to /login of API
- * @param req
- * @param query
- */
+import { API_BASE_URL } from '../config/config';
 
 export const userLogin = ({req , query}) => {
-  return fetch(API_BASE_URL + '/user/login',{
+  return fetch(API_BASE_URL + 'user/login',{
     method: "POST",
     credentials: 'include',
     headers: {
@@ -27,12 +21,40 @@ export const userLogin = ({req , query}) => {
     })
     .catch((error) => {
       console.log(error);
-      throw error;
+      return error;
+      // throw error;
+    });
+};
+
+export const userRegister = ({req, query}) => {
+  return fetch(API_BASE_URL + 'user/signup',{
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      emailId: query.emailId,
+      name: query.username,
+      password: query.password,
+      nationality: query.nationality
+    })
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
     });
 };
 
 export const userLoginStatus = ({req , query}) => {
-  return fetch(API_BASE_URL + '/user/login',{
+  return fetch(API_BASE_URL + 'user/login',{
     method: "GET",
     credentials: 'include',
     headers: {
@@ -47,43 +69,14 @@ export const userLoginStatus = ({req , query}) => {
       return data;
     })
     .catch((error) => {
-      throw error;
-    });
-};
-
-/**
- * Promise Based function to signup
- * @param req: null
- * @param query: {emailId, name, password}
- * @returns {}
- */
-export const userRegister = ({req, query}) => {
-  return fetch(API_BASE_URL + '/user/signup',{
-    method: "POST",
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      emailId: query.emailId,
-      name: query.username,
-      password: query.password,
-    })
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
       console.log(error);
+      return error;
+      // throw error;
     });
 };
 
 export const userLogout = () => {
-  return fetch(API_BASE_URL + '/user/logout', {
+  return fetch(API_BASE_URL + 'user/logout', {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -92,9 +85,9 @@ export const userLogout = () => {
     }
   })
     .then((response) => {
-      console.log(response)
     })
     .catch((error) => {
       console.log(error);
+      return error;
     });
 };

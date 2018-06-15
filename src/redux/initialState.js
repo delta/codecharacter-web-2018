@@ -1,12 +1,41 @@
 const initialState = {
+  userId: -1,
+  initialLogin: false,
   loginStatus: false,
-  username: '000000000',
+  firstMount: true,
   loginMessage: '',
+  signupMessage: '',
   leaderboardData: [],
   matchesData: [],
   code: '',
   profileData: null,
-  compilationStatus: ''
+  profileViewData: null,
+  compilationStatus: '',
+  notifications: [],
+  allNotifications: [],
+  codeStatus: 'IDLE',
+  matchStatus: 'IDLE',
+  codeBeingSubmitted: false,
+  lastUsed: 0,
+  lastMatchId: -1,
+  gameLog: [],
+  isGameFetching: false,
+  isFetching: false,
+  ais: [],
+  activeAiId: -1,
+  totalUsers: 0,
+  pingStatusActive: false,
+  userAuthenticated: false,
+  dLogs: ['',''],
+  timeLeft: 0,
+  codePreferences: {
+    theme: 'monokai',
+    fontSize: 14,
+    keyboardHandler: 'default',
+    enableBasicAutoCompletion: true,
+    enableLiveAutoCompletion: true,
+    highlightActiveLine: true
+  }
 };
 
 export default initialState;

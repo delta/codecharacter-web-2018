@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
 	let Match = sequelize.define("Match", {
 		id: {
 			type: DataTypes.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+    	autoIncrement: true
 		},
 		player_id1: {
 			type:DataTypes.INTEGER,
@@ -28,7 +29,13 @@ module.exports = (sequelize, DataTypes) => {
 				key: "id",
 			}
 		},
-		status: DataTypes.STRING
+		status: DataTypes.ENUM( 'EXECUTING', 'SUCCESS', 'ERROR'),
+		log: DataTypes.BLOB("long"),
+		error_log:  DataTypes.BLOB("long"),
+		'player1_dlog': DataTypes.BLOB('long'),
+		'player2_dlog': DataTypes.BLOB('long'),
+		'scorep1' : DataTypes.STRING,
+		'scorep2' : DataTypes.STRING
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {

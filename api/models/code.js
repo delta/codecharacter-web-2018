@@ -7,15 +7,21 @@ module.exports = (sequelize, DataTypes) => {
 			primaryKey: true
 		},
 		user_id: {
-			type:DataTypes.INTEGER,
+			type: DataTypes.UUID,
+	    allowNull: false,
+	    unique: true,
 			references: {
 				model: User,
 				key: "id",
 			}
 		},
-		source: DataTypes.STRING,
-		dll1: DataTypes.STRING,
-		dll2: DataTypes.STRING
+		source: DataTypes.TEXT,
+		dll1: DataTypes.BLOB('long'),
+		dll2: DataTypes.BLOB('long'),
+		status: DataTypes.ENUM( 'COMPILING', 'SUCCESS', 'ERROR'),
+		error_log:  DataTypes.BLOB("long"),
+		dll1_locked: DataTypes.BLOB("long"),
+		dll2_locked: DataTypes.BLOB("long"),
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {

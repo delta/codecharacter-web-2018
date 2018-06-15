@@ -10,19 +10,21 @@ module.exports = {
 			},
 			user_id: {
 				type: Sequelize.INTEGER,
+				allowNull: false,
+				unique: true,
 				references:{
 					model: "Users",
 					key:"id"
 				}
 			},
 			source: {
-				type: Sequelize.STRING
+				type: Sequelize.TEXT
 			},
 			dll1: {
-				type: Sequelize.STRING
+				type: Sequelize.BLOB('long')
 			},
 			dll2: {
-				type: Sequelize.STRING
+				type: Sequelize.BLOB('long')
 			},
 			createdAt: {
 				allowNull: false,

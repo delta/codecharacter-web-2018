@@ -1,17 +1,28 @@
 import { connect }                             from 'react-redux';
 import ProfileComponent                        from '../components/ProfileComponent';
-import { getProfileData }                      from '../redux/actions';
+import {
+  changeIsFetching,
+  changeIsGameFetching,
+  changeProfile,
+  getProfileData,
+  userAuthenticateCheck
+} from '../redux/actions';
 
 const mapStateToProps = state => {
   return {
-    loginStatus: state.loginStatus
-    // profileData: state.profileData
+    profileData: state.profileData ? state.profileData : {name: '', id: 0, rating: 0, email: '', nationality: ''},
+    userId: state.userId,
+    loginStatus: state.loginStatus,
+    isFetching: state.isFetching
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    // getProfileData: (username) => {dispatch(getProfileData(username))}
+    changeProfile: (name, nationality, id) => {dispatch(changeProfile(name, nationality, id));},
+    getProfileData: (id) => {dispatch(getProfileData(id))},
+    userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
+    changeIsFetching: (status) => {dispatch(changeIsFetching(status))}
   };
 };
 

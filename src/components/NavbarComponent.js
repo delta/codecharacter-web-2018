@@ -1,71 +1,143 @@
 import React                                      from 'react';
 import PropTypes                                  from 'prop-types';
-import {
-  Navbar,
-  NavItem
-}                                                 from 'react-bootstrap';
-import { LinkContainer }                          from 'react-router-bootstrap';
+import { Link }                                   from 'react-router-dom';
 
 export default class NavbarComponent extends React.Component {
   static propTypes = {
     loginStatus: PropTypes.bool,
-    onLogout: PropTypes.func
+    onLogout: PropTypes.func,
   };
 
   static defaultProps = {
     loginStatus: false,
-    onLogout: () => {}
+    onLogout: () => {},
+    codeStatus: 'idle'
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeLink: '/login'
+    };
+    this.links = [
+      {name: 'Login', loginReq: false, onLogin: false},
+      {name: 'Signup', loginReq: false, onLogin: false},
+      {name: 'Profile', loginReq: true, onLogin: true},
+      {name: 'Dashboard', loginReq: true, onLogin: true},
+      {name: 'Leaderboard', loginReq: false, onLogin: true},
+      {name: 'Matches', loginReq: true, onLogin: true},
+      {name: 'Docs', loginReq: false, onLogin: true},
+      {name: 'Notifications', loginReq: true, onLogin: true},
+    ];
+  };
+
+  componentDidMount() {
+    this.setState({
+      activeLink: window.location.pathname
+    });
+    const element = document.getElementsByClassName('navbar');
+    document.addEventListener('mousedown', function(event) {
+      if (element[0] && !element[0].contains(event.target)) {
+        document.getElementById('navbarColor02').setAttribute('class', 'collapse navbar-collapse');
+      }
+    });
+  }
+
   render() {
+    let links = (this.links).map((data,index) => {
+      let currentLink = false;
+      if (("/" + data.name.toLowerCase()) === this.state.activeLink) currentLink = true;
+
+      if (this.props.loginStatus) {
+        if (data.onLogin) {
+          return (
+            <li className="nav-item">
+              <Link className={currentLink ? "nav-link active" : "nav-link"} to={"/" + data.name.toLowerCase()}>{data.name}</Link>
+            </li>
+          );
+        }
+        else {
+          return null;
+        }
+      }
+
+      else {
+        if (!data.loginReq) {
+          return (
+            <li className="nav-item">
+              <Link className={currentLink ? "nav-link active" : "nav-link"} to={"/" + data.name.toLowerCase()}>{data.name}</Link>
+            </li>
+          );
+        }
+        else {
+          return null;
+        }
+      }
+	});
+	links.push(<li className="nav-item"><Link className="nav-link" to="https://www.allanswered.com/community/s/code-character/" target="_blank">Forum</Link></li>);
+
     return (
-      <Navbar className='navbar-expand-lg navbar-dark bg-dark' style={{height: 50}}>
-        <Navbar.Header style={{paddingTop: 22}}>
-          <Navbar.Brand>
-            <LinkContainer to='/login' style={{color: 'white'}}><p>Code Character</p></LinkContainer>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Navbar.Collapse className='collapse' id='navbarColor02'>
-          {this.props.loginStatus
-            ? <ul className="navbar-nav mr-auto" style={{paddingTop: 10}}>
-              <NavItem>
-                <LinkContainer to='/profile' className="nav-link"><p>Profile</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/dashboard' className="nav-link"><p>Dashboard</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/leaderboard' className="nav-link"><p>Leaderboard</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/matches' className="nav-link"><p>Matches</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/rules' className="nav-link"><p>Rules</p></LinkContainer>
-              </NavItem>
+      <nav
+        className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+        style={{paddingTop: 0, paddingBottom: 0, minHeight: 50}}
+        ref="navbar"
+      >
+        <Link
+          className="navbar-brand"
+          to={"/"}
+          style={{fontWeight: 900, color: 'hsla(0,0%,100%,.8)', fontSize: '1.25rem'}}
+        >
+          Code Character
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarColor02"
+          aria-controls="navbarColor02"
+          aria-expanded="true"
+          aria-label="Toggle navigation"
+          style={{margin: 5, cursor: 'pointer'}}
+        >
+          <span className="navbar-toggler-icon"/>
+        </button>
+        {this.props.loginStatus
+          ? <div className="collapse navbar-collapse" id={"navbarColor02"}>
+            <ul className="navbar-nav mr-auto" onClick={() => {this.setState({activeLink: window.location.pathname})}} >
+              {links}
+              <li className="nav-item">
+                <span className="nav-link" onClick={() => {this.props.onLogout(); this.setState({activeLink: '/login'})}} style={{cursor: 'pointer'}}>Logout</span>
+              </li>
             </ul>
-            : <ul className="navbar-nav mr-auto" style={{paddingTop: 10}}>
-              <NavItem>
-                <LinkContainer to='/login' className="nav-link"><p>Login</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/signup' className="nav-link"><p>Signup</p></LinkContainer>
-              </NavItem>
-              <NavItem>
-                <LinkContainer to='/rules' className="nav-link"><p>Rules</p></LinkContainer>
-              </NavItem>
-            </ul>}
-        </Navbar.Collapse>
-          {this.props.loginStatus ? <Navbar.Form>
-            <button
-              className="btn btn-secondary"
-              style={{borderRadius: 0, height: 50, paddingTop: -10}}
-              onClick={() => {this.props.onLogout();}}
-            >
-              Log Out
-            </button>
-          </Navbar.Form> : null}
-      </Navbar>
+            <form className="form-inline my-2 my-lg-0">
+              <ul className="navbar-nav mr-auto ">
+                <li className="nav-item">
+                  <span
+                    className="nav-link"
+                    ref={span => {
+                      let text = this.props.lastUsed===0 ? this.props.codeStatus : this.props.matchStatus;
+                      let color = (text === 'SUCCESS')
+                        ? 'lightgreen'
+                        : (text === 'ERROR')
+                          ? 'red'
+                          : (text === 'COMPILING')
+                            ? 'lightblue'
+                            : (text === 'EXECUTING')
+                              ? 'yellow'
+                              : 'white';
+                      if (span) span.style.setProperty('color',color,'important');
+                    }}
+                  >{this.props.lastUsed===0 ? this.props.codeStatus : this.props.matchStatus}</span>
+                </li>
+              </ul>
+            </form>
+          </div>
+          : <div className="collapse navbar-collapse" id={"navbarColor02"}>
+            <ul className="navbar-nav mr-auto"  onClick={() => {this.setState({activeLink: window.location.pathname})}}>
+              {links}
+            </ul>
+          </div>}
+      </nav>
     );
   }
 }

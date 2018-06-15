@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			primaryKey: true
 		},
-		dll1: DataTypes.STRING,
-		dll2: DataTypes.STRING
+		dll1: DataTypes.BLOB("long"),
+		dll2: DataTypes.BLOB("long")
 	}, {
 		classMethods: {
 			associate: function(/*models*/) {
