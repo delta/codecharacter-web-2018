@@ -48,7 +48,7 @@ const mapDispatchToProps = dispatch => {
     fetchGameLog: (matchId) => {dispatch(fetchGameLog(matchId));},
     getAIs: () => {dispatch(getAIs());},
     changeAIid: (id) => {dispatch(changeAIid(id))},
-    updateCompilationStatus: (status) => {dispatch(updateCompilationStatus(status));},
+    updateCompilationStatus: (status) => {dispatch(updateCompilationStatusAsync(status));},
     clearCompilationStatus: () => {dispatch(clearCompilationStatus());},
     userAuthenticateCheck: () => {dispatch(userAuthenticateCheck());},
     changePingStatusActive: (status) => {dispatch(changePingStatusActive(status));},
